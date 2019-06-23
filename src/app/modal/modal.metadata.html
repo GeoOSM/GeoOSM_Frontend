@@ -1,0 +1,147 @@
+<h4 mat-dialog-title style="padding: 0 10px;color: #fff;" class="primaryColorBG" >Fiche descriptive : <span class="bold"> {{data_metadata.nom}} </span> </h4>
+
+<mat-dialog-content>
+
+	<div class="example-container">
+		
+		<mat-tab-group>
+			<mat-tab label="Description">
+					<mat-list>
+							<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.resume">
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;width: 100px;font-size: 14px;">Resume : </th>
+											<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.resume}}  </th> 
+											
+									</tr>
+							</mat-list-item>
+							<mat-divider  *ngIf="data_metadata.metadata.description"></mat-divider>
+							<mat-list-item style="height: auto;padding: 10px 0px;"  *ngIf="data_metadata.metadata.description" >
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;width: 100px;font-size: 14px;">Description : </th>
+											<th style="padding-left: 10px;font-weight:normal"  [innerHTML]="data_metadata.metadata.description">  </th> 
+											
+									</tr>
+							</mat-list-item>
+							<mat-divider *ngIf="data_metadata.metadata.tags_" ></mat-divider>
+							<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.tags_" >
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;width: 100px;font-size: 14px;">Mots clés : </th>
+											<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.tags_}}  </th> 
+											
+									</tr>
+							</mat-list-item>
+
+							<mat-divider *ngIf="data_metadata.metadata.zone" ></mat-divider>
+							<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.zone" >
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;width: 100px;font-size: 14px;">Couverture : </th>
+											<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.zone}} </th> 
+											
+									</tr>
+							</mat-list-item>
+
+							<mat-divider *ngIf="data_metadata.metadata.date_creation"></mat-divider>
+							<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.date_creation">
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">Date de créaton: </th>
+											<th style="padding-left: 10px;font-weight:normal">  {{data_metadata.metadata.date_creation}} </th> 
+											
+									</tr>
+							</mat-list-item>
+
+							<mat-divider *ngIf="data_metadata.metadata.update"></mat-divider>
+							<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.update" >
+									<tr>
+											<th class="text-center primaryColor " style="font-weight:normal !important;width: 100px;font-size: 14px;">Mise à jour: </th>
+											<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.update}} </th> 
+											
+									</tr>
+							</mat-list-item>
+
+					</mat-list>
+			</mat-tab>
+			
+			<mat-tab label="Propriétes">
+				<mat-list>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.epsg">
+							<tr>
+									<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">Système de coordonnées : </th>
+									<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.epsg}}  </th> 
+									
+							</tr>
+					</mat-list-item>
+					<mat-divider  *ngIf="data_metadata.metadata.langue"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;"  *ngIf="data_metadata.metadata.langue" >
+							<tr>
+									<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">Langue : </th>
+									<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.langue}}  </th> 
+									
+							</tr>
+					</mat-list-item>
+					<mat-divider *ngIf="data_metadata.metadata.echelle" ></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.echelle" >
+							<tr>
+									<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">Echelle : </th>
+									<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.echelle}}  </th> 
+									
+							</tr>
+					</mat-list-item>
+
+					<mat-divider *ngIf="data_metadata.metadata.licence" ></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.licence" >
+							<tr>
+									<th class="text-center primaryColor " style="font-weight:normal !important;;font-size: 14px;">Condition d'utilisation : </th>
+									<th style="padding-left: 10px;font-weight:normal" [innerHTML]="data_metadata.metadata.licence"> </th> 
+									
+							</tr>
+					</mat-list-item>
+
+					<mat-divider *ngIf="data_metadata.metadata.partenaire"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.partenaire">
+							<tr>
+									<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">Partenaires / producteurs: </th>
+									<th style="padding-left: 10px;font-weight:normal" class="col-md-12" >  
+										
+										<span  *ngIf="data_metadata.metadata.partenaire[0]">
+											<div *ngFor="let partenaire of data_metadata.metadata.partenaire " class="col-md-6" >
+												<img src="{{url_prefix+partenaire.img}}" alt="{{partenaire.nom}}" style="height:100px;width:100px" >
+												<p style="padding:5px" >{{partenaire.nom}} </p>		
+											</div>
+										</span>
+
+										<span *ngIf="!data_metadata.metadata.partenaire[0]" >
+												<div  class="text-center">
+														<div class="lds-ripple">
+														  <div></div>
+														  <div></div>
+														</div>
+												</div>
+										</span>
+
+									</th> 
+									
+							</tr>
+					</mat-list-item>
+
+
+			</mat-list>
+			</mat-tab>
+			
+			<mat-tab label="Ressources" disabled >
+				Content 2
+			</mat-tab>
+		
+		</mat-tab-group>
+
+	 
+	</div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions style="position: fixed;bottom: 10%;right:23%">
+	
+	<button mat-raised-button mat-dialog-close class="primaryColorBG" style="color: #fff;font-size: 14px;font-weight: bold;float:right" >
+		Fermer 
+	</button>
+
+</mat-dialog-actions>

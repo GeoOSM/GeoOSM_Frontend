@@ -1,0 +1,306 @@
+<div class="header_bar primaryColorBG" (click)="goto()" > 
+
+	<!-- <img src="assets/logo/Logos_GC1.png" class="Logos_GC" alt=""> -->
+	
+	<!-- <img src="assets/logo/madein.png" class="Logos_GC_right" alt=""> -->
+
+	<!-- <button id="sign-in" class="alerts " mat-icon-button  >
+		    <i  class="fa fa-sign-in fa-lg" style="color:#fff;" (click)="goto()"></i>
+	</button> -->
+
+	<!-- <button class="question_button" mat-icon-button (click)="questionModalOpen()" matTooltip="GeoCameroun ?"  >
+		    <i  class="fa fa-question-circle fa-lg" style="color:#fff;"></i>
+	</button> -->
+
+	<div class="search_bar" *ngIf=" isMaps('home') ">
+		<form (ngSubmit)="geocode(word_geocode)" >
+
+			<i class="fas fa-search fa-lg primaryColor "  style="position: absolute;top: 10px;left: 10px;" > </i>
+				
+			<input type="text" name="world" class="search_bar_input primaryColor" [(ngModel)]="word_geocode" placeholder="Rechercher un lieu, une adresse ou une donnée">
+			
+			<i *ngIf="word_geocode != ''" class="fas fa-times fa-lg primaryColor pointer" (click)="clearQuery()" style="position: absolute;top: 10px;right: 10px;" > </i>
+		
+		</form>
+
+		<div style="background:#fff" style="position: absolute;
+		top: 35px;
+		left: 0px;
+		right: 0px;
+		height: 70px;
+		overflow-y: auto;
+		background: #fff;display:none" class="text-center" id="loading_querry_recherche" >
+
+				<div class="lds-ripple">
+				<div ></div>
+				<div ></div>
+			  </div>
+
+		</div>
+		<!--  -->
+		<div *ngIf="querry_recherche_body"  style="background:#fff" style="position: absolute;
+		top: 35px;
+		left: 0px;
+		right: 0px;
+		max-height: 300px;
+		overflow-y: auto;
+		background: #fff;" > 
+			<mat-list  >
+					<span *ngIf="display_reponse_geocode_adresse()" >
+							<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+								Adresse :
+							</mat-list-item>
+							<span *ngFor="let item of reponse_geocode.adresses" >
+								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'adresses')" >
+									{{item.adresse}}
+								</mat-list-item>
+								<mat-divider style="border-color: #0006;"></mat-divider>
+							</span>
+					</span>
+
+					<span *ngIf="display_reponse_geocode_limites()" >
+							<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+								Limites administratives :
+							</mat-list-item>
+							<span *ngFor="let item of reponse_geocode.limites" >
+								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'limites')" >
+									{{item.type_display}} : {{item.name}} 
+									<span *ngIf="item.ref" >  ({{item.ref}}) </span>
+									
+								</mat-list-item>
+								<mat-divider style="border-color: #0006;"></mat-divider>
+							</span>
+						</span>
+				<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+						Lieux :
+				</mat-list-item>
+				<ng-template #emptyTemplate3>
+						<p class="text-center primaryColor" >Aucun lieux trouvés </p>
+				</ng-template>
+				<span *ngFor="let item of reponse_geocode.nominatim ;  ifEmpty emptyTemplate3" >
+					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'nominatim')" >
+						<!-- {{item.type}} : -->
+						 {{item.display_name}} 
+						 <span class="bold primaryColor" style="display: contents;" > {{item.type}} </span>
+					</mat-list-item>
+					<mat-divider style="border-color: #0006;"></mat-divider>
+				</span>
+				
+					<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+						Cartes :
+					</mat-list-item>
+					<ng-template #emptyTemplate1>
+							<p class="text-center primaryColor" >Aucune cartes trouvées</p>
+					</ng-template>
+					<span *ngFor="let itemCarte of reponse_geocode.cartes  | donneFilter: filter_expression | slice:0:10 ; let c = count;ifEmpty emptyTemplate1" >
+						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemCarte,'cartes')" >
+									<!-- {{item.type}} : -->
+							 {{itemCarte.nom}}
+						</mat-list-item>
+						<mat-divider style=" border-color: #0006;"></mat-divider>
+					</span>
+	
+					<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+						Donneés : 
+					</mat-list-item>
+					<ng-template #emptyTemplate2>
+							<p class="text-center primaryColor" >Aucune donnés trouvées </p>
+					</ng-template>
+					<span *ngFor="let itemThematique of reponse_geocode.thematiques  | donneFilter: filter_expression | slice:0:10 ;let c = count;ifEmpty emptyTemplate2" >
+							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemThematique,'thematiques')" >
+										<!-- {{item.type}} : -->
+								 {{itemThematique.nom}} 
+							</mat-list-item>
+							<mat-divider style="    border-color: #0006;"></mat-divider>
+					</span>
+
+					<span *ngIf="display_reponse_geocode_position()" >
+						<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
+							Position :
+						</mat-list-item>
+						<span *ngFor="let item of reponse_geocode.position" >
+							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'position')" >
+								{{item.position}},{{item.nom}}
+							</mat-list-item>
+							<mat-divider style="border-color: #0006;"></mat-divider>
+						</span>
+					</span>
+
+			</mat-list>
+		</div>
+	</div>
+
+	<!-- <div class="pull-right utils"> 
+
+		
+		<button id="sign-in" class="alerts " mat-icon-button [matMenuTriggerFor]="menu">
+		    <i  class="fas fa-question fa-lg" style="color:#fff;"></i>
+		</button>
+		<mat-menu #menu="matMenu">
+		  <button mat-menu-item>Item 1</button>
+		  <button mat-menu-item>Item 2</button>
+		</mat-menu>
+		<i class="sep" style="color:#fff;">&nbsp;</i>
+
+
+		<button id="sign-in"  mat-icon-button [matMenuTriggerFor]="share" >
+		    <i  class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
+		</button>
+		<mat-menu #share="matMenu">
+		  <button mat-menu-item>Item 1</button>
+		  <button mat-menu-item>Item 2</button>
+		</mat-menu>
+		<i class="sep" style="color:#fff;">&nbsp;</i>
+
+
+		<button id="sign-in"  mat-icon-button [matMenuTriggerFor]="print">
+		    <i class="fa fa-print fa-lg " style="color:#fff;"></i>
+		</button>
+		<mat-menu #print="matMenu">
+		  <button mat-menu-item>Item 1</button>
+		  <button mat-menu-item>Item 2</button>
+		</mat-menu>
+		<i class="sep" style="color:#fff;">&nbsp;</i>
+
+
+		<button id="sign-in"  mat-icon-button [matMenuTriggerFor]="star">
+		    <i class="fa fa-star fa-lg" style="color:#fff;" aria-hidden="true"></i>
+		</button>
+		<mat-menu #star="matMenu">
+		  <button mat-menu-item>Item 1</button>
+		  <button mat-menu-item>Item 2</button>
+		</mat-menu>
+		
+
+	</div> -->
+
+	<!-- <div class="utils right" > 
+
+
+	    <ul class="pull-right"  style="background-color:none;">
+	    	<li class="dropdown ">
+
+		    	<a id="sign-in" class="alerts  dropdown-toggle" href="#" data-toggle="dropdown">
+		    		<i  class="fa fa-sign-in fa-lg" style="color:#fff;"></i>
+		    	</a>
+
+		        <div class="dropdown-menu" style="padding:10px; padding-bottom:0px;height: 310px;box-shadow: none;position: absolute;left:-260px;top:59px;width: 300px;">
+		            <div class="row">
+		                 <div class="center-block">
+		                      <img 
+		                       src="{{asset('assets/logo/login-lock-refresh-in-circular-button.svg')}}" style="width: 80px;height:80px;">
+		                   </div>
+		            </div> 
+
+		            <form class="form-horizontal"  method="post" accept-charset="UTF-8">
+
+			            <div class="form-group" style="width:270px;margin-top: 10px;">
+			              	<input id="sp_uname" class="form-control  login" type="text" name="Email*" placeholder ="Email" style="border-radius: 0;"/>
+			            </div> 
+
+			            <div class="form-group" style="width:270px;">
+			                    <input id="sp_pass" class="form-control login" type="password" name="sp_pass" placeholder="Mot de passe" style="border-radius: 0;"/>
+			            </div>
+			            
+			            <div class="form-group" style="width:270px;">
+
+		               			<button type="button" class="btn btn-primary btn-sm btn-block connect" style="font-size: 14px;background: #1CAC77;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:0px;border-color:#1CAC77;  ">Se connecter </button> 
+		            	</div>
+			            <div class="form-group" style="width:270px;">
+
+			           		<a href="http://localhost:8000/creecompte" type="button" class="btn btn-primary btn-sm btn-block compte" style="font-size: 14px;background: #e06666;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:-20px;border-color:#e06666; padding:5px; ">Créer votre compte </a> 
+			          
+			           </div>
+		            </form>
+		        </div>
+	        </li>
+	    </ul>
+
+	    <ul class="pull-right"  style="background-color:none;">
+	        <li class="dropdown dropdown-share" >
+
+	            <a  class="dropdown-toggle" href="#" data-toggle="dropdown">
+	                <i  class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
+	            </a>
+	            <i class="sep" style="color:#fff;">&nbsp;</i> 
+	      		
+	      		<div class="dropdown-menu" style="padding:10px; padding-bottom:0px;height: 290px;box-shadow: none;position: absolute;left:-225px;top:59px;width: 300px;">
+	        		<div class="row">
+	                    <img src="assets/logo/share.svg" style="width: 80px;height:80px;">
+	        			<div style="width:270px;margin-top: 10px;">
+				         	<button type="button" class="btn btn-primary btn-sm btn-block facebook-share" style="font-size: 14px;background: #3b5998;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:10px;border-color:#f0f0f0;  ">facebook </button> 
+				        </div>
+				        <div style="width:270px;">
+				        
+				        	<button type="button" class="btn btn-primary btn-sm btn-block twitter-share" style="font-size: 14px;background:  #2ba9e1;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:10px;border-color:#f0f0f0;  ">Twitter</button> 
+				        </div>
+				        <div  style="width:270px;">
+
+				        <button type="button" class="btn btn-primary btn-sm btn-block google-share" style="font-size: 14px;background:#e75a4d;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:10px;border-color:#f0f0f0;  ">Google plus</button>
+
+				        </div>
+	        			<div style="width:270px;margin-top:10px;">
+	                 		<input id="sp_pass" class="form-control login  share-link" type="text" name="sp_link" placeholder="Lien de partage" style="border-radius:0; font-size: 12px;" value="" />
+	           			</div>
+	         		</div>
+	        	</div>
+	        </li>
+	    </ul>
+
+
+	    <ul class="pull-right"  style="background-color:none;">
+	      	<li class="dropdown">
+		        <a id="share" class="alerts dropdown-toggle" href="#" data-toggle="dropdown">
+		       		<i class="fa fa-print fa-lg " style="color:#fff;"></i>
+		        </a>
+	       		<i class="sep" style="color:#fff;">&nbsp;</i> 
+	        	<div class="dropdown-menu" style="padding:10px; padding-bottom:0px;height: 310px;box-shadow: none;position: absolute;left:-190px;top:59px;width: 300px;">
+	        		<div class="row">
+	                    <img src="assets/logo/printer-printing.svg" style="width: 60px;height:60px;">
+	                    <div class="form-group" style="width:270px;margin-top: 10px;">
+	                    <input id="sp_uname" class="form-control  title" type="text" name="titre" placeholder ="Titre de la carte" style="border-radius: 0;border-color: #1CAC77"/>
+	                    </div>
+	                    <div class="form-group" style="width:270px;">
+	                    <textarea style="border-color: #1CAC77;border-radius: 0;" class="form-control comment" rows="5"  placeholder ="Commentaire de votre carte" value="nulls"></textarea>
+	                    </div>
+	                    <div class="form-group" style="width:270px;">
+	                       <button type="button" id="export-png"  class="btn btn-primary btn-sm btn-block google-share" download="map.png" style="font-size: 14px;background:#1cac77;color:#fff;font-family: OpenSans-CondBold; border-radius:15px;margin-top:10px;border-color:#1cac77;">Imprimer</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </li>
+	    </ul>
+
+	    <div class="pull-right question">
+	        <a href="#"  class="alerts"><i class="fa fa-question fa-lg " style="color:#fff;"></i></a>
+	        <i class="sep" style="color:#fff;">&nbsp;</i>
+	    </div>
+
+	    
+	    <ul class="pull-right"  style="background-color:none;">
+	      	<li class="dropdown">
+	      		<a id="share" class="alerts dropdown-toggle" href="#" data-toggle="dropdown">
+	      			<i class="fa fa-star fa-lg" style="color:#fff;" aria-hidden="true"></i>
+	        		<span class="badge">5</span>
+	       		</a>
+
+	       		<i class="sep" style="color:#fff;">&nbsp;</i> 
+	        	<div class="dropdown-menu" style="padding:10px; padding-bottom:0px;height: 400px; box-shadow: none;position: absolute;left:-120px;width: 100px;top:59px;width: 300px;">
+	          		<div class="row">
+	              		<div class="col-sm-3" style="background: #eee;width: 200px;margin-left: 30px;">
+			                <a tabindex="-1" data-ember-action="3901">
+			                   <p></p>
+			                </a>
+	               		</div>
+	              	</div>
+	            </div>
+
+	        </li>
+	    </ul>
+
+	    <div class="pull-right" id="faseach"></div>
+
+    </div>  -->
+	
+
+</div>

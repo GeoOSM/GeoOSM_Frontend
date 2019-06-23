@@ -1,0 +1,12 @@
+<div class="example-container mat-elevation-z8">
+    <p class="text-center"> Choisissez un signet :</p>
+
+    <table style="width:100%" >
+
+        <tr *ngFor="let signet of  signets" >
+            <th class="signet_th" (click)="selectioner(signet.id)" > Aller au signet {{signet.id}}</th>
+        </tr>
+
+    </table>
+
+</div>

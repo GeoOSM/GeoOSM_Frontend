@@ -1,0 +1,1469 @@
+<div id="displayProperties" [position]="positionProperties" (movingOffset)="onMovingProperties($event,typeDataFeature == 'pdf')"
+  [trackPosition]="false" [zIndexMoving]="99999999999" [ngDraggable]=" typeDataFeature == 'pdf' ">
+  <div class="displayPropertiesTitle primaryColorBG white bold text-center" [ngClass]="{'cursor_move': typeDataFeature == 'pdf'}">
+    Fiche descriptive
+    <span class="pull-right pointer" (click)="closeProperties()">
+      <i class="fa fa-times white" style="font-size: large;"></i>
+    </span>
+  </div>
+
+  <div class="displayPropertiesBody  black "  [preventDefaultEvent]="true" [ngDraggable]="false" >
+    <span *ngIf="typeDataFeature == 'keyVal' ">
+      <span *ngFor="let pte of dataFeature">
+        <div class="col-md-12 col-xs-12" style="margin-top: 15px" *ngIf="pte.display">
+          <span class="bold col-md-4 col-xs-4 "> {{pte.index}} :</span>
+          <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type != 'url'"  [innerHTML]="pte.val"> </span>
+          <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type == 'url'"> <a href="{{pte.val}}" target="_blank"> Cliquer ici </a>  </span>
+        </div>
+      </span>
+    </span>
+   
+    <span   *ngIf="typeDataFeature == 'download' "> 
+      <span *ngFor="let pte of dataFeature">
+        <div class="col-md-12 col-xs-12" style="margin-top: 15px">
+          <span class="bold col-md-4 col-xs-4 "> {{pte.nom}} ({{pte.number}}) :</span>
+          <span class="col-md-8 col-xs-8 pull-left">
+            <a href="{{pte.nom_file}}" *ngIf="pte.nom_file != false" target="_blank" > Télechargez le GEOPACKAGE ici </a>  
+            <span *ngIf="pte.nom_file == false" > un problème est survenu sur cette couche </span>  
+          </span>
+        </div>
+      </span>
+    </span>
+
+    <span *ngIf="typeDataFeature == 'pdf' ">
+
+      <span *ngFor="let pte of dataFeature">
+        <div class="col-md-12" style="margin-top: 15px;box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+				padding: 0px 0px 10px 0px;
+				width: 96%;
+				margin-left: 2%;">
+          <h6 class="col-md-12 bold " [ngClass]="{'displayPropertiesBody_titre_cartes_pdf_url': pte.url,'displayPropertiesBody_titre_cartes_pdf': !pte.url}">
+            <span *ngIf="pte.url">
+              <mat-checkbox class="primaryColor" color="primary" style="padding-right: 5px;" [(ngModel)]="pte.checked"
+                (change)="displayDataOnMap(pte)">
+              </mat-checkbox>
+            </span>
+            {{pte.nom}}
+          </h6>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <img src="{{url_prefix+pte.image_src}}" style="max-height: 70px">
+            </div>
+            <div class="col-md-8" style="padding-left: 10px;padding-right: 0px;text-align: justify;">
+              <span>
+                {{pte.description}}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </span>
+
+    </span>
+
+  </div>  
+
+  <div class="displayPropertiesFooter  ">
+
+    <div class="button-row ">
+
+      <button mat-mini-fab style="margin-right: 15px;" class="accentColorBG" *ngIf="isShareFeatures(dataFeature)" (click)="shareFeature(dataFeature)" >
+        <i class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
+      </button>
+
+      <!-- <button mat-mini-fab *ngIf="typeDataFeature != 'pdf' ">
+        <i class="fa fa-location-arrow fa-lg" style="color:#fff;"></i>
+      </button> -->
+
+    </div>
+
+
+  </div>
+
+</div>
+
+<div *ngFor="let displayPropertiesDiv of displayPropertiesDivs; let i =index" >
+
+  <div id="displayProperties_pdf" class="displayProperties{{i}}" [ngClass]="{'displayProperties_close': !displayPropertiesDiv.maximise}" [position]="displayPropertiesDiv.position" (movingOffset)="onMovingProperties_pdf($event,i,displayPropertiesDiv.maximise)"
+  [trackPosition]="false" [zIndexMoving]="99999999999" [ngDraggable]=" displayPropertiesDiv.maximise && !isPhone() ">
+    <div class="displayPropertiesTitle primaryColorBG white bold text-center  " [ngClass]="{'cursor_move': displayPropertiesDiv.maximise}" >
+      {{displayPropertiesDiv.name}}
+      <span class="pull-right pointer " (click)="closePropertiesPdf(i)">
+        <i class="fa fa-window-close white" style="font-size: large;"></i>
+      </span>
+      <span matTooltip="Réduire la fenètre" class="pull-right pointer window_pdf_span" style=" margin-top: -5px;margin-right: 8px;" (click)="minimisePropertiesPdf(i)" *ngIf="displayPropertiesDiv.maximise" >
+        <i class="fa fa-window-minimize white" style="font-size: large;"></i>
+      </span>
+      <span matTooltip="Agrandir la fenètre" class="pull-right pointer window_pdf_span"  style="margin-right: 8px;" (click)="maximisePropertiesPdf(i)" *ngIf="!displayPropertiesDiv.maximise">
+        <i class="fa fa-window-maximize white" style="font-size: large;"></i>
+      </span>
+    </div>
+
+    <div class="displayPropertiesBody  black " style="max-height:400px"  [preventDefaultEvent]="!isPhone()" [ngDraggable]="false" >
+      
+      <span >
+
+        <span *ngFor="let pte of displayPropertiesDiv.pte">
+          <div class="col-md-12" style="margin-top: 15px;box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+          padding: 0px 0px 10px 0px;
+          width: 96%;
+          margin-left: 2%;">
+            <h6 class="col-md-12 bold " [ngClass]="{'displayPropertiesBody_titre_cartes_pdf_url': pte.url,'displayPropertiesBody_titre_cartes_pdf': !pte.url}">
+              <span *ngIf="pte.url">
+                <mat-checkbox class="primaryColor" color="primary" style="padding-right: 5px;" [(ngModel)]="pte.checked"
+                  (change)="displayDataOnMap(pte)">
+                </mat-checkbox>
+              </span>
+              {{pte.nom}}
+              
+              <span *ngIf="pte.url">
+                  <button mat-mini-fab style="margin-right: 15px;    width: 23px;height: 23px;vertical-align: bottom;margin: 3px 0px;float: right;margin-right: 15px;" class="accentBG" (click)="shareMapPdf(pte)" >
+                      <i class="fa fa-share-alt " style="color:#fff;margin-top: -17px;"></i>
+                    </button>    
+              </span>
+
+            </h6>
+
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <img src="{{url_prefix+pte.image_src}}" style="max-height: 70px">
+              </div>
+              <div class="col-md-8" style="padding-left: 10px;padding-right: 0px;text-align: justify;">
+                <span>
+                  {{pte.description}}
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+        </span>
+
+      </span>
+
+    </div>  
+
+    <div class="displayPropertiesFooter  ">
+
+      <div class="button-row ">
+
+        <!-- <button mat-mini-fab style="margin-right: 15px;background: black;">
+          <i class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
+        </button> -->
+
+        <!-- <button mat-mini-fab *ngIf="typeDataFeature != 'pdf' ">
+          <i class="fa fa-location-arrow fa-lg" style="color:#fff;"></i>
+        </button> -->
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- bloc of drape line --> 
+
+<div id="profil_alti" class="cursor_move" [trackPosition]="true" [zIndexMoving]="99999999999" [ngDraggable]="true " >
+    
+          <div class="form-group primaryColorBG text-center" style="padding: 5px;margin: 0px; height: 25px; margin-top: -3px;">
+            <span style="color:#fff" class="bold " >Profil Altimetrique</span>
+    
+            <button mat-mini-fab  class="close  close-comment pull-right" style="margin-top: -2px;height: 20px;width: 20px;opacity: 1;margin-right: 0px;;background: #fff"
+            (click)="toogleProfilAlti()">
+           
+              <i class="fa fa-times primaryColor" style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+            </button>
+    
+          </div>
+         
+          <div class="form-group" style="padding: 5px;width: 75vh;background: #fff;cursor: default;" [preventDefaultEvent]="true" [ngDraggable]="false">
+             <div  class="text-center" *ngIf="profil_alti_active == false" >
+                <div class="lds-ripple"><div></div><div></div></div>
+             </div>
+            
+             <div *ngIf="profil_alti_active">
+                <canvas id="canvas">{{ chart_drape }}</canvas>
+             </div>
+    
+          </div>
+    
+</div>
+<!-- bloc of drape line -->      
+
+<div class="cursor_move" id="bloc_caracteristique" *ngIf="caracteristicsPoint.display"  [trackPosition]="true" [zIndexMoving]="99999999999" [ngDraggable]=" !isPhone() " >
+    
+    <div class="form-group primaryColorBG text-center" style="padding: 5px;margin: 0px; height: 25px; margin-top: -3px;">
+        <span style="color:#fff" class="bold " >Caractéristique du lieu</span>
+            <button mat-mini-fab  class="close  close-comment pull-right" style="margin-top: -2px;height: 20px;width: 20px;opacity: 1;margin-right: 0px;;background: #fff"
+            (click)="close_caracteristique()">
+              <i class="fa fa-times primaryColor" style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+            </button>
+    </div>
+
+    <div class="form-group" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false" style="cursor: default;width:400px;background: #fff;position:relative">
+      
+      <div  class="col-md-12 col-xs-12 bloc_caracteristique_body " style=" background: #fff; padding: 0px;padding-bottom: 5px;padding-top: 5px;">
+          
+        <div class="col-md-12 col-xs-12 text-center primaryColor" *ngIf="caracteristicsPoint.lieu_dit" > 
+            <a href="{{caracteristicsPoint.url_osm}}" target="_blank"> {{caracteristicsPoint.lieu_dit}} </a>   
+          </div>
+
+          <div class="col-md-12 col-xs-12">
+            <span class="bold col-md-6 col-xs-6 "> Coordonnées (WGS84) :</span>
+            <span class="col-md-6 col-xs-6 " > {{caracteristicsPoint.coord}}
+              <button id="bloc_caracteristique_zoomToPoint" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false" mat-mini-fab class="mat-mini-fab-hover-black back_black" style="height: 25px;
+              width: 25px; margin-top: -10px;vertical-align: bottom;margin-left: 10px;" (click)="zoomToPoint()" >
+                <i class="fa fa-search-plus fa-md" style="color:#fff;    margin-top: -12px;"></i>
+              </button>
+            </span>
+          </div>
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.altitude">
+            <span class="bold col-md-4 col-xs-4 "> Altitude :</span>
+            <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.altitude}} m </span>
+          </div>
+
+          
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.region">
+            <span class="bold col-md-4 col-xs-4 "> Région :</span>
+            <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.region}} </span>
+          </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.departement">
+              <span class="bold col-md-4 col-xs-4 "> Département :</span>
+              <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.departement}} </span>
+          </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.commune" >
+                <span class="bold col-md-4 col-xs-4 "> Commune :</span>
+                <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.commune}} </span>
+          </div>
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.quartier" >
+                  <span class="bold col-md-4 col-xs-4 "> Quartier :</span>
+                  <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.quartier}} </span>
+          </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.district_de_sante" >
+              <span class="bold col-md-5 col-xs-5 "> District de santé :</span>
+              <span class="col-md-7 col-xs-7 " > {{caracteristicsPoint.district_de_sante}} </span>
+        </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.aire_de_sante" >
+              <span class="bold col-md-4 col-xs-4 "> Aire de santé :</span>
+              <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.aire_de_sante}} </span>
+        </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.adresse" >
+            <span class="bold col-md-4 col-xs-4 "> Adresse :</span>
+            <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.adresse}} </span>
+          </div>
+
+          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.position" >
+              <span class="bold col-md-4 col-xs-4 "> Position :</span>
+              <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.position}} </span>
+            </div>
+
+            <button id="bloc_caracteristiqueushare_button" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false" matTooltip="Partager ce lieu" mat-mini-fab style="margin-right: 15px;background: black;" (click)="shareLocation()" style="position:absolute;bottom:5px;right:5px" >
+                <i class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
+              </button>
+      </div>  
+
+      
+    </div>
+
+</div>
+
+<div class=" black title_rollback_slide2" >
+  <i class="fa fa-chevron-left fa-lg primaryColor col-md-2 col-xs-2" (click)="slideBack()"></i>
+  <h5 class="bold  col-md-10 col-xs-10" *ngIf="groupMenuActive" style="margin-left: -10px;"> {{groupMenuActive.nom}}</h5>
+</div>
+
+<div class="slide2" > 
+    
+  <div *ngIf="typeMenu == 'menuCarte' " style="margin-top: 20px;">
+
+
+    <div *ngIf="groupMenuActive.sous_cartes ">
+      <div *ngFor="let sous_cartes of groupMenuActive.sous_cartes ; let j = index" class="sous_themes_block" id="sousthemes_{{j}}">
+        <div class=" black  " style="padding: 5px 0px;min-height: 25px;">
+          <h5 class="bold sous_themes_cartes primary_transparent_bg" id="sousthemescartes_{{j}}" style="text-transform: uppercase">
+            {{sous_cartes.nom}}
+          </h5>
+        </div>
+
+        <span *ngFor="let couche_cartes of sous_cartes.couches">
+          <span *ngIf="couche_cartes.inLayerTree ">
+
+            <div class="principle_tiles_child" [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}"
+              *ngIf="!couche_cartes.principal ">
+
+              <span style="position: absolute;right: 5px;bottom: 20px;font-size: 18px;  z-index: 9;">
+                <button  matTooltip="Partager cette carte" mat-mini-fab (click)="share('map',couche_cartes,sous_cartes,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00">
+                  <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+                </button>
+
+              </span>
+              <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+              <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' " style="width: inherit ;height: 60px;">
+              <span *ngIf="couche_cartes.type == 'pdf' " class="nombre_cartes_pdf bold black">
+                {{couche_cartes.cartes_pdf.length}}
+                <span *ngIf="couche_cartes.cartes_pdf.length > 1 "> cartes </span>
+                <span *ngIf="couche_cartes.cartes_pdf.length <= 1 "> carte </span>
+              </span>
+              <p>
+                <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)">
+                  {{couche_cartes.nom}} </mat-checkbox>
+              </p>
+            </div>
+
+          </span>
+        </span>
+
+      </div>
+    </div>
+
+    <div *ngIf="!groupMenuActive.sous_cartes">
+      <span *ngFor="let couche_cartes of groupMenuActive.couches">
+        <span *ngIf="couche_cartes.inLayerTree ">
+
+          <div class="principle_tiles_child" [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}"
+            *ngIf="!couche_cartes.principal ">
+
+            <span style="position: absolute;right: 5px;bottom: 20px;font-size: 18px;  z-index: 9;">
+
+              <button mat-mini-fab (click)="share('map',couche_cartes,groupMenuActive.sous_cartes,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00">
+                <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+            </span>
+
+            <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+
+            <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' " style="width: inherit ;">
+
+            <p>
+              <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)">
+                {{couche_cartes.nom}} </mat-checkbox>
+            </p>
+
+          </div>
+
+        </span>
+      </span>
+    </div>
+
+  </div>
+
+  <div *ngIf=" typeMenu === 'menuThematique' " style="margin-top: 35px;">
+
+
+    <div class="sous-thematiques" *ngIf="groupMenuActive.sous_thematiques ">
+
+      <div *ngFor="let sous_thematique of groupMenuActive.sous_thematiques" class="shadow_5px pointer back_white black"
+        [ngClass]="{'sous-thematiques-child ':sous_thematique.active==false,'sous-thematiques-child-active ':sous_thematique.active}">
+
+        <div (click)="sous_thematique.active = !sous_thematique.active" class="pointer  col-md-12 col-xs-12 sous-thematiques-head"
+          [ngClass]="{'primaryColorBG white sous-thematiques-head-active ':sous_thematique.active}">
+          <div class="sous-thematiques-child-infos  white">
+
+          </div>
+
+          <h6 class="col-lg-10 col-xs-10 bold" style="font-family: inherit !important;font-size: 12.7px;">{{sous_thematique.nom}}</h6>
+          <div class="primaryColorBG sous-thematiques-head-arrow pointer">
+            <img src="{{url_prefix}}assets/images/icones/right-arrow.svg" class="img-responsive sous-thematiques-head-arrow-white"
+              style="width: 18px;">
+          </div>
+        </div>
+
+        <div [ngClass]="{'sous-thematiques-body-active':sous_thematique.active}" class="col-lg-12  col-md-12 col-xs-12 sous-thematiques-body">
+          <div>
+
+            <div *ngFor=" let couche of sous_thematique.couches" [matTooltip]="couche.nom" class="col-lg-4 col-sm-4  col-xs-3 col-sm-offset-1  col-xs-offset-2 couches">
+
+                <button matTooltip="Partager cette donnée" mat-mini-fab (click)="share('data',couche,sous_thematique,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00;    position: absolute;
+                top: -5px;
+                right: -10px;">
+                    <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+                </button>
+
+              <img *ngIf='couche.droit_couche==true && couche.geom=="Polygon"' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+                alt="" style="width: 7px;height: 7px;margin-top: 1px;position: absolute;">
+
+              <img *ngIf='couche.droit_couche==true && couche.geom=="point" ' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+                alt="" style="width: 7px;height: 7px;position: absolute;">
+
+              <img *ngIf='couche.droit_couche==true && couche.geom=="LineString" ' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+                alt="" style="width: 7px;height: 7px;position: absolute;">
+
+              <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" />
+
+              <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) ' [ngStyle]="{'width':'30px','height': '30px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}"></div>
+
+              <div *ngIf='couche.geom=="Polygon" &&  couche.img != "" && couche.img!=null ' style="width:32px;height: 32px;border:3px solid black;display: inline-block;margin-bottom: 5px;">
+                <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
+              </div>
+
+
+              <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px'}">
+
+              <div class="couches-checkbox">
+                <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche.checked" (change)="displayDataOnMap(couche,groupMenuActive)">
+                </mat-checkbox>
+              </div>
+              <div class="couches-nom black" style="-webkit-box-orient: vertical;">
+                <span >{{couche.nom}}</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sous-thematiques" *ngIf="!groupMenuActive.sous_thematiques">
+
+      <div [matTooltip]="couche.nom" *ngFor="let couche of groupMenuActive.couches " class="col-lg-5 col-sm-5  col-xs-3 col-sm-offset-1 col-md-offset-1 col-xs-offset-2 couches">
+
+          <button mat-mini-fab (click)="share('data',couche,groupMenuActive.sous_thematiques,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00;    position: absolute;
+          top: -5px;
+          right: -10px;">
+              <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+          </button>
+
+        <img *ngIf='couche.droit_couche==true && couche.geom=="Polygon"' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+          alt="" style="width: 7px;height: 7px;margin-top: 1px;position: absolute;">
+        <img *ngIf='couche.droit_couche==true && couche.geom=="point" ' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+          alt="" style="width: 7px;height: 7px;position: absolute;">
+
+        <img *ngIf='couche.droit_couche==true && couche.geom=="LineString" ' class="circle" src="{{url_prefix}}assets/images/icones/circle.svg"
+          alt="" style="width: 7px;height: 7px;position: absolute;">
+
+        <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" />
+
+        <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) ' [ngStyle]="{'width':'30px','height': '30px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}"></div>
+
+        <div *ngIf='couche.geom=="Polygon" &&  couche.img != "" && couche.img!=null ' style="width:32px;height: 32px;border:3px solid black;display: inline-block;margin-bottom: 5px;">
+          <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
+        </div>
+        <div *ngIf='couche.geom=="LineString"' style="margin-top:55px">
+          <hr [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px'}">
+        </div>
+
+        <div class="couches-checkbox">
+          <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche.checked" (change)="displayDataOnMap(couche)">
+          </mat-checkbox>
+        </div>
+        <div class="couches-nom black" style="-webkit-box-orient: vertical;" >
+          <span  >{{couche.nom}}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div *ngIf=" typeMenu === 'analyse_spatial' " style="margin-top: 35px;">
+   
+    
+      <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+      text-align: center;display:flow-root; margin-bottom:15px">
+       Vos données en entrée:
+      </h5>
+
+      <mat-divider ></mat-divider>
+      <div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index " class="col-md-12 bloc_option_couche" style="padding:0px" >
+        
+        <div class="col-md-1 bloc_option_couche_options" >  
+          <i class="far fa-trash-alt pointer" *ngIf="display_remove_another_couche_option()" style="color:red" (click)="remove_another_couche_option(i)" ></i>
+        </div>
+
+        <div class="col-md-11" style="padding:0px;width: 90%; float: right;" > 
+          <mat-list-item >
+              <mat-form-field style="width: 100%;">
+                <mat-select placeholder="Choisissez une thématique" [(value)]="thematique.thematiques_analyse" (selectionChange)="chooseThematique_function(i)" >
+                  <mat-option *ngFor="let group of thematiques" [value]="group" >
+                    {{group.nom}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            <mat-form-field  style="width: 100%;" *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques" >
+              <mat-select placeholder="Choisisser une couche" [(value)]="thematique.couche_analyse"  >
+                <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques" [label]="group.nom" >
+                    <mat-option *ngFor="let couche of group.couches" [value]="couche" [disabled]="disableOptionAnalyseSpatial(couche)" >
+                        {{couche.nom}}
+                    </mat-option>
+                </mat-optgroup>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field style="width: 100%;" *ngIf="thematique.thematiques_analyse  &&  !thematique.thematiques_analyse.sous_thematiques" >
+                <mat-select placeholder="Choisissez une couche" [(value)]="thematique.couche_analyse"  >
+                    <mat-option *ngFor="let couche of thematique.thematiques_analyse.couches" [value]="couche" [disabled]="disableOptionAnalyseSpatial(couche)" >
+                        {{couche.nom}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+          </mat-list-item>
+        </div>
+
+      </div> 
+
+      <button mat-raised-button style="margin-left: 5%;margin-top: 20px;width: 90%;font-size: 12px;height: 20px;border-radius: 10px;" (click)="choose_another_couche_option()">
+         <i class="fa fa-plus" style="margin-bottom: 13px;" ></i>
+       </button>
+
+      <h5  class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+      text-align: center;display:flow-root;margin-bottom:15px">
+      Choix de l'emprise: 
+      </h5>
+      <mat-divider  ></mat-divider>
+
+      <mat-list-item  >
+         
+          <mat-form-field style="width: 100%;"  >
+              <mat-select placeholder="Votre emprise spatiale " [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
+                  <mat-option value="communes" > Par commune </mat-option>
+                  <mat-option value="departements" > Par département </mat-option>
+                  <mat-option disabled="true" value="draw" > Déssinez une emprise  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <div *ngIf="analyse_spatial.type_emprise_spatiale" class="text-center" >
+              <div *ngIf="!analyse_spatial.emprises" class="lds-ripple"><div></div><div></div></div>
+              <h5 *ngIf="!analyse_spatial.emprises" class="primaryColor text-center"> Chargements des {{analyse_spatial.type_emprise_spatial}} </h5>
+                  
+              <mat-form-field *ngIf="analyse_spatial.emprises" style="width: 100%;" >
+                <input  type="text" [formControl]="myControl" matInput placeholder=" Sélectioner une limite" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="calculate_analyse_spatial($event,i)"  >
+                  <mat-option *ngFor="let emprise of analyse_spatial.emprises | donneOptionFilter: filter_option_expression " [value]="emprise.name">
+                    <span>  {{emprise.name}},   </span>
+                    <small> ({{emprise.ref}})  </small>
+                  </mat-option>
+                 </mat-autocomplete>
+              </mat-form-field>
+             </div>
+      </mat-list-item>
+
+      <button mat-raised-button style="width: 100%;" class="accentColorBG" *ngIf="display_calculate_result_analyse_spatial()" (click)="calculate_result_analyse_spatial()">
+        Calculer   
+      </button>
+      
+  </div>
+
+</div>
+
+<mat-sidenav-container class="example-container back_white">
+
+  <mat-sidenav #sidenav1 mode="side" [(opened)]="opened_left" (opened)="events_left='open'" (closed)="events_left='close'"
+    style="background: #fff;width: 230px;padding: 5px;padding-top: 10px">
+
+    <div class="slide1">
+
+      <div class="principle_tiles">
+
+        <span *ngFor="let groupeCarte of cartes">
+          <span *ngIf="groupeCarte.sous_cartes">
+            <span *ngFor="let sous_carte of groupeCarte.sous_cartes">
+              <span *ngFor="let couche_cartes of sous_carte.couches">
+                <span *ngIf="couche_cartes.principal">
+                  <div class="principle_tiles_child" [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
+                    <span *ngIf="couche_cartes.type != 'xyz' ">
+                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' " style="width: inherit ;">
+                    </span>
+                    <span *ngIf="couche_cartes.type == 'xyz' ">
+                      <div style="width: 100%;height: 90px" id="map{{couche_cartes.key_couche+'true'+sous_carte.key}}"></div>
+                    </span>
+                    <p>
+                      <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)">
+                        {{couche_cartes.nom}}  </mat-checkbox>
+                    </p>
+                  </div>
+
+
+                </span>
+              </span>
+            </span>
+          </span>
+          <span *ngIf="!groupeCarte.sous_cartes">
+            <span *ngFor="let couche_cartes of groupeCarte.couches">
+              <span *ngIf="couche_cartes.principal">
+                <div class="principle_tiles_child" [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
+                  <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+                  <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' " style="width: inherit ;">
+                  <p>
+                    <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)"> {{couche_cartes.nom}} </mat-checkbox>
+                  </p>
+                </div>
+              </span>
+            </span>
+          </span>
+        </span>
+
+
+        <div class="button_menu" style="  margin: 0px;margin-top: -21px;">
+
+          <span *ngFor="let groupeCarte of cartes">
+
+            <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
+              *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;" (click)="slideTo('menuCarte',groupeCarte)"> Tous
+              les fonds de cartes </button>
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="button-row button_menu" style="margin-top: 30px;margin-bottom:25px">
+
+        <div class=" black">
+          <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+                    text-align: center;display:flow-root; text-transform: uppercase;">
+                    GÉOBIBLIOTHÈQUE </h5>
+        </div>
+
+        <span *ngFor="let groupeCarte of cartes">
+          <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
+            *ngIf="groupeCarte.id_cartes != 1" style="width: 100%;" (click)="slideTo('menuCarte',groupeCarte)">
+            {{groupeCarte.nom}} </button>
+        </span>
+
+      </div>
+
+      <div class=" black  " style="padding-bottom: 5px;">
+        <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+            text-align: center;text-transform: uppercase;">
+          Géothématiques </h5>
+      </div>
+
+      <div class="pointer menu-thematiques-parent" style="margin-top:0px;padding-right: 5px;">
+
+
+        <div *ngFor="let thematique of thematiques" class="menu-thematiques-parent-child col-md-4 col-xs-4">
+          <div class="border_red menu-thematiques-child primaryColorBG text-center " (click)="slideTo('menuThematique',thematique)">
+
+            <div class="menu-thematiques-child-nombre back_red white">
+              <p *ngIf="thematique.sous_thematiques"> {{thematique.sous_thematiques.length}} </p>
+              <p *ngIf="!thematique.sous_thematiques"> {{thematique.couches.length}} </p>
+            </div>
+
+            <img src="{{url_prefix+thematique.img}}" class="img-responsive  menu-thematiques-child-logo">
+          </div>
+          <div class=" text-center menu-thematiques-child-title">
+            <p class="primaryColor">{{thematique.nom}}</p>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav #sidenav2 mode="side" position="end" [(opened)]="opened_right" (opened)="events_right='open'" (closed)="events_right='close'"
+    style="background: #fff;width: 220px;padding-top: 7px;overflow-x: hidden !important;">
+
+    <div class="active_layer" style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);padding: 3px">
+      <div class="text-center black  " style="text-transform: uppercase;">
+        <h5 class="bold" style="margin-bottom: 5px;">
+          <span *ngIf="right_slide_actic == 0" class="primaryColor" style="font-size: 13px;">
+             Couches en cours 
+            <button mat-mini-fab matTooltip="Partager ce catalogue"  style="margin-right: 15px;    width: 23px;height: 23px;vertical-align: bottom;    margin-top: -5px;float: right;" class="accentBG" (click)="shareStateOfMap()" >
+              <i class="fa fa-share-alt " style="color:#fff;margin-top: -17px;"></i>
+            </button> 
+          </span>
+          <span *ngIf="right_slide_actic == 1" class="primaryColor" style="font-size: 13px;"> Outils </span>
+          <span *ngIf="right_slide_actic == 2" class="primaryColor" style="font-size: 13px;"> Calcul d'itineraire </span>
+          <span *ngIf="right_slide_actic == 3" class="primaryColor" style="font-size: 13px;"> Legende </span>
+          <span *ngIf="right_slide_actic == 4" class="primaryColor" style="font-size: 13px;"> Téléchargement de données </span>
+        </h5>
+      </div>
+    </div>
+
+    <div style="padding: 5px" *ngIf="right_slide_actic == 0">
+
+
+      <span *ngFor="let couche of layerInMap | orderBy : ['-zIndex_inf']; let i = index ">
+
+        <span *ngIf="couche.type_couche_inf == 'cartes'">
+          <div class="principle_tiles_child couchee{{couche.index_inf}} drag-block" style="height: 155px;cursor: move;"
+            [ngClass]="{'principle_tiles_child_pdf': couche.type == 'pdf'}" (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)"
+            (movingOffset)="onMoving($event,couche.index_inf)" [trackPosition]="false" [zIndexMoving]="9999"
+            ngDraggable>
+
+            <div *ngIf="couche.type != 'pdf' " [preventDefaultEvent]="true" [ngDraggable]="false" class="white descriptionLayerBox" id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
+              <span class="back_white pointer descriptionLayerBoxClose" id="descriptionLayerBoxClose{{i}}" (click)="openDescription(couche,i)">
+                <i class="fa fa-times primaryColor" style="margin-top: 7px;font-size: 15px;"></i>
+              </span>
+              <h6 style="    border-bottom: 1px solid;
+           
+              text-align: center;
+              font-size: 12px;
+              padding-bottom: 5px;
+              padding-top: 5px;
+              margin-top: 6px;
+              text-transform: uppercase;" class="primaryColorBG">
+              {{couche.nom}} </h6>
+
+              <div style="text-align: justify;font-size: 13px;padding: 0 5px;   display: -webkit-box;-webkit-line-clamp: 3;
+							-webkit-box-orient: vertical;overflow: hidden;    margin-bottom: 10px;" class="primaryColor" >
+                <span *ngIf='couche.metadata && couche.metadata.resume'> {{couche.metadata.resume}} </span>
+                <span *ngIf='couche.metadata && !couche.metadata.resume'> Le résumé de cette donnée n'est pas encore
+                  disponible </span>
+              </div>
+              <a *ngIf="displayMetadataLink(couche)"  (click)="openMetadata(couche)" style="text-decoration:underline;padding-left: 5px;color: #fb8c00 !important;" class="primaryColor pointer"> Consulter sa fiche
+                descriptive </a>
+
+            </div>
+            <span style="position: absolute;left: -8px;top: -13px;right: 5px;cursor:default" *ngIf="couche.type != 'pdf' "
+              [preventDefaultEvent]="true" [ngDraggable]="false">
+              <mat-slider style="width: 100%;" color="primary" class="example-margin" [max]="100" [min]="0"
+                [thumbLabel]="true" [(ngModel)]="couche.opacity" (input)="changeOpacity(couche,$event)" [preventDefaultEvent]="true" [ngDraggable]="false" >
+              </mat-slider>
+            </span>
+            <span>
+              <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type != 'pdf' " style="top: 38%;">
+              <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type == 'pdf' " style="width: inherit ;top: 48%;">
+            </span>
+
+            <p>
+              <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+                (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false" >
+
+                {{couche.nom}}
+                <!-- {{couche.zIndex_inf}} -->
+
+              </mat-checkbox>
+
+            </p>
+            <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;" [preventDefaultEvent]="true" [ngDraggable]="false">
+
+              <button mat-mini-fab color="primary" *ngIf="couche.type != 'pdf'" style="width: 23px;height: 23px;margin-right: 5px;"
+                (click)="openDescription(couche,i)" [preventDefaultEvent]="true" [ngDraggable]="false" >
+                <i class="fas fa-info pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+              <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)" (click)="couche.checked = false;displayDataOnMap(couche)">
+                <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+            </span>
+
+          </div>
+        </span>
+
+        <span *ngIf="couche.type_couche_inf == 'thematiques' ">
+
+          <div class="principle_tiles_child_pdf principle_tiles_child" style="height: 155px;cursor: move;" (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)"
+            (movingOffset)="onMoving($event,couche.index_inf)" [trackPosition]="false" [zIndexMoving]="9999"
+            ngDraggable>
+
+            <div [preventDefaultEvent]="true" [ngDraggable]="false" class="white descriptionLayerBox" id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
+              <span class="back_white pointer descriptionLayerBoxClose" id="descriptionLayerBoxClose{{i}}" (click)="openDescription(couche,i)">
+                <i class="fa fa-times black"></i> </span>
+              <h6 class="primaryColorBG" style="border-bottom: 1px solid;
+              text-align: center;
+              font-size: 12px;
+              padding-bottom: 5px;
+              padding-top: 5px;
+              margin-top: 6px;
+              text-transform: uppercase;"
+              >
+              {{couche.nom}} </h6>
+
+              <div style="text-align: justify;font-size: 13px;padding: 0 5px;   display: -webkit-box;-webkit-line-clamp: 3;
+                  -webkit-box-orient: vertical;overflow: hidden;    margin-bottom: 10px;" class="primaryColor" >
+                <span class="bold" >
+                  {{couche.number}} entité(s) 
+                  <span *ngIf='couche.surface_totale' > ; {{couche.surface_totale}} m² de surface totale </span>
+                  <span *ngIf='couche.distance_totale' > ; {{couche.distance_totale}} m de longuer totale </span>
+                </span>
+                <span *ngIf='couche.metadata.resume'> {{couche.metadata.resume}} </span>
+                <span *ngIf='!couche.metadata.resume'>; Le résumé de cette donnée n'est pas encore disponible </span>
+              </div>
+              <a  *ngIf="displayMetadataLink(couche)" (click)="openMetadata(couche)"  style="text-decoration:underline;padding-left: 5px;color: #fb8c00 !important;" class="primaryColor pointer"> Consulter sa fiche
+                descriptive </a>
+            </div>
+
+            <span style="position: absolute;left: -8px;top: -13px;right: 5px" *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null )'
+              [preventDefaultEvent]="true" [ngDraggable]="false">
+              <mat-slider style="width: 100%;" color="primary" class="example-margin" [max]="100" [min]="0"
+                [thumbLabel]="true" [(ngModel)]="couche.opacity" (input)="changeOpacity(couche,$event)">
+              </mat-slider>
+            </span>
+
+            <span>
+
+              <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" style="width: 60px;height:50px;" />
+
+              <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) ' [ngStyle]="{'width':'60px','height': '50px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block','margin-left': 'calc(50% - 30px)','margin-top': '25px'}"></div>
+
+              <div *ngIf='couche.geom=="Polygon" && couche.img != "" && couche.img!=null ' style="width:60px;height: 50px;border:3px solid black;display: inline-block;margin-bottom: 5px;margin-left: calc(50% - 30px);margin-top: 25px;">
+                <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
+              </div>
+
+
+              <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'transform':'translateY(42px)'}">
+            </span>
+
+            <p>
+              <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+                (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false">
+
+                {{couche.nom}}
+
+              </mat-checkbox>
+
+            </p>
+            <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;" [preventDefaultEvent]="true" [ngDraggable]="false">
+
+              <button mat-mini-fab color="primary" style="width: 23px;height: 23px;margin-right: 5px;" (click)="openDescription(couche,i)">
+                <i class="fas fa-info pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+              <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)" (click)="couche.checked = false;displayDataOnMap(couche)">
+                <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+            </span>
+
+          </div>
+
+        </span>
+
+        <span *ngIf="couche.type_couche_inf == 'mappilary' ">
+
+          <div class="principle_tiles_child_pdf principle_tiles_child" style="height: 155px;margin-top: 0px"
+            (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)" (movingOffset)="onMoving($event,couche.index_inf)"
+            [trackPosition]="false" [zIndexMoving]="9999" ngDraggable>
+
+            <span>
+              <img src="{{couche.img}}" style="" />
+
+            </span>
+
+            <p>
+              <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+                (click)="toogleVisibilityLayer(couche)">
+
+                {{couche.nom}}
+
+              </mat-checkbox>
+
+            </p>
+            <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+
+
+              <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)" (click)="couche.checked = false;displayDataOnMap(couche)">
+                <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+            </span>
+
+          </div>
+
+        </span>
+
+        <span  *ngIf="couche.type_couche_inf == 'analyse_spatiale' " >
+          <div class="principle_tiles_child_pdf principle_tiles_child" style="height: 155px;margin-top: 0px"
+          (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)" (movingOffset)="onMoving($event,couche.index_inf)"
+          [trackPosition]="false" [zIndexMoving]="9999" ngDraggable>
+
+            <span>
+              <img src="{{couche.img}}" style="width: 50%;" />
+
+            </span>
+
+            <p>
+              <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+                (click)="toogleVisibilityLayer(couche)">
+
+                {{couche.nom}} 
+
+              </mat-checkbox>
+
+            </p>
+            <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+
+
+              <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)" (click)="couche.checked = false;displayDataOnMap(couche)">
+                <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+              </button>
+
+            </span>
+
+          </div>
+        </span>
+
+      </span>
+
+    </div>
+
+    <div style="padding-top: 10px" *ngIf="right_slide_actic == 1">
+
+      <mat-accordion>
+
+        <mat-expansion-panel class="back_white" expanded="true" (opened)="expansionOpen()" (closed)="expansionClose('dessin')">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="primaryColor"> Dessin </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="button-row button-draw" style="padding-left: 23px">
+
+            <button  matTooltip="Dessiner un point" mat-mini-fab color="primary" (click)="drawToolsFunction('Point')" [ngClass]="{'back_black': type_draw == 'Point' }">
+              <img src="assets/logo/drawing-tools/circular-shape-silhouette.svg" style="margin-bottom: 2px;height: 17px;">
+
+            </button>
+
+            <button matTooltip="Dessiner une ligne" mat-mini-fab color="primary" (click)="drawToolsFunction('LineString')" [ngClass]="{'back_black': type_draw == 'LineString' }">
+              <img src="assets/logo/drawing-tools/substract.svg" style="margin-bottom: 2px;height: 17px;">
+
+            </button>
+
+            <button  matTooltip="Dessiner un polygone " mat-mini-fab color="primary" (click)="drawToolsFunction('Polygon')" [ngClass]="{'back_black': type_draw == 'Polygon' }">
+              <img src="assets/logo/drawing-tools/pentagon.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+            <button matTooltip="Dessiner un texte" mat-mini-fab color="primary" (click)="drawToolsFunction('text')" [ngClass]="{'back_black': type_draw == 'text' }">
+              <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+          </div>
+
+          <div class="button-row button-draw-edit" style="padding: 0 5px;margin-top: 20px">
+
+            <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': edit_draw_button }" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="toogleEditDraw()">
+              <i class="fa fa-pencil-square-o fa-lg" style="color: #fff"></i>
+              Editer
+            </button>
+
+            <div class="button-row" *ngIf="edit_draw_button" style="padding-bottom: 15px;padding-top: 15px;padding-left: 23px">
+
+              <button matTooltip="Modifier la géometrie" mat-mini-fab color="accent" (click)="EditDraw('geometry')" [ngClass]="{'back_black': type_edit_draw == 'geometry' }">
+                <img src="assets/images/icones/edite.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
+
+
+              <button matTooltip="Modifier la description" mat-mini-fab color="accent" (click)="EditDraw('comment')" [ngClass]="{'back_black': type_edit_draw == 'comment' }">
+                <img src="assets/images/icones/comment.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
+
+              <button matTooltip="Modifier la couleur" mat-mini-fab color="accent" (click)="EditDraw('color')" [ngClass]="{'back_black': type_edit_draw == 'color' }">
+                <img src="assets/images/icones/paint.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
+
+              <button matTooltip="Supprimer une entité" mat-mini-fab color="accent" (click)="EditDraw('delete')" [ngClass]="{'back_black': type_edit_draw == 'delete' }">
+                <img src="assets/images/icones/delete.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
+
+
+            </div>
+
+            <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="shareAllDraw()">
+              <i class="fa fa-share-alt fa-lg" style="color: #fff"></i>
+              Partager
+            </button>
+
+            <!-- <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="downloadAllDraw()">
+              <i class="fa fa-download fa-lg" style="color: #fff"></i>
+              Telechargez
+            </button> -->
+
+            <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="deleteleAllDraw()">
+              <i class="fa fa-trash-o fa-lg" style="color: #fff"></i>
+              Supprimer tous
+            </button>
+
+          </div>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('mesure')">
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="primaryColor"> Mesure </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="button-row" style="padding: 0 5px;">
+
+            <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="mesure('LineString')" [ngClass]="{'back_black': mesure_type == 'LineString' }">
+              <img src="assets/logo/distance.svg" style="margin-bottom: 2px;height: 17px;">
+
+              <span> Distance </span>
+            </button>
+
+            <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="mesure('Polygon')" [ngClass]="{'back_black': mesure_type == 'Polygon' }">
+              <img src="assets/logo/surface.svg" style="margin-bottom: 2px;height: 17px;">
+              <span> Surface </span>
+            </button>
+
+
+          </div>
+        </mat-expansion-panel>
+
+        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('altimetrie')">
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="primaryColor"> Altimétrie </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-form-field style="width: 100%;  padding: 0 5px;">
+            <mat-select placeholder="Choisisser la source du MNT" [(ngModel)]="altimetrie.source_profil_alti">
+              <mat-option value="srtm" style="color:#000"> SRTM sur le Cameroun </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="button-row" style="padding: 0 5px;" *ngIf="altimetrie.source_profil_alti">
+            <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': altimetrie.active }" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              (click)="toogleProfilAlti()">
+              <img src="assets/logo/distance.svg" style="margin-bottom: 2px;height: 17px;">
+              <span> Profil Altimetrique </span>
+            </button>
+          </div>
+
+        </mat-expansion-panel> -->
+
+        <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('comments')">
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="primaryColor"> Commentaire </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+          (click)="displayComments()" [ngClass]="{'back_black': commentLayer.checked }">
+
+            <span> Afficher les commentaire </span>
+
+          </button>
+         
+        </mat-expansion-panel>
+
+        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('comments')">
+          
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span class="primaryColor"> Impréssion </span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+          
+            <div class="text-center black" >
+                
+                <div >
+                    <mat-form-field style="width: 90%;" >
+                      <input matInput name="carte_titre"  [(ngModel)]="printMapObjet.titre" placeholder="Titre de votre carte">
+                    </mat-form-field>
+                  
+                    <mat-form-field style="width: 90%;">
+                      <textarea matInput  name="carte_description" [(ngModel)]="printMapObjet.description"  placeholder="Description de votre carte"></textarea>
+                    </mat-form-field>
+                  
+                  </div>
+                  <button mat-raised-button color="primaryColorBG"  (click)="printMap()" style="margin-bottom: 10px;">
+                      Imprimer
+                  </button>
+            </div>
+           
+        </mat-expansion-panel>  -->
+
+        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('analyse_spatial')">
+            
+              <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <span class="primaryColor"> Telechargement des données </span>
+                  </mat-panel-title>
+              </mat-expansion-panel-header>
+            
+              <div class="text-center black" >
+                  
+                  <div>
+
+                    <h5>
+                      Ici vous pouvez extraire les données que vous voulez selon votre emprise choisie.
+                    </h5>
+
+                    <button mat-raised-button (click)="slideTo('analyse_spatial', '')" color="primary" style="width: 100%;margin-bottom:10px;color: #fff;font-size: 14px;font-weight: bold" >
+                        Ouvrir le menu
+                    </button>
+
+                  </div>
+                   
+              </div>
+                     
+          </mat-expansion-panel> -->
+         <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('importation')">
+        
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="primaryColor"> Importation </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel> -->
+
+      </mat-accordion>
+
+    </div>
+
+    <div style="padding-top: 10px" *ngIf="right_slide_actic == 2">
+      <div style="text-align:center" >
+        <div style="color:#000"  (click)="slideTo('analyse_spatial', '')" > Bientot disponible  </div>
+      </div>
+    </div>
+
+    <div style="padding-top: 10px" *ngIf="right_slide_actic == 3">
+      <span *ngFor="let couche of layerInMap ; let i = index " >
+         <span  *ngIf="couche.type == 'wms' || couche.type_couche == 'wms' "  > 
+           <mat-list-item class="primaryColorBG" style="color:#000;height: auto;padding: 5px 0px;width:100%;font-weight:bold" >
+               {{couche.nom}} :
+           </mat-list-item>
+           
+           <img src='{{couche.url +"&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS="+couche.identifiant+"&STYLE=default&SLD_VERSION=1.1.0&LAYERTITLE=false"}}' alt="" srcset="">
+           <mat-divider style="border-color: #0006;"></mat-divider>
+         </span>
+       </span>
+    </div>
+
+    <div style="padding-top: 10px" *ngIf="right_slide_actic == 4">
+         
+           <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+           text-align: center;display:flow-root; margin-bottom:15px">
+            Vos données en entrée:
+           </h5>
+     
+           <mat-divider ></mat-divider>
+           <div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index " class="col-md-12 bloc_option_couche" style="padding:0px" >
+             
+             <div class="col-md-1 bloc_option_couche_options" >  
+               <i class="far fa-trash-alt pointer" *ngIf="display_remove_another_couche_option()" style="color:red" (click)="remove_another_couche_option(i)" ></i>
+             </div>
+     
+             <div class="col-md-11" style="padding:0px;width: 90%; float: right;" > 
+               <mat-list-item >
+                   <mat-form-field style="width: 100%;">
+                     <mat-select placeholder="Choisissez une thématique" [(value)]="thematique.thematiques_analyse" (selectionChange)="chooseThematique_function(i)" >
+                       <mat-option *ngFor="let group of thematiques" [value]="group" >
+                         {{group.nom}}
+                       </mat-option>
+                     </mat-select>
+                   </mat-form-field>
+     
+                 <mat-form-field  style="width: 100%;" *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques" >
+                   <mat-select placeholder="Choisisser une couche" [(value)]="thematique.couche_analyse"  >
+                     <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques" [label]="group.nom" >
+                         <mat-option *ngFor="let couche of group.couches" [value]="couche" [disabled]="disableOptionAnalyseSpatial(couche)" >
+                             {{couche.nom}}
+                         </mat-option>
+                     </mat-optgroup>
+                   </mat-select>
+                 </mat-form-field>
+     
+                 <mat-form-field style="width: 100%;" *ngIf="thematique.thematiques_analyse  &&  !thematique.thematiques_analyse.sous_thematiques" >
+                     <mat-select placeholder="Choisissez une couche" [(value)]="thematique.couche_analyse"  >
+                         <mat-option *ngFor="let couche of thematique.thematiques_analyse.couches" [value]="couche" [disabled]="disableOptionAnalyseSpatial(couche)" >
+                             {{couche.nom}}
+                         </mat-option>
+                     </mat-select>
+                 </mat-form-field>
+     
+               </mat-list-item>
+             </div>
+     
+           </div> 
+     
+           <button mat-raised-button style="margin-left: 5%;margin-top: 20px;width: 90%;font-size: 12px;height: 20px;border-radius: 10px;" (click)="choose_another_couche_option()">
+              <i class="fa fa-plus" style="margin-bottom: 13px;" ></i>
+            </button>
+     
+           <h5  class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+           text-align: center;display:flow-root;margin-bottom:15px">
+           Choix de l'emprise: 
+           </h5>
+           <mat-divider  ></mat-divider>
+     
+           <mat-list-item  >
+              
+               <mat-form-field style="width: 100%;"  >
+                   <mat-select placeholder="Votre emprise spatiale " [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
+                       <mat-option value="communes" > Par commune </mat-option>
+                       <mat-option value="departements" > Par département </mat-option>
+                       <mat-option value="tout" > Tout </mat-option>
+                       <mat-option disabled="true" value="draw" > Déssinez une emprise  </mat-option>
+                   </mat-select>
+               </mat-form-field>
+     
+               <div *ngIf="analyse_spatial.type_emprise_spatiale && analyse_spatial.type_emprise_spatiale != 'tout'" class="text-center" >
+                   <div *ngIf="!analyse_spatial.emprises" class="lds-ripple"><div></div><div></div></div>
+                   <h5 *ngIf="!analyse_spatial.emprises" class="primaryColor text-center"> Chargements des {{analyse_spatial.type_emprise_spatial}} </h5>
+                       
+                   <mat-form-field *ngIf="analyse_spatial.emprises" style="width: 100%;color: #000;" >
+                     <input  type="text" [formControl]="myControl" matInput placeholder=" Sélectioner une limite" [matAutocomplete]="auto">
+                     <mat-autocomplete #auto="matAutocomplete"  (optionSelected)="calculate_analyse_spatial($event,i)"  >
+                       <mat-option *ngFor="let emprise of analyse_spatial.emprises | donneOptionFilter: filter_option_expression " [value]="emprise.name">
+                         <span>  {{emprise.name}},   </span>
+                         <small> ({{emprise.ref}})  </small>
+                       </mat-option>
+                      </mat-autocomplete>
+                   </mat-form-field>
+                  </div>
+           </mat-list-item>
+     
+           <button mat-raised-button style="width: 100%;" class="accentColorBG" *ngIf="display_calculate_result_analyse_spatial()" (click)="calculate_result_analyse_spatial()">
+             Calculer   
+           </button>
+           
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content style="width: 100%;">
+    <input id="swipe" matTooltip="Déplacer ce curseur pour comparer"  type="range" style="background: transparent;width: 100%;z-index: 9999999999999999999999;  position: absolute;top: 45%;display: none;">
+    
+    <div id="map" (contextmenu)="right_click($event)"  [shAttachMenu]="menu" [shMenuData]="data_right_click.item"></div>
+
+    <div id="comment">
+      <div class="form-group">
+
+        <button mat-mini-fab color="primary" class="close  close-comment pull-right" style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;"
+          (click)="closeComment_draw()">
+          <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+        </button>
+
+      </div>
+
+      <div class="form-group">
+        <textarea class="form-control" rows="5" id="text-comment" [(ngModel)]="comment_user" placeholder="Votre Commentaire..."
+          style="border-radius:0px;border-color: #1CAC77;resize:none;margin-top:10px; "></textarea>
+      </div>
+
+      <div class="form-group" style="margin-top: -19px;">
+
+        <button mat-raised-button color="primary" class="save-comment" style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
+          (click)="saveComment_draw(comment_user)">
+          SAUVGARDER
+        </button>
+
+      </div>
+    </div>
+
+   <div id="setCoordOverlay" style="display:none">
+      <button mat-mini-fab color="primary" (click)="close_setCoordOverlay()" matTooltip="Supprimer" >
+        <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
+      </button>
+   </div>
+
+   <div id="coord_caracteristics" style="display:none;margin-top: -20px;margin-left: -20px;">
+      <button mat-mini-fab color="primary" (click)="close_caracteristique()" matTooltip="Fermer" >
+        <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
+        <i class="fas fa-dot-circle fa-lg" style="color:#fff;"></i>
+      </button>
+   </div>
+
+    <div id="colorPicker">
+      <div class="form-group">
+
+        <button mat-mini-fab color="primary" class="close  close-comment pull-right" style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;"
+          (click)="closeColorPicker_draw()">
+          <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+        </button>
+
+      </div>
+
+      <div class="form-group" style="text-align: center;" id="draw-color">
+        <input [(colorPicker)]="colorDraw" [style.background]="colorDraw" cpOutputFormat="hex" [cpOKButton]="true"
+          [cpCancelButton]="true" [cpSaveClickOutside]="false" style="width: 20px;border-radius: 100%;border: 1px solid #000;"
+          class="pointer" cpOKButtonClass="primaryColorBG" cpCancelButtonClass="back_black" />
+        <span class="black"> {{colorDraw}} </span>
+      </div>
+
+      <div class="form-group" style="margin-top: -19px;">
+
+        <button mat-raised-button color="primary" [style.background]="colorDraw" class="save-comment" style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
+          (click)="saveColorPicker()">
+          APPLIQUER
+        </button>
+
+      </div>
+    </div>
+
+    <div id="popup_lot" class="back_white popup">
+      <div class="popover  top " style="border-radius: 15px;display: block; top: -70px; left: -100px;text-align: center;padding: 0px;">
+        <div class="arrow " style="left: 57%;"></div>
+        <div class="popover-content" style="height: 55px; width: 175px;padding: 0px;">
+          <h4 class="primaryColorBG bold " id="popup_infos_title" style="text-transform: capitalize;padding: 2px;color:#fff;margin: 0px !important;font-size: 16px;border-radius: 15px 15px 0px 0px;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;" >  </h4>
+            <div class="text-center  primaryColor" style="padding-top: 5px; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
+                <span id="popup_infos_contain" [matTooltip]="getTooltip('popup_infos_contain')" matTooltipPosition="right" style="font-size: 13px;"></span>
+            </div>
+            <a href="" target="_blank" id="popup_details" style="display:none" > détails </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="popup_mappilary" class="back_white popup">
+      <div class="popover  top " style="border-radius: 15px;display: block; top: -140px; left: -100px;text-align: center;padding: 6px;">
+        <div class="arrow " style="left: 57%;"></div>
+        <div class="popover-content" style="  padding: 0px;">
+          <div class="ol-unselectable">
+            <div>
+              <img src="" id="img_mappilary" style="  height: 120px;width: 160px;  border-radius: 6px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <canvas *ngFor="let chart of list_analyse_spatial; let i = index "  style="display:none;width: 400px;background-color: rgba(0, 0, 0, 0.12);" id="analyse_spatiale_{{i}}" >{{ chart_analyse_spatiale[i] }}</canvas>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<div class="utils primaryColorBG">
+
+
+  <div class="button-row">
+    <!--  <button mat-mini-fab>Basic</button>
+	  <button mat-mini-fab color="primary">Primary</button>
+	  <button mat-mini-fab color="accent">Accent</button>
+	  <button mat-mini-fab color="warn">Warn</button>
+	  <button mat-mini-fab disabled>Disabled</button> --> 
+    <button mat-mini-fab (click)="toggle_left('')" matTooltip="Ouvrir / Fermer le menu de gauche" >
+      <i class="fa fa-bars fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="zoom('plus')" matTooltip="Zoomer en avant" >
+      <i class="fa fa-plus fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="zoom('minus')" matTooltip="Zoomer en arrière">
+      <i class="fa fa-minus fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="zoomToExtent()" class="zoomToExtentStatus" [ngClass]="{'back_black': zoomToExtentStatus}" matTooltip="Zoomer en avant sur une étendue">
+      <i class="fa fa-search-plus fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="deZoomToExtent()" class="deZoomToExtentStatus" [ngClass]="{'back_black': deZoomToExtentStatus}" matTooltip="Zoomer en arrière sur une étendue ">
+      <i class="fa fa-search-minus fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="openModal('zoomto')" matTooltip="Zoomer sur une coordonnée" >
+      <i class="fa fa-map-marker fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="rollBack()" matTooltip="Vue passée" class="view_map_roll">
+      <i class="fa fa-arrow-left fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="rollFront()" matTooltip="Vue suivante" class="view_map_roll" >
+      <i class="fa fa-arrow-right fa-lg" style="color:#fff;"></i>
+    </button>
+
+    <button mat-mini-fab (click)="globalView()" matTooltip="Vue génerale">
+      <i class="fa fa-globe fa-lg" style="color:#fff;"></i>
+    </button>
+
+  </div>
+
+  <div class="button-row" style="position: absolute;bottom: 30px;">
+
+    <button  matTooltip="Activer Mappilary" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleMappilary()" [ngClass]="{'accentColorBG': !modeMappilary,'back_black':modeMappilary}">
+      <img src="assets/images/icones/mappilary.png" style="margin-top: -5px;height: 30px;">
+    </button>
+
+    <button  matTooltip="Comparer des cartes" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleCompare()" [ngClass]="{'accentColorBG': !modeCompare,'back_black':modeCompare}">
+      <img src="assets/images/icones/compare.svg" style="margin-bottom: 2px;height: 23px;">
+    </button>
+
+  </div>
+
+
+</div>
+
+<div id="notifications" >
+  <div  class="text-center"  id="spinner_loading">
+      <div class="lds-ripple">
+        <div style="background-color: #fff;"></div>
+        <div style="background-color: #fcfcfc;"></div>
+      </div>
+  </div>
+</div>
+
+<div id="mouseposition">
+    <div class="custom-mouse-position primaryColorBG white text-center" >WGS84</div>
+</div>
+<!-- *ngFor="let item of data" (click)="item.url" -->
+<sh-context-menu #menu>
+  <ng-template shContextMenuItem  let-data >
+    <div class="item_right" *ngFor="let item of data ; let i_item = index" (click)="lunch_function(i_item)">
+       {{item.name}}
+    </div>
+  </ng-template>
+</sh-context-menu>
+
+<div class="utils_right primaryColorBG">
+
+
+  <button  matTooltip="Les couches en cours" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(0,'')" [ngClass]="{'primaryColorBG': right_slide_actic != 0 && !opened_right,'back_white': right_slide_actic == 0 && opened_right }">
+    <i class="fa fa-layer-group fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 0 && opened_right }"></i>
+  </button>
+
+
+  <button matTooltip="Quelques outils" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(1,'')" [ngClass]="{'primaryColorBG': right_slide_actic != 1 && !opened_right,'back_white': right_slide_actic == 1 && opened_right }">
+    <i class="fa fa-cogs fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 1 && opened_right }"></i>
+  </button>
+
+
+  <button matTooltip="Calcul d'itinéraires " mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(2,'')" [ngClass]="{'primaryColorBG': right_slide_actic != 2 && !opened_right,'back_white': right_slide_actic == 2 && opened_right }">
+    <i class="fa fa-bars fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 2 && opened_right }"></i>
+  </button>
+
+  <button  matTooltip="Legende "  mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(3)" [ngClass]="{'primaryColorBG': right_slide_actic != 3 && !opened_right,'back_white': right_slide_actic == 3 && opened_right }">
+    <i class="fa fa-th-list fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 3 && opened_right }"></i>
+  </button>
+
+  <button  matTooltip="Telechargement des données "  mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(4)" [ngClass]="{'primaryColorBG': right_slide_actic != 4 && !opened_right,'back_white': right_slide_actic == 4 && opened_right }">
+    <i class="fa fa-download fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 4 && opened_right }"></i>
+  </button>
+
+  <!-- <button mat-raised-button color="primary" style="width: 100%;border-radius: 0px;" (click)="toggle_right(3)" [ngClass]="{'primaryColorBG': right_slide_actic != 3 && !opened_right,'back_white': right_slide_actic == 3 && opened_right }">
+    <i class="fa fa-arrows fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 3 && opened_right }"></i>
+  </button> -->
+
+
+
+</div>
+
+<div id="share_div" >
+  <share-buttons [theme]="'circles-dark'"
+	[include]="['facebook','twitter','linkedin','messenger','copy','whatsapp']"
+	[show]="11"
+	[size]="-4"
+	[url]="url_share"
+	>
+	</share-buttons>
+
+</div>

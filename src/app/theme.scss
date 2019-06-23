@@ -1,0 +1,50 @@
+@import '~@angular/material/theming';
+
+
+@mixin theme-color-grabber($theme) {
+  // Parse the theme and create variables for each color in the pallete #c1000a(rouge) jaune #ffd800
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  // Create theme specfic styles
+
+  .primaryColor {
+    color: mat-color($primary) !important;
+  }
+
+  .primaryColorBG {
+    background-color: mat-color($primary) !important;
+  }
+
+  .accentColorBG {
+    background-color: mat-color($accent)!important;
+  }
+  .warnColorBG {
+    background-color: mat-color($warn);
+    
+  }
+
+  .mat-expansion-indicator:after {
+  		 color: mat-color($primary) !important;
+   }
+}
+
+
+@include mat-core();
+
+$theme-primary: mat-palette($mat-blue,500);
+$theme-accent:  mat-palette($mat-orange,600);
+$theme-warn:    mat-palette($mat-red);
+$theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+//
+@include theme-color-grabber($theme);
+@include angular-material-theme($theme);
+.light {
+  $light-primary: mat-palette($mat-blue, 200,300, 900);
+  $light-accent:  mat-palette($mat-light-blue, 600, 100, 800);
+  $light-warn:    mat-palette($mat-red, 600);
+  $light-theme: mat-dark-theme($light-primary, $light-accent, $light-warn);
+  @include theme-color-grabber($light-theme);
+  @include angular-material-theme($light-theme);
+
+}

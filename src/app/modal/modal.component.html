@@ -1,0 +1,43 @@
+<h4 mat-dialog-title>RECHERCHE PAR COORDONNEES </h4>
+<form [formGroup]="searchGpsForm" >
+<mat-dialog-content>
+
+	<div class="example-container">
+		
+		  <mat-form-field style="width: 100%;">
+		    <mat-select placeholder="Choisissez une projection" formControlName="projection">
+		      <mat-option value="WGS84">WGS84</mat-option>
+		      <!-- <mat-option value="32N">UTM 32N</mat-option>
+		      <mat-option value="33N">UTM 33N</mat-option> -->
+		    </mat-select>
+		  </mat-form-field>
+
+		  
+		  <mat-form-field style="width: 100%;" >
+		    <input matInput placeholder="longitude" formControlName="longitude" type="number" >
+		  </mat-form-field>
+
+		  <mat-form-field style="width: 100%;">
+		    <input matInput placeholder="latitude" formControlName="latitude" type="number">
+		  </mat-form-field>
+
+	 
+	</div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+
+	<button mat-raised-button [mat-dialog-close]="searchGpsForm.value" color="primary" style="color: #fff;font-size: 14px;font-weight: bold" type="submit" [disabled]="searchGpsForm.value['longitude'] == '' || searchGpsForm.value['latitude'] == '' ">
+		Valider 
+	</button>
+	
+	<button mat-raised-button mat-dialog-close  style="color: #fff;font-size: 14px;font-weight: bold;background: #000" >
+		Annuler 
+	</button>
+
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog.
+  <button mat-button [mat-dialog-close]="true">Annuler</button> -->
+
+</mat-dialog-actions>
+
+ </form>

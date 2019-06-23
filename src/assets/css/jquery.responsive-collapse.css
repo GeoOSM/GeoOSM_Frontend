@@ -1,0 +1,23 @@
+li.open .dropdown-menu .dropdown:hover .dropdown-menu {
+	display: block;
+	top: -25%;
+	right: 100%;
+}
+
+li.open .dropdown-menu .dropdown .caret {
+	display: none;
+}
+
+li.open .dropdown-menu .dropdown > a:before {
+	display:block;
+	content:" ";
+	float:left;
+	width:0;
+	height:0;
+	border-color:transparent;
+	border-style:solid;
+	border-width:5px 5px 5px 0;
+	border-right-color:#999;
+	margin-top:5px;
+	margin-left:-10px;
+}
