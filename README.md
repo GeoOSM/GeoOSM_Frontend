@@ -1,27 +1,36 @@
-# Smartword - Application - Angular v5
+# GeoOSM Frontend - Angular v5
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
+## Pré requis
+Avoir déja installé **Node** JS juste
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+##### 1. Déployement
+```sh
+$ cd GeoOSM_Frontend
+$ npm i
+```
+pour tester le projet :
+```sh
+$ ng serve
+```
+et le projet sera lancé sur **localhost:4200**
+##### 2. Modification du projet
+Dans le fichier **/src/app/map/map.component.ts**:
+- Modifier la variable **url_prefix** avec votre "**www.serveur_php.geoosm**"
+- Modifier la variable **url_frontend** avec l'adresse à laquelle vous allez déployer le projet frontend
 
-## Code scaffolding
+Dans tous les fichiers du dossier **/src/app/service/**:
+- Modifier la variable **url_prefix** avec votre "**www.serveur_php.geoosm**"
+- Modifier la variable **apiURL** avec votre "**www.serveur_nodejs+python.geoosm**"
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+##### 3. Changer vos couleurs et logo
+##### 3. "BUild" votre projet
+Quand vous finissez de customiser votre projet:
+```sh
+$ ng build
+```
+Et dans le dossier **dist** vous trouverez votre projet Web avec un **index.html** prèt !
+##### 4. Configuer Apache ou Nginx pour déployer votre projet sur le net
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
