@@ -1,11 +1,11 @@
-# GeoOSM Frontend - Angular v5
+# GeOsm Frontend - Angular v5
 
 ## Pré requis
-Avoir déja installé **Node** JS juste
+Avant de continuer, vous devez avoir installé **Node JS**
 
 ## Installation
 
-##### 1. Déployement
+##### 1. Déploiement
 ```sh
 $ cd GeoOSM_Frontend
 $ npm i
@@ -30,7 +30,7 @@ Quand vous finissez de customiser votre projet:
 ```sh
 $ ng build
 ```
-Et dans le dossier **dist** vous trouverez votre projet Web avec un **index.html** prèt !
-##### 4. Configuer Apache ou Nginx pour déployer votre projet sur le net
+Et dans le dossier **dist**, vous trouverez votre projet Web avec un **index.html** prêt !
+##### 4. Configurer Apache ou Nginx pour déployer votre projet sur le net
 
 
