@@ -10,7 +10,7 @@ import { geoportailService } from "../service/geoportail.service";
 import * as $ from 'jquery';
 import { MapComponent } from '../map/map.component';
 import { modalQuestion } from '../modal/question.modal';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -361,7 +361,7 @@ export class HeaderComponent implements OnInit {
             this.reponse_geocode["nominatim"] = []
             for (var index = 0; index < data.length; index++) {
                 // &&  data[index]['address']['state']=='Occitania'
-                 if ( data[index]['address']['country_code']=='fr' ) {
+                 if ( data[index]['address']['country_code']==environment.indicatif_pays ) {
                     this.reponse_geocode["nominatim"].push(data[index])
                 }
             }

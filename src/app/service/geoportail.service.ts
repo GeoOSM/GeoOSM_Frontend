@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class geoportailService {
 
@@ -8,7 +8,7 @@ export class geoportailService {
   loading:boolean;
   private headers: Headers = new Headers({});
   private headers_nodejs: Headers = new Headers({});
-    url_prefix = "http://adminoccitanie.geocameroun.cm/" //"http://localhost:8000/"
+    url_prefix = environment.url_prefix
 
   constructor(private http:Http) { 
     this.results = [];
@@ -378,10 +378,28 @@ export class geoportailService {
     });
     return promise;
   }
+
+  getConfigProjet() {
+    let promise = new Promise((resolve, reject) => {
+      let apiURL = this.url_prefix+'config_bd_projet/';
+      this.http.get(apiURL,{headers: this.headers})
+        .toPromise()
+        .then(
+          res => {  
+           
+            resolve(res.json());
+          },
+          msg => { // Error
+          reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
   
   analyse_spatiale(data) {
     let promise = new Promise((resolve, reject) => {
-      let apiURL ='http://service.geocameroun.cm/analyse_spatiale/';
+      let apiURL =environment.url_service+'analyse_spatiale/';
       this.http.post(apiURL,data,{headers: this.headers_nodejs})
         .toPromise()
         .then(

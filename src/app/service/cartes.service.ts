@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class cartesService {
 
   results:Object[];
   loading:boolean;
   private headers: Headers = new Headers({});
-    url_prefix = "http://adminoccitanie.geocameroun.cm/" //"http://localhost:8000/"
+    url_prefix = environment.url_prefix
 
   constructor(private http:Http) { 
     this.results = [];

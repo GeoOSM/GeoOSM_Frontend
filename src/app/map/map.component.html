@@ -228,24 +228,14 @@
           </div>
 
           
-          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.region">
-            <span class="bold col-md-4 col-xs-4 "> Région :</span>
-            <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.region}} </span>
+          <div class="col-md-12 col-xs-12" *ngFor="let limites_adm of caracteristicsPoint.limites_adm" >
+            <span *ngIf="caracteristicsPoint.limites_adm">
+                <span class="bold col-md-4 col-xs-4 "> {{limites_adm.nom}} :</span>
+                <span class="col-md-8 col-xs-8 " > {{limites_adm.valeur}} </span>
+            </span>
+            
           </div>
 
-          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.departement">
-              <span class="bold col-md-4 col-xs-4 "> Département :</span>
-              <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.departement}} </span>
-          </div>
-
-          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.commune" >
-                <span class="bold col-md-4 col-xs-4 "> Commune :</span>
-                <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.commune}} </span>
-          </div>
-          <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.quartier" >
-                  <span class="bold col-md-4 col-xs-4 "> Quartier :</span>
-                  <span class="col-md-8 col-xs-8 " > {{caracteristicsPoint.quartier}} </span>
-          </div>
 
           <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.district_de_sante" >
               <span class="bold col-md-5 col-xs-5 "> District de santé :</span>
@@ -530,8 +520,7 @@
          
           <mat-form-field style="width: 100%;"  >
               <mat-select placeholder="Votre emprise spatiale " [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
-                  <mat-option value="communes" > Par commune </mat-option>
-                  <mat-option value="departements" > Par département </mat-option>
+                  <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}" > Par {{lim.nom}} </mat-option>
                   <mat-option disabled="true" value="draw" > Déssinez une emprise  </mat-option>
               </mat-select>
           </mat-form-field>
@@ -1209,8 +1198,7 @@
               
                <mat-form-field style="width: 100%;"  >
                    <mat-select placeholder="Votre emprise spatiale " [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
-                       <mat-option value="communes" > Par commune </mat-option>
-                       <mat-option value="departements" > Par département </mat-option>
+                      <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}" > Par {{lim.nom}} </mat-option>
                        <mat-option value="tout" > Tout </mat-option>
                        <mat-option disabled="true" value="draw" > Déssinez une emprise  </mat-option>
                    </mat-select>

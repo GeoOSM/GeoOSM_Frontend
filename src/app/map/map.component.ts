@@ -44,7 +44,7 @@ import { cartesService } from "../service/cartes.service";
 import { thematiqueService } from "../service/thematiques.service";
 import { geoportailService } from "../service/geoportail.service";
 import { communicationComponent } from "../service/communicationComponent.service";
-
+import { environment } from '../../environments/environment';
 declare var jsPDF: any;
 declare var turf: any;
 
@@ -369,8 +369,8 @@ export class MapComponent implements OnInit {
 		'description':'',
 	}
 
-	url_prefix = "http://adminoccitanie.geocameroun.cm/" //"http://localhost:8000/"
-	url_frontend = "http://occitanie.geocameroun.cm/" // "http://localhost:4200/"
+	url_prefix = environment.url_prefix
+	url_frontend = environment.url_frontend
 
 	opened_right= false;
 
@@ -430,7 +430,7 @@ export class MapComponent implements OnInit {
 
 	events_left = 'close';
 	events_right = 'close';
-
+	config_projet
 	opened_left: false;
 	
 
@@ -458,8 +458,12 @@ export class MapComponent implements OnInit {
 
 	ngOnInit() {
 	
-		///////// shadow getInternalFile ////////////////////////////
+		///////// shadow getInternalFile //////////////////////////// 
 
+		this.geoportailService.getConfigProjet().then((config) => {
+			this.config_projet = config
+			console.log(this.config_projet)
+		})
 
 		this.geoportailService.getZoneInteret().then((cameroun: Object[]) => {
 
@@ -1279,9 +1283,12 @@ export class MapComponent implements OnInit {
 
 						var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + dataFeature['osm_id'] + ',W' + dataFeature['osm_id'] + ',N' + dataFeature['osm_id'] + '&format=json'
 
-
-
-						var hstore_to_json = JSON.parse(dataFeature['hstore_to_json'])
+						
+						if (typeof dataFeature['hstore_to_json'] === 'string') {
+							var hstore_to_json = JSON.parse(dataFeature['hstore_to_json'])
+						}else{
+							var hstore_to_json = dataFeature['hstore_to_json']
+						}
 
 						$.each(hstore_to_json, (index, val) => {
 							if (index != 'name' && val) {
@@ -1729,14 +1736,7 @@ export class MapComponent implements OnInit {
 						$('#popup_infos_title').text(dataFeature.type)
 
 
-						if (dataFeature.osm_type == 'relation') {
-							var osm_type = 'R'
-						} else if (dataFeature.osm_type == 'way') {
-							var osm_type = 'W'
-						} else if (dataFeature.osm_type == 'node') {
-							var osm_type = 'N'
-						}
-
+						var osm_type = dataFeature.osm_type
 						var osm_id = dataFeature.osm_id
 
 						//var href = "https://nominatim.openstreetmap.org/details.php?osmtype=" + osm_type + "&osmid=" + osm_id;
@@ -2144,7 +2144,7 @@ export class MapComponent implements OnInit {
 				if (couche.identifiant){
 					this.analyse_spatial['query'].push({ 
 						'url': couche.url,
-						'projet_qgis': 'occitanie',
+						'projet_qgis': environment.pojet_nodejs,
 						'methode': 'qgis',
 						'index': index,
 						'nom': couche.nom,
@@ -2544,20 +2544,22 @@ export class MapComponent implements OnInit {
 
 
 		$.post(this.url_prefix + 'getLimite', { 'coord': coord_4326 }, (data) => {
-			this.caracteristicsPoint['commune'] = data.commune
-			// this.caracteristicsPoint['quartier'] = data.quartier
-			this.caracteristicsPoint['departement'] = data.departement
-			// this.caracteristicsPoint['region'] = data.region
+			this.caracteristicsPoint['limites_adm'] = []
+			// this.caracteristicsPoint['departement'] = data.departement
+			if (typeof data == "object") {
+				for (const key in data) {
+					if (data.hasOwnProperty(key) &&  data[key] ) {
+						this.caracteristicsPoint['limites_adm'].push({
+							nom:key,
+							valeur:data[key],
+						})
+					}
+				}
+			}
+			
 			$('#spinner_loading').hide()
 
 			this.caracteristicsPoint['display'] = true
-			/*$('#bloc_caracteristiqueushare_button').click((e)=>{
-				this.shareLocation()
-			}) 
-
-			$('#bloc_caracteristique_zoomToPoint').click((e)=>{
-				this.zoomToPoint()
-			})*/
 
 			console.log(this.caracteristicsPoint)
 		})
