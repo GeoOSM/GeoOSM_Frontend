@@ -1,0 +1,32 @@
+<span *ngIf="couche_cartes.inLayerTree ">
+
+  <div class="principle_tiles_child" [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}"
+    *ngIf="!couche_cartes.principal ">
+
+    <!-- <span style="position: absolute;right: 5px;bottom: 20px;font-size: 18px;  z-index: 9;">
+      <button matTooltip="Partager cette carte" mat-mini-fab
+        (click)="share('map',couche_cartes,sous_cartes,groupMenuActive)"
+        style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00">
+        <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+      </button>
+
+    </span> -->
+    
+    <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+    <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' "
+      style="width: inherit ;height: 60px;">
+    <span *ngIf="couche_cartes.type == 'pdf' " class="nombre_cartes_pdf bold black">
+      {{couche_cartes.cartes_pdf.length}}
+      <span *ngIf="couche_cartes.cartes_pdf.length > 1 "> cartes </span>
+      <span *ngIf="couche_cartes.cartes_pdf.length <= 1 "> carte </span>
+    </span>
+    <p>
+      <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked"
+        (change)="displayDataOnMap(couche_cartes)">
+
+        {{couche_cartes.nom}}
+      </mat-checkbox>
+    </p>
+  </div>
+
+</span>

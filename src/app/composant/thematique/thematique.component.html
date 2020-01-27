@@ -1,0 +1,12 @@
+<div class="border_red menu-thematiques-child text-center " [ngStyle]="{'background-color': thematique.color}" >
+
+  <div class="menu-thematiques-child-nombre back_red white">
+    <p *ngIf="thematique.sous_thematiques"> {{thematique.sous_thematiques.length}} </p>
+    <p *ngIf="!thematique.sous_thematiques"> {{thematique.couches.length}} </p>
+  </div>
+
+  <img src="{{url_prefix+thematique.img}}" class="img-responsive  menu-thematiques-child-logo">
+</div>
+<div class=" text-center menu-thematiques-child-title">
+  <p class="black">{{thematique.nom}}</p>
+</div>

@@ -535,7 +535,10 @@ export class MapComponent implements OnInit {
 					this.geoportailService.getVisitiors().then((vues: Object[]) => {
 						console.log(vues)
 						$('#id_nombre_vues').show()
-						$('#nombre_vues').text(vues[0]['vues'])
+						if (vues && vues.length > 0) {
+							$('#nombre_vues').text(vues[0]['vues'])
+						}
+						
 					})
 				}, 3000)
 

@@ -43,7 +43,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/angular.html:
 import { ShareButtonsModule } from '@ngx-share/buttons';
 // https://murhafsousli.github.io/ngx-sharebuttons/#/share-buttons-component
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -78,7 +78,11 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule
-} from '@angular/material'; 
+} from '@angular/material';
+import { ThematiqueComponent } from './composant/thematique/thematique.component';
+import { CarteComponent } from './composant/carte/carte.component';
+import { CoucheThematiqueComponent } from './composant/thematique/couche-thematique/couche-thematique.component';
+import { CoucheCarteComponent } from './composant/carte/couche-carte/couche-carte.component'; 
 
 @NgModule({
   exports: [
@@ -116,7 +120,7 @@ import {
     MatTooltipModule,
     MatBottomSheetModule,
     MatTreeModule
-  ] 
+  ],
 })
 export class DemoMaterialModule {}
 
@@ -135,7 +139,11 @@ export class DemoMaterialModule {}
     donneFilterPipe,
     donneOptionFilterPipe,
     NgForIfEmpty,
-    OrderBy
+    OrderBy,
+    ThematiqueComponent,
+    CarteComponent,
+    CoucheThematiqueComponent,
+    CoucheCarteComponent
   ],
   entryComponents: [buttonsheetGeosiComponent,buttonsheetComponent,modalComponent,modalMetadata,commentComponent,modalQuestion],
   imports: [
@@ -155,7 +163,8 @@ export class DemoMaterialModule {}
     CKEditorModule,
     AngularDraggableModule,
     ShareButtonsModule,
-    HttpClientModule
+    HttpClientModule,
+    FlexLayoutModule 
       // NgwWowModule.forRoot(),
   ],
   providers: [cartesService,thematiqueService,geoportailService,communicationComponent],
@@ -165,3 +174,4 @@ export class DemoMaterialModule {}
 export class AppModule { }
 
 
+// ng g c composant/thematique --module=app.module.ts
