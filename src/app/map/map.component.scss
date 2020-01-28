@@ -263,6 +263,13 @@
 	background: none repeat scroll 0% 0% transparent;
 	/*border: 1px solid white;*/
 }
+.footer_couche_en_cours{
+	position: fixed;
+	bottom: 0px;
+	width: 220px;
+	right: 0px;
+	height: 45px;
+}
 
 .principle_tiles{
 	/*padding-top: 10px;*/
@@ -291,7 +298,7 @@
 }
 
 .principle_tiles_child_pdf{
-	  height: 125px !important;
+	height: 150px !important;
 }
 .principle_tiles_child img{
 	position: absolute !important;
@@ -351,26 +358,6 @@
 
 
 
-.descriptionLayerBox{
-
-	position: absolute;
-    top: -10px;
-    bottom: -3px;
-    left: 100%;
-    right: 0px;
-    background: rgb(255, 255, 255);
-    z-index: 9999;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    cursor: auto;
-
-}
-
-.descriptionLayerBoxClose{
-	float: right;
-	padding: 3px;
-	display: none;
-}
 
 .sous_themes_cartes{
 	margin-left: -6px;

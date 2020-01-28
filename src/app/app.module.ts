@@ -82,7 +82,8 @@ import {
 import { ThematiqueComponent } from './composant/thematique/thematique.component';
 import { CarteComponent } from './composant/carte/carte.component';
 import { CoucheThematiqueComponent } from './composant/thematique/couche-thematique/couche-thematique.component';
-import { CoucheCarteComponent } from './composant/carte/couche-carte/couche-carte.component'; 
+import { CoucheCarteComponent } from './composant/carte/couche-carte/couche-carte.component';
+import { CoucheEnCoursComponent } from './composant/couche-en-cours/couche-en-cours.component'; 
 
 @NgModule({
   exports: [
@@ -143,7 +144,8 @@ export class DemoMaterialModule {}
     ThematiqueComponent,
     CarteComponent,
     CoucheThematiqueComponent,
-    CoucheCarteComponent
+    CoucheCarteComponent,
+    CoucheEnCoursComponent
   ],
   entryComponents: [buttonsheetGeosiComponent,buttonsheetComponent,modalComponent,modalMetadata,commentComponent,modalQuestion],
   imports: [

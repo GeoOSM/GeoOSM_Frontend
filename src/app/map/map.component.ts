@@ -538,7 +538,6 @@ export class MapComponent implements OnInit {
 						if (vues && vues.length > 0) {
 							$('#nombre_vues').text(vues[0]['vues'])
 						}
-						
 					})
 				}, 3000)
 
@@ -6752,36 +6751,7 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	displayMetadataLink(couche) {
-
-		if (Array.isArray(couche.metadata)) {
-			return false
-		} else {
-			return true
-		}
-	}
-
-	openMetadata(data) {
-		var element = []
-
-		for (var index = 0; index < data.metadata.tags.length; index++) {
-			element.push(data.metadata.tags[index].tags);
-
-		}
-
-		data.metadata.tags_ = element.toString()
-
-		var metadata = data.metadata
-		const MetaData = this.dialog.open(modalMetadata, {
-			width: '60%',
-			height: '80%',
-			data: { metadata: metadata, nom: data.nom, url_prefix: this.url_prefix }
-		});
-
-		MetaData.afterClosed().subscribe(result => {
-			console.log('The dialog was closed :', result);
-		});
-	}
+	
 
 	getTooltip(id) {
 

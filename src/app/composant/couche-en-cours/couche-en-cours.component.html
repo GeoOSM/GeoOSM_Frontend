@@ -1,0 +1,238 @@
+<div style="padding: 10px 5px;" *ngIf="type =='cartes'">
+  <!-- <div *ngIf="couche.type != 'pdf' " [preventDefaultEvent]="true" [ngDraggable]="false"
+    class="white descriptionLayerBox" id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
+    <span class="back_white pointer descriptionLayerBoxClose" id="descriptionLayerBoxClose{{i}}"
+      (click)="openDescription(couche,i)">
+      <i class="fa fa-times primaryColor" style="margin-top: 7px;font-size: 15px;"></i>
+    </span>
+    <h6 style="    border-bottom: 1px solid;
+     
+        text-align: center;
+        font-size: 12px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 6px;
+        text-transform: uppercase;" class="primaryColorBG">
+      {{couche.nom}} </h6>
+
+    <div style="text-align: justify;font-size: 13px;padding: 0 5px;   display: -webkit-box;-webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;overflow: hidden;    margin-bottom: 10px;" class="primaryColor">
+      <span *ngIf='couche.metadata && couche.metadata.resume'> {{couche.metadata.resume}} </span>
+      <span *ngIf='couche.metadata && !couche.metadata.resume'> Le résumé de cette donnée n'est pas encore
+        disponible </span>
+    </div>
+    <a *ngIf="displayMetadataLink(couche)" (click)="openMetadata(couche)"
+      style="text-decoration:underline;padding-left: 5px;color: #fb8c00 !important;" class="primaryColor pointer">
+      Consulter sa fiche
+      descriptive </a>
+
+  </div> -->
+
+  <!-- <span style="position: absolute;left: -8px;top: -13px;right: 5px;cursor:default" *ngIf="couche.type != 'pdf' "
+    [preventDefaultEvent]="true" [ngDraggable]="false">
+    <mat-slider style="width: 100%;" color="primary" class="example-margin" [max]="100" [min]="0" [thumbLabel]="true"
+      [(ngModel)]="couche.opacity" (input)="changeOpacity(couche,$event)" [preventDefaultEvent]="true"
+      [ngDraggable]="false">
+    </mat-slider>
+  </span> -->
+
+  <div>
+    <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type != 'pdf' " style="height: 75px;width: 100%;">
+    <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type == 'pdf' " style="width: inherit ;top: 48%;">
+  </div>
+
+  <div fxLayout="row" style="padding-top: 10px;">
+    <div fxFlex fxFlexAlign="start">
+      <mat-chip-list style="position: absolute;top: -10px;left: 5px;">
+        <mat-chip style="padding: 5px 5px;min-height: 20px;font-weight: bold;font-size: 12px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div fxFlex="100px" fxFlexAlign="end" style="text-align: right;">
+
+      <i class="fa fa-info-circle pointer primaryColor" style="margin-right: 10px;font-size: 17px;"></i>
+      <i class="fa fa-share-alt pointer primaryColor" style="margin-right: 10px;font-size: 15px;"></i>
+      <i class="fa fa-trash pointer " matTooltip="Enlever la couche" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
+    </div>
+  </div>
+
+  <div  *ngIf="couche.type != 'pdf' " [preventDefaultEvent]="true" [ngDraggable]="false">
+    <mat-slider style="width: 100%;margin-top: -12px;height: 25px;" color="primary" class="example-margin" [max]="100" [min]="0" [thumbLabel]="true"
+      [(ngModel)]="couche.opacity" (input)="changeOpacity(couche,$event)" [preventDefaultEvent]="true"
+      [ngDraggable]="false">
+    </mat-slider>
+  </div>
+
+  <div style="padding-top: 5px;">
+    <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+      (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false">
+
+      {{couche.nom}}
+    </mat-checkbox>
+
+  </div>
+
+  <!-- <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;"
+    [preventDefaultEvent]="true" [ngDraggable]="false">
+
+    <button mat-mini-fab color="primary" *ngIf="couche.type != 'pdf'"
+      style="width: 23px;height: 23px;margin-right: 5px;" (click)="openDescription(couche,i)"
+      [preventDefaultEvent]="true" [ngDraggable]="false">
+      <i class="fas fa-info pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+    <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)"
+      (click)="couche.checked = false;displayDataOnMap(couche)">
+      <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+  </span> -->
+</div>
+
+<div style="padding: 10px 5px;" *ngIf="type =='thematiques'">
+  <!-- <div [preventDefaultEvent]="true" [ngDraggable]="false" class="white descriptionLayerBox"
+    id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
+    <span class="back_white pointer descriptionLayerBoxClose" id="descriptionLayerBoxClose{{i}}"
+      (click)="openDescription(couche,i)">
+      <i class="fa fa-times black"></i> </span>
+    <h6 class="primaryColorBG" style="border-bottom: 1px solid;
+        text-align: center;
+        font-size: 12px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        margin-top: 6px;
+        text-transform: uppercase;">
+      {{couche.nom}} </h6>
+
+    <div style="text-align: justify;font-size: 13px;padding: 0 5px;   display: -webkit-box;-webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;overflow: hidden;    margin-bottom: 10px;" class="primaryColor">
+      <span class="bold">
+        {{couche.number}} entité(s)
+        <span *ngIf='couche.surface_totale'> ; {{couche.surface_totale}} m² de surface totale </span>
+        <span *ngIf='couche.distance_totale'> ; {{couche.distance_totale}} m de longuer totale </span>
+      </span>
+      <span *ngIf='couche.metadata.resume'> {{couche.metadata.resume}} </span>
+      <span *ngIf='!couche.metadata.resume'>; Le résumé de cette donnée n'est pas encore disponible </span>
+    </div>
+    <a *ngIf="displayMetadataLink(couche)" (click)="openMetadata(couche)"
+      style="text-decoration:underline;padding-left: 5px;color: #fb8c00 !important;" class="primaryColor pointer">
+      Consulter sa fiche
+      descriptive </a>
+  </div> -->
+
+  
+
+  <div style="text-align: center;" [ngClass]="{'icone_linestring': couche.geom=='LineString' ,'icone_polygon': couche.geom=='Polygon' && ( couche.img == '' || couche.img == null ),'icone_point': couche.geom=='point'}" class="icone_polygon" >  
+
+    <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" />
+
+    <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
+      [ngStyle]="{'width':'60px','height': '50px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
+    </div>
+
+    <div *ngIf='couche.geom=="Polygon" && couche.img != "" && couche.img!=null '
+      style="width:60px;height: 50px;border:3px solid black;display: inline-block;margin-bottom: 5px;margin-left: calc(50% - 30px);margin-top: 25px;">
+      <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
+    </div>
+
+
+    <hr *ngIf='couche.geom=="LineString"'
+      [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'transform':'translateY(42px)','margin':'0px'}">
+  </div>
+
+  <div fxLayout="row" style="padding-top: 8px;" >
+    <div fxFlex fxFlexAlign="start">
+      <mat-chip-list style="position: absolute;top: -10px;left: 5px;">
+          <mat-chip style="padding: 5px 5px;min-height: 20px;font-weight: bold;font-size: 12px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div fxFlex="100px" fxFlexAlign="end" style="text-align: right;">
+
+      <i class="fa fa-info-circle pointer primaryColor" style="margin-right: 10px;font-size: 17px;"></i>
+      <i class="fa fa-share-alt pointer primaryColor" style="margin-right: 10px;font-size: 15px;"></i>
+      <i class="fa fa-trash pointer " matTooltip="Enlever la couche" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
+    </div>
+  </div>
+
+  <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null )' [preventDefaultEvent]="true"
+    [ngDraggable]="false">
+    <mat-slider style="width: 100%;margin-top: -12px;height: 25px;" color="primary" class="example-margin" [max]="100" [min]="0" [thumbLabel]="true"
+      [(ngModel)]="couche.opacity" (input)="changeOpacity(couche,$event)">
+    </mat-slider>
+  </div>
+
+  <div style="padding-top: 5px;">
+    <mat-checkbox  class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+      (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false">
+
+      {{couche.nom}}
+
+    </mat-checkbox>
+
+  </div>
+  <!-- <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;"
+    [preventDefaultEvent]="true" [ngDraggable]="false">
+
+    <button mat-mini-fab color="primary" style="width: 23px;height: 23px;margin-right: 5px;"
+      (click)="openDescription(couche,i)">
+      <i class="fas fa-info pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+    <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)"
+      (click)="couche.checked = false;displayDataOnMap(couche)">
+      <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+  </span> -->
+</div>
+
+<div *ngIf="type =='mappilary'">
+  <span>
+    <img src="{{couche.img}}" style="" />
+
+  </span>
+
+  <p>
+    <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+      (click)="toogleVisibilityLayer(couche)">
+
+      {{couche.nom}}
+
+    </mat-checkbox>
+
+  </p>
+  <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+
+
+    <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)"
+      (click)="couche.checked = false;displayDataOnMap(couche)">
+      <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+  </span>
+</div>
+
+<div *ngIf="type =='analyse_spatiale'">
+  <span>
+    <img src="{{couche.img}}" style="width: 50%;" />
+
+  </span>
+
+  <p>
+    <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+      (click)="toogleVisibilityLayer(couche)">
+
+      {{couche.nom}}
+
+    </mat-checkbox>
+
+  </p>
+  <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+
+
+    <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)"
+      (click)="couche.checked = false;displayDataOnMap(couche)">
+      <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
+    </button>
+
+  </span>
+</div>

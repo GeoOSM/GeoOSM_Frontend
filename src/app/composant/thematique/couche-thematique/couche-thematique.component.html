@@ -28,9 +28,8 @@
         <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
       </div>
 
+      <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px','width':'100%'}">
 
-      <hr *ngIf='couche.geom=="LineString"'
-        [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px'}">
     </div>
     <!-- class="couches-checkbox" -->
     <div fxFlex="50px" >

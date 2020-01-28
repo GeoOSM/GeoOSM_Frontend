@@ -1,0 +1,54 @@
+// @import '../../map/map.component.scss';
+.icone_polygon{
+    padding-top: 5px;
+}
+
+.icone_point{
+    padding-top: 15px;
+    padding-bottom: 7px;
+}
+.icone_linestring{
+    height: 82px;
+}
+.principle_tiles{
+	/*padding-top: 10px;*/
+}
+
+.principle_tiles_child{
+	margin-top: 5px !important;
+	height: 72px;
+	border-radius: 3px;
+    position: relative;
+    background: #fff;
+    -webkit-box-shadow: 0 0 3px 1px #3030307a;
+	box-shadow: 0 0 3px 1px #3030307a;
+	margin-bottom: 24px;
+}
+
+
+.principle_tiles_child p{
+	 position: absolute !important;
+    bottom: 0px;
+    left: 10px;
+    margin-bottom: 0px;
+}
+.descriptionLayerBox{
+
+	position: absolute;
+    top: -10px;
+    bottom: -3px;
+    left: 100%;
+    right: 0px;
+    background: rgb(255, 255, 255);
+    z-index: 9999;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    cursor: auto;
+
+}
+
+.descriptionLayerBoxClose{
+	float: right;
+	padding: 3px;
+	display: none;
+}
