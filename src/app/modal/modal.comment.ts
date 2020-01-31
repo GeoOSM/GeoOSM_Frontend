@@ -2,6 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface DialogData {
 //   type: string;
@@ -17,8 +18,8 @@ export class commentComponent {
   constructor(
     public dialogRef: MatDialogRef<commentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private builder: FormBuilder
-    
+    private builder: FormBuilder,
+    public translate: TranslateService
    ) {}
 
   	public searchGpsForm = this.builder.group({
@@ -28,11 +29,23 @@ export class commentComponent {
     });
 
     ngOnInit() {
-    	console.log("this.data['type']")
+    	// console.log("this.data['type']")
     }
 
-  /*onNoClick(): void {
-    this.dialogRef.close();
-  }*/
+    valider(){
+      console.log(this.searchGpsForm.valid,this.searchGpsForm)
+      if (this.searchGpsForm.valid) {
+        this.dialogRef.close({
+          "statut":true,
+          "data":this.searchGpsForm.value
+        });
+      }
+    }
+  
+    onNoClick(): void {
+      this.dialogRef.close({
+        "statut":false
+      });
+    }
 
 }

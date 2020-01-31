@@ -130,6 +130,9 @@ body{
   background: mat-color($primary);
   color: #fff;
 }
+.item_right:hover span svg *{
+	fill: #fff !important;
+  }
 
 .mat-dialog-container{
 	background: transparent !important;

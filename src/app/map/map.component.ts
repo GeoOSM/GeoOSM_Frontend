@@ -621,38 +621,43 @@ export class MapComponent implements OnInit {
 
 		this.data_right_click['item'] = []
 
-		this.translate.get('menu_contextuel', { value: 'caracteristique' }).subscribe((res:any) => {
+		this.translate.get('menu_contextuel', { value: 'caracteristique' }).subscribe((res: any) => {
 			this.data_right_click['item'][0] = {
 				name: res.caracteristique,
+				icon: 1,
 				click: 'this.getCarateristics'
 			}
 		});
 
-		this.translate.get('menu_contextuel', { value: 'partager' }).subscribe((res:any) => {
+		this.translate.get('menu_contextuel', { value: 'partager' }).subscribe((res: any) => {
 			console.log(res)
 			this.data_right_click['item'][1] = {
 				name: res.partager,
+				icon: 2,
 				click: 'this.shareLocation'
 			}
 		});
 
-		this.translate.get('menu_contextuel', { value: 'commenter' }).subscribe((res:any) => {
+		this.translate.get('menu_contextuel', { value: 'commenter' }).subscribe((res: any) => {
 			this.data_right_click['item'][2] = {
 				name: res.commenter,
+				icon: 3,
 				click: 'this.openModalComment'
 			}
 		});
 
-		this.translate.get('menu_contextuel', { value: 'ajouter_geosignet' }).subscribe((res:any) => {
+		this.translate.get('menu_contextuel', { value: 'ajouter_geosignet' }).subscribe((res: any) => {
 			this.data_right_click['item'][3] = {
 				name: res.ajouter_geosignet,
+				icon: 4,
 				click: 'this.addGeoSignets'
 			}
 		});
 
-		this.translate.get('menu_contextuel', { value: 'voir_geosignet' }).subscribe((res:any) => {
+		this.translate.get('menu_contextuel', { value: 'voir_geosignet' }).subscribe((res: any) => {
 			this.data_right_click['item'][4] = {
 				name: res.voir_geosignet,
+				icon: 5,
 				click: 'this.displayGeoSignet'
 			}
 		});
@@ -2494,12 +2499,12 @@ export class MapComponent implements OnInit {
 		const add_geosignets_dialog = this.dialog.open(AddGeosignetsComponent, {
 			// width: '60%',
 			// height: '80%',
-			minWidth:"350px",
+			minWidth: "350px",
 			data: { nom: "" }
 		});
 
 		add_geosignets_dialog.afterClosed().subscribe(result => {
-			if (result['statut']) {
+			if (result && result['statut']) {
 				this.geoSignets.push({
 					'id': this.geoSignets.length + 1,
 					'coord': this.data_right_click['coord'],
@@ -2507,13 +2512,13 @@ export class MapComponent implements OnInit {
 					'nom': result['nom']
 				})
 
-				this.translate.get('notifications').subscribe((res:any) => {
-					var notif = this.notif.open(res.signet_added_1+result['nom']+res.signet_added_2, 'Fermer', {
+				this.translate.get('notifications').subscribe((res: any) => {
+					var notif = this.notif.open(res.signet_added_1 + result['nom'] + res.signet_added_2, 'Fermer', {
 						duration: 2000
 					});
 				});
 
-				
+
 			}
 			console.log(this.geoSignets)
 			console.log('The dialog was closed :', result);
@@ -3057,52 +3062,63 @@ export class MapComponent implements OnInit {
 
 	openModalComment() {
 		const dialogRef = this.dialog.open(commentComponent, {
-			width: '60%',
-			height: '80%'
+			// width: '60%',
+			// height: '80%',
+			minWidth: "350px"
 		});
 
-		dialogRef.afterClosed().subscribe(result => {
-			$('#spinner_loading').show()
+		dialogRef.afterClosed().subscribe(data_result => {
+			if (data_result && data_result['statut']) {
 
-			var donne = {
-				'data': [],
-				'coordinates': this.data_right_click['coord'],
-				'table': 'tourisme_loisirs_commentaires',
-				'shema': 'tourisme_et_loisirs',
-				'geom': 'Point'
+				var result = data_result["data"]
+				$('#spinner_loading').show()
+
+				var donne = {
+					'data': [],
+					'coordinates': this.data_right_click['coord'],
+					'table': 'tourisme_loisirs_commentaires',
+					'shema': 'tourisme_et_loisirs',
+					'geom': 'Point'
+				}
+
+				donne.data[0] = {
+					'ind': 'nom',
+					'val': result.nom
+				}
+
+				donne.data[1] = {
+					'ind': 'email',
+					'val': result.email
+				}
+
+				donne.data[2] = {
+					'ind': 'description',
+					'val': result.description
+				}
+
+
+				donne.data[3] = {
+					'ind': 'date',
+					'val': new Date()
+				}
+				console.log(result, donne)
+
+				this.geoportailService.addEntite(donne).then((data: Object[]) => {
+					$('#spinner_loading').hide()
+					console.log(data)
+
+					this.translate.get('notifications').subscribe((res: any) => {
+						var notif = this.notif.open(res.comment_added, 'Fermer', {
+							duration: 3000
+						});
+
+					});
+
+					
+
+				})
+
 			}
-
-			donne.data[0] = {
-				'ind': 'nom',
-				'val': result.nom
-			}
-
-			donne.data[1] = {
-				'ind': 'email',
-				'val': result.email
-			}
-
-			donne.data[2] = {
-				'ind': 'description',
-				'val': result.description
-			}
-
-
-			donne.data[3] = {
-				'ind': 'date',
-				'val': new Date()
-			}
-			console.log(result, donne)
-
-			this.geoportailService.addEntite(donne).then((data: Object[]) => {
-				$('#spinner_loading').hide()
-				console.log(data)
-
-				var notif = this.notif.open('Votre commentaire a bien été enregistré', 'Fermer', {
-					duration: 3000
-				});
-
-			})
 		})
 	}
 
@@ -4193,9 +4209,13 @@ export class MapComponent implements OnInit {
 			})
 
 		} else {
-			var notif = this.notif.open("Vous n'avez aucun géosignets", 'Fermer', {
-				duration: 2500
+			
+			this.translate.get('choose_signet').subscribe((res: any) => {
+				var notif = this.notif.open(res.no_signet, 'Fermer', {
+					duration: 2500
+				});
 			});
+			
 		}
 	}
 

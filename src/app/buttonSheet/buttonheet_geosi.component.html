@@ -1,10 +1,12 @@
-<div class="example-container mat-elevation-z8">
-    <p class="text-center"> Choisissez un signet :</p>
+<p class="text-center primaryColor" style="font-weight: bold;
+padding: 10px;"  > {{ 'choose_signet.title' | translate }} </p>
 
+<div class="example-container mat-elevation-z8">
+    
     <table style="width:100%" >
 
         <tr *ngFor="let signet of  signets" >
-            <th class="signet_th" (click)="selectioner(signet.id)" > Aller au signet {{signet.id}}</th>
+            <th class="signet_th" style="text-transform: uppercase;" (click)="selectioner(signet.id)" > {{signet.nom}}</th>
         </tr>
 
     </table>

@@ -61,8 +61,8 @@ export class CoucheEnCoursComponent implements OnInit {
 
       var metadata = data.metadata
       const MetaData = this.dialog.open(modalMetadata, {
-        width: '60%',
-        height: '80%',
+        minWidth: "350px",
+        // height: '80%',
         data: { exist:true,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix }
       });
 
@@ -72,8 +72,7 @@ export class CoucheEnCoursComponent implements OnInit {
     }else{
       var metadata = data.metadata
       const MetaData = this.dialog.open(modalMetadata, {
-        width: '60%',
-        height: '80%',
+        minWidth: "350px",
         data: { exist:false,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix }
       });
     }

@@ -30,6 +30,24 @@
   },
   "notifications":{
     "signet_added_1":"Le signet ",
-    "signet_added_2":" a bien été ajouté"
+    "signet_added_2":" a bien été ajouté",
+    "comment_added":" Votre commentaire a bien été ajouté"
+  },
+  "add_commentaire":{
+    "title":"Ajouter un commentaire",
+    "title_commentaire":" Votre Commentaire :",
+    "cancel":"ANNULER",
+    "save":"ENREGISTRER"
+  },
+  "choose_signet":{
+    "title":"Cliquer sur un signet pour zoomer dessus :",
+    "no_signet":"Vous n'avez aucun géosignets"
+  },
+  "metadata":{
+    "title":"Fiche descriptive :",
+    "description":"Description",
+    "properties":"Propriétes",
+    "ressources":"Ressources",
+    "text_no_metadata":"Le résumé de cette donnée n'est pas encore disponible"
   }
 }
