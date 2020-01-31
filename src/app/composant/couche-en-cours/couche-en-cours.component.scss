@@ -1,4 +1,13 @@
 // @import '../../map/map.component.scss';
+.couche_en_cours_nom{
+    overflow: hidden !important;
+    white-space: nowrap;
+    text-overflow: ellipsis !important;
+    -webkit-line-clamp: 1;
+    display: block;
+    text-overflow: ellipsis !important;
+}
+
 .icone_polygon{
     padding-top: 5px;
 }

@@ -1,0 +1,19 @@
+{
+  "couche_en_cours": {
+    "supprimer_couche": "Enlever la couche",
+    "information_couche": "Métadonnée",
+    "partager_couche": "Partager cette couche",
+    "tout_supprimer":"Tout supprimer",
+    "tout_partager_toolpit":"Partager ce catalogue",
+    "tout_partager":"Partager"
+  },
+  "caracteristiques_lieu":{
+    "titre":"Caractéristique du lieu",
+    "titre_coord":"Coordonnées (WGS84)",
+    "altitude":"Altitude",
+    "fermer":"Fermer",
+    "partager":"Partager ce lieu",
+    "zoomer":"Zoomer dessus"
+  }
+}
+  

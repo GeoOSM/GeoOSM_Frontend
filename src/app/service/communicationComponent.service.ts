@@ -8,6 +8,7 @@ export class communicationComponent {
     private dataThematiques = new Subject();
     private dataCartes = new Subject();
     public all_thematiques =  new BehaviorSubject([]);
+    public all_cartes =  new BehaviorSubject([]);
 
     getData() {
         return this.dataObs;
@@ -31,12 +32,12 @@ export class communicationComponent {
        
     }
 
-    updateDataCartes(data: boolean) {
+    updateDataCartes(data) {
         this.dataCartes.next(data);
+        this.all_cartes.next(data)
     }
 
     get_thematique_by_rang(rang){
-        // console.log(rang,this.all_thematiques.value )
         
         for (let index = 0; index < this.all_thematiques.value.length; index++) {
             const thematique = this.all_thematiques.value[index];
@@ -44,6 +45,45 @@ export class communicationComponent {
                 return thematique
             }
         }
-      
+    }
+
+    get_sous_thematique_by_key(rang,id_sous_cat){
+        var thematique = this.get_thematique_by_rang(rang)
+        if (thematique['sous_thematiques']) {
+            for (let index = 0; index < thematique['sous_thematiques'].length; index++) {
+                const sous_thematique = thematique['sous_thematiques'][index];
+                if (sous_thematique['key'] ==id_sous_cat ) {
+                    return sous_thematique
+                }
+            }
+        }else{
+            return undefined
+        }
+       
+    }
+
+    get_carte_by_rang(rang){
+        
+        for (let index = 0; index < this.all_cartes.value.length; index++) {
+            const carte = this.all_cartes.value[index];
+            if (carte.id == rang) {
+                return carte
+            }
+        }
+    }
+
+    get_sous_carte_by_key(rang,id_sous_cat){
+        var carte = this.get_carte_by_rang(rang)
+        if (carte['sous_cartes']) {
+            for (let index = 0; index < carte['sous_cartes'].length; index++) {
+                const sous_carte = carte['sous_cartes'][index];
+                if (sous_carte['key'] ==id_sous_cat ) {
+                    return sous_carte
+                }
+            }
+        }else{
+            return undefined
+        }
+       
     }
 }

@@ -10,6 +10,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@ang
 import * as $ from 'jquery';
 import { Chart } from 'chart.js';
 import { MatSidenav } from '@angular/material/sidenav';
+import {TranslateService} from '@ngx-translate/core';
 
 
 import { extent as Extent } from 'openlayers';
@@ -45,6 +46,7 @@ import { thematiqueService } from "../service/thematiques.service";
 import { geoportailService } from "../service/geoportail.service";
 import { communicationComponent } from "../service/communicationComponent.service";
 import { environment } from '../../environments/environment';
+import { timeout } from 'q';
 declare var jsPDF: any;
 declare var turf: any;
 
@@ -446,12 +448,14 @@ export class MapComponent implements OnInit {
 		private communicationComponent: communicationComponent,
 		private activatedRoute: ActivatedRoute,
 		private meta: Meta,
+		public translate: TranslateService,
 		private builder: FormBuilder
 	) {
-
+		translate.addLangs(['fr']);
+		translate.setDefaultLang('fr');
 	}
 
-
+	
 	public formAnalyse_spatial = this.builder.group({
 		id: [, Validators.required],
 	});
@@ -1986,6 +1990,7 @@ export class MapComponent implements OnInit {
 			return false
 		}
 	}
+	
 	chooseThematique_function(i) {
 		this.analyse_spatial['thematiques_analyses'][i]['couche_analyse'] = undefined
 	}
@@ -2513,6 +2518,7 @@ export class MapComponent implements OnInit {
 		map.getView().setCenter(this.data_right_click['coord'])
 	}
 	getCarateristics() {
+		$('#spinner_loading').show()
 
 		var coord = this.data_right_click['coord']
 
@@ -2585,6 +2591,7 @@ export class MapComponent implements OnInit {
 	}
 
 	share(type, couche, sous, group) {
+		console.log(type, couche, sous, group)
 		if (type == 'map') {
 			if (sous) {
 				var url = couche.key_couche + ',' + sous.key + ',' + group.id_cartes
@@ -4643,7 +4650,7 @@ export class MapComponent implements OnInit {
 
 
 	displayDataOnMap(data, groupe) {
-		console.log(data)
+		
 		//console.log(this.cartes,this.thematiques)
 		var donne_count = {
 			'type': '',
@@ -4692,7 +4699,7 @@ export class MapComponent implements OnInit {
 
 		}
 
-
+		console.log(data,donne_count.type)
 		if (donne_count.type != '' && data.checked) {
 			console.log(donne_count)
 
@@ -7357,7 +7364,21 @@ export class MapComponent implements OnInit {
 	
 	}
 
-	
+	delete_all_couches(){
+		for (let index = 0; index < this.layerInMap.length; index++) {
+			const layer = this.layerInMap[index];
+			if ( layer['principal'] && layer['principal'] == true ) {
+				
+			}else{
+				// console.log(layer)
+				setTimeout(()=>{
+					layer.checked = false
+				this.displayDataOnMap(layer,undefined)
+				},500)
+				
+			}
+		}
+	}
 }
 
 

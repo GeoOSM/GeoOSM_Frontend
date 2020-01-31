@@ -17,23 +17,23 @@
       <img *ngIf='couche.droit_couche==true && couche.geom=="LineString" ' class="circle"
         src="{{url_prefix}}assets/images/icones/circle.svg" alt="" style="width: 7px;height: 7px;position: absolute;">
 
-      <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" />
+      <img  src="{{url_prefix+couche.img}}" />
 
-      <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
+      <!-- <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
         [ngStyle]="{'width':'30px','height': '30px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
-      </div>
+      </div> -->
 
-      <div *ngIf='couche.geom=="Polygon" &&  couche.img != "" && couche.img!=null '
+      <!-- <div *ngIf='couche.geom=="Polygon" &&  couche.img != "" && couche.img!=null '
         style="width:32px;height: 32px;border:3px solid black;display: inline-block;margin-bottom: 5px;">
         <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
-      </div>
+      </div> -->
 
-      <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px','width':'100%'}">
+      <!-- <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px','width':'100%'}"> -->
 
     </div>
     <!-- class="couches-checkbox" -->
-    <div fxFlex="50px" >
-      <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche.checked"
+    <div fxFlex="50px" style="position: relative;" >
+      <mat-checkbox class="primaryColor center_checkbox" color="primary" [(ngModel)]="couche.checked"
         (change)="displayDataOnMap(couche)">
       </mat-checkbox>
     </div>

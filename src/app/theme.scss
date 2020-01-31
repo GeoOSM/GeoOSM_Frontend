@@ -12,6 +12,10 @@
     color: mat-color($primary) !important;
   }
 
+  .primaryColorFill {
+    fill: mat-color($primary) !important;
+  }
+
   .primaryColorBG {
     background-color: mat-color($primary) !important;
   }

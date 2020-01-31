@@ -1,3 +1,6 @@
+<div >
+
+
 <div style="padding: 10px 5px;" *ngIf="type =='cartes'">
   <!-- <div *ngIf="couche.type != 'pdf' " [preventDefaultEvent]="true" [ngDraggable]="false"
     class="white descriptionLayerBox" id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
@@ -43,15 +46,15 @@
 
   <div fxLayout="row" style="padding-top: 10px;">
     <div fxFlex fxFlexAlign="start">
-      <mat-chip-list style="position: absolute;top: -10px;left: 5px;">
-        <mat-chip style="padding: 5px 5px;min-height: 20px;font-weight: bold;font-size: 12px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
-      </mat-chip-list>
+      <!-- <mat-chip-list style="position: absolute;top: -10px;left: 5px;">
+        <mat-chip style="padding: 5px 5px;min-height: 20px;font-size: 11px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
+      </mat-chip-list> -->
     </div>
     <div fxFlex="100px" fxFlexAlign="end" style="text-align: right;">
 
-      <i class="fa fa-info-circle pointer primaryColor" style="margin-right: 10px;font-size: 17px;"></i>
-      <i class="fa fa-share-alt pointer primaryColor" style="margin-right: 10px;font-size: 15px;"></i>
-      <i class="fa fa-trash pointer " matTooltip="Enlever la couche" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
+      <i class="fa fa-info-circle pointer primaryColor" matTooltip="{{ 'couche_en_cours.information_couche' | translate }}"  (click)="openMetadata(couche)" style="margin-right: 10px;font-size: 17px;"></i>
+      <i class="fa fa-share-alt pointer primaryColor" *ngIf="!couche.principal" matTooltip="{{ 'couche_en_cours.partager_couche' | translate }}" (click)="share('map',couche,communicationComponent.get_sous_carte_by_key(couche.rang_thema,couche.id_sous_cat),communicationComponent.get_carte_by_rang(couche.rang_thema))" style="margin-right: 10px;font-size: 15px;"></i>
+      <i class="fa fa-trash pointer " matTooltip="{{ 'couche_en_cours.supprimer_couche' | translate }}" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
     </div>
   </div>
 
@@ -63,10 +66,11 @@
   </div>
 
   <div style="padding-top: 5px;">
-    <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+    <mat-checkbox class="primaryColor couche_en_cours_nom" color="primary" [(ngModel)]="couche.visible"
       (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false">
-
-      {{couche.nom}}
+      <span style="font-size: 14px;font-weight: 500;" [matTooltip]="couche.nom" >
+        {{couche.nom}}
+      </span>
     </mat-checkbox>
 
   </div>
@@ -120,36 +124,36 @@
   </div> -->
 
   
+  <!-- [ngClass]="{'icone_linestring': couche.geom=='LineString' ,'icone_polygon': couche.geom=='Polygon' && ( couche.img == '' || couche.img == null ),'icone_point': couche.geom=='point'}" -->
+  <div style="text-align: center;"  class="icone_point icone_polygon" >  
 
-  <div style="text-align: center;" [ngClass]="{'icone_linestring': couche.geom=='LineString' ,'icone_polygon': couche.geom=='Polygon' && ( couche.img == '' || couche.img == null ),'icone_point': couche.geom=='point'}" class="icone_polygon" >  
+    <img src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" />
 
-    <img *ngIf='couche.geom=="point"' src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" />
-
-    <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
+    <!-- <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
       [ngStyle]="{'width':'60px','height': '50px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
-    </div>
+    </div> -->
 
-    <div *ngIf='couche.geom=="Polygon" && couche.img != "" && couche.img!=null '
+    <!-- <div *ngIf='couche.geom=="Polygon" && couche.img != "" && couche.img!=null '
       style="width:60px;height: 50px;border:3px solid black;display: inline-block;margin-bottom: 5px;margin-left: calc(50% - 30px);margin-top: 25px;">
       <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
-    </div>
+    </div> -->
 
 
-    <hr *ngIf='couche.geom=="LineString"'
-      [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'transform':'translateY(42px)','margin':'0px'}">
+    <!-- <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'transform':'translateY(42px)','margin':'0px'}"> -->
+
   </div>
 
   <div fxLayout="row" style="padding-top: 8px;" >
     <div fxFlex fxFlexAlign="start">
       <mat-chip-list style="position: absolute;top: -10px;left: 5px;">
-          <mat-chip style="padding: 5px 5px;min-height: 20px;font-weight: bold;font-size: 12px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
+          <mat-chip style="padding: 5px 5px;min-height: 20px;font-size: 11px;" class="white" [ngStyle]="{'background': communicationComponent.get_thematique_by_rang(couche.rang_thema).color}">{{communicationComponent.get_thematique_by_rang(couche.rang_thema).nom}}</mat-chip>
       </mat-chip-list>
     </div>
     <div fxFlex="100px" fxFlexAlign="end" style="text-align: right;">
 
-      <i class="fa fa-info-circle pointer primaryColor" style="margin-right: 10px;font-size: 17px;"></i>
-      <i class="fa fa-share-alt pointer primaryColor" style="margin-right: 10px;font-size: 15px;"></i>
-      <i class="fa fa-trash pointer " matTooltip="Enlever la couche" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
+      <i class="fa fa-info-circle pointer primaryColor" matTooltip="{{ 'couche_en_cours.information_couche' | translate }}"  (click)="openMetadata(couche)" style="margin-right: 10px;font-size: 17px;"></i>
+      <i class="fa fa-share-alt pointer primaryColor" matTooltip="{{ 'couche_en_cours.partager_couche' | translate }}" (click)="share('data',couche,communicationComponent.get_sous_thematique_by_key(couche.rang_thema,couche.id_sous_cat),communicationComponent.get_thematique_by_rang(couche.rang_thema))"  style="margin-right: 10px;font-size: 15px;"></i>
+      <i class="fa fa-trash pointer " matTooltip="{{ 'couche_en_cours.supprimer_couche' | translate }}" style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
     </div>
   </div>
 
@@ -161,10 +165,12 @@
   </div>
 
   <div style="padding-top: 5px;">
-    <mat-checkbox  class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
+    <mat-checkbox  class="primaryColor couche_en_cours_nom" color="primary" [(ngModel)]="couche.visible"
       (click)="toogleVisibilityLayer(couche)" [preventDefaultEvent]="true" [ngDraggable]="false">
 
-      {{couche.nom}}
+      <span style="font-size: 14px;font-weight: 500;" [matTooltip]="couche.nom" >
+        {{couche.nom}}
+      </span>
 
     </mat-checkbox>
 
@@ -235,4 +241,6 @@
     </button>
 
   </span>
+</div>
+
 </div>

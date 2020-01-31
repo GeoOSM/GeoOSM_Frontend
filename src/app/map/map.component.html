@@ -218,79 +218,7 @@
 <div class="cursor_move" id="bloc_caracteristique" *ngIf="caracteristicsPoint.display" [trackPosition]="true"
   [zIndexMoving]="99999999999" [ngDraggable]=" !isPhone() ">
 
-  <div class="form-group primaryColorBG text-center" style="padding: 5px;margin: 0px; height: 25px; margin-top: -3px;">
-    <span style="color:#fff" class="bold ">Caractéristique du lieu</span>
-    <button mat-mini-fab class="close  close-comment pull-right"
-      style="margin-top: -2px;height: 20px;width: 20px;opacity: 1;margin-right: 0px;;background: #fff"
-      (click)="close_caracteristique()">
-      <i class="fa fa-times primaryColor" style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
-    </button>
-  </div>
-
-  <div class="form-group" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false"
-    style="cursor: default;width:400px;background: #fff;position:relative">
-
-    <div class="col-md-12 col-xs-12 bloc_caracteristique_body "
-      style=" background: #fff; padding: 0px;padding-bottom: 5px;padding-top: 5px;">
-
-      <div class="col-md-12 col-xs-12 text-center primaryColor" *ngIf="caracteristicsPoint.lieu_dit">
-        <a href="{{caracteristicsPoint.url_osm}}" target="_blank"> {{caracteristicsPoint.lieu_dit}} </a>
-      </div>
-
-      <div class="col-md-12 col-xs-12">
-        <span class="bold col-md-6 col-xs-6 "> Coordonnées (WGS84) :</span>
-        <span class="col-md-6 col-xs-6 "> {{caracteristicsPoint.coord}}
-          <button id="bloc_caracteristique_zoomToPoint" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false"
-            mat-mini-fab class="mat-mini-fab-hover-black back_black" style="height: 25px;
-              width: 25px; margin-top: -10px;vertical-align: bottom;margin-left: 10px;" (click)="zoomToPoint()">
-            <i class="fa fa-search-plus fa-md" style="color:#fff;    margin-top: -12px;"></i>
-          </button>
-        </span>
-      </div>
-      <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.altitude">
-        <span class="bold col-md-4 col-xs-4 "> Altitude :</span>
-        <span class="col-md-8 col-xs-8 "> {{caracteristicsPoint.altitude}} m </span>
-      </div>
-
-
-      <div class="col-md-12 col-xs-12" *ngFor="let limites_adm of caracteristicsPoint.limites_adm">
-        <span *ngIf="caracteristicsPoint.limites_adm">
-          <span class="bold col-md-4 col-xs-4 "> {{limites_adm.nom}} :</span>
-          <span class="col-md-8 col-xs-8 "> {{limites_adm.valeur}} </span>
-        </span>
-
-      </div>
-
-
-      <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.district_de_sante">
-        <span class="bold col-md-5 col-xs-5 "> District de santé :</span>
-        <span class="col-md-7 col-xs-7 "> {{caracteristicsPoint.district_de_sante}} </span>
-      </div>
-
-      <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.aire_de_sante">
-        <span class="bold col-md-4 col-xs-4 "> Aire de santé :</span>
-        <span class="col-md-8 col-xs-8 "> {{caracteristicsPoint.aire_de_sante}} </span>
-      </div>
-
-      <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.adresse">
-        <span class="bold col-md-4 col-xs-4 "> Adresse :</span>
-        <span class="col-md-8 col-xs-8 "> {{caracteristicsPoint.adresse}} </span>
-      </div>
-
-      <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.position">
-        <span class="bold col-md-4 col-xs-4 "> Position :</span>
-        <span class="col-md-8 col-xs-8 "> {{caracteristicsPoint.position}} </span>
-      </div>
-
-      <button id="bloc_caracteristiqueushare_button" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false"
-        matTooltip="Partager ce lieu" mat-mini-fab style="margin-right: 15px;background: black;"
-        (click)="shareLocation()" style="position:absolute;bottom:5px;right:5px">
-        <i class="fa fa-share-alt fa-lg" style="color:#fff;"></i>
-      </button>
-    </div>
-
-
-  </div>
+  <app-caracteristiques-lieu [caracteristicsPoint]="caracteristicsPoint" (shareLocation_action)="shareLocation()" (close_caracteristique_action)="close_caracteristique()" (zoomToPoint_action)="zoomToPoint()" ></app-caracteristiques-lieu>
 
 </div>
 
@@ -592,12 +520,14 @@
     (closed)="events_right='close'"
     style="background: #fff;width: 220px;padding-top: 7px;overflow-x: hidden !important;">
 
-    <div class="active_layer"
-      style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);padding: 3px">
+    <div class="active_layer "
+      style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);padding: 3px;position: fixed;
+      width: 219px;z-index: 99;background-color: white;z-index: 9;">
       <div class="text-center black  " style="text-transform: uppercase;">
         <h5 class="bold" style="margin-bottom: 5px;">
           <span *ngIf="right_slide_actic == 0" class="primaryColor" style="font-size: 13px;">
-            Couches en cours
+            Couches en cours 
+            <span *ngIf="layerInMap.length > 0" > ( {{layerInMap.length}} ) </span>
             <!-- <button mat-mini-fab matTooltip="Partager ce catalogue"
               style="margin-right: 15px;    width: 23px;height: 23px;vertical-align: bottom;    margin-top: -5px;float: right;"
               class="accentBG" (click)="shareStateOfMap()">
@@ -614,7 +544,7 @@
       </div>
     </div>
 
-    <div style="padding: 5px;padding-top: 15px;" *ngIf="right_slide_actic == 0">
+    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 0">
 
       <div *ngFor="let couche of layerInMap | orderBy : ['-zIndex_inf']; let i = index ">
 
@@ -625,8 +555,8 @@
 
           <app-couche-en-cours [type]="couche.type_couche_inf" [couche]="couche" [i]="i"
             (displayDataOnMap_action)="displayDataOnMap(couche)"
-            (toogleVisibilityLayer_action)="toogleVisibilityLayer($event)"
-            (changeOpacity_action)="changeOpacity($event.couche,$event.event)"></app-couche-en-cours>
+            (toogleVisibilityLayer_action)="toogleVisibilityLayer($event)" 
+            (changeOpacity_action)="changeOpacity($event.couche,$event.event)" (share_action)="share($event.type,$event.couche,$event.sous,$event.group)" ></app-couche-en-cours>
 
         </div>
 
@@ -637,22 +567,23 @@
       </div>
       <div class="footer_couche_en_cours primaryColorBG white">
 
-        <div fxLayout="row" style="height: 100%;"   (click)="shareStateOfMap()" >
-          <div fxFlex="50%" style="padding: 5px;" matTooltip="Partager ce catalogue" class="pointer" >
+        <div fxLayout="row" style="height: 100%;"   >
+
+          <div fxFlex="50%" style="padding: 5px;" matTooltip="{{ 'couche_en_cours.tout_partager_toolpit' | translate }}" class="pointer" (click)="shareStateOfMap()"  >
             <div class="text-center" style="height: 50%;">
               <i class="fa fa-share-alt  white" style="font-size: 15px;"></i>
             </div>
             <div class="text-center" style="height: 50%;font-size: 12px;">
-              Partager
+              {{ 'couche_en_cours.tout_partager' | translate }}
             </div>
           </div>
 
-          <div fxFlex="50%"  style="padding: 5px;" class="pointer"  >
+          <div fxFlex="50%"  style="padding: 5px;" class="pointer" (click)="delete_all_couches()" >
             <div class="text-center" style="height: 50%;">
               <i class="fa fa-trash pointer white" style="font-size: 15px;"></i>
             </div>
             <div class="text-center" style="height: 50%;font-size: 12px;">
-              Tout Supprimer
+              {{ 'couche_en_cours.tout_supprimer' | translate }}
             </div>
           </div>
 
