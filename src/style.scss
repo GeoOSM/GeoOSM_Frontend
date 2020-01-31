@@ -130,3 +130,7 @@ body{
   background: mat-color($primary);
   color: #fff;
 }
+
+.mat-dialog-container{
+	background: transparent !important;
+}

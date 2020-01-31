@@ -12,6 +12,9 @@
     color: mat-color($primary) !important;
   }
 
+  .primaryColorBorder {
+    border-color: mat-color($primary) !important;
+  }
   .primaryColorFill {
     fill: mat-color($primary) !important;
   }

@@ -14,6 +14,22 @@
     "fermer":"Fermer",
     "partager":"Partager ce lieu",
     "zoomer":"Zoomer dessus"
+  },
+  "menu_contextuel":{
+    "caracteristique":"Caractéristique du lieu",
+    "commenter":"Commenter ce lieu",
+    "ajouter_geosignet":"Ajouter un géosignet sur ce lieu",
+    "voir_geosignet":"Vos géosignets",
+    "partager":"Partager ce lieu"
+  },
+  "ajout_signet":{
+    "title":"Ajouter un signer",
+    "placeholder":"Nommer votre signet",
+    "cancel":"ANNULER",
+    "save":"ENREGISTRER"
+  },
+  "notifications":{
+    "signet_added_1":"Le signet ",
+    "signet_added_2":" a bien été ajouté"
   }
 }
-  
