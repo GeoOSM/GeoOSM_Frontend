@@ -224,9 +224,11 @@
 
 </div>
 
-<div class=" black title_rollback_slide2 primaryColor" style="border-bottom: 1px solid;">
-  <i class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
-  <h5 class="bold  col-md-10 col-xs-10 title_slide2" matTooltip="{{groupMenuActive.nom}}" *ngIf="groupMenuActive">
+<div fxLayout="row" class=" black title_rollback_slide2 white" [ngStyle]="{'background-color': groupMenuActive_color}" style="border-bottom: 1px solid;">
+  <i fxFlex ="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
+  <img fxFlex ="25px" *ngIf="groupMenuActive && typeMenu == 'menuThematique' " style="height: 20px;margin-left: 10px;margin-right: 5px;margin-top: 6px;" src="{{url_prefix+groupMenuActive.img}}" alt="">
+  <h5 fxFlex class="bold  col-md-10 col-xs-10 title_slide2" matTooltip="{{groupMenuActive.nom}}" *ngIf="groupMenuActive">
+      
     {{groupMenuActive.nom}}</h5>
 </div>
 
@@ -965,7 +967,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content style="width: 100%;">
-    <input id="swipe" matTooltip="Déplacer ce curseur pour comparer" type="range"
+    <input id="swipe"  type="range"
       style="background: transparent;width: 100%;z-index: 9999999999999999999999;  position: absolute;top: 45%;display: none;">
 
     <div id="map" (contextmenu)="right_click($event)" [shAttachMenu]="menu" [shMenuData]="data_right_click.item"></div>
@@ -1081,9 +1083,10 @@
 
 <div class="utils primaryColorBG">
 
-  <div class="back_white pointer toogle_left_div" (click)="toggle_left('')"
-    matTooltip="Ouvrir / Fermer le menu de gauche">
-    <i class="fa fa-angle-double-left fa-lg primaryColor" [ngClass]="{'rotate_menu_toogle': !opened_left}"
+  <div class="pointer toogle_left_div" (click)="toggle_left('')" 
+    matTooltip="{{ 'naviguation_tools.toogle_left_menu' | translate }}" [ngStyle]="{'background-color': slide2_is_open() ? groupMenuActive_color:'#fff'}">
+
+    <i class="fa fa-angle-double-left fa-lg " [ngClass]="{'rotate_menu_toogle': !opened_left,'primaryColor':!slide2_is_open(),'white':slide2_is_open()}"
       style="font-size: 22px;transform: rotate(0deg);transition: 0.5s;"></i>
   </div>
 
@@ -1095,20 +1098,20 @@
     <button mat-mini-fab disabled>Disabled</button> -->
 
 
-    <button mat-mini-fab class="primaryColorBG" (click)="zoom('plus')" matTooltip="Zoomer en avant">
+    <button mat-mini-fab class="primaryColorBG" (click)="zoom('plus')" matTooltip="{{ 'naviguation_tools.zoom_plus' | translate }}">
       <i class="fa fa-plus fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="zoom('minus')" matTooltip="Zoomer en arrière">
+    <button mat-mini-fab class="primaryColorBG" (click)="zoom('minus')" matTooltip="{{ 'naviguation_tools.zoom_minus' | translate }}">
       <i class="fa fa-minus fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="globalView()" matTooltip="Vue génerale">
+    <button mat-mini-fab class="primaryColorBG" (click)="globalView()" matTooltip="{{ 'naviguation_tools.general_vieuw' | translate }} ">
       <i class="fa fa-globe fa-lg" style="color:#fff;"></i>
     </button>
 
     <button mat-mini-fab class="primaryColorBG" (click)="openModal('zoomto')" style="margin-top: 100px;"
-      matTooltip="Zoomer sur une coordonnée">
+      matTooltip="{{ 'naviguation_tools.zoom_to_coordinates' | translate }}">
       <i class="fa fa-map-marker fa-lg" style="color:#fff;"></i>
     </button>
 
@@ -1121,11 +1124,11 @@
     </button> -->
 
 
-    <button mat-mini-fab class="primaryColorBG" (click)="rollBack()" matTooltip="Vue passée" class="view_map_roll">
+    <button mat-mini-fab class="primaryColorBG" (click)="rollBack()" matTooltip="{{ 'naviguation_tools.past_view' | translate }} " class="view_map_roll">
       <i class="fa fa-angle-left fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="rollFront()" matTooltip="Vue suivante" class="view_map_roll">
+    <button mat-mini-fab class="primaryColorBG" (click)="rollFront()" matTooltip="{{ 'naviguation_tools.next_view' | translate }} " class="view_map_roll">
       <i class="fa fa-angle-right fa-lg" style="color:#fff;"></i>
     </button>
 
@@ -1135,12 +1138,12 @@
 
   <div class="button-row" style="position: absolute;bottom: 30px;padding: 10px;">
 
-    <button matTooltip="Activer Mappilary" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleMappilary()"
+    <button matTooltip="{{ 'naviguation_tools.mappilary' | translate }} " mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleMappilary()"
       [ngClass]="{'primaryColorBG': !modeMappilary,'accentColorBG':modeMappilary}">
       <img src="assets/images/icones/mappilary.png" style="margin-top: -5px;height: 30px;">
     </button>
 
-    <button matTooltip="Comparer des cartes" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleCompare()"
+    <button matTooltip="{{ 'naviguation_tools.compare_maps' | translate }}" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleCompare()"
       [ngClass]="{'primaryColorBG': !modeCompare,'accentColorBG':modeCompare}">
       <img src="assets/images/icones/compare.svg" style="margin-bottom: 2px;height: 23px;">
     </button>

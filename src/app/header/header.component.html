@@ -15,11 +15,11 @@
 	<div class="search_bar" *ngIf=" isMaps('home') ">
 		<form (ngSubmit)="geocode(word_geocode)" >
 
-			<i class="fas fa-search fa-lg primaryColor "  style="position: absolute;top: 10px;left: 10px;" > </i>
+			<i class="fas fa-search fa-lg white "  style="position: absolute;top: 10px;left: 10px;" > </i>
 				
-			<input type="text" name="world" class="search_bar_input primaryColor" [(ngModel)]="word_geocode" placeholder="Rechercher un lieu, une adresse ou une donnée">
+			<input type="text" name="world" class="search_bar_input white" [(ngModel)]="word_geocode" placeholder="{{ 'search.placeholder' | translate }}">
 			
-			<i *ngIf="word_geocode != ''" class="fas fa-times fa-lg primaryColor pointer" (click)="clearQuery()" style="position: absolute;top: 10px;right: 10px;" > </i>
+			<i *ngIf="word_geocode != ''" class="fas fa-times fa-lg white pointer" (click)="clearQuery()" style="position: absolute;top: 10px;right: 10px;" > </i>
 		
 		</form>
 
@@ -47,8 +47,8 @@
 		background: #fff;" > 
 			<mat-list  >
 					<span *ngIf="display_reponse_geocode_adresse()" >
-							<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-								Adresse :
+							<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+									{{ 'search.adresse' | translate }} 
 							</mat-list-item>
 							<span *ngFor="let item of reponse_geocode.adresses" >
 								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'adresses')" >
@@ -59,8 +59,8 @@
 					</span>
 
 					<span *ngIf="display_reponse_geocode_limites()" >
-							<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-								Limites administratives :
+							<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+									{{ 'search.boundery' | translate }} 
 							</mat-list-item>
 							<span *ngFor="let item of reponse_geocode.limites" >
 								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'limites')" >
@@ -71,11 +71,11 @@
 								<mat-divider style="border-color: #0006;"></mat-divider>
 							</span>
 						</span>
-				<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-						Lieux :
+				<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+						{{ 'search.place' | translate }} 
 				</mat-list-item>
 				<ng-template #emptyTemplate3>
-						<p class="text-center primaryColor" >Aucun lieux trouvés </p>
+						<p class="text-center primaryColor" > {{ 'search.no_place_found' | translate }}  </p>
 				</ng-template>
 				<span *ngFor="let item of reponse_geocode.nominatim ;  ifEmpty emptyTemplate3" >
 					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'nominatim')" >
@@ -86,11 +86,11 @@
 					<mat-divider style="border-color: #0006;"></mat-divider>
 				</span>
 				
-					<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-						Cartes :
+					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+						 {{ 'search.map' | translate }}
 					</mat-list-item>
 					<ng-template #emptyTemplate1>
-							<p class="text-center primaryColor" >Aucune cartes trouvées</p>
+							<p class="text-center primaryColor" > {{ 'search.no_map_found' | translate }} </p>
 					</ng-template>
 					<span *ngFor="let itemCarte of reponse_geocode.cartes  | donneFilter: filter_expression | slice:0:10 ; let c = count;ifEmpty emptyTemplate1" >
 						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemCarte,'cartes')" >
@@ -100,11 +100,11 @@
 						<mat-divider style=" border-color: #0006;"></mat-divider>
 					</span>
 	
-					<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-						Donneés : 
+					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+						 {{ 'search.data' | translate }}
 					</mat-list-item>
 					<ng-template #emptyTemplate2>
-							<p class="text-center primaryColor" >Aucune donnés trouvées </p>
+							<p class="text-center primaryColor" > {{ 'search.no_data_found' | translate }}  </p>
 					</ng-template>
 					<span *ngFor="let itemThematique of reponse_geocode.thematiques  | donneFilter: filter_expression | slice:0:10 ;let c = count;ifEmpty emptyTemplate2" >
 							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemThematique,'thematiques')" >
@@ -115,8 +115,8 @@
 					</span>
 
 					<span *ngIf="display_reponse_geocode_position()" >
-						<mat-list-item class="primaryColorBG white" style="color:#fff;height: auto;padding: 5px 0px;" >
-							Position :
+						<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
+							{{ 'search.position' | translate }}
 						</mat-list-item>
 						<span *ngFor="let item of reponse_geocode.position" >
 							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'position')" >

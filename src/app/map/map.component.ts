@@ -1062,11 +1062,11 @@ export class MapComponent implements OnInit {
 									element['val'] = this.thematiques[i].sous_thematiques[j].couches[k].cles_vals_osm[index]['nom']
 
 									var key_val = element['cle'] + ' ' + getOperateur(operateur) + element['val']
-									resume = resume + "; " + key_val
+									// resume = resume + "; " + key_val
 
 									this.tags_couche.push(element)
 								}
-								this.thematiques[i].sous_thematiques[j].couches[k].metadata['resume'] = resume
+								// this.thematiques[i].sous_thematiques[j].couches[k].metadata['resume'] = resume
 							} else if (this.thematiques[i].sous_thematiques[j].couches[k].type_couche == 'wms' && this.thematiques[i].sous_thematiques[j].couches[k].wms_type == 'osm') {
 
 								for (var index = 0; index < this.thematiques[i].sous_thematiques[j].couches[k].cles_vals_osm.length; index++) {
@@ -1077,11 +1077,11 @@ export class MapComponent implements OnInit {
 									element['val'] = this.thematiques[i].sous_thematiques[j].couches[k].cles_vals_osm[index]['nom']
 
 									var key_val = element['cle'] + ' ' + getOperateur(operateur) + element['val']
-									resume = resume + "; " + key_val
+									// resume = resume + "; " + key_val
 
 									this.tags_couche.push(element)
 								}
-								this.thematiques[i].sous_thematiques[j].couches[k].metadata['resume'] = resume
+								// this.thematiques[i].sous_thematiques[j].couches[k].metadata['resume'] = resume
 							}
 
 							if (this.thematiques[i].sous_thematiques[j].couches[k].nom == 'commentaires') {
@@ -1112,10 +1112,10 @@ export class MapComponent implements OnInit {
 								element['val'] = this.thematiques[i].couches[j].cles_vals_osm[index]['nom']
 
 								var key_val = element['cle'] + ' ' + getOperateur(operateur) + element['val']
-								resume = resume + "; " + key_val
+								// resume = resume + "; " + key_val
 								this.tags_couche.push(element)
 							}
-							this.thematiques[i].couches[j].metadata['resume'] = resume
+							// this.thematiques[i].couches[j].metadata['resume'] = resume
 						} else if (this.thematiques[i].couches[j].type_couche == 'wms' && this.thematiques[i].couches[j].wms_type == 'osm') {
 
 							for (var index = 0; index < this.thematiques[i].couches[j].cles_vals_osm.length; index++) {
@@ -1126,10 +1126,10 @@ export class MapComponent implements OnInit {
 								element['val'] = this.thematiques[i].couches[j].cles_vals_osm[index]['nom']
 
 								var key_val = element['cle'] + ' ' + getOperateur(operateur) + element['val']
-								resume = resume + "; " + key_val
+								// resume = resume + "; " + key_val
 								this.tags_couche.push(element)
 							}
-							this.thematiques[i].couches[j].metadata['resume'] = resume
+							// this.thematiques[i].couches[j].metadata['resume'] = resume
 						}
 
 					}
@@ -3114,7 +3114,7 @@ export class MapComponent implements OnInit {
 
 					});
 
-					
+
 
 				})
 
@@ -3129,46 +3129,51 @@ export class MapComponent implements OnInit {
 			data: { type: type }
 		});
 
-		dialogRef.afterClosed().subscribe(result => {
-			if (result.projection == 'WGS84') {
-				var coord_wgs84 = []
-				coord_wgs84[0] = parseFloat(result.longitude)
-				coord_wgs84[1] = parseFloat(result.latitude)
-				var coord = proj.transform([coord_wgs84[0], coord_wgs84[1]], 'EPSG:4326', 'EPSG:3857')
+		dialogRef.afterClosed().subscribe(modal_result => {
+			if (modal_result.statut) {
+				var result = modal_result['data']
 
-				console.log(coord)
+				if (result.projection == 'WGS84') {
+					var coord_wgs84 = []
+					coord_wgs84[0] = parseFloat(result.longitude)
+					coord_wgs84[1] = parseFloat(result.latitude)
+					var coord = proj.transform([coord_wgs84[0], coord_wgs84[1]], 'EPSG:4326', 'EPSG:3857')
 
-				var point_geojson = turf.point(coord);
-				var bbox_cam = turf.bboxPolygon(this.extent_cameroun);
-				var bbox_point = turf.bboxPolygon(turf.bbox(point_geojson));
-				//console.log(point_geojson,bbox_cam)
-				var bool = turf.booleanContains(bbox_cam, point_geojson)
-				if (bool) {
+					console.log(coord)
 
-					map.setView(new View({
-						center: coord,
-						zoom: 17,
-					}))
+					var point_geojson = turf.point(coord);
+					var bbox_cam = turf.bboxPolygon(this.extent_cameroun);
+					var bbox_point = turf.bboxPolygon(turf.bbox(point_geojson));
+					//console.log(point_geojson,bbox_cam)
+					var bool = turf.booleanContains(bbox_cam, point_geojson)
+					if (bool) {
 
-					$('#setCoordOverlay').show()
-					var setCoordOverlay = new Overlay({
-						position: coord,
-						element: document.getElementById('setCoordOverlay')
-					});
+						map.setView(new View({
+							center: coord,
+							zoom: 17,
+						}))
 
-					map.addOverlay(setCoordOverlay);
+						$('#setCoordOverlay').show()
+						var setCoordOverlay = new Overlay({
+							position: coord,
+							element: document.getElementById('setCoordOverlay')
+						});
 
-					$('#setCoordOverlay').on('mousemove', (evt) => {
-						$('#setCoordOverlay i').show()
-					})
+						map.addOverlay(setCoordOverlay);
 
-					$('#setCoordOverlay').on('mouseout', (evt) => {
-						$('#setCoordOverlay i').hide()
-					})
-				} else {
-					var notif = this.notif.open("Vos coordonnées sont en déhors du Cameroun", 'Fermer', {
-						duration: 2000
-					});
+						$('#setCoordOverlay').on('mousemove', (evt) => {
+							$('#setCoordOverlay i').show()
+						})
+
+						$('#setCoordOverlay').on('mouseout', (evt) => {
+							$('#setCoordOverlay i').hide()
+						})
+					} else {
+						var notif = this.notif.open("Vos coordonnées sont en déhors du Cameroun", 'Fermer', {
+							duration: 2000
+						});
+					}
+
 				}
 
 			}
@@ -3214,6 +3219,7 @@ export class MapComponent implements OnInit {
 
 	}
 
+	groupMenuActive_color = "#fff"
 	slideTo(typeMenu, data): any {
 
 		this.typeMenu = typeMenu
@@ -3221,7 +3227,7 @@ export class MapComponent implements OnInit {
 		if (this.typeMenu == 'menuCarte') {
 
 			this.groupMenuActive = data
-
+			this.groupMenuActive_color = data["color"]
 			document.getElementsByClassName('slide2')[0].scrollTop = 0
 
 			var derniere_position_de_scroll_connue = 0;
@@ -3280,7 +3286,7 @@ export class MapComponent implements OnInit {
 			});
 
 		} else if (this.typeMenu == 'menuThematique') {
-
+			this.groupMenuActive_color = data["color"]
 			this.groupMenuActive = data
 
 		} else if (this.typeMenu == 'analyse_spatial') {
@@ -3301,6 +3307,15 @@ export class MapComponent implements OnInit {
 
 	}
 
+	slide2_is_open() {
+		// console.log(document.getElementsByClassName('slide2')[0]['style']['left'] == "0px")
+		if (document.getElementsByClassName('slide2')[0]['style']['left'] == "0px") {
+			return true
+		} else {
+			return false
+		}
+
+	}
 	slideBack(): any {
 		$('.slide2').css('left', '-260px');
 		$('.title_rollback_slide2').css('left', '-260px');
@@ -4209,13 +4224,13 @@ export class MapComponent implements OnInit {
 			})
 
 		} else {
-			
+
 			this.translate.get('choose_signet').subscribe((res: any) => {
 				var notif = this.notif.open(res.no_signet, 'Fermer', {
 					duration: 2500
 				});
 			});
-			
+
 		}
 	}
 

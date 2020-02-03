@@ -33,19 +33,21 @@ export class modalMetadata {
 
     if (this.data['exist']) {
       var partenaire = []
-      for (var index = 0; index < this.data['metadata'].partenaire.length; index++) {
-        partenaire.push(this.data['metadata'].partenaire[index].id_user);
-      }
 
-      this.geoportailService.getUsers({ 'donnes': partenaire }).then((data: any) => {
-        for (var index = 0; index < data.length; index++) {
-          this.data['metadata'].partenaire[index]['img'] = data[index]['src_photo']
-          this.data['metadata'].partenaire[index]['nom'] = data[index]['nom']
-          this.data['metadata'].partenaire[index]['email'] = data[index]['email']
+      if ( this.data['metadata'].partenaire && this.data['metadata'].partenaire.length > 0) {
+
+        for (var index = 0; index < this.data['metadata'].partenaire.length; index++) {
+          partenaire.push(this.data['metadata'].partenaire[index].id_user);
         }
 
-      })
-
+        this.geoportailService.getUsers({ 'donnes': partenaire }).then((data: any) => {
+          for (var index = 0; index < data.length; index++) {
+            this.data['metadata'].partenaire[index]['img'] = data[index]['src_photo']
+            this.data['metadata'].partenaire[index]['nom'] = data[index]['nom']
+            this.data['metadata'].partenaire[index]['email'] = data[index]['email']
+          }
+        })
+      }
       
     }
 

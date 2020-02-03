@@ -28,8 +28,20 @@ export class modalComponent {
     	console.log(this.data['type'])
     }
 
-  /*onNoClick(): void {
-    this.dialogRef.close();
-  }*/
+    valider(){
+      console.log(this.searchGpsForm.valid,this.searchGpsForm)
+      if (this.searchGpsForm.valid) {
+        this.dialogRef.close({
+          "statut":true,
+          "data":this.searchGpsForm.value
+        });
+      }
+    }
+    
+    onNoClick(): void {
+      this.dialogRef.close({
+        "statut":false
+      });
+    }
 
 }

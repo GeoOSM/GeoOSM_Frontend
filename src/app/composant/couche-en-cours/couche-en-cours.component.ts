@@ -50,20 +50,13 @@ export class CoucheEnCoursComponent implements OnInit {
     var element = []
 
     console.log(data)
-    if (this.displayMetadataLink(data)) {
-
-      for (var index = 0; index < data.metadata.tags.length; index++) {
-        element.push(data.metadata.tags[index].tags);
-
-      }
-
-      data.metadata.tags_ = element.toString()
+    if (this.displayMetadataLink(data) || data['wms_type']=="osm" ) {
 
       var metadata = data.metadata
       const MetaData = this.dialog.open(modalMetadata, {
         minWidth: "350px",
         // height: '80%',
-        data: { exist:true,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix }
+        data: { exist:true,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix,data:data}
       });
 
       MetaData.afterClosed().subscribe(result => {
@@ -73,7 +66,7 @@ export class CoucheEnCoursComponent implements OnInit {
       var metadata = data.metadata
       const MetaData = this.dialog.open(modalMetadata, {
         minWidth: "350px",
-        data: { exist:false,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix }
+        data: { exist:false,metadata: metadata, nom: data.nom, url_prefix: this.url_prefix,data:data }
       });
     }
   }

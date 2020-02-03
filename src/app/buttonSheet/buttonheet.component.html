@@ -1,6 +1,6 @@
 
 <mat-nav-list>
-  <h3 class="text-center"> Choisissez deux cartes : </h3>
+  <h3 class="text-center">  {{ 'compare_maps.title' | translate }} </h3>
   <span>
       <form [formGroup]="chooseLayer" >
 
@@ -29,7 +29,9 @@
 
         <a  mat-list-item style="margin-top: 15px">
          
-          <button mat-raised-button  class=" white" (click)="compare()"  style="width: 100%;" type="button" [disabled]="chooseLayer.value['layer1'] == '' || chooseLayer.value['layer2'] == '' "  [ngClass]="{'back_black': chooseLayer.value['layer1'] == '' || chooseLayer.value['layer2'] == '' ,'primaryColorBG':chooseLayer.value['layer1'] != '' && chooseLayer.value['layer2'] != '' }" > Comparer </button>
+          <button mat-raised-button  color="primary" class=" white" (click)="compare()"  style="width: 100%;" type="button" [disabled]="chooseLayer.value['layer1'] == '' || chooseLayer.value['layer2'] == '' "  [ngClass]="{'back_black': chooseLayer.value['layer1'] == '' || chooseLayer.value['layer2'] == '' ,'primaryColorBG':chooseLayer.value['layer1'] != '' && chooseLayer.value['layer2'] != '' }" > 
+              {{ 'compare_maps.compare' | translate }}
+          </button>
 
         </a>
 

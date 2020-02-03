@@ -48,6 +48,56 @@
     "description":"Description",
     "properties":"Propriétes",
     "ressources":"Ressources",
-    "text_no_metadata":"Le résumé de cette donnée n'est pas encore disponible"
+    "text_no_metadata":"Le résumé de cette donnée n'est pas encore disponible",
+    "number_entite":" entité(s)",
+    "area":"m² de surface totale",
+    "lenght":"m de longuer totale",
+    "resume":"Resume :",
+    "description_couche":"Description :",
+    "coucverture":"Couverture : ",
+    "creation_date":"Date de créaton : ",
+    "update_date":"Mise à jour: ",
+    "key_words":"Mots clés : ",
+    "key_osm":"Elements cartographiques OSM :",
+    "coordinates_system":"Système de coordonnées : ",
+    "language":"Langue : ",
+    "scale":"Echelle : ",
+    "conditions_of_use":"Condition d'utilisation :",
+    "shareholders":"Partenaires / producteurs : "
+  },
+  "search":{
+    "placeholder":"Rechercher un lieu, une adresse ou une donnée",
+    "adresse":"Adresse :",
+    "boundery":"Limites administratives :",
+    "place":"Lieux :",
+    "no_place_found":"Aucun lieux trouvés",
+    "map":"Cartes :",
+    "data":"Donneés : ",
+    "no_map_found":"Aucune cartes trouvées",
+    "no_data_found":"Aucune donnés trouvées",
+    "position":"Position : "
+  },
+  "zoom_to_coordinates":{
+    "title":"RECHERCHE PAR COORDONNEES",
+    "choose_projection":"Choisissez une projection",
+    "latitude":"latitude",
+    "longitude":"longitude",
+    "cancel":"Annuler",
+    "save":"Valider"
+  },
+  "naviguation_tools":{
+    "toogle_left_menu":"Ouvrir / Fermer le menu de gauche",
+    "zoom_plus":"Zoomer en avant",
+    "zoom_minus":"Zoomer en arrière",
+    "general_vieuw":"Vue génerale",
+    "zoom_to_coordinates":"Zoomer sur une coordonnée",
+    "past_view":"Vue passée",
+    "next_view":"Vue suivante",
+    "mappilary":"Activer Mappilary",
+    "compare_maps":"Comparer des cartes"
+  }, 
+  "compare_maps":{
+    "title":"Choisissez deux cartes : ",
+    "compare":"Comparer"
   }
 }

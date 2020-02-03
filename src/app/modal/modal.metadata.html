@@ -57,144 +57,195 @@ margin-bottom: 0px;background-color: white;">
 
 	<mat-tab-group *ngIf="data.exist">
 		<mat-tab label="{{ 'metadata.description' | translate }}">
-			<mat-list>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.resume">
-					<tr>
-						<th class="text-center primaryColor "
-							style="font-weight:normal !important;width: 100px;font-size: 14px;">Resume : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.resume}} </th>
+			<div class="col-md-12 " style="background-color: #fff;margin-top: 20px;padding: 0px;">
 
-					</tr>
-				</mat-list-item>
-				<mat-divider *ngIf="data_metadata.metadata.description"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.description">
-					<tr>
-						<th class="text-center primaryColor "
-							style="font-weight:normal !important;width: 100px;font-size: 14px;">Description : </th>
-						<th style="padding-left: 10px;font-weight:normal"
-							[innerHTML]="data_metadata.metadata.description"> </th>
+				<mat-list>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf='data_metadata.data.number'>
+						<p class=" primaryColor">
+							{{data_metadata.data.number}} {{ 'metadata.number_entite' | translate }}
+							<span *ngIf='data_metadata.data.surface_totale'> ; {{data_metadata.data.surface_totale}}
+								{{ 'metadata.area' | translate }} </span>
+							<span *ngIf='data_metadata.data.distance_totale'> ; {{data_metadata.data.distance_totale}}
+								{{ 'metadata.lenght' | translate }} </span>
+						</p>
 
-					</tr>
-				</mat-list-item>
-				<mat-divider *ngIf="data_metadata.metadata.tags_"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.tags_">
-					<tr>
-						<th class="text-center primaryColor "
-							style="font-weight:normal !important;width: 100px;font-size: 14px;">Mots clés : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.tags_}} </th>
+					</mat-list-item>
+					<mat-divider *ngIf='data_metadata.data.number'></mat-divider>
 
-					</tr>
-				</mat-list-item>
+					<mat-list-item style="height: auto;padding: 10px 0px;">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;width: 100px;font-size: 14px;">
+								{{ 'metadata.resume' | translate }}</th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.resume}} </th>
 
-				<mat-divider *ngIf="data_metadata.metadata.zone"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.zone">
-					<tr>
-						<th class="text-center primaryColor "
-							style="font-weight:normal !important;width: 100px;font-size: 14px;">Couverture : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.zone}} </th>
+						</tr>
+					</mat-list-item>
+					<mat-divider></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;width: 100px;font-size: 14px;">
+								{{ 'metadata.description_couche' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"
+								[innerHTML]="data_metadata.metadata.description"> </th>
 
-					</tr>
-				</mat-list-item>
+						</tr>
+					</mat-list-item>
 
-				<mat-divider *ngIf="data_metadata.metadata.date_creation"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.date_creation">
-					<tr>
-						<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">
-							Date de créaton: </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.date_creation}}
-						</th>
 
-					</tr>
-				</mat-list-item>
+					<mat-divider *ngIf="data_metadata.metadata.zone"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.zone">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;width: 100px;font-size: 14px;">
+								{{ 'metadata.coucverture' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.zone}} </th>
 
-				<mat-divider *ngIf="data_metadata.metadata.update"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.update">
-					<tr>
-						<th class="text-center primaryColor "
-							style="font-weight:normal !important;width: 100px;font-size: 14px;">Mise à jour: </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.update}} </th>
+						</tr>
+					</mat-list-item>
 
-					</tr>
-				</mat-list-item>
+					<mat-divider *ngIf="data_metadata.metadata.date_creation"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.date_creation">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;font-size: 14px;">
+								{{ 'metadata.creation_date' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.date_creation}}
+							</th>
 
-			</mat-list>
+						</tr>
+					</mat-list-item>
+
+					<mat-divider *ngIf="data_metadata.metadata.update"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.update">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;width: 100px;font-size: 14px;">
+								{{ 'metadata.update_date' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.update}} </th>
+
+						</tr>
+					</mat-list-item>
+
+					<mat-divider></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;width: 100px;font-size: 14px;">
+								{{ 'metadata.key_words' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal">
+								<mat-chip-list>
+									<mat-chip color="primary" *ngFor="let un_tag of data_metadata.metadata.tags">
+										{{un_tag.tags}}</mat-chip>
+								</mat-chip-list>
+							</th>
+
+						</tr>
+					</mat-list-item>
+
+
+				</mat-list>
+			</div>
 		</mat-tab>
 
 		<mat-tab label="{{ 'metadata.properties' | translate }}">
-			<mat-list>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.epsg">
-					<tr>
+			<div class="col-md-12 " style="background-color: #fff;margin-top: 20px;padding: 0px;">
+				<mat-list>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf='data_metadata.data.cles_vals_osm'>
+
 						<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">
-							Système de coordonnées : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.epsg}} </th>
-
-					</tr>
-				</mat-list-item>
-				<mat-divider *ngIf="data_metadata.metadata.langue"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.langue">
-					<tr>
-						<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">
-							Langue : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.langue}} </th>
-
-					</tr>
-				</mat-list-item>
-				<mat-divider *ngIf="data_metadata.metadata.echelle"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.echelle">
-					<tr>
-						<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">
-							Echelle : </th>
-						<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.echelle}} </th>
-
-					</tr>
-				</mat-list-item>
-
-				<mat-divider *ngIf="data_metadata.metadata.licence"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.licence">
-					<tr>
-						<th class="text-center primaryColor " style="font-weight:normal !important;;font-size: 14px;">
-							Condition d'utilisation : </th>
-						<th style="padding-left: 10px;font-weight:normal" [innerHTML]="data_metadata.metadata.licence">
+							{{ 'metadata.key_osm' | translate }}
+						</th>
+						<th style="padding-left: 10px;font-weight:normal">
+							<span *ngFor="let cles_vals of data_metadata.data.cles_vals_osm;let i = index">
+								{{cles_vals.action}} = {{cles_vals.nom}}
+								<span *ngIf="i < data_metadata.data.cles_vals_osm.length - 1">;</span>
+							</span>
 						</th>
 
-					</tr>
-				</mat-list-item>
+					</mat-list-item>
+					<mat-divider *ngIf='data_metadata.data.cles_vals_osm'></mat-divider>
 
-				<mat-divider *ngIf="data_metadata.metadata.partenaire"></mat-divider>
-				<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.partenaire">
-					<tr>
-						<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;">
-							Partenaires / producteurs: </th>
-						<th style="padding-left: 10px;font-weight:normal" class="col-md-12">
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.epsg">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;font-size: 14px;">
+								{{ 'metadata.coordinates_system' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.epsg}} </th>
 
-							<span *ngIf="data_metadata.metadata.partenaire[0]">
-								<div *ngFor="let partenaire of data_metadata.metadata.partenaire " class="col-md-6">
-									<img src="{{url_prefix+partenaire.img}}" alt="{{partenaire.nom}}"
-										style="height:100px;width:100px">
-									<p style="padding:5px">{{partenaire.nom}} </p>
-								</div>
-							</span>
+						</tr>
+					</mat-list-item>
+					<mat-divider *ngIf="data_metadata.metadata.epsg"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.langue">
+						<tr>
+							<th class="text-center primaryColor " style="font-weight:normal !important;font-size: 14px;"
+								*ngIf="data_metadata.metadata.langue">
+								{{ 'metadata.language' | translate }}</th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.langue}} </th>
+						</tr>
+					</mat-list-item>
+					<mat-divider *ngIf="data_metadata.metadata.echelle"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.echelle">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;font-size: 14px;">
+								{{ 'metadata.scale' | translate }}</th>
+							<th style="padding-left: 10px;font-weight:normal"> {{data_metadata.metadata.echelle}} </th>
 
-							<span *ngIf="!data_metadata.metadata.partenaire[0]">
-								<div class="text-center">
-									<div class="lds-ripple">
-										<div></div>
-										<div></div>
+						</tr>
+					</mat-list-item>
+
+					<mat-divider *ngIf="data_metadata.metadata.licence"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.licence">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;;font-size: 14px;">
+								{{ 'metadata.conditions_of_use' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal"
+								[innerHTML]="data_metadata.metadata.licence">
+							</th>
+
+						</tr>
+					</mat-list-item>
+
+					<mat-divider *ngIf="data_metadata.metadata.partenaire"></mat-divider>
+					<mat-list-item style="height: auto;padding: 10px 0px;" *ngIf="data_metadata.metadata.partenaire">
+						<tr>
+							<th class="text-center primaryColor "
+								style="font-weight:normal !important;font-size: 14px;">
+								{{ 'metadata.shareholders' | translate }} </th>
+							<th style="padding-left: 10px;font-weight:normal" class="col-md-12">
+
+								<span *ngIf="data_metadata.metadata.partenaire[0]">
+									<div *ngFor="let partenaire of data_metadata.metadata.partenaire " class="col-md-6">
+										<img src="{{url_prefix+partenaire.img}}" alt="{{partenaire.nom}}"
+											style="height:100px;width:100px">
+										<p style="padding:5px">{{partenaire.nom}} </p>
 									</div>
-								</div>
-							</span>
+								</span>
 
-						</th>
+								<span *ngIf="!data_metadata.metadata.partenaire[0]">
+									<div class="text-center">
+										<div class="lds-ripple">
+											<div></div>
+											<div></div>
+										</div>
+									</div>
+								</span>
 
-					</tr>
-				</mat-list-item>
+							</th>
+
+						</tr>
+					</mat-list-item>
 
 
-			</mat-list>
+				</mat-list>
+			</div>
 		</mat-tab>
 
 		<mat-tab label="{{ 'metadata.ressources' | translate }}" disabled>
-			Content 2
+
 		</mat-tab>
 
 	</mat-tab-group>
