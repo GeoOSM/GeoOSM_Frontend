@@ -224,11 +224,15 @@
 
 </div>
 
-<div fxLayout="row" class=" black title_rollback_slide2 white" [ngStyle]="{'background-color': groupMenuActive_color}" style="border-bottom: 1px solid;">
-  <i fxFlex ="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
-  <img fxFlex ="25px" *ngIf="groupMenuActive && typeMenu == 'menuThematique' " style="height: 20px;margin-left: 10px;margin-right: 5px;margin-top: 6px;" src="{{url_prefix+groupMenuActive.img}}" alt="">
-  <h5 fxFlex class="bold  col-md-10 col-xs-10 title_slide2" matTooltip="{{groupMenuActive.nom}}" *ngIf="groupMenuActive">
-      
+<div fxLayout="row" class=" black title_rollback_slide2 white" [ngStyle]="{'background-color': groupMenuActive_color}"
+  style="border-bottom: 1px solid;">
+  <i fxFlex="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
+  <img fxFlex="25px" *ngIf="groupMenuActive && typeMenu == 'menuThematique' "
+    style="height: 20px;margin-left: 10px;margin-right: 5px;margin-top: 6px;" src="{{url_prefix+groupMenuActive.img}}"
+    alt="">
+  <h5 fxFlex class="bold  col-md-10 col-xs-10 title_slide2" matTooltip="{{groupMenuActive.nom}}"
+    *ngIf="groupMenuActive">
+
     {{groupMenuActive.nom}}</h5>
 </div>
 
@@ -524,24 +528,23 @@
     (closed)="events_right='close'"
     style="background: #fff;width: 220px;padding-top: 7px;overflow-x: hidden !important;">
 
-    <div class="active_layer " style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);padding: 3px;position: fixed;
+    <div class="active_layer primary_transparent_bg" style="padding: 3px;position: fixed;
       width: 219px;z-index: 99;background-color: white;z-index: 9;">
       <div class="text-center black  " style="text-transform: uppercase;">
         <h5 class="bold" style="margin-bottom: 5px;">
           <span *ngIf="right_slide_actic == 0" class="primaryColor" style="font-size: 13px;">
-            Couches en cours
+            {{ 'right_menu.table_of_contents.title' | translate }}
             <span *ngIf="layerInMap.length > 0"> ( {{layerInMap.length}} ) </span>
-            <!-- <button mat-mini-fab matTooltip="Partager ce catalogue"
-              style="margin-right: 15px;    width: 23px;height: 23px;vertical-align: bottom;    margin-top: -5px;float: right;"
-              class="accentBG" (click)="shareStateOfMap()">
-              <i class="fa fa-share-alt " style="color:#fff;margin-top: -17px;"></i>
-            </button> -->
           </span>
-          <span *ngIf="right_slide_actic == 1" class="primaryColor" style="font-size: 13px;"> Outils </span>
-          <span *ngIf="right_slide_actic == 2" class="primaryColor" style="font-size: 13px;"> Calcul d'itineraire
+          <span *ngIf="right_slide_actic == 1" class="primaryColor" style="font-size: 13px;">
+            {{ 'right_menu.tools.title' | translate }} </span>
+          <span *ngIf="right_slide_actic == 2" class="primaryColor" style="font-size: 13px;">
+            {{ 'right_menu.map_routing.title' | translate }}
           </span>
-          <span *ngIf="right_slide_actic == 3" class="primaryColor" style="font-size: 13px;"> Legende </span>
-          <span *ngIf="right_slide_actic == 4" class="primaryColor" style="font-size: 13px;"> Téléchargement de données
+          <span *ngIf="right_slide_actic == 3" class="primaryColor" style="font-size: 13px;">
+            {{ 'right_menu.legend.title' | translate }} </span>
+          <span *ngIf="right_slide_actic == 4" class="primaryColor" style="font-size: 13px;">
+            {{ 'right_menu.download_data.title' | translate }}
           </span>
         </h5>
       </div>
@@ -597,87 +600,192 @@
 
     </div>
 
-    <div style="padding-top: 10px" *ngIf="right_slide_actic == 1">
+    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 1">
 
       <mat-accordion>
 
-        <mat-expansion-panel class="back_white" expanded="true" (opened)="expansionOpen()"
-          (closed)="expansionClose('dessin')">
-          <mat-expansion-panel-header>
+        <mat-expansion-panel class="back_white no_shadow" [expanded]="true" (opened)="expansionOpen()"
+          (closed)="expansionClose('dessin')" style="margin-bottom: 15px;border-radius: 4px;">
+          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
             <mat-panel-title>
-              <span class="primaryColor"> Dessin </span>
+              <svg x="0px" y="0px" viewBox="0 0 21.5 20.4" style="width: 17.5px;height: 20.4px;margin-right: 10px;">
+
+                <path class="primaryColorFill" d="M8.8,20.2c2-0.8,1.6-3,0.6-4.4c-1.1-1.3-2.3-2.5-3.8-3.3c-1-0.6-1.9-1.4-2.6-2.3
+	C2.6,9.8,1.9,9.1,2.6,9S4.4,9.5,5,9.7c1,0.4,2,0.9,3,1.5l1.1-1.9C7.3,8.1,5.2,7.2,3,6.8C1.8,6.7,0.5,6.9,0.1,8.2
+	c-0.2,1.1,0.1,2.3,0.9,3.1c1.5,2.1,4,3.1,5.8,4.9c0.4,0.4,0.8,0.8,1.1,1.3C8.1,18,8,18.1,7.5,18.1c-1.4,0-3.2-1.1-4.3-1.8L2,18.2
+	C3.8,19.2,6.6,20.9,8.8,20.2 M21.3,2.5c0.2-0.2,0.2-0.6,0-0.9c0,0,0,0,0,0l-1.5-1.5c-0.2-0.2-0.6-0.2-0.9,0l-1.1,1.2l2.4,2.4
+	 M10.2,9v2.4h2.4l7-7L17.1,2L10.2,9z" />
+              </svg>
+
+              <span class="primaryColor"> {{ 'right_menu.tools.draw.title' | translate }} </span>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="button-row button-draw" style="padding-left: 23px">
 
-            <button matTooltip="Dessiner un point" mat-mini-fab color="primary" (click)="drawToolsFunction('Point')"
-              [ngClass]="{'back_black': type_draw == 'Point' }">
-              <img src="assets/logo/drawing-tools/circular-shape-silhouette.svg"
-                style="margin-bottom: 2px;height: 17px;">
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_polygone' | translate }}" mat-mini-fab
+              (click)="drawToolsFunction('Polygon')"
+              [ngClass]="{'back_black': type_draw == 'Polygon','primary_transparent_bg': type_draw != 'Polygon' }">
+
+              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 21.8 24.4">
+                <g>
+                  <g id="Groupe_1852">
+                    <g id="Groupe_125" transform="translate(0 0)">
+                      <g id="Groupe_124">
+                        <path
+                          [ngClass]="{'white_fill': type_draw == 'Polygon','primaryColorFill': type_draw != 'Polygon' }"
+                          d="M21,4.1h-2.8c-0.5,0-0.9,0.4-0.9,0.9v1l0,0l-3.1,2.3V8.1c0-0.5-0.4-0.9-0.9-0.9h-2.8
+					c-0.4,0-0.7,0.3-0.8,0.7L5.6,3.6V0.9C5.6,0.4,5.2,0,4.7,0H1.9C1.4,0,1,0.4,1.1,0.9v3c0,0.5,0.4,0.9,0.9,0.9h0.3L1.4,19.6H0.9
+					C0.4,19.6,0,20,0,20.5v3c0,0.5,0.4,0.9,0.9,0.9h2.8c0.5,0,0.9-0.4,0.9-0.9v-0.7l11.7-2.6v0.4c0,0.5,0.4,0.9,0.9,0.9h2.8
+					c0.5,0,0.9-0.4,0.9-0.9c0,0,0,0,0,0v-3c0-0.5-0.4-0.9-0.9-0.9h-0.3l0.7-7.8H21c0.5,0,0.9-0.4,0.9-0.9V5
+					C21.8,4.5,21.5,4.1,21,4.1 M11,8.6h1.9v0.6l0,0v0v1.4H11V8.6z M2.4,1.4h1.9v2.1H2.4V1.4z M3.2,23H1.3v-2.1h1.9V23z M19.5,20.1
+					h-1.9V18h1.9L19.5,20.1z M18.1,16.7h-1c-0.5,0-0.9,0.4-0.9,0.9v0.9L4.5,21v-0.6c0-0.5-0.4-0.9-0.9-0.9H3L3.7,4.8h0.8l5.1,5.4
+					v0.9c0,0.5,0.4,0.9,0.9,0.9h2.8c0.5,0,0.9-0.4,0.9-0.9v-0.8l3.1-2.3v0c0,0.5,0.4,0.9,0.9,0.9h0.6L18.1,16.7z M20.5,7.5h-1.9V5.5
+					h1.9V7.5z" />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+
+              <!-- <img src="assets/logo/drawing-tools/pentagon.svg" style="margin-bottom: 2px;height: 17px;"> -->
+            </button>
+
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_ligne' | translate }}" mat-mini-fab
+              (click)="drawToolsFunction('LineString')"
+              [ngClass]="{'back_black': type_draw == 'LineString','primary_transparent_bg': type_draw != 'LineString' }">
+
+              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 24.2 24.9">
+
+                <path
+                  [ngClass]="{'white_fill': type_draw == 'LineString','primaryColorFill': type_draw != 'LineString' }"
+                  d="M23,0h-2.2c-0.6,0-1.2,0.5-1.2,1.2v0v2.2c0,0,0,0.1,0,0.1L3.3,20.4H1.2
+c-0.6,0-1.2,0.5-1.2,1.2v0v2.2c0,0.6,0.5,1.2,1.2,1.2l0,0h2.2c0.6,0,1.2-0.5,1.2-1.2v-2.2c0,0,0-0.1,0-0.1L20.8,4.5H23
+c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.7z M23,3.3h-2.2V1.2H23V3.3z" />
+              </svg>
+
+              <!-- <img src="assets/logo/drawing-tools/substract.svg" style="margin-bottom: 2px;height: 17px;"> -->
 
             </button>
 
-            <button matTooltip="Dessiner une ligne" mat-mini-fab color="primary"
-              (click)="drawToolsFunction('LineString')" [ngClass]="{'back_black': type_draw == 'LineString' }">
-              <img src="assets/logo/drawing-tools/substract.svg" style="margin-bottom: 2px;height: 17px;">
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_point' | translate }}" mat-mini-fab
+              (click)="drawToolsFunction('Point')"
+              [ngClass]="{'back_black': type_draw == 'Point','primary_transparent_bg': type_draw != 'Point' }">
+
+              <svg style="margin-bottom: 2px;height: 23px;" x="0px" y="0px" viewBox="0 0 27.5 27.5">
+
+                <path [ngClass]="{'white_fill': type_draw == 'Point','primaryColorFill': type_draw != 'Point' }" d="M26.2,11.4h-0.6c-1-4.8-4.8-8.6-9.6-9.6V1.2c0-0.7-0.5-1.2-1.2-1.2l0,0h-2.2
+	c-0.7,0-1.2,0.5-1.2,1.2l0,0v0.6c-4.8,1-8.6,4.7-9.6,9.6H1.2c-0.7,0-1.2,0.5-1.2,1.2v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0.6
+	c0.9,4.9,4.7,8.7,9.6,9.6v0.5c0,0.7,0.5,1.2,1.2,1.2h2.3c0.7,0,1.2-0.5,1.2-1.2v-0.5c4.9-1,8.7-4.8,9.6-9.6h0.6
+	c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2C27.5,11.9,26.9,11.4,26.2,11.4z M12.6,1.2h2.2v2.2h-2.2L12.6,1.2L12.6,1.2z M1.2,14.9v-2.2h2.2v2.2
+	H1.2z M14.9,26.2h-2.2V24h2.2V26.2z M16.1,24.1L16.1,24.1c0-0.7-0.5-1.3-1.2-1.3l0,0h-2.2c-0.7,0-1.2,0.5-1.2,1.2l0,0v0.1
+	c-4-0.9-7.1-4-8-8h0c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2c0-0.7-0.5-1.2-1.2-1.2l0,0h0c0.9-3.9,4-7,7.9-7.9c0,0.7,0.5,1.2,1.2,1.2h2.2
+	c0.7,0,1.2-0.5,1.2-1.2c3.9,0.9,7,4,7.9,7.9h0c-0.7,0-1.2,0.5-1.2,1.2l0,0v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0
+	C23.1,20,20,23.1,16.1,24.1L16.1,24.1z M26.2,14.9H24v-2.2h2.2V14.9z" />
+              </svg>
+
+              <!-- <img src="assets/logo/drawing-tools/circular-shape-silhouette.svg"  style="margin-bottom: 2px;height: 17px;"> -->
 
             </button>
 
-            <button matTooltip="Dessiner un polygone " mat-mini-fab color="primary"
-              (click)="drawToolsFunction('Polygon')" [ngClass]="{'back_black': type_draw == 'Polygon' }">
-              <img src="assets/logo/drawing-tools/pentagon.svg" style="margin-bottom: 2px;height: 17px;">
-            </button>
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_text' | translate }}" mat-mini-fab color="primary"
+              (click)="drawToolsFunction('text')"
+              [ngClass]="{'back_black': type_draw == 'text','primary_transparent_bg': type_draw != 'text' }">
 
-            <button matTooltip="Dessiner un texte" mat-mini-fab color="primary" (click)="drawToolsFunction('text')"
-              [ngClass]="{'back_black': type_draw == 'text' }">
-              <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;">
+              <svg style="margin-bottom: 2px;height: 17px;" x="0px" y="0px" viewBox="0 0 23 18.1">
+
+                <path [ngClass]="{'white_fill': type_draw == 'text','primaryColorFill': type_draw != 'text' }"
+                  d="M0,0v3.6h6v14.5h3.6V3.6h6V0H0z M23,6H12.1v3.6h3.6v8.5h3.6V9.7H23V6z" />
+              </svg>
+
+              <!-- <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;"> -->
             </button>
 
           </div>
 
-          <div class="button-row button-draw-edit" style="padding: 0 5px;margin-top: 20px">
+          <div class="button-row button-draw-edit" *ngIf="edit_draw_button"
+            style="padding-bottom: 15px;padding-top: 15px;padding-left: 23px">
 
-            <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': edit_draw_button }"
+            <div style="margin-bottom: 15px;margin-top: 5px;width: calc(100% - 20px);    border: 1px solid;"
+              class="primaryColorBorder"></div>
+
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_geometry' | translate }}" mat-mini-fab
+              color="accent" (click)="EditDraw('geometry')" [ngClass]="{'back_black': type_edit_draw == 'geometry' }">
+              <img src="assets/images/icones/edite.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_text' | translate }}" mat-mini-fab color="accent"
+              (click)="EditDraw('comment')" [ngClass]="{'back_black': type_edit_draw == 'comment' }">
+              <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_color' | translate }}" mat-mini-fab
+              color="accent" (click)="EditDraw('color')" [ngClass]="{'back_black': type_edit_draw == 'color' }">
+              <img src="assets/images/icones/paint.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_delete' | translate }}" mat-mini-fab
+              color="accent" (click)="EditDraw('delete')" [ngClass]="{'back_black': type_edit_draw == 'delete' }">
+              <img src="assets/images/icones/delete.svg" style="margin-bottom: 2px;height: 17px;">
+            </button>
+
+          </div>
+
+          <div class="button-row button-draw-edit" fxLayout="row" fxLayoutAlign="end end"
+            style="padding: 0 5px;margin-bottom: 15px;margin-top: 20px">
+
+            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+              viewBox="0 0 24.7 24.5" (click)="toogleEditDraw()" class="pointer"
+              matTooltip="{{ 'right_menu.tools.draw.toolpit_edit' | translate }}">
+
+              <g id="Groupe_2939" transform="translate(-314.244 -151.105)">
+                <path [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M319.2,172.3V172c0-0.7-0.6-1.3-1.3-1.3c0,0,0,0,0,0h-0.3V156h0.3c0.7,0,1.3-0.6,1.3-1.3
+		c0,0,0,0,0,0v-0.3h14.7v0.3c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h0.3v4.2c0.6,0.2,1.2,0.4,1.7,0.7V156h0.3c0.7,0,1.3-0.6,1.3-1.3
+		c0,0,0,0,0,0v-2.4c0-0.7-0.6-1.3-1.3-1.3c0,0,0,0,0,0h-2.4c-0.7,0-1.3,0.6-1.3,1.3v0v0.3h-14.7v-0.3c0-0.7-0.6-1.3-1.3-1.3
+		c0,0,0,0,0,0h-2.4c-0.7,0-1.3,0.6-1.3,1.3v0v2.4c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h0.3v14.7h-0.3c-0.7,0-1.3,0.6-1.3,1.3v0v2.4
+		c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h2.4c0.7,0,1.3-0.6,1.3-1.3c0,0,0,0,0,0V174h4.9c-0.3-0.5-0.5-1.1-0.7-1.7L319.2,172.3z
+		 M335.1,152.4h2.4v2.4h-2.4V152.4z M315.5,154.7v-2.4h2.4v2.4H315.5z M317.9,174.4h-2.4V172h2.4V174.4z" />
+                <path id="Tracé_1081"
+                  [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M338.7,164.4l-2.5-2.5c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.5,0.2l-9.8,9.9v3.5h3.6
+		l9.8-9.9c0.1-0.1,0.2-0.3,0.2-0.5C339,164.7,338.9,164.5,338.7,164.4z" />
+              </g>
+            </svg>
+
+            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+              viewBox="0 0 16.8 18.6" (click)="shareAllDraw()" class="pointer"
+              matTooltip="{{ 'right_menu.tools.draw.toolpit_share' | translate }}">
+              <g transform="translate(-176.454 0.477)">
+                <path class="primaryColorFill" d="M190.4,12.7c-0.7,0-1.3,0.3-1.8,0.7L182,9.5c0.1-0.2,0.1-0.4,0.1-0.7c0-0.2,0-0.4-0.1-0.7l6.6-3.8
+		c1.1,1.1,2.9,1,3.9-0.1c0.5-0.5,0.8-1.2,0.8-1.9c0-1.5-1.2-2.8-2.7-2.8c-1.5,0-2.8,1.2-2.8,2.7c0,0,0,0.1,0,0.1
+		c0,0.2,0,0.4,0.1,0.7l-6.6,3.8c-1.1-1.1-2.9-1-4,0.1c-1.1,1.1-1,2.9,0.1,4c1.1,1,2.8,1,3.8,0l6.6,3.9c0,0.2-0.1,0.4-0.1,0.6
+		c0,1.5,1.2,2.7,2.7,2.7s2.7-1.2,2.7-2.7C193.1,13.9,191.9,12.7,190.4,12.7L190.4,12.7z" />
+              </g>
+            </svg>
+
+            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+              viewBox="0 0 16 20" (click)="deleteleAllDraw()" class="pointer"
+              matTooltip="{{ 'right_menu.tools.draw.toolpit_delete' | translate }}">
+
+              <path class="primaryColorFill" d="M12.6,20H3.4c-1.2,0-2.3-1-2.3-2.2V4.4h13.7v13.3C14.8,19,13.8,20,12.6,20z M16,3.3H0V1.1h4L5.1,0
+	h5.7L12,1.1h4V3.3L16,3.3z" />
+            </svg>
+
+            <!-- <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': edit_draw_button }"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="toogleEditDraw()">
               <i class="fa fa-pencil-square-o fa-lg" style="color: #fff"></i>
               Editer
-            </button>
-
-            <div class="button-row" *ngIf="edit_draw_button"
-              style="padding-bottom: 15px;padding-top: 15px;padding-left: 23px">
-
-              <button matTooltip="Modifier la géometrie" mat-mini-fab color="accent" (click)="EditDraw('geometry')"
-                [ngClass]="{'back_black': type_edit_draw == 'geometry' }">
-                <img src="assets/images/icones/edite.svg" style="margin-bottom: 2px;height: 17px;">
-              </button>
+            </button> -->
 
 
-              <button matTooltip="Modifier la description" mat-mini-fab color="accent" (click)="EditDraw('comment')"
-                [ngClass]="{'back_black': type_edit_draw == 'comment' }">
-                <img src="assets/images/icones/comment.svg" style="margin-bottom: 2px;height: 17px;">
-              </button>
 
-              <button matTooltip="Modifier la couleur" mat-mini-fab color="accent" (click)="EditDraw('color')"
-                [ngClass]="{'back_black': type_edit_draw == 'color' }">
-                <img src="assets/images/icones/paint.svg" style="margin-bottom: 2px;height: 17px;">
-              </button>
-
-              <button matTooltip="Supprimer une entité" mat-mini-fab color="accent" (click)="EditDraw('delete')"
-                [ngClass]="{'back_black': type_edit_draw == 'delete' }">
-                <img src="assets/images/icones/delete.svg" style="margin-bottom: 2px;height: 17px;">
-              </button>
-
-
-            </div>
-
-            <button mat-raised-button color="primary"
+            <!-- <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="shareAllDraw()">
               <i class="fa fa-share-alt fa-lg" style="color: #fff"></i>
               Partager
-            </button>
+            </button> -->
 
             <!-- <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="downloadAllDraw()">
@@ -685,26 +793,85 @@
               Telechargez
             </button> -->
 
-            <button mat-raised-button color="primary"
+            <!-- <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="deleteleAllDraw()">
               <i class="fa fa-trash-o fa-lg" style="color: #fff"></i>
               Supprimer tous
-            </button>
+            </button> -->
 
           </div>
 
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('mesure')">
+        <mat-expansion-panel class="back_white no_shadow" [expanded]="false" (opened)="expansionOpen()"
+          (closed)="expansionClose('mesure')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
             <mat-panel-title>
-              <span class="primaryColor"> Mesure </span>
+
+              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 24.4 9.5">
+
+                <path class="primaryColorFill" d="M23.6,0h-3v2.7c0,0.4-0.3,0.7-0.7,0.7s-0.7-0.3-0.7-0.7V0h-2.6v4.6c0,0.4-0.3,0.7-0.7,0.7
+	S15.1,5,15.1,4.6l0,0V0h-2.6v2.7c0,0.4-0.3,0.7-0.7,0.7S11,3.1,11,2.7V0H8.5v4.6c0,0.4-0.3,0.7-0.7,0.7S7,5,7,4.6l0,0V0H4.4v2.7
+	c0,0.4-0.3,0.7-0.7,0.7S2.9,3.1,2.9,2.7V0H0.8C0.4,0,0,0.4,0,0.8v0v7.8c0,0.5,0.4,0.8,0.8,0.9c0,0,0,0,0,0h22.7
+	c0.5,0,0.8-0.4,0.9-0.8c0,0,0,0,0,0V0.9C24.4,0.4,24.1,0,23.6,0C23.6,0,23.6,0,23.6,0z" />
+              </svg>
+
+              <span class="primaryColor"> {{ 'right_menu.tools.mesure.title' | translate }} </span>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <div class="button-row" style="padding: 0 5px;">
+          <div class="button-row button-draw" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px"
+            style="margin-bottom: 20px;">
+
+            <button fxFlex="52px" fxFlexAlign="center" style="height: 52px;"
+              matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_ligne' | translate }}" mat-mini-fab
+              (click)="mesure('LineString')"
+              [ngClass]="{'back_black': mesure_type == 'LineString','primary_transparent_bg': mesure_type != 'LineString' }">
+
+              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 28.4 19.5">
+
+                <g transform="translate(0 0)">
+                  <path
+                    [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
+                    d="M27.7,8.8h-27C0.3,8.8,0,9.1,0,9.5c0,0,0,0,0,0v9.3c0,0.4,0.3,0.7,0.7,0.7l0,0h27
+		c0.4,0,0.7-0.3,0.7-0.7c0,0,0,0,0,0V9.5C28.4,9.1,28,8.8,27.7,8.8L27.7,8.8z M27,18.1H1.4v-7.9h1.9v2.5c0,0.4,0.3,0.7,0.7,0.7
+		c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v4.8c0,0.4,0.3,0.7,0.7,0.7
+		c0.4,0,0.7-0.3,0.7-0.7v-4.8h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7
+		c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v4.8c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-4.8h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7
+		c0.4,0,0.7-0.3,0.7-0.7v-2.5h3L27,18.1z" />
+                  <path
+                    [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
+                    d="M4.5,7.3c0.4,0,0.7-0.3,0.7-0.7c0,0,0,0,0,0V4.4h17.9c0,0,0,0,0,0v2.2c0,0.4,0.3,0.7,0.7,0.7
+		c0.4,0,0.7-0.3,0.7-0.7V0.7c0-0.4-0.3-0.7-0.7-0.7c-0.4,0-0.7,0.3-0.7,0.7v2.2c0,0,0,0,0,0H5.2V0.7C5.2,0.3,4.9,0,4.5,0
+		C4.1,0,3.8,0.3,3.8,0.7v5.9C3.8,7,4.1,7.3,4.5,7.3C4.5,7.3,4.5,7.3,4.5,7.3z" />
+                </g>
+              </svg>
+
+            </button>
+
+            <button fxFlex="52px" style="height: 52px;" fxFlexAlign="center"
+              matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_polygon' | translate }}" mat-mini-fab
+              (click)="mesure('Polygon')"
+              [ngClass]="{'back_black': mesure_type == 'Polygon','primary_transparent_bg': mesure_type != 'Polygon' }">
+
+              <svg style="margin-bottom: 2px;height: 20px;" viewBox="0 0 20.3 20.3">
+
+                <path [ngClass]="{'white_fill': mesure_type == 'Polygon','primaryColorFill': mesure_type != 'Polygon' }"
+                  d="M19.2,4.1c0.6,0,1.1-0.5,1.1-1.1v-2c0-0.6-0.5-1.1-1.1-1.1h-2c-0.6,0-1.1,0.5-1.1,1.1v0.3H4.1
+	V1.1C4.1,0.5,3.6,0,3,0h-2C0.5,0,0,0.5,0,1.1v2c0,0.6,0.5,1.1,1.1,1.1h0.3v12.1H1.1c-0.6,0-1.1,0.5-1.1,1.1v2c0,0.6,0.5,1.1,1.1,1.1
+	h2c0.6,0,1.1-0.5,1.1-1.1v-0.3h12.1v0.3c0,0.6,0.5,1.1,1.1,1.1h2c0.6,0,1.1-0.5,1.1-1.1v-2c0-0.6-0.5-1.1-1.1-1.1h-0.3V4.1H19.2z
+	 M17.3,1.1h2v2h-2V1.1z M1.1,3v-2h2v2H1.1z M3,19.2h-2v-2h2V19.2z M19.2,17.3v2h-2v-2H19.2z M17.5,16.2h-0.3c-0.6,0-1.1,0.5-1.1,1.1
+	v0.3H4.1v-0.3c0-0.6-0.5-1.1-1.1-1.1H2.7V4.1H3c0.6,0,1.1-0.5,1.1-1.1V2.7h12.1V3c0,0.6,0.5,1.1,1.1,1.1h0.3V16.2z" />
+              </svg>
+
+            </button>
+
+          </div>
+
+          <!-- <div class="button-row" style="padding: 0 5px;">
 
             <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
@@ -722,18 +889,36 @@
             </button>
 
 
-          </div>
+          </div> -->
         </mat-expansion-panel>
 
-        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('altimetrie')">
+        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+          (closed)="expansionClose('altimetrie')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
             <mat-panel-title>
-              <span class="primaryColor"> Altimétrie </span>
+
+              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 22.1 17.2">
+
+                <g id="Groupe_56" transform="translate(-283.894 -12.804)">
+                  <path id="Tracé_44" class="primaryColorFill" d="M305.4,30L305.4,30l-2.6-0.1h-18.3c-0.2,0-0.3-0.1-0.4-0.2c-0.1-0.1-0.2-0.3-0.2-0.4V19.1
+		c0-0.3,0.3-0.6,0.6-0.6h1.5c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v1.6h1.7V18c0-0.3,0.3-0.6,0.6-0.6h3.2v-4c0-0.3,0.3-0.6,0.6-0.6
+		h1.3c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v6.2h1.4V15c0-0.3,0.3-0.6,0.6-0.6h1.4c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0
+		c0,4.1,0,1.6,0,3.2h2.2c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0v3.6h1.8v-4.9c0-0.3,0.3-0.6,0.6-0.6h1.8c0.3,0,0.6,0.3,0.6,0.6
+		c0,0,0,0,0,0l0,0v12c0,0.2-0.1,0.3-0.2,0.4C305.7,29.9,305.5,30,305.4,30" />
+                </g>
+              </svg>
+
+              <span class="primaryColor"> {{ 'right_menu.tools.altimetry.title' | translate }} </span>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <mat-form-field style="width: 100%;  padding: 0 5px;">
+          <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/altimetrie_bouton.svg);    background-repeat: no-repeat;
+          background-position: center;color: black;text-align: center;">
+            {{ 'right_menu.tools.altimetry.not_disponible' | translate }}
+          </div>
+          <!-- <mat-form-field style="width: 100%;  padding: 0 5px;">
             <mat-select placeholder="Choisisser la source du MNT" [(ngModel)]="altimetrie.source_profil_alti">
               <mat-option value="srtm" style="color:#000"> SRTM sur le Cameroun </mat-option>
             </mat-select>
@@ -745,54 +930,93 @@
               <img src="assets/logo/distance.svg" style="margin-bottom: 2px;height: 17px;">
               <span> Profil Altimetrique </span>
             </button>
-          </div>
+          </div> -->
 
-        </mat-expansion-panel> -->
+        </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('comments')">
+        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+          (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
             <mat-panel-title>
-              <span class="primaryColor"> Commentaire </span>
+              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 18.8 18.8">
+
+                <path class="primaryColorFill" d="M6.6,18.8c-0.5,0-0.9-0.4-0.9-0.9v-2.8H1.9c-1,0-1.9-0.8-1.9-1.9l0,0V1.9C0,0.8,0.8,0,1.9,0
+	c0,0,0,0,0,0h15.1c1,0,1.9,0.8,1.9,1.9v11.3c0,1-0.8,1.9-1.9,1.9h-5.7l-3.5,3.5c-0.2,0.2-0.4,0.3-0.7,0.3L6.6,18.8 M2.8,2.8v1.9H16
+	V2.8L2.8,2.8 M2.8,6.6v1.9h7.5V6.6H2.8 M2.8,10.4v1.9h9.4v-1.9L2.8,10.4z" />
+              </svg>
+
+              <span class="primaryColor"> {{ 'right_menu.tools.comment.title' | translate }} </span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
-          <button mat-raised-button color="primary"
+          <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/commentaire-ecrire_bouton.svg);    background-repeat: no-repeat;
+          background-position: center;">
+            <mat-checkbox class="primaryColor couche_en_cours_nom" color="primary" (click)="displayComments()">
+              {{ 'right_menu.tools.comment.display_comments' | translate }} </mat-checkbox>
+          </div>
+          <!-- <button mat-raised-button color="primary"
             style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
             (click)="displayComments()" [ngClass]="{'back_black': commentLayer.checked }">
 
             <span> Afficher les commentaire </span>
 
-          </button>
-
+          </button> -->
         </mat-expansion-panel>
 
-        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('comments')">
-          
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <span class="primaryColor"> Impréssion </span>
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-          
-            <div class="text-center black" >
-                
-                <div >
-                    <mat-form-field style="width: 90%;" >
-                      <input matInput name="carte_titre"  [(ngModel)]="printMapObjet.titre" placeholder="Titre de votre carte">
-                    </mat-form-field>
-                  
-                    <mat-form-field style="width: 90%;">
-                      <textarea matInput  name="carte_description" [(ngModel)]="printMapObjet.description"  placeholder="Description de votre carte"></textarea>
-                    </mat-form-field>
-                  
-                  </div>
-                  <button mat-raised-button color="primaryColorBG"  (click)="printMap()" style="margin-bottom: 10px;">
-                      Imprimer
-                  </button>
+        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+          (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
+
+          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+            style="padding-left: 15px;margin-bottom: 10px;" class="primary_transparent_bg">
+            <mat-panel-title>
+              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 19.4 17.5">
+
+                <path class="primaryColorFill" d="M16.5,4.9H2.9C1.3,4.9,0,6.2,0,7.8c0,0,0,0,0,0v5.8h3.9v3.9h11.7v-3.9h3.9V7.8
+	C19.4,6.2,18.1,4.9,16.5,4.9C16.5,4.9,16.5,4.9,16.5,4.9z M13.6,15.5H5.8v-4.9h7.8V15.5z M16.5,8.7c-0.5,0-1-0.4-1-1
+	c0-0.5,0.4-1,1-1c0.5,0,1,0.4,1,1C17.5,8.3,17,8.7,16.5,8.7L16.5,8.7z M15.5,0H3.9v3.9h11.7V0z" />
+              </svg>
+
+              <span class="primaryColor"> {{ 'right_menu.tools.print.title' | translate }} </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="text-center black" style="padding: 0px 10px;">
+
+            <div>
+              <mat-form-field style="width: 90%;">
+                <input matInput name="carte_titre" [(ngModel)]="printMapObjet.titre"
+                  placeholder="{{ 'right_menu.tools.print.title_pdf' | translate }}">
+              </mat-form-field>
+
+              <mat-form-field style="width: 90%;">
+                <textarea matInput name="carte_description" [(ngModel)]="printMapObjet.description"
+                  placeholder="{{ 'right_menu.tools.print.description_pdf' | translate }}"></textarea>
+              </mat-form-field>
+
             </div>
-           
-        </mat-expansion-panel>  -->
+
+            <button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;"
+              class="primary_transparent_bg" matTooltip="{{ 'right_menu.tools.print.toolpit_print' | translate }}"
+              mat-mini-fab (click)="printMap()">
+
+              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 25.1 22.9">
+
+                <g transform="translate(-0.5 -1.5)">
+                  <path class="primaryColorFill" d="M6.4,3v4.4h13.3V3H6.4 M5.3,8.5C3.5,8.5,2,10,2,11.8v6.6h4.4v4.4h13.3v-4.4h4.4v-6.6c0-1.8-1.5-3.3-3.3-3.3
+		H5.3 M20.8,12.9c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1c0.6,0,1.1,0.5,1.1,1.1C21.9,12.4,21.4,12.9,20.8,12.9 M17.5,20.7
+		H8.6v-5.5h8.8V20.7 M4.9,1.5h1.5h13.3h1.5V3v4c2.5,0.2,4.4,2.3,4.4,4.8v6.6V20h-1.5h-2.9v2.9v1.5h-1.5H6.4H4.9v-1.5V20H2H0.5v-1.5
+		v-6.6c0-2.5,1.9-4.6,4.4-4.8V3V1.5z M16,16.7h-5.8v2.5H16V16.7z" />
+                </g>
+              </svg>
+
+
+            </button>
+
+
+          </div>
+
+        </mat-expansion-panel>
 
         <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('analyse_spatial')">
             
@@ -834,13 +1058,13 @@
 
     </div>
 
-    <div style="padding-top: 10px" *ngIf="right_slide_actic == 2">
+    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 2">
       <div style="text-align:center">
         <div style="color:#000" (click)="slideTo('analyse_spatial', '')"> Bientot disponible </div>
       </div>
     </div>
 
-    <div style="padding-top: 10px" *ngIf="right_slide_actic == 3">
+    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 3">
       <span *ngFor="let couche of layerInMap ; let i = index ">
         <span *ngIf="couche.type == 'wms' || couche.type_couche == 'wms' ">
           <mat-list-item class="primaryColorBG"
@@ -856,7 +1080,7 @@
       </span>
     </div>
 
-    <div style="padding-top: 10px" *ngIf="right_slide_actic == 4">
+    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 4">
 
       <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
            text-align: center;display:flow-root; margin-bottom:15px">
@@ -967,7 +1191,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content style="width: 100%;">
-    <input id="swipe"  type="range"
+    <input id="swipe" type="range"
       style="background: transparent;width: 100%;z-index: 9999999999999999999999;  position: absolute;top: 45%;display: none;">
 
     <div id="map" (contextmenu)="right_click($event)" [shAttachMenu]="menu" [shMenuData]="data_right_click.item"></div>
@@ -1083,10 +1307,12 @@
 
 <div class="utils primaryColorBG">
 
-  <div class="pointer toogle_left_div" (click)="toggle_left('')" 
-    matTooltip="{{ 'naviguation_tools.toogle_left_menu' | translate }}" [ngStyle]="{'background-color': slide2_is_open() ? groupMenuActive_color:'#fff'}">
+  <div class="pointer toogle_left_div" (click)="toggle_left('')"
+    matTooltip="{{ 'naviguation_tools.toogle_left_menu' | translate }}"
+    [ngStyle]="{'background-color': slide2_is_open() ? groupMenuActive_color:'#fff'}">
 
-    <i class="fa fa-angle-double-left fa-lg " [ngClass]="{'rotate_menu_toogle': !opened_left,'primaryColor':!slide2_is_open(),'white':slide2_is_open()}"
+    <i class="fa fa-angle-double-left fa-lg "
+      [ngClass]="{'rotate_menu_toogle': !opened_left,'primaryColor':!slide2_is_open(),'white':slide2_is_open()}"
       style="font-size: 22px;transform: rotate(0deg);transition: 0.5s;"></i>
   </div>
 
@@ -1098,15 +1324,18 @@
     <button mat-mini-fab disabled>Disabled</button> -->
 
 
-    <button mat-mini-fab class="primaryColorBG" (click)="zoom('plus')" matTooltip="{{ 'naviguation_tools.zoom_plus' | translate }}">
+    <button mat-mini-fab class="primaryColorBG" (click)="zoom('plus')"
+      matTooltip="{{ 'naviguation_tools.zoom_plus' | translate }}">
       <i class="fa fa-plus fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="zoom('minus')" matTooltip="{{ 'naviguation_tools.zoom_minus' | translate }}">
+    <button mat-mini-fab class="primaryColorBG" (click)="zoom('minus')"
+      matTooltip="{{ 'naviguation_tools.zoom_minus' | translate }}">
       <i class="fa fa-minus fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="globalView()" matTooltip="{{ 'naviguation_tools.general_vieuw' | translate }} ">
+    <button mat-mini-fab class="primaryColorBG" (click)="globalView()"
+      matTooltip="{{ 'naviguation_tools.general_vieuw' | translate }} ">
       <i class="fa fa-globe fa-lg" style="color:#fff;"></i>
     </button>
 
@@ -1124,11 +1353,13 @@
     </button> -->
 
 
-    <button mat-mini-fab class="primaryColorBG" (click)="rollBack()" matTooltip="{{ 'naviguation_tools.past_view' | translate }} " class="view_map_roll">
+    <button mat-mini-fab class="primaryColorBG" (click)="rollBack()"
+      matTooltip="{{ 'naviguation_tools.past_view' | translate }} " class="view_map_roll">
       <i class="fa fa-angle-left fa-lg" style="color:#fff;"></i>
     </button>
 
-    <button mat-mini-fab class="primaryColorBG" (click)="rollFront()" matTooltip="{{ 'naviguation_tools.next_view' | translate }} " class="view_map_roll">
+    <button mat-mini-fab class="primaryColorBG" (click)="rollFront()"
+      matTooltip="{{ 'naviguation_tools.next_view' | translate }} " class="view_map_roll">
       <i class="fa fa-angle-right fa-lg" style="color:#fff;"></i>
     </button>
 
@@ -1138,12 +1369,13 @@
 
   <div class="button-row" style="position: absolute;bottom: 30px;padding: 10px;">
 
-    <button matTooltip="{{ 'naviguation_tools.mappilary' | translate }} " mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleMappilary()"
-      [ngClass]="{'primaryColorBG': !modeMappilary,'accentColorBG':modeMappilary}">
+    <button matTooltip="{{ 'naviguation_tools.mappilary' | translate }} " mat-mini-fab class="mat-mini-fab-hover-black"
+      (click)="toogleMappilary()" [ngClass]="{'primaryColorBG': !modeMappilary,'accentColorBG':modeMappilary}">
       <img src="assets/images/icones/mappilary.png" style="margin-top: -5px;height: 30px;">
     </button>
 
-    <button matTooltip="{{ 'naviguation_tools.compare_maps' | translate }}" mat-mini-fab class="mat-mini-fab-hover-black" (click)="toogleCompare()"
+    <button matTooltip="{{ 'naviguation_tools.compare_maps' | translate }}" mat-mini-fab
+      class="mat-mini-fab-hover-black" (click)="toogleCompare()"
       [ngClass]="{'primaryColorBG': !modeCompare,'accentColorBG':modeCompare}">
       <img src="assets/images/icones/compare.svg" style="margin-bottom: 2px;height: 23px;">
     </button>
@@ -1256,18 +1488,19 @@
 
         </svg>
 
-        <svg viewBox="0 0 11.435 19.058" style="height: 15px;width: 15px;transform: rotate(-51deg)translateY(10px);margin-left: -15px;">
+        <svg viewBox="0 0 11.435 19.058"
+          style="height: 15px;width: 15px;transform: rotate(-51deg)translateY(10px);margin-left: -15px;">
           <path id="pin"
             d="M15.529 11.529V3.906h.953V2H6.953v1.906h.953v7.623L6 13.435v1.905h4.955v5.717h1.525V15.34h4.955v-1.905z"
             class="primaryColorFill" transform="translate(-6 -2)" />
         </svg>
-       
+
       </span>
 
-      <span style="    padding-left: 10px;" >
-          {{item.name}}
+      <span style="    padding-left: 10px;">
+        {{item.name}}
       </span>
-     
+
     </div>
   </ng-template>
 </sh-context-menu>
@@ -1275,33 +1508,59 @@
 <div class="utils_right primaryColorBG">
 
 
-  <button matTooltip="Les couches en cours" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
+  <button matTooltip="{{ 'right_menu.button.toolpit_toc' | translate }}" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
     (click)="toggle_right(0,'')"
     [ngClass]="{'primaryColorBG': right_slide_actic != 0 && !opened_right,'back_white': right_slide_actic == 0 && opened_right }">
-    <i class="fa fa-layer-group fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 0 && opened_right }"></i>
+
+    <svg x="0px" y="0px" viewBox="0 0 23.4 24.8" style="width: 21px;">
+
+      <path [ngClass]="{'primaryColorFill': right_slide_actic == 0 && opened_right }" d="M11.7,0L0,9.1l2.1,1.7l9.6,7.5l9.6-7.5l2.1-1.7L11.7,0z M11.7,21.5l-9.6-7.5L0,15.7l11.7,9.1
+	l11.7-9.1l-2.1-1.7L11.7,21.5z" fill="#fff" />
+    </svg>
+
+    <!-- <i class="fa fa-layer-group fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 0 && opened_right }"></i> -->
   </button>
 
 
-  <button matTooltip="Quelques outils" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
+  <button matTooltip="{{ 'right_menu.button.toolpit_tools' | translate }}" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
     (click)="toggle_right(1,'')"
     [ngClass]="{'primaryColorBG': right_slide_actic != 1 && !opened_right,'back_white': right_slide_actic == 1 && opened_right }">
-    <i class="fa fa-cogs fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 1 && opened_right }"></i>
+
+    <svg style="width: 20px;" x="0px" y="0px" viewBox="0 0 20.8 20.8">
+
+      <path [ngClass]="{'primaryColorFill': right_slide_actic == 1 && opened_right }" fill="#fff" d="M0,16.5v4.3h4.3L17.1,8l-4.3-4.3L0,16.5z M20.5,4.7c0.4-0.4,0.5-1.2,0-1.6c0,0,0,0,0,0
+	l-2.7-2.7c-0.4-0.4-1.2-0.5-1.6,0c0,0,0,0,0,0L14,2.5l4.3,4.3L20.5,4.7L20.5,4.7z" />
+    </svg>
+
+    <!-- <i class="fa fa-cogs fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 1 && opened_right }"></i> -->
   </button>
 
 
-  <button matTooltip="Calcul d'itinéraires " mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
+  <button matTooltip="{{ 'right_menu.button.toolpit_map_routing' | translate }}" mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
     (click)="toggle_right(2,'')"
     [ngClass]="{'primaryColorBG': right_slide_actic != 2 && !opened_right,'back_white': right_slide_actic == 2 && opened_right }">
-    <i class="fa fa-bars fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 2 && opened_right }"></i>
+
+    <svg style="width: 20px;" x="0px" y="0px" viewBox="0 0 23.1 23.4">
+      
+      <path [ngClass]="{'primaryColorFill': right_slide_actic == 2 && opened_right }" fill="#fff" d="M3.9,15.6c-2.2,0-3.9,1.7-3.9,3.9s1.7,3.9,3.9,3.9s3.9-1.7,3.9-3.9c0,0,0,0,0,0
+	C7.8,17.3,6,15.6,3.9,15.6z M3.9,21.1c-0.9,0-1.6-0.7-1.6-1.6s0.7-1.6,1.6-1.6c0.9,0,1.6,0.7,1.6,1.6c0,0,0,0,0,0
+	C5.5,20.4,4.8,21.1,3.9,21.1L3.9,21.1z M19.2,0.4c-2.2,0-3.9,1.7-3.9,3.9s1.7,3.9,3.9,3.9c2.2,0,3.9-1.7,3.9-3.9
+	C23.1,2.2,21.4,0.4,19.2,0.4L19.2,0.4z M19.2,6c-0.9,0-1.6-0.7-1.6-1.6s0.7-1.6,1.6-1.6c0.9,0,1.6,0.7,1.6,1.6
+	C20.9,5.2,20.1,6,19.2,6L19.2,6z M20.6,11.5l0,6.8c-0.1,2.8-2.5,4.9-5.3,4.8c-2.6-0.1-4.6-2.2-4.8-4.8V4.8C10.4,3.2,9,2.1,7.5,2.3
+	C6.2,2.5,5.1,3.5,5,4.8l0,9.6l-2.3,0l0-9.6C2.9,2,5.2-0.1,8,0c2.6,0.1,4.7,2.2,4.8,4.8v13.6c0.2,1.5,1.6,2.6,3.1,2.5
+	c1.3-0.1,2.3-1.2,2.5-2.5l0-6.8L20.6,11.5z" />
+    </svg>
+
+    <!-- <i class="fa fa-bars fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 2 && opened_right }"></i> -->
   </button>
 
-  <button matTooltip="Legende " mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
+  <button matTooltip="{{ 'right_menu.button.toolpit_legend' | translate }} " mat-raised-button color="primary" style="width: 100%;border-radius: 0px;"
     (click)="toggle_right(3)"
     [ngClass]="{'primaryColorBG': right_slide_actic != 3 && !opened_right,'back_white': right_slide_actic == 3 && opened_right }">
     <i class="fa fa-th-list fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 3 && opened_right }"></i>
   </button>
 
-  <button matTooltip="Telechargement des données " mat-raised-button color="primary"
+  <button matTooltip="{{ 'right_menu.button.toolpit_download_data' | translate }}" mat-raised-button color="primary"
     style="width: 100%;border-radius: 0px;" (click)="toggle_right(4)"
     [ngClass]="{'primaryColorBG': right_slide_actic != 4 && !opened_right,'back_white': right_slide_actic == 4 && opened_right }">
     <i class="fa fa-download fa-lg white" [ngClass]="{'primaryColor': right_slide_actic == 4 && opened_right }"></i>

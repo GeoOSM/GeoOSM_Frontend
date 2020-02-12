@@ -15,10 +15,10 @@
 
  
 .primary_transparent_bg{
-	background-color: mat-color($primary_transparent) 
+	background-color: #f2f7fa !important;
 }
 .primary_transparent{
-	color: mat-color($primary_transparent) 
+	color: #f2f7fa 
 }
 @include angular-material-theme($theme);
 
@@ -136,4 +136,19 @@ body{
 
 .mat-dialog-container{
 	background: transparent !important;
+}
+
+
+.mat-accordion>.mat-expansion-panel.mat-expanded.no_shadow{
+	box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)!important;
+	.mat-expansion-panel-header{
+		border-radius: 0px!important;
+	}
+}
+
+.mat-accordion>.mat-expansion-panel.no_shadow{
+	box-shadow: none !important;
+	.mat-expansion-panel-header{
+		border-radius: 4px!important;
+	}
 }

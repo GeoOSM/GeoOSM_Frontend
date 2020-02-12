@@ -133,6 +133,12 @@ img{
 .white{
 	color:#fff !important;
 }
+.white_fill{
+	fill:#fff !important;
+}
+.black_fill{
+  fill: #434343 !important;
+}
 .black_gray{
 	
 	color: rgba(0,0,0,0.4)

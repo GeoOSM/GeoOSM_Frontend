@@ -26,6 +26,11 @@
   .accentColorBG {
     background-color: mat-color($accent)!important;
   }
+
+  .accentColorFill {
+    fill: mat-color($accent)!important;
+  }
+
   .warnColorBG {
     background-color: mat-color($warn);
     
