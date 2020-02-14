@@ -436,7 +436,7 @@ export class MapComponent implements OnInit {
 	events_right = 'close';
 	config_projet
 	opened_left: false;
-	environment:any
+	environment: any
 
 	constructor(
 		private zone: NgZone,
@@ -453,7 +453,7 @@ export class MapComponent implements OnInit {
 		public translate: TranslateService,
 		private builder: FormBuilder,
 	) {
-		
+
 		this.environment = environment
 		translate.addLangs(['fr']);
 		translate.setDefaultLang('fr');
@@ -922,6 +922,8 @@ export class MapComponent implements OnInit {
 		map.setTarget('sidebar')
 		map.setTarget('map')
 
+
+
 		this.cartesService.Getcartes().then((data: Object[]) => {
 
 			this.cartes = data
@@ -1145,7 +1147,7 @@ export class MapComponent implements OnInit {
 
 
 		this.right_slide_actic = 0
-		this.primaryColor = '#2196f3'
+		this.primaryColor = environment.primaryColor
 		this.colorDraw = this.primaryColor
 
 		//// global variables for altimetrie tools///////////
@@ -1160,7 +1162,7 @@ export class MapComponent implements OnInit {
 			'Polygon': [],
 			'text': []
 		}
-
+		this.initialise_layer_itineraire()
 		this.source_draw = new source.Vector();
 
 		this.vector_draw = new layer.Vector({
@@ -7493,6 +7495,216 @@ export class MapComponent implements OnInit {
 
 			}
 		}
+	}
+
+	draw_itineraire
+	source_itineraire
+	vector_itineraire
+
+	data_itineraire = {
+		"depart": {
+			"nom": "",
+			"coord": [],
+			"set": false
+		},
+		"destination": {
+			"nom": "",
+			"coord": [],
+			"set": false
+		},
+		"route": {
+			"loading": false,
+			"set":false
+		}
+	}
+
+	layer_itineraire
+	initialise_layer_itineraire() {
+		var mysource = new source.Vector({ wrapX: false });
+
+		this.layer_itineraire = new layer.Vector({
+			source: mysource,
+			style: (feature) => {
+				console.log(feature.getGeometry().getType())
+				if (feature.getGeometry().getType() == 'Point') {
+
+					if (feature.get('data') == "depart") {
+						return new style.Style({
+							image: new style.Icon({
+								src: "assets/images/settings/depart.svg",
+								scale: 2,
+							})
+						})
+					} else {
+						return new style.Style({
+							image: new style.Icon({
+								src: "assets/images/settings/itineraire-arrivée_icone.svg",
+								scale: 1,
+							})
+						})
+					}
+				} else {
+					return new style.Style({
+						stroke: new style.Stroke({
+							width: 6,
+							color: this.primaryColor
+						})
+					})
+				}
+			}
+		});
+
+		this.layer_itineraire.setZIndex(1000)
+		map.addLayer(this.layer_itineraire)
+	}
+
+	positioner_marker(type) {
+
+
+
+		if (type == "depart") {
+			var color = "rgb(0, 158, 255)"
+		} else {
+			var color = "rgb(255, 107, 0)"
+		}
+		if (this.draw_itineraire) {
+			map.removeInteraction(this.draw_itineraire);
+		}
+
+		this.source_itineraire = new source.Vector({ wrapX: false });
+
+		this.vector_itineraire = new layer.Vector({
+			source: this.source_itineraire,
+
+		});
+
+
+
+		var addInteraction = () => {
+
+			this.draw_itineraire = new interaction.Draw({
+				source: this.source_itineraire,
+				type: 'Point',
+				style: new style.Style({
+
+					image: new style.Circle({
+						radius: 5,
+						fill: new style.Fill({
+							color: color
+						})
+					})
+				})
+			});
+			map.addInteraction(this.draw_itineraire);
+		}
+
+		addInteraction()
+
+
+		this.translate.get('notifications', { value: 'partager' }).subscribe((res: any) => {
+			var notif = this.notif.open(res.click_on_map_itineraire, 'Fermer', {
+				duration: 20000
+			});
+
+			this.draw_itineraire.on("drawend", (e) => {
+				notif.dismiss()
+
+				var coord = e.feature.getGeometry().getCoordinates();
+				var coord_4326 = proj.transform(coord, 'EPSG:3857', 'EPSG:4326')
+				var mygeom = new geom.Point(e.feature.getGeometry().getCoordinates())
+
+				var newMarker = new Feature({
+					geometry: mygeom,
+					data: type
+				});
+				var feat_to_remove;
+				for (let index = 0; index < this.layer_itineraire.getSource().getFeatures().length; index++) {
+					const my_feat = this.layer_itineraire.getSource().getFeatures()[index];
+					if (my_feat.get('data') == type) {
+						feat_to_remove = my_feat
+					}
+				}
+
+				if (feat_to_remove) {
+					this.layer_itineraire.getSource().removeFeature(feat_to_remove)
+				}
+				this.layer_itineraire.getSource().addFeature(newMarker)
+				this.data_itineraire[type]['coord'] = coord_4326
+				this.data_itineraire[type]['set'] = true
+
+				var geocodeOsm = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + coord_4326[1] + "&lon=" + coord_4326[0] + "&zoom=18&addressdetails=1"
+
+				$.get(geocodeOsm, (data) => {
+					// console.log(data)
+					var name = data.display_name.split(',')[0]
+					this.data_itineraire[type]['nom'] = name
+				})
+
+				// console.log(this.layer_itineraire.getSource())
+				this.calculate_itineraire()
+				map.removeInteraction(this.draw_itineraire);
+
+			});
+
+		});
+
+	}
+
+	calculate_itineraire() {
+		if (this.data_itineraire.depart.coord.length == 2 && this.data_itineraire.destination.coord.length == 2) {
+			var a = this.data_itineraire.depart.coord
+			var b = this.data_itineraire.destination.coord
+			this.data_itineraire.route.loading = true
+			this.data_itineraire.route.set = false
+			var url = "http://51.77.230.235:5000/route/v1/driving/" + a[0] + "," + a[1] + ";" + b[0] + "," + b[1] + "?overview=full"
+			$.get(url, (data) => {
+				// console.log(data)
+				this.data_itineraire.route.loading = false
+				if (data['routes'] && data['routes'].length > 0) {
+					this.display_itineraire(data)
+				}
+			})
+
+		}
+	}
+
+	display_itineraire(data) {
+		var route = new Format.Polyline({
+			factor: 1e5
+		}).readGeometry(data.routes[0].geometry, {
+			dataProjection: 'EPSG:4326',
+			featureProjection: 'EPSG:3857'
+		});
+
+		var newMarker = new Feature({
+			data: 'route',
+			geometry: route
+
+		});
+
+		var feat_to_remove;
+		for (let index = 0; index < this.layer_itineraire.getSource().getFeatures().length; index++) {
+			const my_feat = this.layer_itineraire.getSource().getFeatures()[index];
+			if (my_feat.get('data') == 'route') {
+				feat_to_remove = my_feat
+			}
+		}
+
+		if (feat_to_remove) {
+			this.layer_itineraire.getSource().removeFeature(feat_to_remove)
+		}
+		this.data_itineraire.route.set = true
+		this.layer_itineraire.getSource().addFeature(newMarker)
+	}
+
+	clear_itineraire(){
+		
+		this.layer_itineraire.getSource().clear()
+		this.data_itineraire.route.set = false
+		this.data_itineraire.depart.coord = []
+		this.data_itineraire.depart.nom = ""
+		this.data_itineraire.destination.coord = []
+		this.data_itineraire.destination.nom = ""
 	}
 }
 

@@ -98,7 +98,10 @@
   
   <div style="text-align: center;"  class="icone_point icone_polygon" >  
 
-    <img src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" />
+    <img  src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;"  *ngIf="couche.logo_src == null" />
+      <img  src="{{url_prefix+couche.logo_src}}" style="width: 60px;height:60px;" *ngIf="couche.logo_src != null" />
+
+    <!-- <img src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" /> -->
 
   </div>
 

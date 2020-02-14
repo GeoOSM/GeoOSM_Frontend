@@ -17,7 +17,9 @@
       <img *ngIf='couche.droit_couche==true && couche.geom=="LineString" ' class="circle"
         src="{{url_prefix}}assets/images/icones/circle.svg" alt="" style="width: 7px;height: 7px;position: absolute;">
 
-      <img  src="{{url_prefix+couche.img}}" />
+
+      <img  src="{{url_prefix+couche.img}}"  *ngIf="couche.logo_src == null" />
+      <img  src="{{url_prefix+couche.logo_src}}"  *ngIf="couche.logo_src != null" />
 
       <!-- <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
         [ngStyle]="{'width':'30px','height': '30px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
