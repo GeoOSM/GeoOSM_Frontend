@@ -27,4 +27,14 @@ export class CoucheThematiqueComponent implements OnInit {
     this.toogle_couche.emit(couche)
   }
 
+  disabled_couche(couche){
+    // console.log(couche)
+    if (couche['wms_type'] == 'osm' && (couche['number'] == 0 || couche['number'] == null)) {
+      return true
+    }else{
+      return false
+    }
+   
+  }
+
 }

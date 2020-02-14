@@ -429,14 +429,14 @@ export class MapComponent implements OnInit {
 
 		}
 
-	
+
 	}
 
 	events_left = 'close';
 	events_right = 'close';
 	config_projet
 	opened_left: false;
-
+	environment:any
 
 	constructor(
 		private zone: NgZone,
@@ -451,8 +451,10 @@ export class MapComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private meta: Meta,
 		public translate: TranslateService,
-		private builder: FormBuilder
+		private builder: FormBuilder,
 	) {
+		
+		this.environment = environment
 		translate.addLangs(['fr']);
 		translate.setDefaultLang('fr');
 	}
@@ -1284,6 +1286,7 @@ export class MapComponent implements OnInit {
 					map.getView().setZoom(map.getView().getZoom() + 3);
 
 				} else {
+					console.log(layer)
 					if (layer.get('type') == 'requete' || layer.get('type') == 'wfs') {
 
 						if (feature.getProperties()['features']) {
@@ -1294,6 +1297,13 @@ export class MapComponent implements OnInit {
 
 
 						var pte = []
+
+						pte.push({
+							'index': 'title_couche_thematique',
+							'val': this.communicationComponent.get_couche_by_key_and_id_cat(layer.get('id_cat'), layer.get('key_couche')),
+							'display': false
+						})
+
 						pte.push({
 							'index': 'name',
 							'val': dataFeature['name'],
@@ -1355,12 +1365,7 @@ export class MapComponent implements OnInit {
 								var osm_type = data[0].osm_type
 								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + dataFeature['osm_id']
 
-								pte.push({
-									'index': 'OSM url',
-									'val': osm_url,
-									'type': 'url',
-									'display': true
-								})
+
 
 								if (osm_type == 'relation') {
 									var osm_type_small = 'R'
@@ -1371,21 +1376,30 @@ export class MapComponent implements OnInit {
 								}
 
 								pte.push({
+									'index': 'OSM url',
+									'val': osm_url,
+									'type': 'url',
+									'display': true
+								})
+								pte.push({
 									'index': 'share_osm',
 									'val': layer.get('id_cat') + ',' + layer.get('key_couche') + ',' + osm_type_small + ',' + dataFeature['osm_id'],
 									'type': 'share',
 									'display': false
 								})
 
+								this.zone.run(() => {
 
-								this.openProperties('220px')
+									this.dataFeature = pte
+								})
+
+								// this.openProperties('280px')
 							} else {
-								this.openProperties('220px')
+								// this.openProperties('280px')
 							}
-							this.activate_an_icon(feature.getGeometry(), feature.getGeometry().getType())
-
 						})
-
+						this.openProperties('280px')
+						this.activate_an_icon(feature.getGeometry(), feature.getGeometry().getType())
 						$('#notifications').hide()
 
 
@@ -1448,6 +1462,11 @@ export class MapComponent implements OnInit {
 
 						var pte = []
 
+						pte.push({
+							'index': 'title_couche_thematique',
+							'val': this.communicationComponent.get_couche_by_key_and_id_cat(layer.get('id_cat'), layer.get('key_couche')),
+							'display': false
+						})
 						var hstore_to_json = dataFeature
 						for (var i = 0; i < hstore_to_json.length; i++) {
 
@@ -1484,7 +1503,8 @@ export class MapComponent implements OnInit {
 
 						})
 						this.activate_an_icon(feature.getGeometry(), feature.getGeometry().getType())
-						this.openProperties('220px')
+						this.openProperties('280px')
+						// console.log(pte)
 
 					} else if (layer.get('type') == 'querry') {
 
@@ -1515,6 +1535,13 @@ export class MapComponent implements OnInit {
 						} else if (dataFeature.type_query == 'limites') {
 							console.log('ok')
 							var pte = []
+
+							pte.push({
+								'index': 'title_couche_thematique',
+								'val': this.communicationComponent.get_couche_by_key_and_id_cat(layer.get('id_cat'), layer.get('key_couche')),
+								'display': false
+							})
+
 							pte.push({
 								'index': 'share_limites',
 								'val': dataFeature.type + ',' + dataFeature.id,
@@ -1550,12 +1577,13 @@ export class MapComponent implements OnInit {
 						var source = lay.getSource()
 						var viewResolution = view.getResolution();
 
-						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857');
+						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30";
 
 						$.get(url, (data) => {
-							console.log(data.split(/\r?\n/).length, data.split(/\r?\n/)[0]);
+							console.log(lay);
 							var donne = data.split(/\r?\n/)
 							var pte = []
+
 							var details_osm_url = ''
 							for (var index = 0; index < donne.length; index++) {
 								if (donne[index].includes('geometry')) {
@@ -1579,7 +1607,7 @@ export class MapComponent implements OnInit {
 										var hstore_to_json = JSON.parse(val)
 
 										$.each(hstore_to_json, (index, valeur) => {
-											if (index != 'name' && valeur) {
+											if (index != 'name' && index != 'amenity' && valeur) {
 												var type = "text"
 
 												if (index == 'website') {
@@ -1606,7 +1634,6 @@ export class MapComponent implements OnInit {
 
 							}
 
-							console.log(pte)
 
 							if (geometry_wkt) {
 								var wkt = new Format.WKT();
@@ -1618,56 +1645,69 @@ export class MapComponent implements OnInit {
 								var z = lay.getZIndex() + 1
 								this.masque.setZIndex(z)
 							}
-							if (pte.length > 0)
+							if (pte.length > 0) {
+
+
+
+								pte.push({
+									'index': 'title_couche_thematique',
+									'val': this.communicationComponent.get_couche_by_key_and_id_cat(lay.get('id_cat'), lay.get('key_couche')),
+									'display': false
+								})
 								this.zone.run(() => {
 									this.typeDataFeature = 'keyVal'
 									this.dataFeature = pte
 								})
 
-							if (details_osm_url != '' && pte.length > 0) {
+								if (details_osm_url != '' && pte.length > 0) {
 
-								$('#notifications').show()
+									$('#notifications').show()
 
-								$.get(details_osm_url, (data) => {
-									console.log(data)
-									if (data.length == 1) {
-										var osm_type = data[0].osm_type
-										var osm_id = data[0].osm_id
-										var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + osm_id
+									$.get(details_osm_url, (data) => {
+										console.log(data)
+										if (data.length == 1) {
+											var osm_type = data[0].osm_type
+											var osm_id = data[0].osm_id
+											var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + osm_id
 
-										pte.push({
-											'index': 'OSM url',
-											'val': osm_url,
-											'type': 'url',
-											'display': true
-										})
-										if (osm_type == 'relation') {
-											var osm_type_small = 'R'
-										} else if (osm_type == 'way') {
-											var osm_type_small = 'W'
-										} else if (osm_type == 'node') {
-											var osm_type_small = 'N'
+											pte.push({
+												'index': 'OSM url',
+												'val': osm_url,
+												'type': 'url',
+												'display': true
+											})
+											if (osm_type == 'relation') {
+												var osm_type_small = 'R'
+											} else if (osm_type == 'way') {
+												var osm_type_small = 'W'
+											} else if (osm_type == 'node') {
+												var osm_type_small = 'N'
+											}
+											pte.push({
+												'index': 'share_osm',
+												'val': lay.get('id_cat') + ',' + lay.get('key_couche') + ',' + osm_type_small + ',' + osm_id,
+												'type': 'share',
+												'display': false
+											})
+
+											this.zone.run(() => {
+												this.dataFeature = pte
+											})
+
+										} else {
+
 										}
-										pte.push({
-											'index': 'share_osm',
-											'val': lay.get('id_cat') + ',' + lay.get('key_couche') + ',' + osm_type_small + ',' + osm_id,
-											'type': 'share',
-											'display': false
-										})
 
-										this.openProperties('220px')
-									} else {
-										this.openProperties('220px')
-									}
+										$('#notifications').hide()
+									})
 
-									$('#notifications').hide()
-								})
+									this.openProperties('280px')
 
 
-							} else if (pte.length > 0) {
-								this.openProperties('220px')
+								} else if (pte.length > 0) {
+									this.openProperties('280px')
+								}
 							}
-
 
 						});
 
@@ -1994,13 +2034,7 @@ export class MapComponent implements OnInit {
 
 	}
 
-	isShareFeatures(feature) {
-		for (var index = 0; index < feature.length; index++) {
-			if (feature[index]['type'] == 'share') {
-				return true
-			}
-		}
-	}
+
 
 	isPhone() {
 		if (document.documentElement.clientWidth <= 767) {
@@ -2298,7 +2332,7 @@ export class MapComponent implements OnInit {
 				var coord_caracteri = new Overlay({
 					position: coord,
 					positioning: 'center-center',
-					element: document.getElementById(pte['name_analyse'])
+					element: document.getElementById(pte['name_analyse'] + "_chart")
 				});
 
 				map.addOverlay(coord_caracteri);
@@ -2315,7 +2349,8 @@ export class MapComponent implements OnInit {
 					coloR.push(dynamicColors());
 				}
 				this.chart_analyse_spatiale[this.chart_analyse_spatiale.length] = new Chart(pte['name_analyse'], {
-					type: 'bar',
+					type: 'pie',
+					scaleFontColor: 'red',
 					data: {
 						labels: labels,
 						datasets: [
@@ -2331,50 +2366,33 @@ export class MapComponent implements OnInit {
 						title: {
 							display: true,
 							text: pte['emprisesChoisiName'],
-							fontColor: "Black",
+							fontColor: "#fff",
 							fontSize: 16,
-							position: 'bottom'
+							position: 'top'
 						},
 						legend: {
-							display: false,
+							display: true,
 							labels: {
-								fontColor: "Black",
-								// fontSize: 18
+								fontColor: "#fff",
+								fontSize: 14
 							}
 						},
 						scales: {
 							xAxes: [{
-								display: true,
+								display: false,
+								ticks: {
+									fontColor: "Black", // this here
+								}
 							}],
 							yAxes: [{
 								display: false,
+
 							}],
 						},
 
 						onClick: (event) => {
 							console.log(event)
 							var name_analyse = event.target.id
-
-							for (var index = 0; index < this.layerInMap.length; index++) {
-								if (this.layerInMap[index]['type'] == 'analyse_spatiale' && this.layerInMap[index]['name_analyse'] == name_analyse) {
-									var items = []
-									for (var i = 0; i < this.layerInMap[index]['querry'].length; i++) {
-										var element = this.layerInMap[index]['querry'][i];
-										items.push({
-											'nom': element['nom'],
-											'nom_file': element['nom_file'],
-											'type': 'url',
-											'number': element['number']
-										})
-									}
-									this.zone.run(() => {
-										this.typeDataFeature = 'download'
-										this.dataFeature = items
-									})
-									console.log(this.typeDataFeature, this.dataFeature)
-									this.openProperties('170px')
-								}
-							}
 
 						}
 					}
@@ -2387,6 +2405,32 @@ export class MapComponent implements OnInit {
 			}, 1000)
 
 		})
+	}
+
+	download_files(name_analyse) {
+		console.log(name_analyse)
+		// var name_analyse = event.target.id
+
+		for (var index = 0; index < this.layerInMap.length; index++) {
+			if (this.layerInMap[index]['type'] == 'analyse_spatiale' && this.layerInMap[index]['name_analyse'] == name_analyse) {
+				var items = []
+				for (var i = 0; i < this.layerInMap[index]['querry'].length; i++) {
+					var element = this.layerInMap[index]['querry'][i];
+					items.push({
+						'nom': element['nom'],
+						'nom_file': element['nom_file'],
+						'type': 'url',
+						'number': element['number']
+					})
+				}
+				this.zone.run(() => {
+					this.typeDataFeature = 'download'
+					this.dataFeature = items
+				})
+				console.log(this.typeDataFeature, this.dataFeature)
+				this.openProperties('220px')
+			}
+		}
 	}
 
 	removeSpecialCharacter(data) {
@@ -2408,78 +2452,77 @@ export class MapComponent implements OnInit {
 	}
 
 	activate_an_icon(geometry_, type) {
-		console.log(geometry_.getCoordinates(), geometry_)
-		this.desactivate_an_icon()
-		var coord = geometry_.getCoordinates()
-		var primaryColor = this.primaryColor
-		if (type == 'Point') {
+		this.zone.run(() => {
+			this.desactivate_an_icon()
+			var coord = geometry_.getCoordinates()
+			var primaryColor = this.primaryColor
+			if (type == 'Point') {
 
-			var features = []
-			var newMarker = new Feature({
-				geometry: new geom.Point(coord),
-			});
-			features[0] = newMarker;
-
-
-			var markerSource = new source.Vector({
-				features: features
-			});
-
-			var LayTheCopy = new layer.Vector({
-				source: markerSource,
-				style: new style.Style({
-					image: new style.Circle({
-						radius: 24,
-						stroke: new style.Stroke({
-							color: primaryColor,
-							width: 5,
-
-						})
-					})
-				})
-			})
-
-			LayTheCopy.set('name', "activate_icon");
-			LayTheCopy.setZIndex(1002)
-			map.addLayer(LayTheCopy);
-
-		} else {
-
-			/*	var features = []
-	
-				if (type == 'Polygon') {
-					var newMarker = new Feature({
-						geometry: new geom.LineString(coordinate[0]),
-					});
-				} else {
-					var newMarker = new Feature({
-						geometry: new geom.LineString(coordinate),
-					});
-				}
-	
+				var features = []
+				var newMarker = new Feature({
+					geometry: new geom.Point(coord),
+				});
 				features[0] = newMarker;
-	
-	
+
+
 				var markerSource = new source.Vector({
 					features: features
 				});
-	
-				var myStyle = new style.Style({
-	
-					stroke: new style.Stroke({
-						color: '#1CAC77',
-						width: 5
-					}),
-	
-				});
-	
+
 				var LayTheCopy = new layer.Vector({
 					source: markerSource,
-					style: myStyle
-				})*/
-		}
+					style: new style.Style({
+						image: new style.Circle({
+							radius: 24,
+							stroke: new style.Stroke({
+								color: primaryColor,
+								width: 5,
 
+							})
+						})
+					})
+				})
 
+				LayTheCopy.set('name', "activate_icon");
+				LayTheCopy.setZIndex(1002)
+				map.addLayer(LayTheCopy);
+
+			} else {
+
+				/*	var features = []
+		
+					if (type == 'Polygon') {
+						var newMarker = new Feature({
+							geometry: new geom.LineString(coordinate[0]),
+						});
+					} else {
+						var newMarker = new Feature({
+							geometry: new geom.LineString(coordinate),
+						});
+					}
+		
+					features[0] = newMarker;
+		
+		
+					var markerSource = new source.Vector({
+						features: features
+					});
+		
+					var myStyle = new style.Style({
+		
+						stroke: new style.Stroke({
+							color: '#1CAC77',
+							width: 5
+						}),
+		
+					});
+		
+					var LayTheCopy = new layer.Vector({
+						source: markerSource,
+						style: myStyle
+					})*/
+			}
+		})
 	}
 
 	closePropertiesPdf(j) {
@@ -6431,7 +6474,7 @@ export class MapComponent implements OnInit {
 				'type': 'mappilary',
 				'nom': 'mappilary',
 				'type_couche_inf': 'mappilary',
-				'checked': true,
+				'checked': false,
 				'img': 'assets/images/icones/mapillary-couche.png'
 			}
 

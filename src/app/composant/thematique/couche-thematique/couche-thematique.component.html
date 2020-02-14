@@ -34,12 +34,12 @@
     <!-- class="couches-checkbox" -->
     <div fxFlex="50px" style="position: relative;" >
       <mat-checkbox class="primaryColor center_checkbox" color="primary" [(ngModel)]="couche.checked"
-        (change)="displayDataOnMap(couche)">
+        (change)="displayDataOnMap(couche)" [disabled]="disabled_couche(couche)" >
       </mat-checkbox>
     </div>
   </div>
 
-  <div class="couches-nom black" style="-webkit-box-orient: vertical;">
+  <div class="couches-nom black" [ngClass]="{'couche_disabled': disabled_couche(couche)}" style="-webkit-box-orient: vertical;">
     <div>{{couche.nom}}</div>
   </div>
 

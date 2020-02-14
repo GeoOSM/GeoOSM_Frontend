@@ -1,4 +1,4 @@
-<div class="border_red menu-thematiques-child text-center primaryColorBG"  >
+<div class="border_red menu-thematiques-child text-center " [ngStyle]="{'background-color': thematique.color}"  >
     <!-- [ngStyle]="{'background-color': thematique.color}" -->
   <div class="menu-thematiques-child-nombre back_red white">
     <p *ngIf="thematique.sous_thematiques"> {{thematique.sous_thematiques.length}} </p>

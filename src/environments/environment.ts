@@ -16,6 +16,7 @@ export const environment = {
   url_prefix: "http://localhost:8000/",
   url_frontend:"http://localhost:4200/",
   url_service:"http://servicetest.geocameroun.xyz/",
+  global_logo:"assets/images/Pays/MALI.svg",
   indicatif_pays:"ml",
   pojet_nodejs:"mali",
   production: false

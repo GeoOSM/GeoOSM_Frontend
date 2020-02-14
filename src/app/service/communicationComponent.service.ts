@@ -47,6 +47,16 @@ export class communicationComponent {
         }
     }
 
+    get_thematique_by_id_cat(id_cat){
+        
+        for (let index = 0; index < this.all_thematiques.value.length; index++) {
+            const thematique = this.all_thematiques.value[index];
+            if (thematique.id_thematique == id_cat) {
+                return thematique
+            }
+        }
+    }
+
     get_sous_thematique_by_key(rang,id_sous_cat){
         var thematique = this.get_thematique_by_rang(rang)
         if (thematique['sous_thematiques']) {
@@ -85,5 +95,35 @@ export class communicationComponent {
             return undefined
         }
        
+    }
+
+    get_couche_by_key_and_id_cat(id_cat,key_couche){
+        var thematique = this.get_thematique_by_id_cat(id_cat)
+        var response;
+        if (thematique['sous_thematiques']) {
+            for (let j = 0; j < thematique['sous_thematiques'].length; j++) {
+                const element = thematique['sous_thematiques'][j];
+                for (let index = 0; index < thematique['sous_thematiques'][j]['couches'].length; index++) {
+                    const couche = thematique['sous_thematiques'][j]['couches'][index];
+                    if (couche['key_couche'] == key_couche) {
+                        var response =  couche
+                    }
+                }
+            }
+        }else{
+            for (let index = 0; index < thematique['couches'].length; index++) {
+                const couche = thematique['couches'][index];
+                if (couche['key_couche'] == key_couche) {
+                    var response =  couche
+                }
+            }
+        }
+
+        if (response) {
+            return response
+        }else{
+            return
+        }
+        
     }
 }

@@ -44,19 +44,73 @@
 
 @include mat-core();
 
-$theme-primary: mat-palette($mat-blue,500);
-$theme-accent:  mat-palette($mat-orange,600);
+
+$color_prim: (
+  50: #000,
+  100: #023f5f,
+  200: #023f5f,
+  300: #023f5f,
+  400: #023f5f,
+  500: #023f5f,
+  600: #023f5f,
+  700: #023f5f,
+  800: #023f5f,
+  900: #023f5f,
+  A100: #000,
+  A200: #000,
+  A400: #023f5f,
+  A700: #023f5f,
+  contrast: (
+      500: black,
+      600: black,
+      700: black,
+      800: black,
+      900: black,
+      A700: black,
+  )
+);
+
+
+$color_accent: (
+  50: #000,
+  100: #00ada7,
+  200: #00ada7,
+  300: #00ada7,
+  400: #00ada7,
+  500: #00ada7,
+  600: #00ada7,
+  700: #00ada7,
+  800: #00ada7,
+  900: #00ada7,
+  A100: #000,
+  A200: #000,
+  A400: #00ada7,
+  A700: #00ada7,
+  contrast: (
+      500: black,
+      600: black,
+      700: black,
+      800: black,
+      900: black,
+      A700: black,
+  )
+);
+$primary:#023f5f;
+$primary_transparent_bg:#f2f7fa !important;
+
+$theme-primary: mat-palette($color_prim,500);
+$theme-accent:  mat-palette($color_accent,600);
 $theme-warn:    mat-palette($mat-red);
-$theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+$theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 //
 @include theme-color-grabber($theme);
 @include angular-material-theme($theme);
-.light {
-  $light-primary: mat-palette($mat-blue, 200,300, 900);
-  $light-accent:  mat-palette($mat-light-blue, 600, 100, 800);
-  $light-warn:    mat-palette($mat-red, 600);
-  $light-theme: mat-dark-theme($light-primary, $light-accent, $light-warn);
-  @include theme-color-grabber($light-theme);
-  @include angular-material-theme($light-theme);
+// .light {
+//   $light-primary: mat-palette($mat-blue, 200,300, 900);
+//   $light-accent:  mat-palette($mat-light-blue, 600, 100, 800);
+//   $light-warn:    mat-palette($mat-red, 600);
+//   $light-theme: mat-dark-theme($light-primary, $light-accent, $light-warn);
+//   @include theme-color-grabber($light-theme);
+//   @include angular-material-theme($light-theme);
 
-}
+// }

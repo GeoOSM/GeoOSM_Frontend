@@ -156,5 +156,32 @@
       "toolpit_legend":"Legende",
       "toolpit_download_data":"Téléchargement de données"
     }
+  },
+  "layer_properties":{
+    "title":"Fiche descriptive",
+    "title_download":"Téléchargement des fichiers",
+    "click_url_text":"Cliquer ici",
+    "toolpit_share":"Partager ce lieu",
+    "download_gpkg":"Télechargez le GEOPACKAGE ici",
+    "download_problem":" un problème est survenu sur cette couche"
+  },
+  "dowload_data":{
+    "title_data_in":"Données d'entrées",
+    "description":"Extraire des données spécifiques selon une emprise",
+    "title_choose_thematique":"Choisir une thématique",
+    "title_choose_layer":"Choisir une couche",
+    "title_choose_emprise":"Choisir une emprise",
+    "title_choose_type_emprise":"Votre emprise spatiale",
+    "title_choose_one_emprise":"Sélectioner une limite",
+    "loading":"Chargement des ",
+    "calculate":"Calculer",
+    "by":"Par",
+    "all":"tout",
+    "draw":"Déssinez une emprise"
+  },
+  "left_menu":{
+    "fonds_de_carte":"Tous les fonds de cartes",
+    "geobibliotheque":"GÉOBIBLIOTHÈQUE",
+    "geothematiques":"Géothématiques"
   }
 }

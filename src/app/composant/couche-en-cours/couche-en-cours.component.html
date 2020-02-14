@@ -93,53 +93,12 @@
 </div>
 
 <div style="padding: 10px 5px;" *ngIf="type =='thematiques'">
-  <!-- <div [preventDefaultEvent]="true" [ngDraggable]="false" class="white descriptionLayerBox"
-    id=" descriptionLayerBox{{i}}" style="box-shadow: 0 0 3px 1px #3030307a;">
-    <span class="back_white pointer descriptionLayerBoxClose" id="descriptionLayerBoxClose{{i}}"
-      (click)="openDescription(couche,i)">
-      <i class="fa fa-times black"></i> </span>
-    <h6 class="primaryColorBG" style="border-bottom: 1px solid;
-        text-align: center;
-        font-size: 12px;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        margin-top: 6px;
-        text-transform: uppercase;">
-      {{couche.nom}} </h6>
-
-    <div style="text-align: justify;font-size: 13px;padding: 0 5px;   display: -webkit-box;-webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;overflow: hidden;    margin-bottom: 10px;" class="primaryColor">
-      <span class="bold">
-        {{couche.number}} entité(s)
-        <span *ngIf='couche.surface_totale'> ; {{couche.surface_totale}} m² de surface totale </span>
-        <span *ngIf='couche.distance_totale'> ; {{couche.distance_totale}} m de longuer totale </span>
-      </span>
-      <span *ngIf='couche.metadata.resume'> {{couche.metadata.resume}} </span>
-      <span *ngIf='!couche.metadata.resume'>; Le résumé de cette donnée n'est pas encore disponible </span>
-    </div>
-    <a *ngIf="displayMetadataLink(couche)" (click)="openMetadata(couche)"
-      style="text-decoration:underline;padding-left: 5px;color: #fb8c00 !important;" class="primaryColor pointer">
-      Consulter sa fiche
-      descriptive </a>
-  </div> -->
+  
 
   
-  <!-- [ngClass]="{'icone_linestring': couche.geom=='LineString' ,'icone_polygon': couche.geom=='Polygon' && ( couche.img == '' || couche.img == null ),'icone_point': couche.geom=='point'}" -->
   <div style="text-align: center;"  class="icone_point icone_polygon" >  
 
     <img src="{{url_prefix+couche.img}}" style="width: 60px;height:60px;" />
-
-    <!-- <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
-      [ngStyle]="{'width':'60px','height': '50px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
-    </div> -->
-
-    <!-- <div *ngIf='couche.geom=="Polygon" && couche.img != "" && couche.img!=null '
-      style="width:60px;height: 50px;border:3px solid black;display: inline-block;margin-bottom: 5px;margin-left: calc(50% - 30px);margin-top: 25px;">
-      <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
-    </div> -->
-
-
-    <!-- <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'transform':'translateY(42px)','margin':'0px'}"> -->
 
   </div>
 
@@ -192,12 +151,16 @@
 </div>
 
 <div *ngIf="type =='mappilary'">
-  <span>
-    <img src="{{couche.img}}" style="" />
+  <div style="padding: 35px 0px;">
+    <img src="{{couche.img}}" style="height: 51px;" />
 
-  </span>
+  </div>
 
-  <p>
+  <p style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+    <i class="fa fa-trash pointer "  style="font-size: 15px;color: rgb(242, 79, 79);" (click)="couche.checked = false;displayDataOnMap(couche)"></i>
+
+  </p>
+  <p style="padding-left: 5px;">
     <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
       (click)="toogleVisibilityLayer(couche)">
 
@@ -206,7 +169,7 @@
     </mat-checkbox>
 
   </p>
-  <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
+  <!-- <span style="position: absolute;right: 5px;bottom: 23px;margin-bottom: -4px;font-size: 18px;color: black;">
 
 
     <button mat-mini-fab style="width: 23px;height: 23px;background: rgb(242, 79, 79)"
@@ -214,16 +177,15 @@
       <i class="far fa-trash-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
     </button>
 
-  </span>
+  </span> -->
 </div>
 
 <div *ngIf="type =='analyse_spatiale'">
   <span>
-    <img src="{{couche.img}}" style="width: 50%;" />
-
+    <img src="{{couche.img}}" style="width: 50%;margin-left: 25%; margin-top: 10px;" />
   </span>
 
-  <p>
+  <p style="padding-left: 6px;">
     <mat-checkbox class="primaryColor" color="primary" style="font-size: 13px;" [(ngModel)]="couche.visible"
       (click)="toogleVisibilityLayer(couche)">
 

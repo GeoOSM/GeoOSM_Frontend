@@ -5,12 +5,12 @@
 @import '~@ngx-share/button/themes/circles/circles-dark-theme';
 @include mat-core();
 
-	$primary: mat-palette($mat-blue,500);
-	$primary_transparent: mat-palette($mat-blue,100);
-	$primary_transparent_2:#f2f7fa !important;
+	// $primary: mat-palette($mat-blue,500);
+	// $primary_transparent: mat-palette($mat-blue,100);
+	
 
-.primary_transparent_2_bg{
-	background-color: $primary_transparent_2;
+.primary_transparent_bg{
+	background-color: $primary_transparent_bg;
 }	
 
 .rotate_menu_toogle{
@@ -18,7 +18,7 @@
 }
 
 .toogle_left_div{
-	border-bottom: 1px solid mat-color($primary );
+	border-bottom: 1px solid $primary;
 	width: 100%;text-align: center;padding-top: 32px;height: 70px;
 }
 
@@ -170,12 +170,24 @@
 	padding: 0px;
 	margin: 0px;
 	position: absolute;
-	left: -5px;
+	left: 5px;
 	top: 0px;
 	bottom: 15px;
-	background: rgba(76, 175, 80, 0.11);
+	// background: rgba(76, 175, 80, 0.11);
 }
 
+.description_download{
+	padding: 5px;
+	font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: italic;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: center;
+    color: #707070;
+}
 .bloc_option_couche_options i{
 	position: absolute !important;
 	top: 50px;
@@ -365,7 +377,7 @@
 	border-radius: 0px 15px 15px 0px;
 	text-align: center;
 	display: flow-root;
-	background: mat-color($primary_transparent);
+	background: primary_transparent_bg;
 	padding: 5px;
 	font-weight: bold;
 }
@@ -376,7 +388,7 @@
     border-radius: 0px 15px 15px 0px;
     text-align: center;
     display: flow-root;
-    background: mat-color($primary_transparent);
+    background: primary_transparent_bg;
     position: fixed;
     padding: 5px;
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);
@@ -398,7 +410,7 @@
 		width: calc(100% - 40px);
 		border-radius: 0px 15px 15px 0px;
 		display: flow-root;
-		background: mat-color($primary_transparent);
+		background: primary_transparent_bg;
 		padding: 8px;
 		padding-left: 10px;
 		margin-top: 0px;
@@ -409,7 +421,7 @@
 	width: calc(100% - 40px);
 	border-radius: 0px 15px 15px 0px;
 	display: flow-root;
-	background: mat-color($primary_transparent);
+	background: primary_transparent_bg;
 	padding: 1px;
 	padding-left: 10px;
 	margin-top: 0px;
@@ -451,7 +463,7 @@
   }
   .lds-ripple div {
 	position: absolute;
-	border: 4px solid mat-color($primary);
+	border: 4px solid $primary;
 	opacity: 1;
 	border-radius: 50%;
 	animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

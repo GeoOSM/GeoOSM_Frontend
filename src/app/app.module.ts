@@ -95,6 +95,7 @@ import { CoucheCarteComponent } from './composant/carte/couche-carte/couche-cart
 import { CoucheEnCoursComponent } from './composant/couche-en-cours/couche-en-cours.component';
 import { CaracteristiquesLieuComponent } from './composant/caracteristiques-lieu/caracteristiques-lieu.component';
 import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignets.component';
+import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-descriptive.component';
 
 @NgModule({
   exports: [
@@ -132,7 +133,7 @@ import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignet
     MatTooltipModule,
     MatBottomSheetModule,
     MatTreeModule
-  ],
+  ]
 })
 export class DemoMaterialModule { }
 
@@ -158,7 +159,8 @@ export class DemoMaterialModule { }
     CoucheCarteComponent,
     CoucheEnCoursComponent,
     CaracteristiquesLieuComponent,
-    AddGeosignetsComponent
+    AddGeosignetsComponent,
+    FicheDescriptiveComponent
   ],
   entryComponents: [buttonsheetGeosiComponent, buttonsheetComponent, modalComponent, modalMetadata, commentComponent, modalQuestion,AddGeosignetsComponent],
   imports: [
