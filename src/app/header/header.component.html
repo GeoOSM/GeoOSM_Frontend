@@ -1,26 +1,45 @@
-<div class="header_bar primaryColorBG" style="background: url('/assets/images/bandeau-GEOSM.svg');background-position-y: center;" (click)="goto()" > 
+<div class="header_bar primaryColorBG"
+	style="background: url('/assets/images/bandeau-GEOSM.svg');background-position-y: center;" (click)="goto()">
 
-	<!-- <img src="assets/logo/Logos_GC1.png" class="Logos_GC" alt=""> -->
-	
-	<!-- <img src="assets/logo/madein.png" class="Logos_GC_right" alt=""> -->
+	<img src="assets/images/header/logo-geosm.svg" class="Logos_GC" alt="">
+
+	<img src="assets/images/header/logo-100_pourcent_cameroun.svg" class="Logos_GC_right" alt="">
 
 	<!-- <button id="sign-in" class="alerts " mat-icon-button  >
 		    <i  class="fa fa-sign-in fa-lg" style="color:#fff;" (click)="goto()"></i>
 	</button> -->
 
-	<!-- <button class="question_button" mat-icon-button (click)="questionModalOpen()" matTooltip="GeoCameroun ?"  >
-		    <i  class="fa fa-question-circle fa-lg" style="color:#fff;"></i>
-	</button> -->
+	<mat-form-field appearance="standard" class="language_button" class="language_button ">
+		<mat-select (selectionChange)="change_language($event)" value="fr" class="primary_transparent_bg" style="padding: 5px;" >
+			<mat-option value="" disabled > -- --</mat-option>
+			<mat-option *ngFor="let lang of environment.avaible_language"  value="{{lang}}"> <span style="text-transform: capitalize;" >{{lang}}</span> </mat-option>
+			<!-- <mat-option value="en">En</mat-option> -->
+		</mat-select>
+	</mat-form-field>
+
+	<button class="question_button" mat-icon-button (click)="questionModalOpen()"
+		matTooltip="{{ 'header.toolpit_info' | translate }}">
+		<svg x="0px" y="0px" viewBox="0 0 28.1 28.1" style="height: 22px;">
+
+			<path id="help-circle" class="white_fill" d="M18.4,13l-1.3,1.3c-1.2,1-1.8,2.5-1.6,4h-2.8v-0.7c0-1.5,0.6-2.9,1.6-4l1.7-1.8
+	c0.5-0.5,0.8-1.2,0.8-2c0-1.6-1.3-2.8-2.9-2.8c-1.5,0-2.7,1.2-2.8,2.8H8.4c0-3.1,2.5-5.6,5.6-5.6s5.6,2.5,5.6,5.6
+	C19.7,11,19.2,12.2,18.4,13 M15.5,23.9h-2.8v-2.8h2.8 M14.1,0C6.3,0,0,6.3,0,14.1c0,7.8,6.3,14.1,14.1,14.1s14.1-6.3,14.1-14.1
+	c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
+		</svg>
+		<!-- <i  class="fa fa-question-circle fa-lg" style="color:#fff;"></i> -->
+	</button>
 
 	<div class="search_bar" *ngIf=" isMaps('home') ">
-		<form (ngSubmit)="geocode(word_geocode)" >
+		<form (ngSubmit)="geocode(word_geocode)">
 
-			<i class="fas fa-search fa-lg white "  style="position: absolute;top: 10px;left: 10px;" > </i>
-				
-			<input type="text" name="world" class="search_bar_input white" [(ngModel)]="word_geocode" placeholder="{{ 'search.placeholder' | translate }}">
-			
-			<i *ngIf="word_geocode != ''" class="fas fa-times fa-lg white pointer" (click)="clearQuery()" style="position: absolute;top: 10px;right: 10px;" > </i>
-		
+			<i class="fas fa-search fa-lg white " style="position: absolute;top: 10px;left: 10px;"> </i>
+
+			<input type="text" name="world" class="search_bar_input white" [(ngModel)]="word_geocode"
+				placeholder="{{ 'search.placeholder' | translate }}">
+
+			<i *ngIf="word_geocode != ''" class="fas fa-times fa-lg white pointer" (click)="clearQuery()"
+				style="position: absolute;top: 10px;right: 10px;"> </i>
+
 		</form>
 
 		<div style="background:#fff" style="position: absolute;
@@ -29,102 +48,110 @@
 		right: 0px;
 		height: 70px;
 		overflow-y: auto;
-		background: #fff;display:none" class="text-center" id="loading_querry_recherche" >
+		background: #fff;display:none" class="text-center" id="loading_querry_recherche">
 
-				<div class="lds-ripple">
-				<div ></div>
-				<div ></div>
-			  </div>
+			<div class="lds-ripple">
+				<div></div>
+				<div></div>
+			</div>
 
 		</div>
 		<!--  -->
-		<div *ngIf="querry_recherche_body"  style="background:#fff" style="position: absolute;
+		<div *ngIf="querry_recherche_body" style="background:#fff" style="position: absolute;
 		top: 35px;
 		left: 0px;
 		right: 0px;
 		max-height: 300px;
 		overflow-y: auto;
-		background: #fff;" > 
-			<mat-list  >
-					<span *ngIf="display_reponse_geocode_adresse()" >
-							<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-									{{ 'search.adresse' | translate }} 
-							</mat-list-item>
-							<span *ngFor="let item of reponse_geocode.adresses" >
-								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'adresses')" >
-									{{item.adresse}}
-								</mat-list-item>
-								<mat-divider style="border-color: #0006;"></mat-divider>
-							</span>
+		background: #fff;">
+			<mat-list>
+				<span *ngIf="display_reponse_geocode_adresse()">
+					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+						{{ 'search.adresse' | translate }}
+					</mat-list-item>
+					<span *ngFor="let item of reponse_geocode.adresses">
+						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+							(click)="displayResult(item,'adresses')">
+							{{item.adresse}}
+						</mat-list-item>
+						<mat-divider style="border-color: #0006;"></mat-divider>
 					</span>
+				</span>
 
-					<span *ngIf="display_reponse_geocode_limites()" >
-							<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-									{{ 'search.boundery' | translate }} 
-							</mat-list-item>
-							<span *ngFor="let item of reponse_geocode.limites" >
-								<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'limites')" >
-									{{item.type_display}} : {{item.name}} 
-									<span *ngIf="item.ref" >  ({{item.ref}}) </span>
-									
-								</mat-list-item>
-								<mat-divider style="border-color: #0006;"></mat-divider>
-							</span>
-						</span>
-				<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-						{{ 'search.place' | translate }} 
+				<span *ngIf="display_reponse_geocode_limites()">
+					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+						{{ 'search.boundery' | translate }}
+					</mat-list-item>
+					<span *ngFor="let item of reponse_geocode.limites">
+						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+							(click)="displayResult(item,'limites')">
+							{{item.type_display}} : {{item.name}}
+							<span *ngIf="item.ref"> ({{item.ref}}) </span>
+
+						</mat-list-item>
+						<mat-divider style="border-color: #0006;"></mat-divider>
+					</span>
+				</span>
+				<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+					{{ 'search.place' | translate }}
 				</mat-list-item>
 				<ng-template #emptyTemplate3>
-						<p class="text-center primaryColor" > {{ 'search.no_place_found' | translate }}  </p>
+					<p class="text-center primaryColor"> {{ 'search.no_place_found' | translate }} </p>
 				</ng-template>
-				<span *ngFor="let item of reponse_geocode.nominatim ;  ifEmpty emptyTemplate3" >
-					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'nominatim')" >
+				<span *ngFor="let item of reponse_geocode.nominatim ;  ifEmpty emptyTemplate3">
+					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+						(click)="displayResult(item,'nominatim')">
 						<!-- {{item.type}} : -->
-						 {{item.display_name}} 
-						 <span class="bold primaryColor" style="display: contents;" > {{item.type}} </span>
+						{{item.display_name}}
+						<span class="bold primaryColor" style="display: contents;"> {{item.type}} </span>
 					</mat-list-item>
 					<mat-divider style="border-color: #0006;"></mat-divider>
 				</span>
-				
-					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-						 {{ 'search.map' | translate }}
-					</mat-list-item>
-					<ng-template #emptyTemplate1>
-							<p class="text-center primaryColor" > {{ 'search.no_map_found' | translate }} </p>
-					</ng-template>
-					<span *ngFor="let itemCarte of reponse_geocode.cartes  | donneFilter: filter_expression | slice:0:10 ; let c = count;ifEmpty emptyTemplate1" >
-						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemCarte,'cartes')" >
-									<!-- {{item.type}} : -->
-							 {{itemCarte.nom}}
-						</mat-list-item>
-						<mat-divider style=" border-color: #0006;"></mat-divider>
-					</span>
-	
-					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-						 {{ 'search.data' | translate }}
-					</mat-list-item>
-					<ng-template #emptyTemplate2>
-							<p class="text-center primaryColor" > {{ 'search.no_data_found' | translate }}  </p>
-					</ng-template>
-					<span *ngFor="let itemThematique of reponse_geocode.thematiques  | donneFilter: filter_expression | slice:0:10 ;let c = count;ifEmpty emptyTemplate2" >
-							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(itemThematique,'thematiques')" >
-										<!-- {{item.type}} : -->
-								 {{itemThematique.nom}} 
-							</mat-list-item>
-							<mat-divider style="    border-color: #0006;"></mat-divider>
-					</span>
 
-					<span *ngIf="display_reponse_geocode_position()" >
-						<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;" >
-							{{ 'search.position' | translate }}
+				<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+					{{ 'search.map' | translate }}
+				</mat-list-item>
+				<ng-template #emptyTemplate1>
+					<p class="text-center primaryColor"> {{ 'search.no_map_found' | translate }} </p>
+				</ng-template>
+				<span
+					*ngFor="let itemCarte of reponse_geocode.cartes  | donneFilter: filter_expression | slice:0:10 ; let c = count;ifEmpty emptyTemplate1">
+					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+						(click)="displayResult(itemCarte,'cartes')">
+						<!-- {{item.type}} : -->
+						{{itemCarte.nom}}
+					</mat-list-item>
+					<mat-divider style=" border-color: #0006;"></mat-divider>
+				</span>
+
+				<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+					{{ 'search.data' | translate }}
+				</mat-list-item>
+				<ng-template #emptyTemplate2>
+					<p class="text-center primaryColor"> {{ 'search.no_data_found' | translate }} </p>
+				</ng-template>
+				<span
+					*ngFor="let itemThematique of reponse_geocode.thematiques  | donneFilter: filter_expression | slice:0:10 ;let c = count;ifEmpty emptyTemplate2">
+					<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+						(click)="displayResult(itemThematique,'thematiques')">
+						<!-- {{item.type}} : -->
+						{{itemThematique.nom}}
+					</mat-list-item>
+					<mat-divider style="    border-color: #0006;"></mat-divider>
+				</span>
+
+				<span *ngIf="display_reponse_geocode_position()">
+					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">
+						{{ 'search.position' | translate }}
+					</mat-list-item>
+					<span *ngFor="let item of reponse_geocode.position">
+						<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;"
+							(click)="displayResult(item,'position')">
+							{{item.position}},{{item.nom}}
 						</mat-list-item>
-						<span *ngFor="let item of reponse_geocode.position" >
-							<mat-list-item class="item_eocode pointer" style="color:#000;height: auto;padding: 10px 0px;" (click)="displayResult(item,'position')" >
-								{{item.position}},{{item.nom}}
-							</mat-list-item>
-							<mat-divider style="border-color: #0006;"></mat-divider>
-						</span>
+						<mat-divider style="border-color: #0006;"></mat-divider>
 					</span>
+				</span>
 
 			</mat-list>
 		</div>
@@ -301,6 +328,6 @@
 	    <div class="pull-right" id="faseach"></div>
 
     </div>  -->
-	
+
 
 </div>

@@ -455,8 +455,7 @@ export class MapComponent implements OnInit {
 	) {
 
 		this.environment = environment
-		translate.addLangs(['fr']);
-		translate.setDefaultLang('fr');
+		
 	}
 
 

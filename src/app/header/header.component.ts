@@ -11,6 +11,8 @@ import * as $ from 'jquery';
 import { MapComponent } from '../map/map.component';
 import { modalQuestion } from '../modal/question.modal';
 import { environment } from '../../environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,16 +26,29 @@ export class HeaderComponent implements OnInit {
    filter_expression
    reponse_geocode_count
    querry_recherche_body = false
-  
+   environment:any
+
   constructor(
    public location: Location,
    private router: Router,
    private geoportailService: geoportailService,
    private communicationComponent : communicationComponent,
    public dialog: MatDialog,
-  ) { }
+   public translate: TranslateService,
+   
+  ) { 
+    this.environment = environment
+    translate.addLangs(environment.avaible_language);
+		translate.setDefaultLang(environment.default_language);
+  }
 
-  
+  change_language(lang){
+    //   console.log(lang)
+    if (lang['value']) {
+        this.translate.use(lang['value'])
+    }
+     
+  }
   ngOnInit() {
     this.reponse_geocode = {}
     this.reponse_geocode["nominatim"] = []
@@ -215,7 +230,7 @@ export class HeaderComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(modalQuestion, {
         width: width,
-        height: height
+        // height: height
     });
   }
 

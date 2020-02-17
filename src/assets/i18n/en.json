@@ -67,7 +67,7 @@
     "shareholders":"Partenaires / producteurs : "
   },
   "search":{
-    "placeholder":"Rechercher un lieu, une adresse ou une donnée",
+    "placeholder":"Search data",
     "adresse":"Adresse :",
     "boundery":"Limites administratives :",
     "place":"Lieux :",
@@ -186,7 +186,7 @@
     "draw":"Déssinez une emprise"
   },
   "left_menu":{
-    "fonds_de_carte":"Tous les fonds de cartes",
+    "fonds_de_carte":"All maps",
     "geobibliotheque":"GÉOBIBLIOTHÈQUE",
     "geothematiques":"Géothématiques"
   },

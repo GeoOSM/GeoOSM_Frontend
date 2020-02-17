@@ -5,8 +5,12 @@
 @include mat-core();
 
 
-  $primary: mat-palette($mat-blue,500);
+  // $primary: mat-palette($mat-blue,500);
 
+
+  .primary_transparent_bg{
+    background-color: $primary_transparent_bg;
+  }
 
 .item_eocode:hover{
     background: #dddddd !important;
@@ -21,24 +25,32 @@
 
 .Logos_GC{
   position: absolute;
-  left: -10px;
-  top: 5px;
-  max-height: 50px;
+  left: 30px;
+    top: 3px;
+    max-height: 55px;
 }
 
 .Logos_GC_right{
   position: absolute;
-  right: 40px;
-  top: 20px;
-  max-height: 25px;
+  right: 65px;
+  top: 12px;
+  /* max-height: 27px; */
+  width: 60px;
 }
 
 .question_button{
   position: absolute;
-  right: 0px;
-  top: 10px;
+  right: 3px;
+    top: 9px;
 }
-
+.language_button{
+  z-index: 99999;
+  position: absolute;
+  right: 140px;
+  width: 45px;
+  height: 60px;
+  top: -12px;
+}
 .search_bar{
 	position: absolute !important;
     top: 50%;
@@ -55,6 +67,11 @@
 
   .Logos_GC,.Logos_GC_right{
     display: none
+  }
+
+  .language_button{
+    top: 30px;
+    right: 1px;
   }
 
 }
@@ -125,7 +142,7 @@
   }
   .lds-ripple div {
   position: absolute;
-	border: 4px solid mat-color($primary);
+	border: 4px solid $primary;
 	opacity: 1;
 	border-radius: 50%;
 	animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

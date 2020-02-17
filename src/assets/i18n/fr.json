@@ -145,7 +145,8 @@
       "title":"Calcul d'itineraire",
       "start":"Départ",
       "destination":"Destination",
-      "infos":"Cliquer sur l'icone pour positioner sur la carte",
+      "infos_1":"Cliquer sur l'icone ",
+      "infos_2":" pour positioner sur la carte",
       "clear":"Effacer"
     },
     "legend":{
@@ -192,5 +193,17 @@
   "draw_in_map":{
     "save":"",
     "apply_draw":"APPLIQUER"
+  },
+  "header":{
+    "toolpit_info":"GeOSM ?"
+  },
+  "infos_plateform":{
+    "title":"GeoCameroun"
+  },
+  "loading":{
+    "loading":"Chargement...",
+    "loading_catalog":"Télechargement des catalogues de données...",
+    "loading_dowloads_data":" Calcul en cours...",
+    "loading_pdf_print":"Création de la carte..."
   }
 }

@@ -21,8 +21,8 @@ export class modalQuestion {
 
     }
 
-  /*onNoClick(): void {
+  onNoClick(): void {
     this.dialogRef.close();
-  }*/
+  }
 
 }

@@ -5,12 +5,14 @@
 
 export const environment = {
   url_prefix: "http://admintest.geocameroun.xyz/",
-  url_frontend:"geoportailtest.geocameroun.xyz",
+  url_frontend:"http://geoportailtest.geocameroun.xyz",
   url_service:"http://servicetest.geocameroun.xyz/",
   global_logo:"assets/images/Pays/MALI.svg",
   indicatif_pays:"ml",
   pojet_nodejs:"mali",
   primaryColor:"#023f5f",
+  default_language:"fr",
+  avaible_language:['fr',"en"],
   production: false
 };
 
