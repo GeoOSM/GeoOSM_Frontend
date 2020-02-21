@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class HeaderComponent implements OnInit {
-  
+   
    reponse_geocode
    word_geocode=''
    filter_expression
