@@ -28,7 +28,7 @@ Dans tous les fichiers du dossier **/src/app/service/**:
 ##### 3. "BUild" votre projet
 Quand vous finissez de customiser votre projet:
 ```sh
-$ ng build
+$ npx ng build
 ```
 Et dans le dossier **dist**, vous trouverez votre projet Web avec un **index.html** prêt !
 ##### 4. Configurer Apache ou Nginx pour déployer votre projet sur le net
