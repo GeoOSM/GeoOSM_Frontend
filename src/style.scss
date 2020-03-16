@@ -12,6 +12,17 @@
 
 
 //   $theme: mat-light-theme($primary, $accent);
+.ol-control button{
+	background-color: $primary;
+  }
+  
+  .ol-control button:hover{
+	background-color: $primary;
+  }
+  
+  .ol-control button:focus, .ol-control button:hover{
+	background-color: $primary;
+  }
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary{
 	color: #fff !important;

@@ -658,3 +658,20 @@ input[type=range] {
     font-style: italic;
     font-size: 11px;
 }
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 32px;
+    width: 32px;
+    // background: goldenrod;
+    background: url('/../assets/images/icones/map_comparer_cartes.svg') no-repeat;
+    margin-top: -15px;
+    border-radius: 0 !important;
+}
+input[type=range]+.thumb {
+    background-color: #FF8A80 !important;
+}
+input[type=range]+.thumb.active{
+  top: -35px !important;
+}

@@ -111,7 +111,13 @@
         <i class="fa fa-location-arrow white" ></i>
       </button> -->
 
-      <button mat-flat-button color="primary" *ngIf="isShareFeatures(dataFeature)"
+      <div id="share_div_pte" style="text-align: center;">
+        <share-buttons [theme]="'circles-dark'" [include]="['facebook','twitter','linkedin','messenger','copy','whatsapp']"
+          [show]="11" [size]="-4" [url]="url_share">
+        </share-buttons>
+      
+      </div>
+      <button mat-flat-button color="primary" *ngIf="isShareFeatures(dataFeature) && url_share==undefined"
         class="col-md-6 col-xs-12 col-md-offset-3" (click)="shareFeature(dataFeature)"
         matTooltip="{{ 'layer_properties.click_url_text' | translate }}">
         <i class="fa fa-share-alt white"></i>

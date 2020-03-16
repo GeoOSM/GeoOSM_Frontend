@@ -1,4 +1,4 @@
-<div [matTooltip]="couche.nom" class="couches">
+<div [matTooltip]="couche.nom" class="couches"  [ngClass]="{'opacity_disabled': disabled_couche(couche)}">
 
   <!-- <button matTooltip="Partager cette donnée" mat-mini-fab (click)="share('data',couche,sous_thematique,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00;    position: absolute;
     top: -5px;
@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <div class="couches-nom black" [ngClass]="{'couche_disabled': disabled_couche(couche)}" style="-webkit-box-orient: vertical;">
+  <div class="couches-nom black" style="-webkit-box-orient: vertical;">
     <div>{{couche.nom}}</div>
   </div>
 

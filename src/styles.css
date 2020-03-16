@@ -246,17 +246,7 @@ img{
   right: 233px;
 }
 
-.ol-control button{
-  background-color: rgba(76, 175, 80, 0.7);
-}
 
-.ol-control button:hover{
-  background-color: rgba(76, 175, 80, 0.7);
-}
-
-.ol-control button:focus, .ol-control button:hover{
-  background-color: rgba(76, 175, 80, 0.7);
-}
 .ol-attribution:not(.ol-collapsed){
   background:#fff
 }

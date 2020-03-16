@@ -30,6 +30,21 @@
     max-height: 55px;
 }
 
+.drapeau_GC{
+  position: absolute;
+  left: 95px;
+  bottom: 5px;
+  height: 10px;
+}
+
+.title_GC{
+  color: #fff;
+  position: absolute;
+  left: 114px;
+  bottom: 0px;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
 .Logos_GC_right{
   position: absolute;
   right: 65px;
@@ -65,7 +80,7 @@
     width: 300px;
   }
 
-  .Logos_GC,.Logos_GC_right{
+  .Logos_GC,.Logos_GC_right,.header_left{
     display: none
   }
 

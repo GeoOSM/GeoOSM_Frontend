@@ -1,7 +1,12 @@
 <div class="header_bar primaryColorBG"
 	style="background: url('/assets/images/bandeau-GEOSM.svg');background-position-y: center;" (click)="goto()">
 
-	<img src="assets/images/header/logo-geosm.svg" class="Logos_GC" alt="">
+	<span class="header_left">
+		<img src="assets/images/header/logo-geosm.svg" class="Logos_GC" alt="">
+		<img src="{{environment.drapeau}}" class="drapeau_GC" alt="">
+		<span class="title_GC">{{environment.nom}} </span>
+	</span>
+
 
 	<img src="assets/images/header/logo-100_pourcent_cameroun.svg" class="Logos_GC_right" alt="">
 
@@ -10,9 +15,11 @@
 	</button> -->
 
 	<mat-form-field appearance="standard" class="language_button" class="language_button ">
-		<mat-select (selectionChange)="change_language($event)" value="fr" class="primary_transparent_bg" style="padding: 5px;" >
-			<mat-option value="" disabled > -- --</mat-option>
-			<mat-option *ngFor="let lang of environment.avaible_language"  value="{{lang}}"> <span style="text-transform: capitalize;" >{{lang}}</span> </mat-option>
+		<mat-select (selectionChange)="change_language($event)" value="fr" class="primary_transparent_bg"
+			style="padding: 5px;">
+			<mat-option value="" disabled> -- --</mat-option>
+			<mat-option *ngFor="let lang of environment.avaible_language" value="{{lang}}"> <span
+					style="text-transform: capitalize;">{{lang}}</span> </mat-option>
 			<!-- <mat-option value="en">En</mat-option> -->
 		</mat-select>
 	</mat-form-field>

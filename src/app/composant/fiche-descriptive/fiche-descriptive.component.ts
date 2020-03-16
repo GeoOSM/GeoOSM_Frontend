@@ -4,6 +4,7 @@ import { modalMetadata } from '../../modal/modal.metadata';
 import { MatSnackBar, MatBottomSheet, MatBottomSheetRef, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { communicationComponent } from '../.../../../service/communicationComponent.service'
 import { TranslateService } from '@ngx-translate/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-fiche-descriptive',
@@ -17,7 +18,7 @@ export class FicheDescriptiveComponent implements OnInit {
     public MetaData: MatDialog,
     private communicationComponent: communicationComponent,
   ) {
-    
+   
   }
   
   @Input() positionProperties:any;
@@ -28,11 +29,18 @@ export class FicheDescriptiveComponent implements OnInit {
   @Output() closeProperties_action = new EventEmitter();
   @Output() shareFeature_action = new EventEmitter();
 
-
+  url_share:string = undefined
   url_prefix = environment.url_prefix
   ngOnInit() {
+    
+    
   }
 
+  ngOnChanges(){
+    console.log('ngOnChanges')
+    $('#share_div_pte').hide()
+    this.url_share = undefined
+  }
 
   isShareFeatures(feature) {
 		for (var index = 0; index < feature.length; index++) {
@@ -43,7 +51,12 @@ export class FicheDescriptiveComponent implements OnInit {
   }
 
   shareFeature(data){
-    this.shareFeature_action.next(data)
+    this.url_share= this.communicationComponent.getUrlShareFeature(data)
+      $('#share_div_pte').show()
+			// setTimeout(() => {
+			// 	$('#share_div_pte').hide()
+			// }, 5000)
+    // this.shareFeature_action.next(data)
   }
 
   displayDataOnMap(data){

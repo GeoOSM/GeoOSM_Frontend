@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Subject, BehaviorSubject }    from 'rxjs';
-
+import {environment} from '../../environments/environment'
 @Injectable()
 export class communicationComponent {
     private dataObs = new Subject();
@@ -125,5 +125,23 @@ export class communicationComponent {
             return
         }
         
+    }
+    url_frontend = environment.url_frontend
+    getUrlShareFeature(feature:any):string{
+        var donne = {}
+		for (var index = 0; index < feature.length; index++) {
+			if (feature[index]['type'] == 'share') {
+				donne = feature[index]
+			}
+		}
+
+		if (donne["index"] == "share_osm") {
+			var url_share = this.url_frontend + '/map?share=feature&type=osm&path=' + donne["val"]
+		} else if (donne["index"] == "share_limites") {
+			var url_share = this.url_frontend + '/map?share=limites&path=' + donne["val"]
+		} else if (donne["index"] == "share_feature") {
+			var url_share = this.url_frontend + '/map?share=feature&type=feature&path=' + donne["val"]
+        }
+        return url_share;
     }
 }

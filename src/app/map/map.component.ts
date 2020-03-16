@@ -11,7 +11,7 @@ import * as $ from 'jquery';
 import { Chart } from 'chart.js';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TranslateService } from '@ngx-translate/core';
-
+import * as moment from 'moment'
 
 import { extent as Extent } from 'openlayers';
 import { tilegrid } from 'openlayers';
@@ -48,7 +48,6 @@ import { communicationComponent } from "../service/communicationComponent.servic
 import { environment } from '../../environments/environment';
 import { AddGeosignetsComponent } from '../composant/add-geosignets/add-geosignets.component';
 
-import { timeout } from 'q';
 declare var jsPDF: any;
 declare var turf: any;
 
@@ -2938,23 +2937,8 @@ export class MapComponent implements OnInit {
 
 
 	shareFeature(feature) {
-		var donne = {}
-		for (var index = 0; index < feature.length; index++) {
-			if (feature[index]['type'] == 'share') {
-				donne = feature[index]
-			}
-		}
-
-
-
-		console.log(feature, donne)
-		if (donne["index"] == "share_osm") {
-			var url_share = this.url_frontend + '/map?share=feature&type=osm&path=' + donne["val"]
-		} else if (donne["index"] == "share_limites") {
-			var url_share = this.url_frontend + '/map?share=limites&path=' + donne["val"]
-		} else if (donne["index"] == "share_feature") {
-			var url_share = this.url_frontend + '/map?share=feature&type=feature&path=' + donne["val"]
-		}
+		
+		var url_share = this.communicationComponent.getUrlShareFeature(feature)
 
 		var notif = this.notif.open(url_share, 'Partager', {
 			duration: 10000
@@ -3264,14 +3248,14 @@ export class MapComponent implements OnInit {
 	}
 
 	groupMenuActive_color = "#fff"
-	slideTo(typeMenu, data): any {
+	slideTo(typeMenu, data,sous_type_for_icon?:string): any {
 
 		this.typeMenu = typeMenu
 
 		if (this.typeMenu == 'menuCarte') {
-
+			data['sous_type_for_icon'] = sous_type_for_icon
 			this.groupMenuActive = data
-			this.groupMenuActive_color = data["color"]
+			this.groupMenuActive_color = this.environment.primaryColor
 			document.getElementsByClassName('slide2')[0].scrollTop = 0
 
 			var derniere_position_de_scroll_connue = 0;
@@ -4612,7 +4596,7 @@ export class MapComponent implements OnInit {
 				if (this.sketch) {
 
 					var geom = (this.sketch.getGeometry());
-					if (geom.getType() == 'Polygon') {
+					if (geom.getType() == 'Polygon' || geom.getType() == 'Circle') {
 						helpMsg = this.continuePolygonMsg;
 					} else if (geom.getType() == 'LineString') {
 						helpMsg = this.continueLineMsg;
@@ -4634,7 +4618,13 @@ export class MapComponent implements OnInit {
 			});
 
 			var formatLength = function (line) {
-				var length = Sphere.getLength(line);
+				
+				if (line.getType() == 'Circle') {
+					var length:number = line.getRadius()
+				}else{
+					var length = Sphere.getLength(line);
+				}
+
 				var output;
 				if (length > 1000) {
 					output = (Math.round(length / 1000 * 100) / 100) +
@@ -4647,7 +4637,9 @@ export class MapComponent implements OnInit {
 			};
 
 			var formatArea = function (polygon) {
+				
 				var area = Sphere.getArea(polygon);
+				
 				var output;
 				if (area > 10000) {
 					output = (Math.round(area / 1000000 * 100) / 100) +
@@ -4666,7 +4658,7 @@ export class MapComponent implements OnInit {
 				type: type,
 				style: new style.Style({
 					fill: new style.Fill({
-						color: 'rgba(255, 255, 255, scale)'
+						color: 'rgba(255, 255, 255, 0.4)'
 					}),
 					stroke: new style.Stroke({
 						color: 'rgba(0, 0, 0, 0.5)',
@@ -4699,10 +4691,17 @@ export class MapComponent implements OnInit {
 
 						var geom = evt.target;
 						var output;
-
-						if (geom.getType() == 'Polygon') {
-							output = formatArea(geom);
-							tooltipCoord = geom.getInteriorPoint().getCoordinates();
+						console.log(evt) 
+						if (geom.getType() == 'Polygon' || geom.getType() == 'Circle') {
+							
+							if (geom.getType() == 'Circle') { formatLength
+								output = formatLength(geom);
+								tooltipCoord = geom.getCenter();
+							}else{
+								output = formatArea(geom);
+								tooltipCoord = geom.getInteriorPoint().getCoordinates();
+							}
+							
 						} else if (geom.getType() == 'LineString') {
 							output = formatLength(geom);
 							tooltipCoord = geom.getLastCoordinate();
@@ -7513,7 +7512,8 @@ export class MapComponent implements OnInit {
 		},
 		"route": {
 			"loading": false,
-			"set":false
+			"set":false,
+			"data":undefined
 		}
 	}
 
@@ -7659,7 +7659,9 @@ export class MapComponent implements OnInit {
 			$.get(url, (data) => {
 				// console.log(data)
 				this.data_itineraire.route.loading = false
+				
 				if (data['routes'] && data['routes'].length > 0) {
+					this.data_itineraire.route.data = data
 					this.display_itineraire(data)
 				}
 			})
@@ -7694,6 +7696,23 @@ export class MapComponent implements OnInit {
 		}
 		this.data_itineraire.route.set = true
 		this.layer_itineraire.getSource().addFeature(newMarker)
+	}
+
+	formatTimeInineraire(timesSecondes:number):string{
+		// var startTime = moment(document.getElementById("startTime").value, "HH:mm");
+		// var endTime = moment(document.getElementById("end").value, "HH:mm");
+
+		var duration = moment.duration(timesSecondes,'seconds');
+		var hours = '0'+duration.hours();
+		var minutes = '0'+duration.minutes();
+		// console.log(hours.slice(-2),minutes.slice(-2))
+		// document.getElementById('dateDiffResult').value = hours +":"+ minutes;
+		return  hours.slice(-2) +":"+ minutes.slice(-2)
+	}
+
+	formatDistance(distanceMeters:number):string{
+		var distanceKm =distanceMeters/1000
+		return distanceKm.toFixed(2)
 	}
 
 	clear_itineraire(){
