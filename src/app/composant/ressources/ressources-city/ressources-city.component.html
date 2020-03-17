@@ -1,0 +1,15 @@
+<p style="text-align: center;" *ngIf="ressourses.length == 0" >  {{ 'ressourses.no_ressourses' | translate }}  </p>
+
+<mat-card class="pointer" style="width: 100%;margin-top: 20px;" *ngFor="let one_ressource of ressourses">
+  <mat-card-header>
+    <mat-card-title>{{one_ressource.nom}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="{{url_frontend+one_ressource.image}}">
+  <mat-card-actions>
+    <button mat-button>
+      <a target="_blank" href="{{url_frontend+one_ressource.url}}">
+        {{ 'ressourses.download' | translate }}
+      </a>
+      </button>
+  </mat-card-actions>
+</mat-card>

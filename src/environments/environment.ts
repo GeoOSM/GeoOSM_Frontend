@@ -18,7 +18,7 @@
 // nom_file: "http://servicef.geocameroun.cm//var/www/geosm/analyse/Banque.gpkg"
 export const environment = {
   url_prefix: "http://admintest.geocameroun.xyz/",
-  url_frontend:"http://geoportailtest.geocameroun.xyz",
+  url_frontend:"http://localhost:4200",
   url_service:"http://service.geocameroun.cm/",
   global_logo:"assets/images/Pays/MALI.svg",
   drapeau:"assets/images/Pays/drapeau/mali.png",

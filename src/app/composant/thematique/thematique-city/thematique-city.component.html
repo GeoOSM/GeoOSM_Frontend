@@ -1,0 +1,17 @@
+<div class="border_red col-md-12 col-xs-12 menu-thematiques-child shadow_5px text-center ">
+  <div class="menu-thematiques-child-nombre primaryColorBG white">
+    <p>{{thematique.sous_thematiques.length || thematique.couches.length}}</p>
+  </div>
+
+  <img src="{{url_prefix+thematique.img}}" class="img-responsive col-md-5 col-xs-5 menu-thematiques-child-logo">
+
+  <div class="col-md-5 col-xs-5 text-center menu-thematiques-child-title">
+    <p class="bold" >{{thematique.nom}}</p>
+  </div>
+
+  <div class="text-center  menu-thematiques-child-next shadow_5px">
+    <img src="assets/images/icones/right-arrow_green.svg" class="menu-thematiques-child-next-blanc">
+    <!-- <img src="assets/images/icones/right-arrow_green.svg" class="menu-thematiques-child-next-rouge"> -->
+  </div>
+
+</div>

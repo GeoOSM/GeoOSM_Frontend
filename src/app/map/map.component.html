@@ -142,8 +142,7 @@
 
 </div>
 
-<div fxLayout="row" class=" black title_rollback_slide2 white" [ngStyle]="{'background-color': groupMenuActive_color}"
-  style="border-bottom: 1px solid;">
+<div fxLayout="row" class=" black title_rollback_slide2 " style="border-bottom: 1px solid;">
   <i fxFlex="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
 
   <img fxFlex="25px" *ngIf="groupMenuActive && typeMenu == 'menuThematique' "
@@ -232,8 +231,8 @@ z" />
         [ngClass]="{'sous-thematiques-child ':sous_thematique.active==false,'sous-thematiques-child-active ':sous_thematique.active}">
 
         <div (click)="sous_thematique.active = !sous_thematique.active"
-          class="pointer  col-md-12 col-xs-12 sous-thematiques-head"
-          [ngClass]="{'primaryColor primary_transparent_2_bg  sous-thematiques-head-active ':sous_thematique.active}"
+          class="pointer  col-md-12 col-xs-12 sous-thematiques-head black"
+          [ngClass]="{'primaryColorBG  sous-thematiques-head-active white':sous_thematique.active}"
           style="border-radius: 5px 5px 0px 0px;">
           <div class="sous-thematiques-child-infos  white">
 
@@ -243,7 +242,7 @@ z" />
             {{sous_thematique.nom}}</h6>
           <div class="primaryColorBG sous-thematiques-head-arrow pointer">
             <i class="fa fa-chevron-right fa-lg"
-              [ngClass]="{'primaryColor':sous_thematique.active,'white':!sous_thematique.active}"></i>
+              [ngClass]="{'white':sous_thematique.active,'white':!sous_thematique.active}"></i>
 
           </div>
         </div>
@@ -270,284 +269,328 @@ z" />
 
 
 </div>
+<div fxLayout>
+  <div fxFlex="40px" style="height: 100vh;z-index: 9;">
+    <div style="height: 60px;padding: 5px;padding-top: 0px;" class="back_black white pointer" (click)="toggle_left('')">
+      <span style="font-weight: bold;font-size: x-small;">MENU</span>
+      <!-- [ngClass]="{'rotate_menu_toogle': !opened_left}" -->
+      <svg style="transition: 0.5s;" viewBox="0 0 124 124" [ngClass]="{'rotate_menu_toogle': !opened_left}">
+        <g>
+          <path d="M112,6H12C5.4,6,0,11.4,0,18s5.4,12,12,12h100c6.6,0,12-5.4,12-12S118.6,6,112,6z" fill="#FFFFFF" />
+          <path d="M112,50H12C5.4,50,0,55.4,0,62c0,6.6,5.4,12,12,12h100c6.6,0,12-5.4,12-12C124,55.4,118.6,50,112,50z"
+            fill="#FFFFFF" />
+          <path d="M112,94H12c-6.6,0-12,5.4-12,12s5.4,12,12,12h100c6.6,0,12-5.4,12-12S118.6,94,112,94z"
+            fill="#FFFFFF" />
+        </g>
 
-<mat-sidenav-container class="example-container back_white">
-
-  <mat-sidenav #sidenav1 mode="side" [(opened)]="opened_left" (opened)="events_left='open'"
-    (closed)="events_left='close'" style="background: #fff;width: 230px;padding: 5px;padding-top: 10px">
-
-    <div class="slide1">
-
-      <div class="principle_tiles">
-
-        <span *ngFor="let groupeCarte of cartes">
-          <span *ngIf="groupeCarte.sous_cartes">
-            <span *ngFor="let sous_carte of groupeCarte.sous_cartes">
-              <span *ngFor="let couche_cartes of sous_carte.couches">
-                <span *ngIf="couche_cartes.principal">
-                  <div class="principle_tiles_child"
-                    [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
-                    <span *ngIf="couche_cartes.type != 'xyz' ">
-                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
-                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' "
-                        style="width: inherit ;">
-                    </span>
-                    <span *ngIf="couche_cartes.type == 'xyz' ">
-                      <div style="width: 100%;height: 90px" id="map{{couche_cartes.key_couche+'true'+sous_carte.key}}">
-                      </div>
-                    </span>
-                    <p style="right: 10px !important;left: unset !important;">
-                      <mat-checkbox class="primaryColor" color="primary" labelPosition="before"
-                        [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)">
-                        {{couche_cartes.nom}} </mat-checkbox>
-                    </p>
-                  </div>
-
-
-                </span>
-              </span>
-            </span>
-          </span>
-          <span *ngIf="!groupeCarte.sous_cartes">
-            <span *ngFor="let couche_cartes of groupeCarte.couches">
-              <span *ngIf="couche_cartes.principal">
-                <div class="principle_tiles_child"
-                  [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
-                  <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
-                  <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' "
-                    style="width: inherit ;">
-                  <p>
-                    <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked"
-                      (change)="displayDataOnMap(couche_cartes)"> {{couche_cartes.nom}} </mat-checkbox>
-                  </p>
-                </div>
-              </span>
-            </span>
-          </span>
-        </span>
-
-
-        <div class="button_menu" style="  margin: 0px;margin-top: -21px;">
-
-          <span *ngFor="let groupeCarte of cartes">
-
-            <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
-              *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;"
-              (click)="slideTo('menuCarte',groupeCarte,'fonds_de_carte')">
-
-              <svg style="height: 12px; margin-bottom: 4px;display:none" x="0px" y="0px" viewBox="0 0 16.2 12.2">
-
-                <g transform="translate(0)">
-                  <path class="white_fill" d="M16.2,4.9l0-4.5C16.1,0.2,15.9,0,15.7,0L11,0.1H0.5C0.3,0.1,0.1,0.2,0,0.5l0,5.5l12.6,2.2
-		L16.2,4.9z" />
-                  <path class="white_fill" d="M16.2,11.5V6.2l-6.2,6.1h5.7c0.3,0,0.5-0.2,0.5-0.5C16.2,11.6,16.2,11.6,16.2,11.5L16.2,11.5
-		z" />
-                  <path class="white_fill"
-                    d="M0.1,11.5c-0.1,0.3,0.1,0.6,0.4,0.7c0,0,0.1,0,0.1,0h2.1V7.1L0.1,6.7L0.1,11.5z" />
-                  <path class="white_fill" d="M3.5,7.3v5h5.3l3.3-3.4L3.5,7.3z" />
-                </g>
-              </svg>
-
-              {{ 'left_menu.fonds_de_carte' | translate }} </button>
-          </span>
-
-        </div>
-
-      </div>
-
-      <div class="button-row button_menu" style="margin-top: 30px;">
-
+      </svg>
+    </div>
+    <div fxLayout="column" style="height: 100%;" class="primaryColorBG white ">
+      <div fxFlex="33%" (click)="openMenu('cartes')" [ngClass]="{'back_black': menuActif == 'cartes'}"
+        fxFlexAlign="center" class="three_menu pointer">
         <div>
-          <h5 class="bold primaryColor primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
-                    text-align: center;display:flow-root; text-transform: uppercase;margin-bottom: 20px;">
-            <svg style="height: 12px;vertical-align: middle;" x="0px" y="0px" viewBox="0 0 16.4 16.3">
-
-              <g transform="translate(-3033.523 514.531)">
-                <path class="primaryColorFill"
-                  d="M3041.4-498.4c0.1,0.1,0.2,0.1,0.4,0.1c0.1,0,0.3-0.1,0.4-0.1c0.1-0.1,3.4-3,3.4-6
-             c0-2.1-1.7-3.7-3.7-3.7c-2.1,0-3.7,1.7-3.7,3.7c0,0.6,0.1,1.1,0.3,1.6C3039-501.1,3040-499.6,3041.4-498.4z M3041.7-505.3
-             c0.5,0,1,0.4,1,1l0,0l0,0c0,0.5-0.4,1-1,1l0,0l0,0c-0.5,0-1-0.4-1-1l0,0C3040.8-504.9,3041.2-505.3,3041.7-505.3z" />
-                <g>
-                  <g>
-                    <path class="primaryColorFill" d="M3037-504.3c0-2.5,1.9-4.5,4.4-4.7v-1.7c-2.5-1.1-5.2-1.5-7.9-1.4l1,9
-                 c0.9-0.2,1.8-0.2,2.6-0.1C3037-503.6,3037-504,3037-504.3z" />
-                  </g>
-                </g>
-                <g>
-                  <path class="primaryColorFill" d="M3042.1-510.8v1.7c2.5,0.2,4.4,2.2,4.4,4.7c0,0.4,0,0.8-0.1,1.1c0.9-0.1,1.8-0.1,2.7,0.1
-               l1-9C3047.3-512.3,3044.6-511.8,3042.1-510.8z" />
-                </g>
-                <path class="primaryColorFill"
-                  d="M3035.5-512.9c0,0,4.2,0.4,5.9,1.4v-0.5c-1.7-1.4-3.8-2.2-6-2.4L3035.5-512.9z" />
-                <path class="primaryColorFill"
-                  d="M3048-512.9c0,0-4.2,0.4-5.9,1.4v-0.5c1.7-1.4,3.8-2.2,6-2.4L3048-512.9z" />
-              </g>
-            </svg>
-            {{ 'left_menu.geobibliotheque' | translate }}
-
-          </h5>
-        </div>
-
-        <div *ngFor="let groupeCarte of cartes" style="margin-bottom: 10px;">
-          <app-carte (click)="slideTo('menuCarte',groupeCarte,'geobibliotheque')" [groupeCarte]="groupeCarte">
-          </app-carte>
-
+          <span>
+            {{ 'left_menu.fonds' | translate }}
+          </span>
+          <svg x="0px" y="0px" viewBox="0 0 23.4 24.8" style="width: 30px;
+          height: 30px;
+          margin-left: 3px;
+          margin-top: 5px;">
+            <path d="M11.7,0L0,9.1l2.1,1.7l9.6,7.5l9.6-7.5l2.1-1.7L11.7,0z M11.7,21.5l-9.6-7.5L0,15.7l11.7,9.1
+        l11.7-9.1l-2.1-1.7L11.7,21.5z" class="white_fill" />
+          </svg>
         </div>
 
       </div>
+      <div fxFlex="33%" (click)="openMenu('thematiques')" fxFlexAlign="center"
+        [ngClass]="{'back_black': menuActif == 'thematiques'}" class="three_menu pointer ">
+        <div>
+          <span>
+            {{ 'left_menu.themes' | translate }}
+          </span>
 
-      <div style="padding-bottom: 5px;">
-        <h5 class="bold primaryColor primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
-            text-align: center;text-transform: uppercase;margin-bottom: 20px;">
+          <svg style="width: 30px;
+          height: 30px;
+          margin-left: 3px;
+          margin-top: 5px;" x="0px" y="0px" viewBox="0 0 17.1 15.1">
 
-          <svg style="height: 12px;" x="0px" y="0px" viewBox="0 0 17.1 15.1">
-
-            <g id="Groupe_1936" transform="translate(0 0)">
-              <path class="primaryColorFill" d="M8.2,9.7c0.1,0.1,0.2,0.1,0.4,0.1c0.1,0,0.3-0.1,0.4-0.1c0.1-0.1,3.4-3,3.4-6
- c0-2.1-1.7-3.7-3.7-3.7C6.5,0,4.8,1.7,4.8,3.7C4.8,6.7,8,9.6,8.2,9.7z M8.5,2.8c0.5,0,1,0.4,1,1c0,0,0,0,0,0c0,0.5-0.4,1-1,1
- c0,0,0,0,0,0c-0.5,0-1-0.4-1-1c0,0,0,0,0,0C7.6,3.2,8,2.8,8.5,2.8C8.5,2.8,8.5,2.8,8.5,2.8z" />
-              <path class="primaryColorFill" d="M15.7,9.7l-0.4-1.5c-0.1-0.2-0.3-0.4-0.6-0.4h-3.1c-0.1,0.2-0.2,0.3-0.4,0.5
- c-0.5,0.7-1.2,1.4-1.8,2c-0.3,0.2-0.6,0.3-0.9,0.3c-0.3,0-0.7-0.1-0.9-0.3C7,9.7,6.3,9,5.8,8.3C5.7,8.1,5.5,7.9,5.4,7.8H2.3
- c-0.3,0-0.5,0.2-0.6,0.4L1.3,10l11.5,2.1L15.7,9.7z" />
-              <path class="primaryColorFill" d="M17.1,14.4L16,10.5l-5.5,4.6h6c0.3,0,0.6-0.3,0.6-0.6C17.1,14.5,17.1,14.4,17.1,14.4
- L17.1,14.4z" />
-              <path class="primaryColorFill"
+            <g transform="translate(0 0)">
+              <path class="white_fill" d="M8.2,9.7c0.1,0.1,0.2,0.1,0.4,0.1c0.1,0,0.3-0.1,0.4-0.1c0.1-0.1,3.4-3,3.4-6
+c0-2.1-1.7-3.7-3.7-3.7C6.5,0,4.8,1.7,4.8,3.7C4.8,6.7,8,9.6,8.2,9.7z M8.5,2.8c0.5,0,1,0.4,1,1c0,0,0,0,0,0c0,0.5-0.4,1-1,1
+c0,0,0,0,0,0c-0.5,0-1-0.4-1-1c0,0,0,0,0,0C7.6,3.2,8,2.8,8.5,2.8C8.5,2.8,8.5,2.8,8.5,2.8z" />
+              <path class="white_fill" d="M15.7,9.7l-0.4-1.5c-0.1-0.2-0.3-0.4-0.6-0.4h-3.1c-0.1,0.2-0.2,0.3-0.4,0.5
+c-0.5,0.7-1.2,1.4-1.8,2c-0.3,0.2-0.6,0.3-0.9,0.3c-0.3,0-0.7-0.1-0.9-0.3C7,9.7,6.3,9,5.8,8.3C5.7,8.1,5.5,7.9,5.4,7.8H2.3
+c-0.3,0-0.5,0.2-0.6,0.4L1.3,10l11.5,2.1L15.7,9.7z" />
+              <path class="white_fill" d="M17.1,14.4L16,10.5l-5.5,4.6h6c0.3,0,0.6-0.3,0.6-0.6C17.1,14.5,17.1,14.4,17.1,14.4
+L17.1,14.4z" />
+              <path class="white_fill"
                 d="M2.8,11.1l-1.8-0.3l-1,3.6c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.3,0.2,0.5,0.2h2.2L2.8,11.1z" />
-              <path class="primaryColorFill" d="M3.6,11.2v3.9h5.6l2.8-2.3L3.6,11.2z" />
+              <path class="white_fill" d="M3.6,11.2v3.9h5.6l2.8-2.3L3.6,11.2z" />
             </g>
           </svg>
 
-          {{ 'left_menu.geothematiques' | translate }}
-        </h5>
+        </div>
+
       </div>
+      <div fxFlex="33%" fxFlexAlign="center" (click)="openMenu('ressources')" [ngClass]="{'back_black': menuActif == 'ressources'}"
+        class="three_menu pointer">
+        <div>
+          <span>
+            {{ 'left_menu.ressources' | translate }}
+          </span>
 
-      <div class="pointer menu-thematiques-parent" style="margin-top:0px;padding-right: 5px;">
+          <svg style="width: 30px;
+          height: 30px;
+          margin-left: 3px;
+          margin-top: 5px;" x="0px" y="0px" viewBox="0 0 512 512">
+            <g>
+              <g>
+                <g>
+                  <path class="white_fill" d="M469.333,85.333h-198.25l-39.542-39.542c-2-2-4.708-3.125-7.542-3.125H85.333c-23.531,0-42.667,19.135-42.667,42.667V384
+				c0,23.531,19.135,42.667,42.667,42.667h384C492.865,426.667,512,407.531,512,384V128C512,104.469,492.865,85.333,469.333,85.333z
+				" />
+                  <path class="white_fill" d="M21.333,405.333V91.267C8.642,98.667,0,112.275,0,128v298.667c0,23.531,19.135,42.667,42.667,42.667h384
+				c15.725,0,29.333-8.642,36.733-21.333H64C40.469,448,21.333,428.865,21.333,405.333z" />
+                </g>
+              </g>
+            </g>
+
+          </svg>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
-        <div *ngFor="let thematique of thematiques" class="menu-thematiques-parent-child col-md-4 col-xs-4">
-          <app-thematique (click)="slideTo('menuThematique',thematique)" [thematique]="thematique"></app-thematique>
+  <mat-sidenav-container fxFlex class="example-container back_white">
+
+    <mat-sidenav #sidenav1 mode="side" [(opened)]="opened_left" (opened)="events_left='open'"
+      (closed)="events_left='close'" style="background: #fff;width: 260px;padding: 5px;padding-top: 10px">
+
+      <div class="slide1">
+
+        <div *ngIf="menuActif == 'thematiques'" class="pointer menu-thematiques-parent"
+          style="margin-top:0px;padding-right: 5px;">
+
+          <div *ngFor="let thematique of thematiques" style="margin-bottom:0px"
+            class="menu-thematiques-parent-child col-md-12 col-xs-12">
+            <app-thematique-city (click)="slideTo('menuThematique',thematique)" [thematique]="thematique">
+            </app-thematique-city>
+          </div>
+
+        </div>
+
+        <div *ngIf="menuActif == 'cartes'" class="pointer menu-thematiques-parent"
+          style="margin-top:0px;padding-right: 5px;">
+
+          <div class="principle_tiles">
+
+            <span *ngFor="let groupeCarte of cartes">
+              <span *ngIf="groupeCarte.sous_cartes">
+                <span *ngFor="let sous_carte of groupeCarte.sous_cartes">
+                  <span *ngFor="let couche_cartes of sous_carte.couches">
+                    <span *ngIf="couche_cartes.principal">
+                      <div class="principle_tiles_child"
+                        [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
+                        <span *ngIf="couche_cartes.type != 'xyz' ">
+                          <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+                          <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' "
+                            style="width: inherit ;">
+                        </span>
+                        <span *ngIf="couche_cartes.type == 'xyz' ">
+                          <div style="width: 100%;height: 90px"
+                            id="map{{couche_cartes.key_couche+'true'+sous_carte.key}}">
+                          </div>
+                        </span>
+                        <p style="right: 10px !important;left: unset !important;">
+                          <mat-checkbox class="primaryColor" color="primary" labelPosition="before"
+                            [(ngModel)]="couche_cartes.checked" (change)="displayDataOnMap(couche_cartes)">
+                            {{couche_cartes.nom}} </mat-checkbox>
+                        </p>
+                      </div>
+
+
+                    </span>
+                  </span>
+                </span>
+              </span>
+              <span *ngIf="!groupeCarte.sous_cartes">
+                <span *ngFor="let couche_cartes of groupeCarte.couches">
+                  <span *ngIf="couche_cartes.principal">
+                    <div class="principle_tiles_child"
+                      [ngClass]="{'principle_tiles_child_pdf': couche_cartes.type == 'pdf'}">
+                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type != 'pdf' ">
+                      <img src="{{url_prefix+couche_cartes.image_src}}" *ngIf="couche_cartes.type == 'pdf' "
+                        style="width: inherit ;">
+                      <p>
+                        <mat-checkbox class="primaryColor" color="primary" [(ngModel)]="couche_cartes.checked"
+                          (change)="displayDataOnMap(couche_cartes)"> {{couche_cartes.nom}} </mat-checkbox>
+                      </p>
+                    </div>
+                  </span>
+                </span>
+              </span>
+            </span>
+
+
+            <div class="button_menu" style="  margin: 0px;margin-top: -21px;">
+
+              <span *ngFor="let groupeCarte of cartes">
+
+                <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
+                  *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;"
+                  (click)="slideTo('menuCarte',groupeCarte,'fonds_de_carte')">
+
+                  <svg style="height: 12px; margin-bottom: 4px;display:none" x="0px" y="0px" viewBox="0 0 16.2 12.2">
+
+                    <g transform="translate(0)">
+                      <path class="white_fill" d="M16.2,4.9l0-4.5C16.1,0.2,15.9,0,15.7,0L11,0.1H0.5C0.3,0.1,0.1,0.2,0,0.5l0,5.5l12.6,2.2
+            L16.2,4.9z" />
+                      <path class="white_fill" d="M16.2,11.5V6.2l-6.2,6.1h5.7c0.3,0,0.5-0.2,0.5-0.5C16.2,11.6,16.2,11.6,16.2,11.5L16.2,11.5
+            z" />
+                      <path class="white_fill"
+                        d="M0.1,11.5c-0.1,0.3,0.1,0.6,0.4,0.7c0,0,0.1,0,0.1,0h2.1V7.1L0.1,6.7L0.1,11.5z" />
+                      <path class="white_fill" d="M3.5,7.3v5h5.3l3.3-3.4L3.5,7.3z" />
+                    </g>
+                  </svg>
+
+                  {{ 'left_menu.fonds_de_carte' | translate }} </button>
+              </span>
+
+            </div>
+
+          </div>
+
+          <div *ngFor="let groupeCarte of cartes" style="margin-top: 40px;">
+            <app-carte-city (click)="slideTo('menuCarte',groupeCarte,'geobibliotheque')" [groupeCarte]="groupeCarte">
+            </app-carte-city>
+          </div>
+        </div>
+
+        <div *ngIf="menuActif == 'ressources'">
+          <app-ressources-city></app-ressources-city>
         </div>
 
       </div>
 
+    </mat-sidenav>
 
+    <mat-sidenav #sidenav2 mode="side" position="end" [(opened)]="opened_right" (opened)="events_right='open'"
+      (closed)="events_right='close'"
+      style="background: #fff;width: 220px;padding-top: 7px;overflow-x: hidden !important;">
 
-    </div>
-
-  </mat-sidenav>
-
-  <mat-sidenav #sidenav2 mode="side" position="end" [(opened)]="opened_right" (opened)="events_right='open'"
-    (closed)="events_right='close'"
-    style="background: #fff;width: 220px;padding-top: 7px;overflow-x: hidden !important;">
-
-    <div class="active_layer primary_transparent_bg" style="padding: 3px;position: fixed;
+      <div class="active_layer primary_transparent_bg" style="padding: 3px;position: fixed;
       width: 219px;z-index: 99;background-color: white;z-index: 9;">
-      <div class="text-center black  " style="text-transform: uppercase;">
-        <h5 class="bold" style="margin-bottom: 5px;">
-          <span *ngIf="right_slide_actic == 0" class="primaryColor" style="font-size: 13px;">
-            {{ 'right_menu.table_of_contents.title' | translate }}
-            <span *ngIf="layerInMap.length > 0"> ( {{layerInMap.length}} ) </span>
-          </span>
-          <span *ngIf="right_slide_actic == 1" class="primaryColor" style="font-size: 13px;">
-            {{ 'right_menu.tools.title' | translate }} </span>
-          <span *ngIf="right_slide_actic == 2" class="primaryColor" style="font-size: 13px;">
-            {{ 'right_menu.map_routing.title' | translate }}
-          </span>
-          <span *ngIf="right_slide_actic == 3" class="primaryColor" style="font-size: 13px;">
-            {{ 'right_menu.legend.title' | translate }} </span>
-          <span *ngIf="right_slide_actic == 4" class="primaryColor" style="font-size: 13px;">
-            {{ 'right_menu.download_data.title' | translate }}
-          </span>
-        </h5>
+        <div class="text-center black  " style="text-transform: uppercase;">
+          <h5 class="bold" style="margin-bottom: 5px;">
+            <span *ngIf="right_slide_actic == 0" class="primaryColor" style="font-size: 13px;">
+              {{ 'right_menu.table_of_contents.title' | translate }}
+              <span *ngIf="layerInMap.length > 0"> ( {{layerInMap.length}} ) </span>
+            </span>
+            <span *ngIf="right_slide_actic == 1" class="primaryColor" style="font-size: 13px;">
+              {{ 'right_menu.tools.title' | translate }} </span>
+            <span *ngIf="right_slide_actic == 2" class="primaryColor" style="font-size: 13px;">
+              {{ 'right_menu.map_routing.title' | translate }}
+            </span>
+            <span *ngIf="right_slide_actic == 3" class="primaryColor" style="font-size: 13px;">
+              {{ 'right_menu.legend.title' | translate }} </span>
+            <span *ngIf="right_slide_actic == 4" class="primaryColor" style="font-size: 13px;">
+              {{ 'right_menu.download_data.title' | translate }}
+            </span>
+          </h5>
+        </div>
       </div>
-    </div>
 
-    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 0">
+      <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 0">
 
-      <div *ngFor="let couche of layerInMap | orderBy : ['-zIndex_inf']; let i = index ">
+        <div *ngFor="let couche of layerInMap | orderBy : ['-zIndex_inf']; let i = index ">
 
-        <div class="principle_tiles_child couchee{{couche.index_inf}} drag-block" style="height: 170px;cursor: move;"
-          [ngClass]="{'principle_tiles_child_pdf': (couche.type_couche_inf == 'cartes' && couche.type == 'pdf') || couche.type_couche_inf == 'thematiques' || couche.type_couche_inf == 'mappilary' || couche.type_couche_inf == 'analyse_spatiale' }"
-          (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)"
-          (movingOffset)="onMoving($event,couche.index_inf)" [trackPosition]="false" [zIndexMoving]="9999" ngDraggable>
+          <div class="principle_tiles_child couchee{{couche.index_inf}} drag-block" style="height: 170px;cursor: move;"
+            [ngClass]="{'principle_tiles_child_pdf': (couche.type_couche_inf == 'cartes' && couche.type == 'pdf') || couche.type_couche_inf == 'thematiques' || couche.type_couche_inf == 'mappilary' || couche.type_couche_inf == 'analyse_spatiale' }"
+            (endOffset)="onStop($event,'couchee'+couche.index_inf,couche.index_inf)"
+            (movingOffset)="onMoving($event,couche.index_inf)" [trackPosition]="false" [zIndexMoving]="9999"
+            ngDraggable>
 
-          <app-couche-en-cours [type]="couche.type_couche_inf" [couche]="couche" [i]="i"
-            (displayDataOnMap_action)="displayDataOnMap(couche)"
-            (toogleVisibilityLayer_action)="toogleVisibilityLayer($event)"
-            (changeOpacity_action)="changeOpacity($event.couche,$event.event)"
-            (share_action)="share($event.type,$event.couche,$event.sous,$event.group)"></app-couche-en-cours>
+            <app-couche-en-cours [type]="couche.type_couche_inf" [couche]="couche" [i]="i"
+              (displayDataOnMap_action)="displayDataOnMap(couche)"
+              (toogleVisibilityLayer_action)="toogleVisibilityLayer($event)"
+              (changeOpacity_action)="changeOpacity($event.couche,$event.event)"
+              (share_action)="share($event.type,$event.couche,$event.sous,$event.group)"></app-couche-en-cours>
 
+          </div>
+
+        </div>
+
+        <div style="width: 100%;height: 40px;">
+
+        </div>
+        <div class="footer_couche_en_cours primaryColorBG white">
+
+          <div fxLayout="row" style="height: 100%;">
+
+            <div fxFlex="50%" style="padding: 5px;"
+              matTooltip="{{ 'couche_en_cours.tout_partager_toolpit' | translate }}" class="pointer"
+              (click)="shareStateOfMap()">
+              <div class="text-center" style="height: 50%;">
+                <i class="fa fa-share-alt  white" style="font-size: 15px;"></i>
+              </div>
+              <div class="text-center" style="height: 50%;font-size: 12px;">
+                {{ 'couche_en_cours.tout_partager' | translate }}
+              </div>
+            </div>
+
+            <div fxFlex="50%" style="padding: 5px;" class="pointer" (click)="delete_all_couches()">
+              <div class="text-center" style="height: 50%;">
+                <i class="fa fa-trash pointer white" style="font-size: 15px;"></i>
+              </div>
+              <div class="text-center" style="height: 50%;font-size: 12px;">
+                {{ 'couche_en_cours.tout_supprimer' | translate }}
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>
 
-      <div style="width: 100%;height: 40px;">
+      <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 1">
 
-      </div>
-      <div class="footer_couche_en_cours primaryColorBG white">
+        <mat-accordion>
 
-        <div fxLayout="row" style="height: 100%;">
+          <mat-expansion-panel class="back_white no_shadow" [expanded]="true" (opened)="expansionOpen()"
+            (closed)="expansionClose('dessin')" style="margin-bottom: 15px;border-radius: 4px;">
+            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
+              <mat-panel-title>
+                <svg x="0px" y="0px" viewBox="0 0 21.5 20.4" style="width: 17.5px;height: 20.4px;margin-right: 10px;">
 
-          <div fxFlex="50%" style="padding: 5px;" matTooltip="{{ 'couche_en_cours.tout_partager_toolpit' | translate }}"
-            class="pointer" (click)="shareStateOfMap()">
-            <div class="text-center" style="height: 50%;">
-              <i class="fa fa-share-alt  white" style="font-size: 15px;"></i>
-            </div>
-            <div class="text-center" style="height: 50%;font-size: 12px;">
-              {{ 'couche_en_cours.tout_partager' | translate }}
-            </div>
-          </div>
-
-          <div fxFlex="50%" style="padding: 5px;" class="pointer" (click)="delete_all_couches()">
-            <div class="text-center" style="height: 50%;">
-              <i class="fa fa-trash pointer white" style="font-size: 15px;"></i>
-            </div>
-            <div class="text-center" style="height: 50%;font-size: 12px;">
-              {{ 'couche_en_cours.tout_supprimer' | translate }}
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 1">
-
-      <mat-accordion>
-
-        <mat-expansion-panel class="back_white no_shadow" [expanded]="true" (opened)="expansionOpen()"
-          (closed)="expansionClose('dessin')" style="margin-bottom: 15px;border-radius: 4px;">
-          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-            <mat-panel-title>
-              <svg x="0px" y="0px" viewBox="0 0 21.5 20.4" style="width: 17.5px;height: 20.4px;margin-right: 10px;">
-
-                <path class="primaryColorFill" d="M8.8,20.2c2-0.8,1.6-3,0.6-4.4c-1.1-1.3-2.3-2.5-3.8-3.3c-1-0.6-1.9-1.4-2.6-2.3
+                  <path class="primaryColorFill" d="M8.8,20.2c2-0.8,1.6-3,0.6-4.4c-1.1-1.3-2.3-2.5-3.8-3.3c-1-0.6-1.9-1.4-2.6-2.3
 	C2.6,9.8,1.9,9.1,2.6,9S4.4,9.5,5,9.7c1,0.4,2,0.9,3,1.5l1.1-1.9C7.3,8.1,5.2,7.2,3,6.8C1.8,6.7,0.5,6.9,0.1,8.2
 	c-0.2,1.1,0.1,2.3,0.9,3.1c1.5,2.1,4,3.1,5.8,4.9c0.4,0.4,0.8,0.8,1.1,1.3C8.1,18,8,18.1,7.5,18.1c-1.4,0-3.2-1.1-4.3-1.8L2,18.2
 	C3.8,19.2,6.6,20.9,8.8,20.2 M21.3,2.5c0.2-0.2,0.2-0.6,0-0.9c0,0,0,0,0,0l-1.5-1.5c-0.2-0.2-0.6-0.2-0.9,0l-1.1,1.2l2.4,2.4
 	 M10.2,9v2.4h2.4l7-7L17.1,2L10.2,9z" />
-              </svg>
+                </svg>
 
-              <span class="primaryColor"> {{ 'right_menu.tools.draw.title' | translate }} </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+                <span class="primaryColor"> {{ 'right_menu.tools.draw.title' | translate }} </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <div class="button-row button-draw" style="padding-left: 23px">
+            <div class="button-row button-draw" style="padding-left: 23px">
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_polygone' | translate }}" mat-mini-fab
-              (click)="drawToolsFunction('Polygon')"
-              [ngClass]="{'back_black': type_draw == 'Polygon','primary_transparent_bg': type_draw != 'Polygon' }">
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_polygone' | translate }}" mat-mini-fab
+                (click)="drawToolsFunction('Polygon')"
+                [ngClass]="{'back_black': type_draw == 'Polygon','primary_transparent_bg': type_draw != 'Polygon' }">
 
-              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 21.8 24.4">
-                <g>
-                  <g id="Groupe_1852">
-                    <g id="Groupe_125" transform="translate(0 0)">
-                      <g id="Groupe_124">
-                        <path
-                          [ngClass]="{'white_fill': type_draw == 'Polygon','primaryColorFill': type_draw != 'Polygon' }"
-                          d="M21,4.1h-2.8c-0.5,0-0.9,0.4-0.9,0.9v1l0,0l-3.1,2.3V8.1c0-0.5-0.4-0.9-0.9-0.9h-2.8
+                <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 21.8 24.4">
+                  <g>
+                    <g id="Groupe_1852">
+                      <g id="Groupe_125" transform="translate(0 0)">
+                        <g id="Groupe_124">
+                          <path
+                            [ngClass]="{'white_fill': type_draw == 'Polygon','primaryColorFill': type_draw != 'Polygon' }"
+                            d="M21,4.1h-2.8c-0.5,0-0.9,0.4-0.9,0.9v1l0,0l-3.1,2.3V8.1c0-0.5-0.4-0.9-0.9-0.9h-2.8
 					c-0.4,0-0.7,0.3-0.8,0.7L5.6,3.6V0.9C5.6,0.4,5.2,0,4.7,0H1.9C1.4,0,1,0.4,1.1,0.9v3c0,0.5,0.4,0.9,0.9,0.9h0.3L1.4,19.6H0.9
 					C0.4,19.6,0,20,0,20.5v3c0,0.5,0.4,0.9,0.9,0.9h2.8c0.5,0,0.9-0.4,0.9-0.9v-0.7l11.7-2.6v0.4c0,0.5,0.4,0.9,0.9,0.9h2.8
 					c0.5,0,0.9-0.4,0.9-0.9c0,0,0,0,0,0v-3c0-0.5-0.4-0.9-0.9-0.9h-0.3l0.7-7.8H21c0.5,0,0.9-0.4,0.9-0.9V5
@@ -555,39 +598,39 @@ z" />
 					h-1.9V18h1.9L19.5,20.1z M18.1,16.7h-1c-0.5,0-0.9,0.4-0.9,0.9v0.9L4.5,21v-0.6c0-0.5-0.4-0.9-0.9-0.9H3L3.7,4.8h0.8l5.1,5.4
 					v0.9c0,0.5,0.4,0.9,0.9,0.9h2.8c0.5,0,0.9-0.4,0.9-0.9v-0.8l3.1-2.3v0c0,0.5,0.4,0.9,0.9,0.9h0.6L18.1,16.7z M20.5,7.5h-1.9V5.5
 					h1.9V7.5z" />
+                        </g>
                       </g>
                     </g>
                   </g>
-                </g>
-              </svg>
+                </svg>
 
-              <!-- <img src="assets/logo/drawing-tools/pentagon.svg" style="margin-bottom: 2px;height: 17px;"> -->
-            </button>
+                <!-- <img src="assets/logo/drawing-tools/pentagon.svg" style="margin-bottom: 2px;height: 17px;"> -->
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_ligne' | translate }}" mat-mini-fab
-              (click)="drawToolsFunction('LineString')"
-              [ngClass]="{'back_black': type_draw == 'LineString','primary_transparent_bg': type_draw != 'LineString' }">
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_ligne' | translate }}" mat-mini-fab
+                (click)="drawToolsFunction('LineString')"
+                [ngClass]="{'back_black': type_draw == 'LineString','primary_transparent_bg': type_draw != 'LineString' }">
 
-              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 24.2 24.9">
+                <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 24.2 24.9">
 
-                <path
-                  [ngClass]="{'white_fill': type_draw == 'LineString','primaryColorFill': type_draw != 'LineString' }"
-                  d="M23,0h-2.2c-0.6,0-1.2,0.5-1.2,1.2v0v2.2c0,0,0,0.1,0,0.1L3.3,20.4H1.2
+                  <path
+                    [ngClass]="{'white_fill': type_draw == 'LineString','primaryColorFill': type_draw != 'LineString' }"
+                    d="M23,0h-2.2c-0.6,0-1.2,0.5-1.2,1.2v0v2.2c0,0,0,0.1,0,0.1L3.3,20.4H1.2
 c-0.6,0-1.2,0.5-1.2,1.2v0v2.2c0,0.6,0.5,1.2,1.2,1.2l0,0h2.2c0.6,0,1.2-0.5,1.2-1.2v-2.2c0,0,0-0.1,0-0.1L20.8,4.5H23
 c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.7z M23,3.3h-2.2V1.2H23V3.3z" />
-              </svg>
+                </svg>
 
-              <!-- <img src="assets/logo/drawing-tools/substract.svg" style="margin-bottom: 2px;height: 17px;"> -->
+                <!-- <img src="assets/logo/drawing-tools/substract.svg" style="margin-bottom: 2px;height: 17px;"> -->
 
-            </button>
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_point' | translate }}" mat-mini-fab
-              (click)="drawToolsFunction('Point')"
-              [ngClass]="{'back_black': type_draw == 'Point','primary_transparent_bg': type_draw != 'Point' }">
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_point' | translate }}" mat-mini-fab
+                (click)="drawToolsFunction('Point')"
+                [ngClass]="{'back_black': type_draw == 'Point','primary_transparent_bg': type_draw != 'Point' }">
 
-              <svg style="margin-bottom: 2px;height: 23px;" x="0px" y="0px" viewBox="0 0 27.5 27.5">
+                <svg style="margin-bottom: 2px;height: 23px;" x="0px" y="0px" viewBox="0 0 27.5 27.5">
 
-                <path [ngClass]="{'white_fill': type_draw == 'Point','primaryColorFill': type_draw != 'Point' }" d="M26.2,11.4h-0.6c-1-4.8-4.8-8.6-9.6-9.6V1.2c0-0.7-0.5-1.2-1.2-1.2l0,0h-2.2
+                  <path [ngClass]="{'white_fill': type_draw == 'Point','primaryColorFill': type_draw != 'Point' }" d="M26.2,11.4h-0.6c-1-4.8-4.8-8.6-9.6-9.6V1.2c0-0.7-0.5-1.2-1.2-1.2l0,0h-2.2
 	c-0.7,0-1.2,0.5-1.2,1.2l0,0v0.6c-4.8,1-8.6,4.7-9.6,9.6H1.2c-0.7,0-1.2,0.5-1.2,1.2v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0.6
 	c0.9,4.9,4.7,8.7,9.6,9.6v0.5c0,0.7,0.5,1.2,1.2,1.2h2.3c0.7,0,1.2-0.5,1.2-1.2v-0.5c4.9-1,8.7-4.8,9.6-9.6h0.6
 	c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2C27.5,11.9,26.9,11.4,26.2,11.4z M12.6,1.2h2.2v2.2h-2.2L12.6,1.2L12.6,1.2z M1.2,14.9v-2.2h2.2v2.2
@@ -595,95 +638,95 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 	c-4-0.9-7.1-4-8-8h0c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2c0-0.7-0.5-1.2-1.2-1.2l0,0h0c0.9-3.9,4-7,7.9-7.9c0,0.7,0.5,1.2,1.2,1.2h2.2
 	c0.7,0,1.2-0.5,1.2-1.2c3.9,0.9,7,4,7.9,7.9h0c-0.7,0-1.2,0.5-1.2,1.2l0,0v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0
 	C23.1,20,20,23.1,16.1,24.1L16.1,24.1z M26.2,14.9H24v-2.2h2.2V14.9z" />
-              </svg>
+                </svg>
 
-              <!-- <img src="assets/logo/drawing-tools/circular-shape-silhouette.svg"  style="margin-bottom: 2px;height: 17px;"> -->
+                <!-- <img src="assets/logo/drawing-tools/circular-shape-silhouette.svg"  style="margin-bottom: 2px;height: 17px;"> -->
 
-            </button>
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_text' | translate }}" mat-mini-fab color="primary"
-              (click)="drawToolsFunction('text')"
-              [ngClass]="{'back_black': type_draw == 'text','primary_transparent_bg': type_draw != 'text' }">
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_text' | translate }}" mat-mini-fab color="primary"
+                (click)="drawToolsFunction('text')"
+                [ngClass]="{'back_black': type_draw == 'text','primary_transparent_bg': type_draw != 'text' }">
 
-              <svg style="margin-bottom: 2px;height: 17px;" x="0px" y="0px" viewBox="0 0 23 18.1">
+                <svg style="margin-bottom: 2px;height: 17px;" x="0px" y="0px" viewBox="0 0 23 18.1">
 
-                <path [ngClass]="{'white_fill': type_draw == 'text','primaryColorFill': type_draw != 'text' }"
-                  d="M0,0v3.6h6v14.5h3.6V3.6h6V0H0z M23,6H12.1v3.6h3.6v8.5h3.6V9.7H23V6z" />
-              </svg>
+                  <path [ngClass]="{'white_fill': type_draw == 'text','primaryColorFill': type_draw != 'text' }"
+                    d="M0,0v3.6h6v14.5h3.6V3.6h6V0H0z M23,6H12.1v3.6h3.6v8.5h3.6V9.7H23V6z" />
+                </svg>
 
-              <!-- <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;"> -->
-            </button>
+                <!-- <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;"> -->
+              </button>
 
-          </div>
+            </div>
 
-          <div class="button-row button-draw-edit" *ngIf="edit_draw_button"
-            style="padding-bottom: 15px;padding-top: 15px;padding-left: 23px">
+            <div class="button-row button-draw-edit" *ngIf="edit_draw_button"
+              style="padding-bottom: 15px;padding-top: 15px;padding-left: 23px">
 
-            <div style="margin-bottom: 15px;margin-top: 5px;width: calc(100% - 20px);    border: 1px solid;"
-              class="primaryColorBorder"></div>
+              <div style="margin-bottom: 15px;margin-top: 5px;width: calc(100% - 20px);    border: 1px solid;"
+                class="primaryColorBorder"></div>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_geometry' | translate }}" mat-mini-fab
-              color="accent" (click)="EditDraw('geometry')" [ngClass]="{'back_black': type_edit_draw == 'geometry' }">
-              <img src="assets/images/icones/edite.svg" style="margin-bottom: 2px;height: 17px;">
-            </button>
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_geometry' | translate }}" mat-mini-fab
+                color="accent" (click)="EditDraw('geometry')" [ngClass]="{'back_black': type_edit_draw == 'geometry' }">
+                <img src="assets/images/icones/edite.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_text' | translate }}" mat-mini-fab color="accent"
-              (click)="EditDraw('comment')" [ngClass]="{'back_black': type_edit_draw == 'comment' }">
-              <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;">
-            </button>
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_text' | translate }}" mat-mini-fab
+                color="accent" (click)="EditDraw('comment')" [ngClass]="{'back_black': type_edit_draw == 'comment' }">
+                <img src="assets/logo/drawing-tools/text-edit-cursor.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_color' | translate }}" mat-mini-fab
-              color="accent" (click)="EditDraw('color')" [ngClass]="{'back_black': type_edit_draw == 'color' }">
-              <img src="assets/images/icones/paint.svg" style="margin-bottom: 2px;height: 17px;">
-            </button>
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_color' | translate }}" mat-mini-fab
+                color="accent" (click)="EditDraw('color')" [ngClass]="{'back_black': type_edit_draw == 'color' }">
+                <img src="assets/images/icones/paint.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
 
-            <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_delete' | translate }}" mat-mini-fab
-              color="accent" (click)="EditDraw('delete')" [ngClass]="{'back_black': type_edit_draw == 'delete' }">
-              <img src="assets/images/icones/delete.svg" style="margin-bottom: 2px;height: 17px;">
-            </button>
+              <button matTooltip="{{ 'right_menu.tools.draw.toolpit_edit_delete' | translate }}" mat-mini-fab
+                color="accent" (click)="EditDraw('delete')" [ngClass]="{'back_black': type_edit_draw == 'delete' }">
+                <img src="assets/images/icones/delete.svg" style="margin-bottom: 2px;height: 17px;">
+              </button>
 
-          </div>
+            </div>
 
-          <div class="button-row button-draw-edit" fxLayout="row" fxLayoutAlign="end end"
-            style="padding: 0 5px;margin-bottom: 15px;margin-top: 20px">
+            <div class="button-row button-draw-edit" fxLayout="row" fxLayoutAlign="end end"
+              style="padding: 0 5px;margin-bottom: 15px;margin-top: 20px">
 
-            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
-              viewBox="0 0 24.7 24.5" (click)="toogleEditDraw()" class="pointer"
-              matTooltip="{{ 'right_menu.tools.draw.toolpit_edit' | translate }}">
+              <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+                viewBox="0 0 24.7 24.5" (click)="toogleEditDraw()" class="pointer"
+                matTooltip="{{ 'right_menu.tools.draw.toolpit_edit' | translate }}">
 
-              <g id="Groupe_2939" transform="translate(-314.244 -151.105)">
-                <path [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M319.2,172.3V172c0-0.7-0.6-1.3-1.3-1.3c0,0,0,0,0,0h-0.3V156h0.3c0.7,0,1.3-0.6,1.3-1.3
+                <g id="Groupe_2939" transform="translate(-314.244 -151.105)">
+                  <path [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M319.2,172.3V172c0-0.7-0.6-1.3-1.3-1.3c0,0,0,0,0,0h-0.3V156h0.3c0.7,0,1.3-0.6,1.3-1.3
 		c0,0,0,0,0,0v-0.3h14.7v0.3c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h0.3v4.2c0.6,0.2,1.2,0.4,1.7,0.7V156h0.3c0.7,0,1.3-0.6,1.3-1.3
 		c0,0,0,0,0,0v-2.4c0-0.7-0.6-1.3-1.3-1.3c0,0,0,0,0,0h-2.4c-0.7,0-1.3,0.6-1.3,1.3v0v0.3h-14.7v-0.3c0-0.7-0.6-1.3-1.3-1.3
 		c0,0,0,0,0,0h-2.4c-0.7,0-1.3,0.6-1.3,1.3v0v2.4c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h0.3v14.7h-0.3c-0.7,0-1.3,0.6-1.3,1.3v0v2.4
 		c0,0.7,0.6,1.3,1.3,1.3c0,0,0,0,0,0h2.4c0.7,0,1.3-0.6,1.3-1.3c0,0,0,0,0,0V174h4.9c-0.3-0.5-0.5-1.1-0.7-1.7L319.2,172.3z
 		 M335.1,152.4h2.4v2.4h-2.4V152.4z M315.5,154.7v-2.4h2.4v2.4H315.5z M317.9,174.4h-2.4V172h2.4V174.4z" />
-                <path id="Tracé_1081"
-                  [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M338.7,164.4l-2.5-2.5c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.5,0.2l-9.8,9.9v3.5h3.6
+                  <path id="Tracé_1081"
+                    [ngClass]="{'accentColorFill': edit_draw_button,'primaryColorFill': !edit_draw_button }" d="M338.7,164.4l-2.5-2.5c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.5,0.2l-9.8,9.9v3.5h3.6
 		l9.8-9.9c0.1-0.1,0.2-0.3,0.2-0.5C339,164.7,338.9,164.5,338.7,164.4z" />
-              </g>
-            </svg>
+                </g>
+              </svg>
 
-            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
-              viewBox="0 0 16.8 18.6" (click)="shareAllDraw()" class="pointer"
-              matTooltip="{{ 'right_menu.tools.draw.toolpit_share' | translate }}">
-              <g transform="translate(-176.454 0.477)">
-                <path class="primaryColorFill" d="M190.4,12.7c-0.7,0-1.3,0.3-1.8,0.7L182,9.5c0.1-0.2,0.1-0.4,0.1-0.7c0-0.2,0-0.4-0.1-0.7l6.6-3.8
+              <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+                viewBox="0 0 16.8 18.6" (click)="shareAllDraw()" class="pointer"
+                matTooltip="{{ 'right_menu.tools.draw.toolpit_share' | translate }}">
+                <g transform="translate(-176.454 0.477)">
+                  <path class="primaryColorFill" d="M190.4,12.7c-0.7,0-1.3,0.3-1.8,0.7L182,9.5c0.1-0.2,0.1-0.4,0.1-0.7c0-0.2,0-0.4-0.1-0.7l6.6-3.8
 		c1.1,1.1,2.9,1,3.9-0.1c0.5-0.5,0.8-1.2,0.8-1.9c0-1.5-1.2-2.8-2.7-2.8c-1.5,0-2.8,1.2-2.8,2.7c0,0,0,0.1,0,0.1
 		c0,0.2,0,0.4,0.1,0.7l-6.6,3.8c-1.1-1.1-2.9-1-4,0.1c-1.1,1.1-1,2.9,0.1,4c1.1,1,2.8,1,3.8,0l6.6,3.9c0,0.2-0.1,0.4-0.1,0.6
 		c0,1.5,1.2,2.7,2.7,2.7s2.7-1.2,2.7-2.7C193.1,13.9,191.9,12.7,190.4,12.7L190.4,12.7z" />
-              </g>
-            </svg>
+                </g>
+              </svg>
 
-            <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
-              viewBox="0 0 16 20" (click)="deleteleAllDraw()" class="pointer"
-              matTooltip="{{ 'right_menu.tools.draw.toolpit_delete' | translate }}">
+              <svg fxFlex="20px" style="height:20px;margin-left:10px;" fxFlexAlign="end" x="0px" y="0px"
+                viewBox="0 0 16 20" (click)="deleteleAllDraw()" class="pointer"
+                matTooltip="{{ 'right_menu.tools.draw.toolpit_delete' | translate }}">
 
-              <path class="primaryColorFill" d="M12.6,20H3.4c-1.2,0-2.3-1-2.3-2.2V4.4h13.7v13.3C14.8,19,13.8,20,12.6,20z M16,3.3H0V1.1h4L5.1,0
+                <path class="primaryColorFill" d="M12.6,20H3.4c-1.2,0-2.3-1-2.3-2.2V4.4h13.7v13.3C14.8,19,13.8,20,12.6,20z M16,3.3H0V1.1h4L5.1,0
 	h5.7L12,1.1h4V3.3L16,3.3z" />
-            </svg>
+              </svg>
 
-            <!-- <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': edit_draw_button }"
+              <!-- <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': edit_draw_button }"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="toogleEditDraw()">
               <i class="fa fa-pencil-square-o fa-lg" style="color: #fff"></i>
@@ -692,103 +735,104 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
 
 
-            <!-- <button mat-raised-button color="primary"
+              <!-- <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="shareAllDraw()">
               <i class="fa fa-share-alt fa-lg" style="color: #fff"></i>
               Partager
             </button> -->
 
-            <!-- <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
+              <!-- <button mat-raised-button color="primary" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="downloadAllDraw()">
               <i class="fa fa-download fa-lg" style="color: #fff"></i>
               Telechargez
             </button> -->
 
-            <!-- <button mat-raised-button color="primary"
+              <!-- <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
               (click)="deleteleAllDraw()">
               <i class="fa fa-trash-o fa-lg" style="color: #fff"></i>
               Supprimer tous
             </button> -->
 
-          </div>
+            </div>
 
-        </mat-expansion-panel>
+          </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white no_shadow" [expanded]="false" (opened)="expansionOpen()"
-          (closed)="expansionClose('mesure')" style="margin-bottom: 15px;border-radius: 4px;">
+          <mat-expansion-panel class="back_white no_shadow" [expanded]="false" (opened)="expansionOpen()"
+            (closed)="expansionClose('mesure')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-            <mat-panel-title>
+            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
+              <mat-panel-title>
 
-              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 24.4 9.5">
+                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 24.4 9.5">
 
-                <path class="primaryColorFill" d="M23.6,0h-3v2.7c0,0.4-0.3,0.7-0.7,0.7s-0.7-0.3-0.7-0.7V0h-2.6v4.6c0,0.4-0.3,0.7-0.7,0.7
+                  <path class="primaryColorFill" d="M23.6,0h-3v2.7c0,0.4-0.3,0.7-0.7,0.7s-0.7-0.3-0.7-0.7V0h-2.6v4.6c0,0.4-0.3,0.7-0.7,0.7
 	S15.1,5,15.1,4.6l0,0V0h-2.6v2.7c0,0.4-0.3,0.7-0.7,0.7S11,3.1,11,2.7V0H8.5v4.6c0,0.4-0.3,0.7-0.7,0.7S7,5,7,4.6l0,0V0H4.4v2.7
 	c0,0.4-0.3,0.7-0.7,0.7S2.9,3.1,2.9,2.7V0H0.8C0.4,0,0,0.4,0,0.8v0v7.8c0,0.5,0.4,0.8,0.8,0.9c0,0,0,0,0,0h22.7
 	c0.5,0,0.8-0.4,0.9-0.8c0,0,0,0,0,0V0.9C24.4,0.4,24.1,0,23.6,0C23.6,0,23.6,0,23.6,0z" />
-              </svg>
+                </svg>
 
-              <span class="primaryColor"> {{ 'right_menu.tools.mesure.title' | translate }} </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+                <span class="primaryColor"> {{ 'right_menu.tools.mesure.title' | translate }} </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <div class="button-row button-draw" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px"
-            style="margin-bottom: 20px;">
+            <div class="button-row button-draw" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px"
+              style="margin-bottom: 20px;">
 
-            <button fxFlex="40px" fxFlexAlign="center" style="height: 40px;"
-              matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_ligne' | translate }}" mat-mini-fab
-              (click)="mesure('LineString')"
-              [ngClass]="{'back_black': mesure_type == 'LineString','primary_transparent_bg': mesure_type != 'LineString' }">
+              <button fxFlex="40px" fxFlexAlign="center" style="height: 40px;"
+                matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_ligne' | translate }}" mat-mini-fab
+                (click)="mesure('LineString')"
+                [ngClass]="{'back_black': mesure_type == 'LineString','primary_transparent_bg': mesure_type != 'LineString' }">
 
-              <svg style="margin-bottom: 2px;height: 15px;" x="0px" y="0px" viewBox="0 0 28.4 19.5">
+                <svg style="margin-bottom: 2px;height: 15px;" x="0px" y="0px" viewBox="0 0 28.4 19.5">
 
-                <g transform="translate(0 0)">
-                  <path
-                    [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
-                    d="M27.7,8.8h-27C0.3,8.8,0,9.1,0,9.5c0,0,0,0,0,0v9.3c0,0.4,0.3,0.7,0.7,0.7l0,0h27
+                  <g transform="translate(0 0)">
+                    <path
+                      [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
+                      d="M27.7,8.8h-27C0.3,8.8,0,9.1,0,9.5c0,0,0,0,0,0v9.3c0,0.4,0.3,0.7,0.7,0.7l0,0h27
 		c0.4,0,0.7-0.3,0.7-0.7c0,0,0,0,0,0V9.5C28.4,9.1,28,8.8,27.7,8.8L27.7,8.8z M27,18.1H1.4v-7.9h1.9v2.5c0,0.4,0.3,0.7,0.7,0.7
 		c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v4.8c0,0.4,0.3,0.7,0.7,0.7
 		c0.4,0,0.7-0.3,0.7-0.7v-4.8h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7
 		c0.4,0,0.7-0.3,0.7-0.7v-2.5h1.8v4.8c0,0.4,0.3,0.7,0.7,0.7c0.4,0,0.7-0.3,0.7-0.7v-4.8h1.8v2.5c0,0.4,0.3,0.7,0.7,0.7
 		c0.4,0,0.7-0.3,0.7-0.7v-2.5h3L27,18.1z" />
-                  <path
-                    [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
-                    d="M4.5,7.3c0.4,0,0.7-0.3,0.7-0.7c0,0,0,0,0,0V4.4h17.9c0,0,0,0,0,0v2.2c0,0.4,0.3,0.7,0.7,0.7
+                    <path
+                      [ngClass]="{'white_fill': mesure_type == 'LineString','primaryColorFill': mesure_type != 'LineString' }"
+                      d="M4.5,7.3c0.4,0,0.7-0.3,0.7-0.7c0,0,0,0,0,0V4.4h17.9c0,0,0,0,0,0v2.2c0,0.4,0.3,0.7,0.7,0.7
 		c0.4,0,0.7-0.3,0.7-0.7V0.7c0-0.4-0.3-0.7-0.7-0.7c-0.4,0-0.7,0.3-0.7,0.7v2.2c0,0,0,0,0,0H5.2V0.7C5.2,0.3,4.9,0,4.5,0
 		C4.1,0,3.8,0.3,3.8,0.7v5.9C3.8,7,4.1,7.3,4.5,7.3C4.5,7.3,4.5,7.3,4.5,7.3z" />
-                </g>
-              </svg>
+                  </g>
+                </svg>
 
-            </button>
+              </button>
 
-            <button fxFlex="40px" style="height: 40px;" fxFlexAlign="center"
-              matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_polygon' | translate }}" mat-mini-fab
-              (click)="mesure('Polygon')"
-              [ngClass]="{'back_black': mesure_type == 'Polygon','primary_transparent_bg': mesure_type != 'Polygon' }">
-              <svg style="margin-bottom: 2px;height: 20px;" viewBox="0 0 20.3 20.3">
+              <button fxFlex="40px" style="height: 40px;" fxFlexAlign="center"
+                matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_polygon' | translate }}" mat-mini-fab
+                (click)="mesure('Polygon')"
+                [ngClass]="{'back_black': mesure_type == 'Polygon','primary_transparent_bg': mesure_type != 'Polygon' }">
+                <svg style="margin-bottom: 2px;height: 20px;" viewBox="0 0 20.3 20.3">
 
-                <path [ngClass]="{'white_fill': mesure_type == 'Polygon','primaryColorFill': mesure_type != 'Polygon' }"
-                  d="M19.2,4.1c0.6,0,1.1-0.5,1.1-1.1v-2c0-0.6-0.5-1.1-1.1-1.1h-2c-0.6,0-1.1,0.5-1.1,1.1v0.3H4.1
+                  <path
+                    [ngClass]="{'white_fill': mesure_type == 'Polygon','primaryColorFill': mesure_type != 'Polygon' }"
+                    d="M19.2,4.1c0.6,0,1.1-0.5,1.1-1.1v-2c0-0.6-0.5-1.1-1.1-1.1h-2c-0.6,0-1.1,0.5-1.1,1.1v0.3H4.1
 	V1.1C4.1,0.5,3.6,0,3,0h-2C0.5,0,0,0.5,0,1.1v2c0,0.6,0.5,1.1,1.1,1.1h0.3v12.1H1.1c-0.6,0-1.1,0.5-1.1,1.1v2c0,0.6,0.5,1.1,1.1,1.1
 	h2c0.6,0,1.1-0.5,1.1-1.1v-0.3h12.1v0.3c0,0.6,0.5,1.1,1.1,1.1h2c0.6,0,1.1-0.5,1.1-1.1v-2c0-0.6-0.5-1.1-1.1-1.1h-0.3V4.1H19.2z
 	 M17.3,1.1h2v2h-2V1.1z M1.1,3v-2h2v2H1.1z M3,19.2h-2v-2h2V19.2z M19.2,17.3v2h-2v-2H19.2z M17.5,16.2h-0.3c-0.6,0-1.1,0.5-1.1,1.1
 	v0.3H4.1v-0.3c0-0.6-0.5-1.1-1.1-1.1H2.7V4.1H3c0.6,0,1.1-0.5,1.1-1.1V2.7h12.1V3c0,0.6,0.5,1.1,1.1,1.1h0.3V16.2z" />
-              </svg>
+                </svg>
 
-            </button>
+              </button>
 
-            <button fxFlex="40px" style="height: 40px;" fxFlexAlign="center"
-              matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_polygon' | translate }}" mat-mini-fab
-              (click)="mesure('Circle')"
-              [ngClass]="{'back_black': mesure_type == 'Circle','primary_transparent_bg': mesure_type != 'Circle' }">
+              <button fxFlex="40px" style="height: 40px;" fxFlexAlign="center"
+                matTooltip="{{ 'right_menu.tools.mesure.toolpit_mesure_polygon' | translate }}" mat-mini-fab
+                (click)="mesure('Circle')"
+                [ngClass]="{'back_black': mesure_type == 'Circle','primary_transparent_bg': mesure_type != 'Circle' }">
 
-              <svg style="margin-bottom: 2px;height: 20px;" viewBox="0 0 27.5 27.5">
+                <svg style="margin-bottom: 2px;height: 20px;" viewBox="0 0 27.5 27.5">
 
-                <path [ngClass]="{'white_fill': mesure_type == 'Circle','primaryColorFill': mesure_type != 'Circle' }"
-                  d="M26.2,11.4h-0.6c-1-4.8-4.8-8.6-9.6-9.6V1.2c0-0.7-0.5-1.2-1.2-1.2l0,0h-2.2
+                  <path [ngClass]="{'white_fill': mesure_type == 'Circle','primaryColorFill': mesure_type != 'Circle' }"
+                    d="M26.2,11.4h-0.6c-1-4.8-4.8-8.6-9.6-9.6V1.2c0-0.7-0.5-1.2-1.2-1.2l0,0h-2.2
 	c-0.7,0-1.2,0.5-1.2,1.2l0,0v0.6c-4.8,1-8.6,4.7-9.6,9.6H1.2c-0.7,0-1.2,0.5-1.2,1.2v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0.6
 	c0.9,4.9,4.7,8.7,9.6,9.6v0.5c0,0.7,0.5,1.2,1.2,1.2h2.3c0.7,0,1.2-0.5,1.2-1.2v-0.5c4.9-1,8.7-4.8,9.6-9.6h0.6
 	c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2C27.5,11.9,26.9,11.4,26.2,11.4z M12.6,1.2h2.2v2.2h-2.2L12.6,1.2L12.6,1.2z M1.2,14.9v-2.2h2.2v2.2
@@ -796,12 +840,12 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 	c-4-0.9-7.1-4-8-8h0c0.7,0,1.2-0.5,1.2-1.2l0,0v-2.2c0-0.7-0.5-1.2-1.2-1.2l0,0h0c0.9-3.9,4-7,7.9-7.9c0,0.7,0.5,1.2,1.2,1.2h2.2
 	c0.7,0,1.2-0.5,1.2-1.2c3.9,0.9,7,4,7.9,7.9h0c-0.7,0-1.2,0.5-1.2,1.2l0,0v2.2c0,0.7,0.5,1.2,1.2,1.2l0,0h0
 	C23.1,20,20,23.1,16.1,24.1L16.1,24.1z M26.2,14.9H24v-2.2h2.2V14.9z" />
-              </svg>
+                </svg>
 
-            </button>
-          </div>
+              </button>
+            </div>
 
-          <!-- <div class="button-row" style="padding: 0 5px;">
+            <!-- <div class="button-row" style="padding: 0 5px;">
 
             <button mat-raised-button color="primary"
               style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
@@ -820,35 +864,35 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
 
           </div> -->
-        </mat-expansion-panel>
+          </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
-          (closed)="expansionClose('altimetrie')" style="margin-bottom: 15px;border-radius: 4px;">
+          <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+            (closed)="expansionClose('altimetrie')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-            <mat-panel-title>
+            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
+              <mat-panel-title>
 
-              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 22.1 17.2">
+                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 22.1 17.2">
 
-                <g id="Groupe_56" transform="translate(-283.894 -12.804)">
-                  <path id="Tracé_44" class="primaryColorFill" d="M305.4,30L305.4,30l-2.6-0.1h-18.3c-0.2,0-0.3-0.1-0.4-0.2c-0.1-0.1-0.2-0.3-0.2-0.4V19.1
+                  <g id="Groupe_56" transform="translate(-283.894 -12.804)">
+                    <path id="Tracé_44" class="primaryColorFill" d="M305.4,30L305.4,30l-2.6-0.1h-18.3c-0.2,0-0.3-0.1-0.4-0.2c-0.1-0.1-0.2-0.3-0.2-0.4V19.1
 		c0-0.3,0.3-0.6,0.6-0.6h1.5c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v1.6h1.7V18c0-0.3,0.3-0.6,0.6-0.6h3.2v-4c0-0.3,0.3-0.6,0.6-0.6
 		h1.3c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v6.2h1.4V15c0-0.3,0.3-0.6,0.6-0.6h1.4c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0
 		c0,4.1,0,1.6,0,3.2h2.2c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0v3.6h1.8v-4.9c0-0.3,0.3-0.6,0.6-0.6h1.8c0.3,0,0.6,0.3,0.6,0.6
 		c0,0,0,0,0,0l0,0v12c0,0.2-0.1,0.3-0.2,0.4C305.7,29.9,305.5,30,305.4,30" />
-                </g>
-              </svg>
+                  </g>
+                </svg>
 
-              <span class="primaryColor"> {{ 'right_menu.tools.altimetry.title' | translate }} </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+                <span class="primaryColor"> {{ 'right_menu.tools.altimetry.title' | translate }} </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/altimetrie_bouton.svg);    background-repeat: no-repeat;
+            <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/altimetrie_bouton.svg);    background-repeat: no-repeat;
           background-position: center;color: black;text-align: center;">
-            {{ 'right_menu.tools.altimetry.not_disponible' | translate }}
-          </div>
-          <!-- <mat-form-field style="width: 100%;  padding: 0 5px;">
+              {{ 'right_menu.tools.altimetry.not_disponible' | translate }}
+            </div>
+            <!-- <mat-form-field style="width: 100%;  padding: 0 5px;">
             <mat-select placeholder="Choisisser la source du MNT" [(ngModel)]="altimetrie.source_profil_alti">
               <mat-option value="srtm" style="color:#000"> SRTM sur le Cameroun </mat-option>
             </mat-select>
@@ -862,93 +906,93 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
             </button>
           </div> -->
 
-        </mat-expansion-panel>
+          </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
-          (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
+          <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+            (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-            style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-            <mat-panel-title>
-              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 18.8 18.8">
+            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
+              <mat-panel-title>
+                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 18.8 18.8">
 
-                <path class="primaryColorFill" d="M6.6,18.8c-0.5,0-0.9-0.4-0.9-0.9v-2.8H1.9c-1,0-1.9-0.8-1.9-1.9l0,0V1.9C0,0.8,0.8,0,1.9,0
+                  <path class="primaryColorFill" d="M6.6,18.8c-0.5,0-0.9-0.4-0.9-0.9v-2.8H1.9c-1,0-1.9-0.8-1.9-1.9l0,0V1.9C0,0.8,0.8,0,1.9,0
 	c0,0,0,0,0,0h15.1c1,0,1.9,0.8,1.9,1.9v11.3c0,1-0.8,1.9-1.9,1.9h-5.7l-3.5,3.5c-0.2,0.2-0.4,0.3-0.7,0.3L6.6,18.8 M2.8,2.8v1.9H16
 	V2.8L2.8,2.8 M2.8,6.6v1.9h7.5V6.6H2.8 M2.8,10.4v1.9h9.4v-1.9L2.8,10.4z" />
-              </svg>
+                </svg>
 
-              <span class="primaryColor"> {{ 'right_menu.tools.comment.title' | translate }} </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/commentaire-ecrire_bouton.svg);    background-repeat: no-repeat;
+                <span class="primaryColor"> {{ 'right_menu.tools.comment.title' | translate }} </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/commentaire-ecrire_bouton.svg);    background-repeat: no-repeat;
           background-position: center;">
-            <mat-checkbox class="primaryColor couche_en_cours_nom" color="primary" (click)="displayComments()">
-              {{ 'right_menu.tools.comment.display_comments' | translate }} </mat-checkbox>
-          </div>
-          <!-- <button mat-raised-button color="primary"
+              <mat-checkbox class="primaryColor couche_en_cours_nom" color="primary" (click)="displayComments()">
+                {{ 'right_menu.tools.comment.display_comments' | translate }} </mat-checkbox>
+            </div>
+            <!-- <button mat-raised-button color="primary"
             style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
             (click)="displayComments()" [ngClass]="{'back_black': commentLayer.checked }">
 
             <span> Afficher les commentaire </span>
 
           </button> -->
-        </mat-expansion-panel>
+          </mat-expansion-panel>
 
-        <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
-          (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
+          <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
+            (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
 
-          <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-            style="padding-left: 15px;margin-bottom: 10px;" class="primary_transparent_bg">
-            <mat-panel-title>
-              <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 19.4 17.5">
+            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
+              style="padding-left: 15px;margin-bottom: 10px;" class="primary_transparent_bg">
+              <mat-panel-title>
+                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 19.4 17.5">
 
-                <path class="primaryColorFill" d="M16.5,4.9H2.9C1.3,4.9,0,6.2,0,7.8c0,0,0,0,0,0v5.8h3.9v3.9h11.7v-3.9h3.9V7.8
+                  <path class="primaryColorFill" d="M16.5,4.9H2.9C1.3,4.9,0,6.2,0,7.8c0,0,0,0,0,0v5.8h3.9v3.9h11.7v-3.9h3.9V7.8
 	C19.4,6.2,18.1,4.9,16.5,4.9C16.5,4.9,16.5,4.9,16.5,4.9z M13.6,15.5H5.8v-4.9h7.8V15.5z M16.5,8.7c-0.5,0-1-0.4-1-1
 	c0-0.5,0.4-1,1-1c0.5,0,1,0.4,1,1C17.5,8.3,17,8.7,16.5,8.7L16.5,8.7z M15.5,0H3.9v3.9h11.7V0z" />
-              </svg>
+                </svg>
 
-              <span class="primaryColor"> {{ 'right_menu.tools.print.title' | translate }} </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+                <span class="primaryColor"> {{ 'right_menu.tools.print.title' | translate }} </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-          <div class="text-center black" style="padding: 0px 10px;">
+            <div class="text-center black" style="padding: 0px 10px;">
 
-            <div>
-              <mat-form-field style="width: 90%;">
-                <input matInput name="carte_titre" [(ngModel)]="printMapObjet.titre"
-                  placeholder="{{ 'right_menu.tools.print.title_pdf' | translate }}">
-              </mat-form-field>
+              <div>
+                <mat-form-field style="width: 90%;">
+                  <input matInput name="carte_titre" [(ngModel)]="printMapObjet.titre"
+                    placeholder="{{ 'right_menu.tools.print.title_pdf' | translate }}">
+                </mat-form-field>
 
-              <mat-form-field style="width: 90%;">
-                <textarea matInput name="carte_description" [(ngModel)]="printMapObjet.description"
-                  placeholder="{{ 'right_menu.tools.print.description_pdf' | translate }}"></textarea>
-              </mat-form-field>
+                <mat-form-field style="width: 90%;">
+                  <textarea matInput name="carte_description" [(ngModel)]="printMapObjet.description"
+                    placeholder="{{ 'right_menu.tools.print.description_pdf' | translate }}"></textarea>
+                </mat-form-field>
 
-            </div>
+              </div>
 
-            <button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;"
-              class="primary_transparent_bg" matTooltip="{{ 'right_menu.tools.print.toolpit_print' | translate }}"
-              mat-mini-fab (click)="printMap()">
+              <button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;"
+                class="primary_transparent_bg" matTooltip="{{ 'right_menu.tools.print.toolpit_print' | translate }}"
+                mat-mini-fab (click)="printMap()">
 
-              <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 25.1 22.9">
+                <svg style="margin-bottom: 2px;height: 20px;" x="0px" y="0px" viewBox="0 0 25.1 22.9">
 
-                <g transform="translate(-0.5 -1.5)">
-                  <path class="primaryColorFill" d="M6.4,3v4.4h13.3V3H6.4 M5.3,8.5C3.5,8.5,2,10,2,11.8v6.6h4.4v4.4h13.3v-4.4h4.4v-6.6c0-1.8-1.5-3.3-3.3-3.3
+                  <g transform="translate(-0.5 -1.5)">
+                    <path class="primaryColorFill" d="M6.4,3v4.4h13.3V3H6.4 M5.3,8.5C3.5,8.5,2,10,2,11.8v6.6h4.4v4.4h13.3v-4.4h4.4v-6.6c0-1.8-1.5-3.3-3.3-3.3
 		H5.3 M20.8,12.9c-0.6,0-1.1-0.5-1.1-1.1c0-0.6,0.5-1.1,1.1-1.1c0.6,0,1.1,0.5,1.1,1.1C21.9,12.4,21.4,12.9,20.8,12.9 M17.5,20.7
 		H8.6v-5.5h8.8V20.7 M4.9,1.5h1.5h13.3h1.5V3v4c2.5,0.2,4.4,2.3,4.4,4.8v6.6V20h-1.5h-2.9v2.9v1.5h-1.5H6.4H4.9v-1.5V20H2H0.5v-1.5
 		v-6.6c0-2.5,1.9-4.6,4.4-4.8V3V1.5z M16,16.7h-5.8v2.5H16V16.7z" />
-                </g>
-              </svg>
+                  </g>
+                </svg>
 
 
-            </button>
+              </button>
 
 
-          </div>
+            </div>
 
-        </mat-expansion-panel>
+          </mat-expansion-panel>
 
-        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('analyse_spatial')">
+          <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('analyse_spatial')">
             
               <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -973,7 +1017,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
               </div>
                      
           </mat-expansion-panel> -->
-        <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('importation')">
+          <!-- <mat-expansion-panel class="back_white" (opened)="expansionOpen()" (closed)="expansionClose('importation')">
         
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -984,283 +1028,285 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
           <p>I'm visible because I am open</p>
         </mat-expansion-panel> -->
 
-      </mat-accordion>
-
-    </div>
-
-    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 2">
-      <div style="text-align:center">
-        <!-- <div style="color:#000"> Bientot disponible </div> -->
-
-        <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
-           text-align: center;display:flow-root; margin-bottom:15px">
-          {{ 'right_menu.map_routing.start' | translate }}
-        </h5>
-
-        <div fxLayout="row">
-
-          <mat-form-field appearance="outline" class="intineraire">
-            <div fxFlex="20px" (click)="positioner_marker('depart')">
-              <svg x="0px" y="0px" viewBox="0 0 42.9 42.9" class="pointer"
-                style="height: 36px;margin-left: -10px;margin-top: -14px;">
-                <style type="text/css">
-                  .st1 {
-                    fill: #707070;
-                  }
-                </style>
-                <g transform="matrix(1, 0, 0, 1, 0, 0)">
-                  <g id="Tracé_1939-2">
-                    <path class="primaryColorFill" d="M21.4,7.5c6,0,10.9,4.9,10.9,10.9s-4.9,10.9-10.9,10.9s-10.9-4.9-10.9-10.9c0,0,0,0,0,0
-			C10.5,12.4,15.4,7.5,21.4,7.5z" />
-                    <path class="st1" d="M21.4,30.9C14.6,30.9,9,25.3,9,18.4S14.6,6,21.4,6s12.4,5.6,12.4,12.4S28.3,30.9,21.4,30.9z M21.4,9
-			c-5.2,0-9.4,4.2-9.4,9.4s4.2,9.4,9.4,9.4s9.4-4.2,9.4-9.4S26.6,9,21.4,9z" />
-                  </g>
-                </g>
-              </svg>
-            </div>
-
-            <input disabled="true" fxFlex matInput name="depart" value="{{data_itineraire['depart']['nom']}}"
-              style="margin-top: -20px;margin-left: 6px;">
-            <mat-hint class="hint_itineraire" align="start">
-
-              {{ 'right_menu.map_routing.infos_1' | translate }}
-
-              <svg x="0px" y="0px" viewBox="0 0 42.9 42.9" class="pointer" style="height: 15px;margin-bottom: -5px;">
-                <style type="text/css">
-                  .st1 {
-                    fill: #707070;
-                  }
-                </style>
-                <g transform="matrix(1, 0, 0, 1, 0, 0)">
-                  <g id="Tracé_1939-2">
-                    <path class="primaryColorFill" d="M21.4,7.5c6,0,10.9,4.9,10.9,10.9s-4.9,10.9-10.9,10.9s-10.9-4.9-10.9-10.9c0,0,0,0,0,0
-			C10.5,12.4,15.4,7.5,21.4,7.5z" />
-                    <path class="st1" d="M21.4,30.9C14.6,30.9,9,25.3,9,18.4S14.6,6,21.4,6s12.4,5.6,12.4,12.4S28.3,30.9,21.4,30.9z M21.4,9
-			c-5.2,0-9.4,4.2-9.4,9.4s4.2,9.4,9.4,9.4s9.4-4.2,9.4-9.4S26.6,9,21.4,9z" />
-                  </g>
-                </g>
-              </svg>
-
-              {{ 'right_menu.map_routing.infos_2' | translate }}
-            </mat-hint>
-          </mat-form-field>
-
-          <!-- <div fxFlex="20px" style="background: lime;">
-
-          </div> -->
-
-        </div>
-
-        <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
-           text-align: center;display:flow-root; margin-bottom:15px;margin-top: 30px;">
-          {{ 'right_menu.map_routing.destination' | translate }}
-        </h5>
-
-        <div fxLayout="row">
-
-          <mat-form-field appearance="outline" class="intineraire">
-            <div fxFlex="20px" (click)="positioner_marker('destination')">
-              <svg viewBox="0 0 26 26" style="height: 23px;margin-top: -10px;" class="pointer">
-                <g id="Groupe_3047" data-name="Groupe 3047" transform="translate(-1715.766 -199.766)">
-                  <g id="Groupe_3041" data-name="Groupe 3041" transform="translate(1719 203)">
-                    <g id="Groupe_3048" data-name="Groupe 3048">
-                      <path id="Tracé_1930" data-name="Tracé 1930"
-                        d="M321.884,405.533v-.641h-.337C321.651,405.11,321.763,405.325,321.884,405.533Z"
-                        transform="translate(-320.569 -390.891)" />
-                      <path id="Tracé_1931" data-name="Tracé 1931"
-                        d="M332.14,399.293v.641h.335C332.371,399.716,332.26,399.5,332.14,399.293Z"
-                        transform="translate(-313.92 -394.405)" />
-                      <g id="Groupe_3049" data-name="Groupe 3049">
-                        <g id="Tracé_1938" data-name="Tracé 1938" transform="translate(-3.234 -3.234)" fill="#fff">
-                          <path
-                            d="M 13 24.5 C 9.928239822387695 24.5 7.040339946746826 23.30378913879395 4.868269920349121 21.13172912597656 C 2.696209907531738 18.95965957641602 1.5 16.0717601776123 1.5 13 C 1.5 9.928239822387695 2.696209907531738 7.040339946746826 4.868269920349121 4.868269920349121 C 7.040339946746826 2.696209907531738 9.928239822387695 1.5 13 1.5 C 16.0717601776123 1.5 18.95965957641602 2.696209907531738 21.13172912597656 4.868269920349121 C 23.30378913879395 7.040339946746826 24.5 9.928239822387695 24.5 13 C 24.5 16.0717601776123 23.30378913879395 18.95965957641602 21.13172912597656 21.13172912597656 C 18.95965957641602 23.30378913879395 16.0717601776123 24.5 13 24.5 Z"
-                            stroke="none" />
-                          <path
-                            d="M 13 3 C 7.485979080200195 3 3 7.485979080200195 3 13 C 3 18.51401901245117 7.485979080200195 23 13 23 C 18.51401901245117 23 23 18.51401901245117 23 13 C 23 7.485979080200195 18.51401901245117 3 13 3 M 13 0 C 20.1796989440918 0 26 5.82029914855957 26 13 C 26 20.1796989440918 20.1796989440918 26 13 26 C 5.82029914855957 26 0 20.1796989440918 0 13 C 0 5.82029914855957 5.82029914855957 0 13 0 Z"
-                            stroke="none" fill="#707070" />
-                        </g>
-                        <path id="Tracé_1929" data-name="Tracé 1929"
-                          d="M325.979,397.594h4.227v4.225h4.225v-4.225h.635a9.739,9.739,0,0,0-13.312,3.584v.641h4.225Z"
-                          transform="translate(-320.439 -396.29)" />
-                        <path id="Tracé_1932" data-name="Tracé 1932"
-                          d="M337.274,404.892h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-.635a9.74,9.74,0,0,0,13.314-3.586Z"
-                          transform="translate(-319.054 -390.891)" />
-                        <path id="Tracé_1933" data-name="Tracé 1933"
-                          d="M330.713,403.933v4.225h4.225v-4.225h4.227v4.225h.335a9.7,9.7,0,0,0,.978-4.235l0-.01h-1.312v-4.227h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-4.225v-4.227h-.337a9.7,9.7,0,0,0-.977,4.237v.01h1.314v4.225h4.225v-4.225Z"
-                          transform="translate(-320.945 -394.158)" />
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-            </div>
-
-            <input disabled="true" fxFlex matInput name="destination" value="{{data_itineraire['destination']['nom']}}"
-              style="margin-top: -20px;margin-left: 6px;">
-            <mat-hint class="hint_itineraire" align="start">
-
-              {{ 'right_menu.map_routing.infos_1' | translate }}
-              <svg viewBox="0 0 26 26" style="height: 10px; margin-left: 2px;" class="pointer">
-                <g id="Groupe_3047" data-name="Groupe 3047" transform="translate(-1715.766 -199.766)">
-                  <g id="Groupe_3041" data-name="Groupe 3041" transform="translate(1719 203)">
-                    <g id="Groupe_3048" data-name="Groupe 3048">
-                      <path id="Tracé_1930" data-name="Tracé 1930"
-                        d="M321.884,405.533v-.641h-.337C321.651,405.11,321.763,405.325,321.884,405.533Z"
-                        transform="translate(-320.569 -390.891)" />
-                      <path id="Tracé_1931" data-name="Tracé 1931"
-                        d="M332.14,399.293v.641h.335C332.371,399.716,332.26,399.5,332.14,399.293Z"
-                        transform="translate(-313.92 -394.405)" />
-                      <g id="Groupe_3049" data-name="Groupe 3049">
-                        <g id="Tracé_1938" data-name="Tracé 1938" transform="translate(-3.234 -3.234)" fill="#fff">
-                          <path
-                            d="M 13 24.5 C 9.928239822387695 24.5 7.040339946746826 23.30378913879395 4.868269920349121 21.13172912597656 C 2.696209907531738 18.95965957641602 1.5 16.0717601776123 1.5 13 C 1.5 9.928239822387695 2.696209907531738 7.040339946746826 4.868269920349121 4.868269920349121 C 7.040339946746826 2.696209907531738 9.928239822387695 1.5 13 1.5 C 16.0717601776123 1.5 18.95965957641602 2.696209907531738 21.13172912597656 4.868269920349121 C 23.30378913879395 7.040339946746826 24.5 9.928239822387695 24.5 13 C 24.5 16.0717601776123 23.30378913879395 18.95965957641602 21.13172912597656 21.13172912597656 C 18.95965957641602 23.30378913879395 16.0717601776123 24.5 13 24.5 Z"
-                            stroke="none" />
-                          <path
-                            d="M 13 3 C 7.485979080200195 3 3 7.485979080200195 3 13 C 3 18.51401901245117 7.485979080200195 23 13 23 C 18.51401901245117 23 23 18.51401901245117 23 13 C 23 7.485979080200195 18.51401901245117 3 13 3 M 13 0 C 20.1796989440918 0 26 5.82029914855957 26 13 C 26 20.1796989440918 20.1796989440918 26 13 26 C 5.82029914855957 26 0 20.1796989440918 0 13 C 0 5.82029914855957 5.82029914855957 0 13 0 Z"
-                            stroke="none" fill="#707070" />
-                        </g>
-                        <path id="Tracé_1929" data-name="Tracé 1929"
-                          d="M325.979,397.594h4.227v4.225h4.225v-4.225h.635a9.739,9.739,0,0,0-13.312,3.584v.641h4.225Z"
-                          transform="translate(-320.439 -396.29)" />
-                        <path id="Tracé_1932" data-name="Tracé 1932"
-                          d="M337.274,404.892h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-.635a9.74,9.74,0,0,0,13.314-3.586Z"
-                          transform="translate(-319.054 -390.891)" />
-                        <path id="Tracé_1933" data-name="Tracé 1933"
-                          d="M330.713,403.933v4.225h4.225v-4.225h4.227v4.225h.335a9.7,9.7,0,0,0,.978-4.235l0-.01h-1.312v-4.227h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-4.225v-4.227h-.337a9.7,9.7,0,0,0-.977,4.237v.01h1.314v4.225h4.225v-4.225Z"
-                          transform="translate(-320.945 -394.158)" />
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </svg>
-              {{ 'right_menu.map_routing.infos_2' | translate }}
-            </mat-hint>
-          </mat-form-field>
-
-          <!-- <div fxFlex="20px" style="background: red;">
-
-          </div> -->
-
-        </div>
-
-        <div *ngIf="data_itineraire['route']['set']">
-          <div class="col-md-12 col-xs-12" style="margin-top: 40px;">
-            <div class="bold  "> Distance (Km) : </div>
-            <div style="padding-left: 5px;"> {{formatDistance(data_itineraire.route.data['routes'][0]['distance'])}}
-            </div>
-          </div>
-
-          <div class="col-md-12 col-xs-12" style="margin-top: 10px;">
-            <div class="bold  "> Temps (HH:MM) : </div>
-            <div style="padding-left: 5px;">
-              {{formatTimeInineraire(data_itineraire.route.data['routes'][0]['duration'])}} </div>
-          </div>
-        </div>
-
-
-        <div class="col-md-12" style="text-align: center;margin-top: 30px;" *ngIf="data_itineraire['route']['loading']">
-          <div style="position:absolute;top:calc(50% - 50px);left:45%">
-            <div class="lds-ripple" style="width: 100px;
-      height: 100px;">
-              <div></div>
-              <div></div>
-            </div>
-
-          </div>
-        </div>
-
-        <button mat-raised-button color="primary" *ngIf="data_itineraire['route']['set']"
-          style="width: 100%;margin-top: 30px;" (click)="clear_itineraire()">
-
-          {{ 'right_menu.map_routing.clear' | translate }} </button>
+        </mat-accordion>
 
       </div>
-    </div>
 
-    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 3">
-      <span *ngFor="let couche of layerInMap ; let i = index ">
-        <span *ngIf="couche.type == 'wms' || couche.type_couche == 'wms' ">
-          <mat-list-item class="primaryColorBG"
-            style="color:#000;height: auto;padding: 5px 0px;width:100%;font-weight:bold">
-            {{couche.nom}} :
-          </mat-list-item>
+      <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 2">
+        <div style="text-align:center">
+          <!-- <div style="color:#000"> Bientot disponible </div> -->
 
-          <img
-            src='{{couche.url +"&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS="+couche.identifiant+"&STYLE=default&SLD_VERSION=1.1.0&LAYERTITLE=false"}}'
-            alt="" srcset="">
-          <mat-divider style="border-color: #0006;"></mat-divider>
-        </span>
-      </span>
-    </div>
-
-    <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 4">
-
-      <div class="description_download">
-        {{ 'dowload_data.description' | translate }}
-      </div>
-
-      <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+          <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
            text-align: center;display:flow-root; margin-bottom:15px">
-        {{ 'dowload_data.title_data_in' | translate }}
-      </h5>
+            {{ 'right_menu.map_routing.start' | translate }}
+          </h5>
 
-      <div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index "
-        class="col-md-12 bloc_option_couche" style="padding:0px">
+          <div fxLayout="row">
 
-        <div class="col-md-1 bloc_option_couche_options">
+            <mat-form-field appearance="outline" class="intineraire">
+              <div fxFlex="20px" (click)="positioner_marker('depart')">
+                <svg x="0px" y="0px" viewBox="0 0 42.9 42.9" class="pointer"
+                  style="height: 36px;margin-left: -10px;margin-top: -14px;">
+                  <style type="text/css">
+                    .st1 {
+                      fill: #707070;
+                    }
+                  </style>
+                  <g transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <g id="Tracé_1939-2">
+                      <path class="primaryColorFill" d="M21.4,7.5c6,0,10.9,4.9,10.9,10.9s-4.9,10.9-10.9,10.9s-10.9-4.9-10.9-10.9c0,0,0,0,0,0
+			C10.5,12.4,15.4,7.5,21.4,7.5z" />
+                      <path class="st1" d="M21.4,30.9C14.6,30.9,9,25.3,9,18.4S14.6,6,21.4,6s12.4,5.6,12.4,12.4S28.3,30.9,21.4,30.9z M21.4,9
+			c-5.2,0-9.4,4.2-9.4,9.4s4.2,9.4,9.4,9.4s9.4-4.2,9.4-9.4S26.6,9,21.4,9z" />
+                    </g>
+                  </g>
+                </svg>
+              </div>
 
-          <svg x="0px" y="0px" viewBox="0 0 12.4 14.6" class="pointer" style="margin-top: 36px;width: 14px;"
-            *ngIf="display_remove_another_couche_option()" (click)="remove_another_couche_option(i)">
+              <input disabled="true" fxFlex matInput name="depart" value="{{data_itineraire['depart']['nom']}}"
+                style="margin-top: -20px;margin-left: 6px;">
+              <mat-hint class="hint_itineraire" align="start">
 
-            <path class="primaryColorFill" d="M9.7,14.6H2.7c-0.9,0-1.7-0.7-1.8-1.6V3.3h10.6V13C11.5,13.9,10.7,14.7,9.7,14.6z M12.4,2.4H0V0.8
-	h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
-          </svg>
-          <!-- 
-          <i class="far fa-trash-alt pointer" *ngIf="display_remove_another_couche_option()" style="color:red"
-            (click)="remove_another_couche_option(i)"></i> -->
-        </div>
+                {{ 'right_menu.map_routing.infos_1' | translate }}
 
-        <div class="col-md-11" style="width: 90%; float: right;">
-          <mat-list-item>
-            <mat-form-field style="width: 100%;">
-              <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
-                [(value)]="thematique.thematiques_analyse" (selectionChange)="chooseThematique_function(i)">
-                <mat-option *ngFor="let group of thematiques" [value]="group">
-                  {{group.nom}}
-                </mat-option>
-              </mat-select>
+                <svg x="0px" y="0px" viewBox="0 0 42.9 42.9" class="pointer" style="height: 15px;margin-bottom: -5px;">
+                  <style type="text/css">
+                    .st1 {
+                      fill: #707070;
+                    }
+                  </style>
+                  <g transform="matrix(1, 0, 0, 1, 0, 0)">
+                    <g id="Tracé_1939-2">
+                      <path class="primaryColorFill" d="M21.4,7.5c6,0,10.9,4.9,10.9,10.9s-4.9,10.9-10.9,10.9s-10.9-4.9-10.9-10.9c0,0,0,0,0,0
+			C10.5,12.4,15.4,7.5,21.4,7.5z" />
+                      <path class="st1" d="M21.4,30.9C14.6,30.9,9,25.3,9,18.4S14.6,6,21.4,6s12.4,5.6,12.4,12.4S28.3,30.9,21.4,30.9z M21.4,9
+			c-5.2,0-9.4,4.2-9.4,9.4s4.2,9.4,9.4,9.4s9.4-4.2,9.4-9.4S26.6,9,21.4,9z" />
+                    </g>
+                  </g>
+                </svg>
+
+                {{ 'right_menu.map_routing.infos_2' | translate }}
+              </mat-hint>
             </mat-form-field>
 
-            <mat-form-field style="width: 100%;"
-              *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques">
-              <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
-                [(value)]="thematique.couche_analyse">
-                <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques" [label]="group.nom">
-                  <mat-option *ngFor="let couche of group.couches" [value]="couche"
+            <!-- <div fxFlex="20px" style="background: lime;">
+
+          </div> -->
+
+          </div>
+
+          <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+           text-align: center;display:flow-root; margin-bottom:15px;margin-top: 30px;">
+            {{ 'right_menu.map_routing.destination' | translate }}
+          </h5>
+
+          <div fxLayout="row">
+
+            <mat-form-field appearance="outline" class="intineraire">
+              <div fxFlex="20px" (click)="positioner_marker('destination')">
+                <svg viewBox="0 0 26 26" style="height: 23px;margin-top: -10px;" class="pointer">
+                  <g id="Groupe_3047" data-name="Groupe 3047" transform="translate(-1715.766 -199.766)">
+                    <g id="Groupe_3041" data-name="Groupe 3041" transform="translate(1719 203)">
+                      <g id="Groupe_3048" data-name="Groupe 3048">
+                        <path id="Tracé_1930" data-name="Tracé 1930"
+                          d="M321.884,405.533v-.641h-.337C321.651,405.11,321.763,405.325,321.884,405.533Z"
+                          transform="translate(-320.569 -390.891)" />
+                        <path id="Tracé_1931" data-name="Tracé 1931"
+                          d="M332.14,399.293v.641h.335C332.371,399.716,332.26,399.5,332.14,399.293Z"
+                          transform="translate(-313.92 -394.405)" />
+                        <g id="Groupe_3049" data-name="Groupe 3049">
+                          <g id="Tracé_1938" data-name="Tracé 1938" transform="translate(-3.234 -3.234)" fill="#fff">
+                            <path
+                              d="M 13 24.5 C 9.928239822387695 24.5 7.040339946746826 23.30378913879395 4.868269920349121 21.13172912597656 C 2.696209907531738 18.95965957641602 1.5 16.0717601776123 1.5 13 C 1.5 9.928239822387695 2.696209907531738 7.040339946746826 4.868269920349121 4.868269920349121 C 7.040339946746826 2.696209907531738 9.928239822387695 1.5 13 1.5 C 16.0717601776123 1.5 18.95965957641602 2.696209907531738 21.13172912597656 4.868269920349121 C 23.30378913879395 7.040339946746826 24.5 9.928239822387695 24.5 13 C 24.5 16.0717601776123 23.30378913879395 18.95965957641602 21.13172912597656 21.13172912597656 C 18.95965957641602 23.30378913879395 16.0717601776123 24.5 13 24.5 Z"
+                              stroke="none" />
+                            <path
+                              d="M 13 3 C 7.485979080200195 3 3 7.485979080200195 3 13 C 3 18.51401901245117 7.485979080200195 23 13 23 C 18.51401901245117 23 23 18.51401901245117 23 13 C 23 7.485979080200195 18.51401901245117 3 13 3 M 13 0 C 20.1796989440918 0 26 5.82029914855957 26 13 C 26 20.1796989440918 20.1796989440918 26 13 26 C 5.82029914855957 26 0 20.1796989440918 0 13 C 0 5.82029914855957 5.82029914855957 0 13 0 Z"
+                              stroke="none" fill="#707070" />
+                          </g>
+                          <path id="Tracé_1929" data-name="Tracé 1929"
+                            d="M325.979,397.594h4.227v4.225h4.225v-4.225h.635a9.739,9.739,0,0,0-13.312,3.584v.641h4.225Z"
+                            transform="translate(-320.439 -396.29)" />
+                          <path id="Tracé_1932" data-name="Tracé 1932"
+                            d="M337.274,404.892h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-.635a9.74,9.74,0,0,0,13.314-3.586Z"
+                            transform="translate(-319.054 -390.891)" />
+                          <path id="Tracé_1933" data-name="Tracé 1933"
+                            d="M330.713,403.933v4.225h4.225v-4.225h4.227v4.225h.335a9.7,9.7,0,0,0,.978-4.235l0-.01h-1.312v-4.227h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-4.225v-4.227h-.337a9.7,9.7,0,0,0-.977,4.237v.01h1.314v4.225h4.225v-4.225Z"
+                            transform="translate(-320.945 -394.158)" />
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+
+              <input disabled="true" fxFlex matInput name="destination"
+                value="{{data_itineraire['destination']['nom']}}" style="margin-top: -20px;margin-left: 6px;">
+              <mat-hint class="hint_itineraire" align="start">
+
+                {{ 'right_menu.map_routing.infos_1' | translate }}
+                <svg viewBox="0 0 26 26" style="height: 10px; margin-left: 2px;" class="pointer">
+                  <g id="Groupe_3047" data-name="Groupe 3047" transform="translate(-1715.766 -199.766)">
+                    <g id="Groupe_3041" data-name="Groupe 3041" transform="translate(1719 203)">
+                      <g id="Groupe_3048" data-name="Groupe 3048">
+                        <path id="Tracé_1930" data-name="Tracé 1930"
+                          d="M321.884,405.533v-.641h-.337C321.651,405.11,321.763,405.325,321.884,405.533Z"
+                          transform="translate(-320.569 -390.891)" />
+                        <path id="Tracé_1931" data-name="Tracé 1931"
+                          d="M332.14,399.293v.641h.335C332.371,399.716,332.26,399.5,332.14,399.293Z"
+                          transform="translate(-313.92 -394.405)" />
+                        <g id="Groupe_3049" data-name="Groupe 3049">
+                          <g id="Tracé_1938" data-name="Tracé 1938" transform="translate(-3.234 -3.234)" fill="#fff">
+                            <path
+                              d="M 13 24.5 C 9.928239822387695 24.5 7.040339946746826 23.30378913879395 4.868269920349121 21.13172912597656 C 2.696209907531738 18.95965957641602 1.5 16.0717601776123 1.5 13 C 1.5 9.928239822387695 2.696209907531738 7.040339946746826 4.868269920349121 4.868269920349121 C 7.040339946746826 2.696209907531738 9.928239822387695 1.5 13 1.5 C 16.0717601776123 1.5 18.95965957641602 2.696209907531738 21.13172912597656 4.868269920349121 C 23.30378913879395 7.040339946746826 24.5 9.928239822387695 24.5 13 C 24.5 16.0717601776123 23.30378913879395 18.95965957641602 21.13172912597656 21.13172912597656 C 18.95965957641602 23.30378913879395 16.0717601776123 24.5 13 24.5 Z"
+                              stroke="none" />
+                            <path
+                              d="M 13 3 C 7.485979080200195 3 3 7.485979080200195 3 13 C 3 18.51401901245117 7.485979080200195 23 13 23 C 18.51401901245117 23 23 18.51401901245117 23 13 C 23 7.485979080200195 18.51401901245117 3 13 3 M 13 0 C 20.1796989440918 0 26 5.82029914855957 26 13 C 26 20.1796989440918 20.1796989440918 26 13 26 C 5.82029914855957 26 0 20.1796989440918 0 13 C 0 5.82029914855957 5.82029914855957 0 13 0 Z"
+                              stroke="none" fill="#707070" />
+                          </g>
+                          <path id="Tracé_1929" data-name="Tracé 1929"
+                            d="M325.979,397.594h4.227v4.225h4.225v-4.225h.635a9.739,9.739,0,0,0-13.312,3.584v.641h4.225Z"
+                            transform="translate(-320.439 -396.29)" />
+                          <path id="Tracé_1932" data-name="Tracé 1932"
+                            d="M337.274,404.892h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-.635a9.74,9.74,0,0,0,13.314-3.586Z"
+                            transform="translate(-319.054 -390.891)" />
+                          <path id="Tracé_1933" data-name="Tracé 1933"
+                            d="M330.713,403.933v4.225h4.225v-4.225h4.227v4.225h.335a9.7,9.7,0,0,0,.978-4.235l0-.01h-1.312v-4.227h-4.227v4.227h-4.225v-4.227h-4.227v4.227h-4.225v-4.227h-.337a9.7,9.7,0,0,0-.977,4.237v.01h1.314v4.225h4.225v-4.225Z"
+                            transform="translate(-320.945 -394.158)" />
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+                {{ 'right_menu.map_routing.infos_2' | translate }}
+              </mat-hint>
+            </mat-form-field>
+
+            <!-- <div fxFlex="20px" style="background: red;">
+
+          </div> -->
+
+          </div>
+
+          <div *ngIf="data_itineraire['route']['set']">
+            <div class="col-md-12 col-xs-12" style="margin-top: 40px;">
+              <div class="bold  "> Distance (Km) : </div>
+              <div style="padding-left: 5px;"> {{formatDistance(data_itineraire.route.data['routes'][0]['distance'])}}
+              </div>
+            </div>
+
+            <div class="col-md-12 col-xs-12" style="margin-top: 10px;">
+              <div class="bold  "> Temps (HH:MM) : </div>
+              <div style="padding-left: 5px;">
+                {{formatTimeInineraire(data_itineraire.route.data['routes'][0]['duration'])}} </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-12" style="text-align: center;margin-top: 30px;"
+            *ngIf="data_itineraire['route']['loading']">
+            <div style="position:absolute;top:calc(50% - 50px);left:45%">
+              <div class="lds-ripple" style="width: 100px;
+      height: 100px;">
+                <div></div>
+                <div></div>
+              </div>
+
+            </div>
+          </div>
+
+          <button mat-raised-button color="primary" *ngIf="data_itineraire['route']['set']"
+            style="width: 100%;margin-top: 30px;" (click)="clear_itineraire()">
+
+            {{ 'right_menu.map_routing.clear' | translate }} </button>
+
+        </div>
+      </div>
+
+      <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 3">
+        <span *ngFor="let couche of layerInMap ; let i = index ">
+          <span *ngIf="couche.type == 'wms' || couche.type_couche == 'wms' ">
+            <mat-list-item class="primaryColorBG"
+              style="color:#000;height: auto;padding: 5px 0px;width:100%;font-weight:bold">
+              {{couche.nom}} :
+            </mat-list-item>
+
+            <img
+              src='{{couche.url +"&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS="+couche.identifiant+"&STYLE=default&SLD_VERSION=1.1.0&LAYERTITLE=false"}}'
+              alt="" srcset="">
+            <mat-divider style="border-color: #0006;"></mat-divider>
+          </span>
+        </span>
+      </div>
+
+      <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 4">
+
+        <div class="description_download">
+          {{ 'dowload_data.description' | translate }}
+        </div>
+
+        <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+           text-align: center;display:flow-root; margin-bottom:15px">
+          {{ 'dowload_data.title_data_in' | translate }}
+        </h5>
+
+        <div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index "
+          class="col-md-12 bloc_option_couche" style="padding:0px">
+
+          <div class="col-md-1 bloc_option_couche_options">
+
+            <svg x="0px" y="0px" viewBox="0 0 12.4 14.6" class="pointer" style="margin-top: 36px;width: 14px;"
+              *ngIf="display_remove_another_couche_option()" (click)="remove_another_couche_option(i)">
+
+              <path class="primaryColorFill" d="M9.7,14.6H2.7c-0.9,0-1.7-0.7-1.8-1.6V3.3h10.6V13C11.5,13.9,10.7,14.7,9.7,14.6z M12.4,2.4H0V0.8
+	h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
+            </svg>
+            <!-- 
+          <i class="far fa-trash-alt pointer" *ngIf="display_remove_another_couche_option()" style="color:red"
+            (click)="remove_another_couche_option(i)"></i> -->
+          </div>
+
+          <div class="col-md-11" style="width: 90%; float: right;">
+            <mat-list-item>
+              <mat-form-field style="width: 100%;">
+                <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
+                  [(value)]="thematique.thematiques_analyse" (selectionChange)="chooseThematique_function(i)">
+                  <mat-option *ngFor="let group of thematiques" [value]="group">
+                    {{group.nom}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field style="width: 100%;"
+                *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques">
+                <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
+                  [(value)]="thematique.couche_analyse">
+                  <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques"
+                    [label]="group.nom">
+                    <mat-option *ngFor="let couche of group.couches" [value]="couche"
+                      [disabled]="disableOptionAnalyseSpatial(couche)">
+                      {{couche.nom}}
+                    </mat-option>
+                  </mat-optgroup>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field style="width: 100%;"
+                *ngIf="thematique.thematiques_analyse  &&  !thematique.thematiques_analyse.sous_thematiques">
+                <mat-select placeholder="{{ 'dowload_data.title_choose_layer' | translate }}"
+                  [(value)]="thematique.couche_analyse">
+                  <mat-option *ngFor="let couche of thematique.thematiques_analyse.couches" [value]="couche"
                     [disabled]="disableOptionAnalyseSpatial(couche)">
                     {{couche.nom}}
                   </mat-option>
-                </mat-optgroup>
-              </mat-select>
-            </mat-form-field>
+                </mat-select>
+              </mat-form-field>
 
-            <mat-form-field style="width: 100%;"
-              *ngIf="thematique.thematiques_analyse  &&  !thematique.thematiques_analyse.sous_thematiques">
-              <mat-select placeholder="{{ 'dowload_data.title_choose_layer' | translate }}"
-                [(value)]="thematique.couche_analyse">
-                <mat-option *ngFor="let couche of thematique.thematiques_analyse.couches" [value]="couche"
-                  [disabled]="disableOptionAnalyseSpatial(couche)">
-                  {{couche.nom}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            </mat-list-item>
+          </div>
 
-          </mat-list-item>
         </div>
 
-      </div>
-
-      <button mat-raised-button style="margin-top: 10px;
+        <button mat-raised-button style="margin-top: 10px;
       margin-bottom: 10px;min-width: 32px;
       width: 32px;
       height: 31px;
@@ -1269,201 +1315,202 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
       font-size: 12px;
       margin-left: calc(50% - 17px);
       " (click)="choose_another_couche_option()">
-        <i class="fa fa-plus" style="margin-bottom: 13px;"></i>
-      </button>
+          <i class="fa fa-plus" style="margin-bottom: 13px;"></i>
+        </button>
 
-      <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+        <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
            text-align: center;display:flow-root;margin-bottom:15px">
-        {{ 'dowload_data.title_choose_emprise' | translate }}
-      </h5>
+          {{ 'dowload_data.title_choose_emprise' | translate }}
+        </h5>
 
-      <mat-list-item>
+        <mat-list-item>
 
-        <mat-form-field style="width: 100%;padding: 0px 7px;">
-          <mat-select placeholder="{{ 'dowload_data.title_choose_type_emprise' | translate }}"
-            [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
-            <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}">
-              {{ 'dowload_data.by' | translate }} {{lim.nom}}
-            </mat-option>
-            <mat-option value="tout"> {{ 'dowload_data.all' | translate }} </mat-option>
-            <mat-option disabled="true" value="draw"> {{ 'dowload_data.draw' | translate }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <div *ngIf="analyse_spatial.type_emprise_spatiale && analyse_spatial.type_emprise_spatiale != 'tout'"
-          class="text-center">
-          <div *ngIf="!analyse_spatial.emprises" class="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-          <h5 *ngIf="!analyse_spatial.emprises" class="primaryColor text-center">
-            {{ 'dowload_data.loading' | translate }}
-            {{analyse_spatial.type_emprise_spatial}} </h5>
-
-          <mat-form-field *ngIf="analyse_spatial.emprises" style="width: 100%;color: #000;">
-            <input type="text" [formControl]="myControl" matInput
-              placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event,i)">
-              <mat-option
-                *ngFor="let emprise of analyse_spatial.emprises | donneOptionFilter: filter_option_expression "
-                [value]="emprise.name">
-                <span> {{emprise.name}}, </span>
-                <small> ({{emprise.ref}}) </small>
+          <mat-form-field style="width: 100%;padding: 0px 7px;">
+            <mat-select placeholder="{{ 'dowload_data.title_choose_type_emprise' | translate }}"
+              [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function(i)">
+              <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}">
+                {{ 'dowload_data.by' | translate }} {{lim.nom}}
               </mat-option>
-            </mat-autocomplete>
+              <mat-option value="tout"> {{ 'dowload_data.all' | translate }} </mat-option>
+              <mat-option disabled="true" value="draw"> {{ 'dowload_data.draw' | translate }} </mat-option>
+            </mat-select>
           </mat-form-field>
-        </div>
-      </mat-list-item>
 
-      <button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);"
-        class="primary_transparent_bg" matTooltip="{{ 'dowload_data.calculate' | translate }}"
-        *ngIf="display_calculate_result_analyse_spatial()" mat-mini-fab (click)="calculate_result_analyse_spatial()">
+          <div *ngIf="analyse_spatial.type_emprise_spatiale && analyse_spatial.type_emprise_spatiale != 'tout'"
+            class="text-center">
+            <div *ngIf="!analyse_spatial.emprises" class="lds-ripple">
+              <div></div>
+              <div></div>
+            </div>
+            <h5 *ngIf="!analyse_spatial.emprises" class="primaryColor text-center">
+              {{ 'dowload_data.loading' | translate }}
+              {{analyse_spatial.type_emprise_spatial}} </h5>
 
-        <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
-          <g id="Tracé_1915">
-            <path class="primaryColorFill" d="M18.3,22.2l-3.4-3.7c-3.3,1.9-7.3,1.8-10.5-0.3c-2.2-1.5-3.7-3.7-4.2-6.3c-0.5-2.6,0-5.3,1.5-7.5
+            <mat-form-field *ngIf="analyse_spatial.emprises" style="width: 100%;color: #000;">
+              <input type="text" [formControl]="myControl" matInput
+                placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event,i)">
+                <mat-option
+                  *ngFor="let emprise of analyse_spatial.emprises | donneOptionFilter: filter_option_expression "
+                  [value]="emprise.name">
+                  <span> {{emprise.name}}, </span>
+                  <small> ({{emprise.ref}}) </small>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </mat-list-item>
+
+        <button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);"
+          class="primary_transparent_bg" matTooltip="{{ 'dowload_data.calculate' | translate }}"
+          *ngIf="display_calculate_result_analyse_spatial()" mat-mini-fab (click)="calculate_result_analyse_spatial()">
+
+          <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
+            <g id="Tracé_1915">
+              <path class="primaryColorFill" d="M18.3,22.2l-3.4-3.7c-3.3,1.9-7.3,1.8-10.5-0.3c-2.2-1.5-3.7-3.7-4.2-6.3c-0.5-2.6,0-5.3,1.5-7.5
 		c3-4.6,9.2-5.8,13.8-2.8c4.4,2.9,5.7,8.8,3.1,13.3l3.4,3.6L18.3,22.2z M15.2,16.6l3.2,3.5l1.5-1.5l-3.3-3.4l0.3-0.5
 		c2.6-3.9,1.5-9.1-2.3-11.7C10.8,0.3,5.5,1.4,2.9,5.3c-1.3,1.9-1.7,4.1-1.3,6.3s1.7,4.1,3.6,5.4c2.9,1.9,6.6,1.9,9.4,0L15.2,16.6z
 		 M9.9,16.1c-3.4,0-6.2-2.8-6.2-6.2c0-3.4,2.8-6.2,6.2-6.2c3.4,0,6.2,2.8,6.2,6.2C16.1,13.4,13.4,16.1,9.9,16.1L9.9,16.1z M9.9,5.2
 		c-2.6,0-4.7,2.1-4.7,4.7c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7C14.6,7.4,12.5,5.2,9.9,5.2z" />
-          </g>
-        </svg>
+            </g>
+          </svg>
 
 
-      </button>
+        </button>
 
-      <!-- <button mat-raised-button style="width: 100%;" color="primary" *ngIf="display_calculate_result_analyse_spatial()"
+        <!-- <button mat-raised-button style="width: 100%;" color="primary" *ngIf="display_calculate_result_analyse_spatial()"
         (click)="calculate_result_analyse_spatial()">
         {{ 'dowload_data.calculate' | translate }}
       </button> -->
 
-    </div>
-  </mat-sidenav>
+      </div>
+    </mat-sidenav>
 
-  <mat-sidenav-content style="width: 100%;">
-    <input id="swipe" type="range"
-      style="background: transparent;width: 100%;z-index: 9999999999999999999999;  position: absolute;top: 45%;display: none;">
+    <mat-sidenav-content style="width: 100%;">
+      <input id="swipe" type="range"
+        style="background: transparent;width: 100%;z-index: 9999999999999999999999;  position: absolute;top: 45%;display: none;">
 
-    <div id="map" (contextmenu)="right_click($event)" [shAttachMenu]="menu" [shMenuData]="data_right_click.item"></div>
-
-    <div id="comment">
-      <div class="form-group">
-
-        <button mat-mini-fab color="primary" class="close  close-comment pull-right"
-          style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;" (click)="closeComment_draw()">
-          <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
-        </button>
-
+      <div id="map" (contextmenu)="right_click($event)" [shAttachMenu]="menu" [shMenuData]="data_right_click.item">
       </div>
 
-      <div class="form-group">
-        <textarea class="form-control" rows="5" id="text-comment" [(ngModel)]="comment_user"
-          placeholder="Votre Commentaire..."
-          style="border-radius:0px;border-color: #1CAC77;resize:none;margin-top:10px; "></textarea>
-      </div>
+      <div id="comment">
+        <div class="form-group">
 
-      <div class="form-group" style="margin-top: -19px;">
+          <button mat-mini-fab color="primary" class="close  close-comment pull-right"
+            style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;" (click)="closeComment_draw()">
+            <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+          </button>
 
-        <button mat-raised-button color="primary" class="save-comment"
-          style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
-          (click)="saveComment_draw(comment_user)">
-          {{ 'draw_in_map.save' | translate }}
-        </button>
+        </div>
 
-      </div>
-    </div>
+        <div class="form-group">
+          <textarea class="form-control" rows="5" id="text-comment" [(ngModel)]="comment_user"
+            placeholder="Votre Commentaire..."
+            style="border-radius:0px;border-color: #1CAC77;resize:none;margin-top:10px; "></textarea>
+        </div>
 
-    <div id="setCoordOverlay" style="display:none">
-      <button mat-mini-fab color="primary" (click)="close_setCoordOverlay()" matTooltip="Supprimer">
-        <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
-      </button>
-    </div>
+        <div class="form-group" style="margin-top: -19px;">
 
-    <div id="coord_caracteristics" style="display:none;margin-top: -20px;margin-left: -20px;">
-      <button mat-mini-fab color="primary" (click)="close_caracteristique()" matTooltip="Fermer">
-        <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
-        <i class="fas fa-dot-circle fa-lg" style="color:#fff;"></i>
-      </button>
-    </div>
+          <button mat-raised-button color="primary" class="save-comment"
+            style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
+            (click)="saveComment_draw(comment_user)">
+            {{ 'draw_in_map.save' | translate }}
+          </button>
 
-    <div id="colorPicker">
-      <div class="form-group">
-
-        <button mat-mini-fab color="primary" class="close  close-comment pull-right"
-          style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;" (click)="closeColorPicker_draw()">
-          <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
-        </button>
-
-      </div>
-
-      <div class="form-group" style="text-align: center;" id="draw-color">
-        <input [(colorPicker)]="colorDraw" [style.background]="colorDraw" cpOutputFormat="hex" [cpOKButton]="true"
-          [cpCancelButton]="true" [cpSaveClickOutside]="false"
-          style="width: 20px;border-radius: 100%;border: 1px solid #000;" class="pointer"
-          cpOKButtonClass="primaryColorBG" cpCancelButtonClass="back_black" />
-        <span class="black"> {{colorDraw}} </span>
-      </div>
-
-      <div class="form-group" style="margin-top: -19px;">
-
-        <button mat-raised-button color="primary" [style.background]="colorDraw" class="save-comment"
-          style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
-          (click)="saveColorPicker()">
-          {{ 'draw_in_map.apply_draw' | translate }}
-        </button>
-
-      </div>
-    </div>
-
-    <div id="popup_lot" class="back_white popup">
-      <div class="popover  top "
-        style="border-radius: 15px;display: block; top: -70px; left: -100px;text-align: center;padding: 0px;">
-        <div class="arrow " style="left: 57%;"></div>
-        <div class="popover-content" style="height: 55px; width: 175px;padding: 0px;">
-          <h4 class="primaryColorBG bold " id="popup_infos_title"
-            style="text-transform: capitalize;padding: 2px;color:#fff;margin: 0px !important;font-size: 16px;border-radius: 15px 15px 0px 0px;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
-          </h4>
-          <div class="text-center  primaryColor"
-            style="padding-top: 5px; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
-            <span id="popup_infos_contain" [matTooltip]="getTooltip('popup_infos_contain')" matTooltipPosition="right"
-              style="font-size: 13px;"></span>
-          </div>
-          <a href="" target="_blank" id="popup_details" style="display:none"> détails </a>
         </div>
       </div>
-    </div>
 
-    <div id="popup_mappilary" class="back_white popup">
-      <div class="popover  top "
-        style="border-radius: 15px;display: block; top: -140px; left: -100px;text-align: center;padding: 6px;">
-        <div class="arrow " style="left: 57%;"></div>
-        <div class="popover-content" style="  padding: 0px;">
-          <div class="ol-unselectable">
-            <div>
-              <img src="" id="img_mappilary" style="  height: 120px;width: 160px;  border-radius: 6px;">
+      <div id="setCoordOverlay" style="display:none">
+        <button mat-mini-fab color="primary" (click)="close_setCoordOverlay()" matTooltip="Supprimer">
+          <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
+        </button>
+      </div>
+
+      <div id="coord_caracteristics" style="display:none;margin-top: -20px;margin-left: -20px;">
+        <button mat-mini-fab color="primary" (click)="close_caracteristique()" matTooltip="Fermer">
+          <i class="fas fa-times fa-lg" style="color:#fff;display:none"></i>
+          <i class="fas fa-dot-circle fa-lg" style="color:#fff;"></i>
+        </button>
+      </div>
+
+      <div id="colorPicker">
+        <div class="form-group">
+
+          <button mat-mini-fab color="primary" class="close  close-comment pull-right"
+            style="height: 20px;width: 20px;opacity: 1;margin-right: -8px;" (click)="closeColorPicker_draw()">
+            <i class="fa fa-times " style="color:#fff;margin-top: -23px;margin-right: 1px;"></i>
+          </button>
+
+        </div>
+
+        <div class="form-group" style="text-align: center;" id="draw-color">
+          <input [(colorPicker)]="colorDraw" [style.background]="colorDraw" cpOutputFormat="hex" [cpOKButton]="true"
+            [cpCancelButton]="true" [cpSaveClickOutside]="false"
+            style="width: 20px;border-radius: 100%;border: 1px solid #000;" class="pointer"
+            cpOKButtonClass="primaryColorBG" cpCancelButtonClass="back_black" />
+          <span class="black"> {{colorDraw}} </span>
+        </div>
+
+        <div class="form-group" style="margin-top: -19px;">
+
+          <button mat-raised-button color="primary" [style.background]="colorDraw" class="save-comment"
+            style="width: 100%;margin-bottom:7px;margin-top:14px;color: #fff;font-size: 14px;font-weight: bold"
+            (click)="saveColorPicker()">
+            {{ 'draw_in_map.apply_draw' | translate }}
+          </button>
+
+        </div>
+      </div>
+
+      <div id="popup_lot" class="back_white popup">
+        <div class="popover  top "
+          style="border-radius: 15px;display: block; top: -70px; left: -100px;text-align: center;padding: 0px;">
+          <div class="arrow " style="left: 57%;"></div>
+          <div class="popover-content" style="height: 55px; width: 175px;padding: 0px;">
+            <h4 class="primaryColorBG bold " id="popup_infos_title"
+              style="text-transform: capitalize;padding: 2px;color:#fff;margin: 0px !important;font-size: 16px;border-radius: 15px 15px 0px 0px;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
+            </h4>
+            <div class="text-center  primaryColor"
+              style="padding-top: 5px; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
+              <span id="popup_infos_contain" [matTooltip]="getTooltip('popup_infos_contain')" matTooltipPosition="right"
+                style="font-size: 13px;"></span>
+            </div>
+            <a href="" target="_blank" id="popup_details" style="display:none"> détails </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="popup_mappilary" class="back_white popup">
+        <div class="popover  top "
+          style="border-radius: 15px;display: block; top: -140px; left: -100px;text-align: center;padding: 6px;">
+          <div class="arrow " style="left: 57%;"></div>
+          <div class="popover-content" style="  padding: 0px;">
+            <div class="ol-unselectable">
+              <div>
+                <img src="" id="img_mappilary" style="  height: 120px;width: 160px;  border-radius: 6px;">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div *ngFor="let chart of list_analyse_spatial; let i = index " id="analyse_spatiale_{{i}}_chart"
-      style="background-color: rgba(0, 0, 0, 0.41);">
-      <canvas style="display:none;width: 400px;" id="analyse_spatiale_{{i}}">{{ chart_analyse_spatiale[i] }}</canvas>
+      <div *ngFor="let chart of list_analyse_spatial; let i = index " id="analyse_spatiale_{{i}}_chart"
+        style="background-color: rgba(0, 0, 0, 0.41);">
+        <canvas style="display:none;width: 400px;" id="analyse_spatiale_{{i}}">{{ chart_analyse_spatiale[i] }}</canvas>
 
-      <button mat-raised-button style="width: 80%;
+        <button mat-raised-button style="width: 80%;
       margin-top: 15px;
       margin-left: 10%;margin-bottom: 15px;" color="primary" (click)="download_files('analyse_spatiale_'+i)">
 
 
-        <svg x="0px" y="0px" viewBox="0 0 30.9 28.2" style="height: 30px;">
+          <svg x="0px" y="0px" viewBox="0 0 30.9 28.2" style="height: 30px;">
 
-          <path id="Tracé_1926" class="white_fill" d="M25.2,15.4h-1V17h1c0.2,0,0.4-0.1,0.6-0.2c0.2-0.2,0.2-0.4,0.2-0.6c0-0.2-0.1-0.4-0.2-0.6
+            <path id="Tracé_1926" class="white_fill" d="M25.2,15.4h-1V17h1c0.2,0,0.4-0.1,0.6-0.2c0.2-0.2,0.2-0.4,0.2-0.6c0-0.2-0.1-0.4-0.2-0.6
 	C25.6,15.5,25.4,15.4,25.2,15.4z" />
-          <path id="Tracé_1927" class="white_fill" d="M19.2,25.2c0,1.1-0.9,2-2,2H3c-1.1,0-2-0.9-2-2V3c0-1.1,0.9-2,2-2h9.3v4.8
+            <path id="Tracé_1927" class="white_fill" d="M19.2,25.2c0,1.1-0.9,2-2,2H3c-1.1,0-2-0.9-2-2V3c0-1.1,0.9-2,2-2h9.3v4.8
 	c0,1.5,1.2,2.6,2.6,2.6h4.2v2.3h1V7.2L14,0H3C1.3,0,0,1.3,0,3v22.2c0,1.7,1.3,3,3,3h14.1c1.7,0,3-1.3,3-3v-1.5h-1L19.2,25.2z
 	 M13.3,1h0.3l5.5,6.4H15c-0.9,0-1.7-0.7-1.7-1.7L13.3,1z" />
-          <path id="Tracé_1928" class="white_fill" d="M28.3,11.5H11c-1.4,0-2.6,1.2-2.6,2.6v6.2c0,1.4,1.2,2.6,2.6,2.6h17.2c1.4,0,2.6-1.2,2.6-2.6
+            <path id="Tracé_1928" class="white_fill" d="M28.3,11.5H11c-1.4,0-2.6,1.2-2.6,2.6v6.2c0,1.4,1.2,2.6,2.6,2.6h17.2c1.4,0,2.6-1.2,2.6-2.6
 	v-6.2C30.9,12.7,29.7,11.5,28.3,11.5z M16.2,19.6c-0.5,0.4-1,0.5-1.6,0.5c-0.6,0-1.2-0.1-1.7-0.5c-0.4-0.3-0.6-0.8-0.6-1.3h1.1
 	c0,0.2,0.1,0.4,0.2,0.6c0.3,0.3,0.6,0.4,1,0.3c0.2,0,0.5,0,0.7-0.1c0.3-0.1,0.5-0.3,0.5-0.6c0-0.2-0.1-0.3-0.2-0.4
 	c-0.2-0.1-0.5-0.2-0.8-0.3l-0.6-0.1c-0.4-0.1-0.8-0.2-1.2-0.4c-0.4-0.3-0.6-0.7-0.5-1.2c0-0.5,0.2-0.9,0.5-1.2
@@ -1473,28 +1520,28 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 	L21.9,19.9z M26.6,17.6c-0.4,0.3-0.9,0.4-1.4,0.4h-1.1v2H23v-5.4h2.3c0.5,0,0.9,0.1,1.3,0.4c0.3,0.3,0.5,0.8,0.5,1.3
   C27.2,16.7,27,17.2,26.6,17.6L26.6,17.6z" />
 
-        </svg>
+          </svg>
 
-      </button>
+        </button>
 
-    </div>
+      </div>
 
 
-  </mat-sidenav-content>
+    </mat-sidenav-content>
 
-</mat-sidenav-container>
+  </mat-sidenav-container>
 
-<div class="utils primaryColorBG"
-  style="background: url('/assets/images/bandeau-Geosm-barre_outils.svg');background-position-x: center;">
+</div>
+<div class="utils ">
 
-  <div class="pointer toogle_left_div" (click)="toggle_left('')"
+  <!-- <div class="pointer toogle_left_div" (click)="toggle_left('')"
     matTooltip="{{ 'naviguation_tools.toogle_left_menu' | translate }}"
     [ngStyle]="{'background-color': slide2_is_open() ? groupMenuActive_color:'#fff'}">
 
     <i class="fa fa-angle-double-left fa-lg "
       [ngClass]="{'rotate_menu_toogle': !opened_left,'primaryColor':!slide2_is_open(),'white':slide2_is_open()}"
       style="font-size: 22px;transform: rotate(0deg);transition: 0.5s;"></i>
-  </div>
+  </div> -->
 
   <div class="button-row" style="padding: 10px;">
     <!--  <button mat-mini-fab>Basic</button>
@@ -1520,7 +1567,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
       <!-- <i class="fa fa-globe fa-lg" style="color:#fff;"></i> -->
     </button>
 
-    <button mat-mini-fab class="primaryColorBG zoomto" (click)="openModal('zoomto')" style="margin-top: 100px;"
+    <button mat-mini-fab class="primaryColorBG zoomto" (click)="openModal('zoomto')"
       matTooltip="{{ 'naviguation_tools.zoom_to_coordinates' | translate }}">
       <i class="fa fa-map-marker fa-lg" style="color:#fff;"></i>
     </button>
@@ -1534,7 +1581,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
     </button> -->
 
 
-    <button mat-mini-fab class="primaryColorBG view_map_roll" (click)="rollBack()"
+    <!-- <button mat-mini-fab class="primaryColorBG view_map_roll" (click)="rollBack()"
       matTooltip="{{ 'naviguation_tools.past_view' | translate }} ">
       <i class="fa fa-angle-left fa-lg" style="color:#fff;"></i>
     </button>
@@ -1542,7 +1589,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
     <button mat-mini-fab class="primaryColorBG view_map_roll" (click)="rollFront()"
       matTooltip="{{ 'naviguation_tools.next_view' | translate }} ">
       <i class="fa fa-angle-right fa-lg" style="color:#fff;"></i>
-    </button>
+    </button> -->
 
 
 

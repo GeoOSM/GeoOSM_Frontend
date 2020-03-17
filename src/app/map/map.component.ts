@@ -386,18 +386,18 @@ export class MapComponent implements OnInit {
 		this.reason_left = reason_left;
 		this.sidenav1.toggle();
 		if (!this.opened_left || this.opened_left == undefined) {
-			$('.utils').css('left', '230px')
+			$('.utils').css('left', '300px')
 			$('#notifications').css('left', '300px')
 			$('#mouseposition').css('left', '300px')
 			$('#bloc_caracteristique').css('left', '300px')
 		} else {
 			$('#bloc_caracteristique').css('left', '65px')
 
-			$('.utils').css('left', '0px')
+			$('.utils').css('left', '40px')
 			$('#notifications').css('left', '65px')
 			$('#mouseposition').css('left', '65px')
-			$('.slide2').css('left', '-260px');
-			$('.title_rollback_slide2').css('left', '-260px');
+			$('.slide2').css('left', '-300px');
+			$('.title_rollback_slide2').css('left', '-300px');
 		}
 
 	}
@@ -454,7 +454,7 @@ export class MapComponent implements OnInit {
 	) {
 
 		this.environment = environment
-		
+
 	}
 
 
@@ -2937,7 +2937,7 @@ export class MapComponent implements OnInit {
 
 
 	shareFeature(feature) {
-		
+
 		var url_share = this.communicationComponent.getUrlShareFeature(feature)
 
 		var notif = this.notif.open(url_share, 'Partager', {
@@ -2963,14 +2963,13 @@ export class MapComponent implements OnInit {
 	}
 
 	constructMapBind() {
-
 		for (var i = 0; i < this.cartes.length; i++) {
 			if (this.cartes[i].sous_cartes) {
 				for (var j = 0; j < this.cartes[i].sous_cartes.length; j++) {
 					for (var k = 0; k < this.cartes[i].sous_cartes[j].couches.length; k++) {
-						if (this.cartes[i].sous_cartes[j].couches[k].principal && !this.cartes[i].sous_cartes[j].couches[k]['constructMapBind']) {
+						if (this.cartes[i].sous_cartes[j].couches[k].principal) {
 							var target = 'map' + this.cartes[i].sous_cartes[j].couches[k].key_couche + 'true' + this.cartes[i].sous_cartes[j].key
-							this.cartes[i].sous_cartes[j].couches[k]['constructMapBind'] = true
+							// this.cartes[i].sous_cartes[j].couches[k]['constructMapBind'] = true
 							this.displayDataOfBindOnMap(this.cartes[i].sous_cartes[j].couches[k], target)
 						}
 
@@ -2978,9 +2977,9 @@ export class MapComponent implements OnInit {
 				}
 			} else {
 				for (var j = 0; j < this.cartes[i].couches.length; j++) {
-					if (this.cartes[i].couches[j].principal && !this.cartes[i].couches[j]['constructMapBind']) {
+					if (this.cartes[i].couches[j].principal) {
 						var target = 'map' + this.cartes[i].couches[j].key_couche + 'false' + this.cartes[i].id_cartes
-						this.cartes[i].couches[j]['constructMapBind'] = true
+						// this.cartes[i].couches[j]['constructMapBind'] = true
 						this.displayDataOfBindOnMap(this.cartes[i].couches[j], target)
 					}
 				}
@@ -3247,8 +3246,21 @@ export class MapComponent implements OnInit {
 
 	}
 
+	menuActif = 'thematiques'
+	openMenu(type) {
+		this.toggle_left('')
+		setTimeout(() => {
+			this.toggle_left('')
+			this.menuActif = type
+			if (type == "cartes") {
+				this.constructMapBind()
+
+			}
+		}, 200);
+
+	}
 	groupMenuActive_color = "#fff"
-	slideTo(typeMenu, data,sous_type_for_icon?:string): any {
+	slideTo(typeMenu, data, sous_type_for_icon?: string): any {
 
 		this.typeMenu = typeMenu
 
@@ -3326,8 +3338,8 @@ export class MapComponent implements OnInit {
 			this.toggle_left('')
 		}
 
-		$('.slide2').css('left', '0px');
-		$('.title_rollback_slide2').css('left', '5px');
+		$('.slide2').css('left', '40px');
+		$('.title_rollback_slide2').css('left', '45px');
 		$('.slide2').css('bottom', '0px');
 		// $('.mat-drawer').css('overflow-y', 'inherit');
 		// $('.slide2').css('overflow-y', 'initial');
@@ -3337,7 +3349,7 @@ export class MapComponent implements OnInit {
 
 	slide2_is_open() {
 		// console.log(document.getElementsByClassName('slide2')[0]['style']['left'] == "0px")
-		if (document.getElementsByClassName('slide2')[0]['style']['left'] == "0px") {
+		if (document.getElementsByClassName('slide2')[0]['style']['left'] == "40px") {
 			return true
 		} else {
 			return false
@@ -3345,8 +3357,8 @@ export class MapComponent implements OnInit {
 
 	}
 	slideBack(): any {
-		$('.slide2').css('left', '-260px');
-		$('.title_rollback_slide2').css('left', '-260px');
+		$('.slide2').css('left', '-270px');
+		$('.title_rollback_slide2').css('left', '-300px');
 		$('.sous_themes_cartes_active').css('position', 'unset');
 		// $('.mat-drawer').css('overflow-y', 'auto');
 	}
@@ -4618,10 +4630,10 @@ export class MapComponent implements OnInit {
 			});
 
 			var formatLength = function (line) {
-				
+
 				if (line.getType() == 'Circle') {
-					var length:number = line.getRadius()
-				}else{
+					var length: number = line.getRadius()
+				} else {
 					var length = Sphere.getLength(line);
 				}
 
@@ -4637,9 +4649,9 @@ export class MapComponent implements OnInit {
 			};
 
 			var formatArea = function (polygon) {
-				
+
 				var area = Sphere.getArea(polygon);
-				
+
 				var output;
 				if (area > 10000) {
 					output = (Math.round(area / 1000000 * 100) / 100) +
@@ -4691,17 +4703,18 @@ export class MapComponent implements OnInit {
 
 						var geom = evt.target;
 						var output;
-						console.log(evt) 
+						console.log(evt)
 						if (geom.getType() == 'Polygon' || geom.getType() == 'Circle') {
-							
-							if (geom.getType() == 'Circle') { formatLength
+
+							if (geom.getType() == 'Circle') {
+								formatLength
 								output = formatLength(geom);
 								tooltipCoord = geom.getCenter();
-							}else{
+							} else {
 								output = formatArea(geom);
 								tooltipCoord = geom.getInteriorPoint().getCoordinates();
 							}
-							
+
 						} else if (geom.getType() == 'LineString') {
 							output = formatLength(geom);
 							tooltipCoord = geom.getLastCoordinate();
@@ -5307,54 +5320,59 @@ export class MapComponent implements OnInit {
 	}
 
 	displayDataOfBindOnMap(data, target1) {
+		
+		// console.log('#' + target1 + ' .ol-viewport',$('#' + target1 + ' .ol-viewport'))
+		
+		// if ($('#' + target1 + ' .ol-viewport')) {
 
-		setTimeout(() => {
-			console.log(data, target1, 1)
-			if (data.type == 'xyz') {
+			setTimeout(() => {
+				$('#' + target1).empty();
+				if (data.type == 'xyz') {
 
-				var mapGhost = new Map({
-					target: target1,
-					controls: [],
-					view: view
-				});
+					var mapGhost = new Map({
+						target: target1,
+						controls: [],
+						view: view
+					});
 
-				console.log($('#' + target1), 2)
-				var tiles = new layer.Tile({
-					source: new source.XYZ({
-						url: data.url,
-						// tileLoadFunction: function (imageTile, src) {
-						//      imageTile.getImage().src = src;
-						//  },
-						crossOrigin: "anonymous"
+					console.log($('#' + target1), 2)
+					var tiles = new layer.Tile({
+						source: new source.XYZ({
+							url: data.url,
+							// tileLoadFunction: function (imageTile, src) {
+							//      imageTile.getImage().src = src;
+							//  },
+							crossOrigin: "anonymous"
+						})
 					})
-				})
-				tiles.set('name', this.space2underscore(data.nom))
-				mapGhost.addLayer(tiles);
+					tiles.set('name', this.space2underscore(data.nom))
+					mapGhost.addLayer(tiles);
 
-			} else if (data.type_couche == 'wms' || data.type == 'wms') {
+				} else if (data.type_couche == 'wms' || data.type == 'wms') {
 
-				var mapGhost = new Map({
-					target: target1,
-					controls: [],
-					view: view
-				});
+					var mapGhost = new Map({
+						target: target1,
+						controls: [],
+						view: view
+					});
 
-				var wms = new source.TileWMS({
-					url: data.url,
-					params: { 'LAYERS': data.identifiant, 'TILED': true },
-					serverType: 'mapserver',
-					crossOrigin: 'anonymous'
-				});
-				var tiles = new layer.Tile({
-					source: wms,
-					visible: true
-				})
+					var wms = new source.TileWMS({
+						url: data.url,
+						params: { 'LAYERS': data.identifiant, 'TILED': true },
+						serverType: 'mapserver',
+						crossOrigin: 'anonymous'
+					});
+					var tiles = new layer.Tile({
+						source: wms,
+						visible: true
+					})
 
-				tiles.set('name', this.space2underscore(data.nom))
-				mapGhost.addLayer(tiles);
+					tiles.set('name', this.space2underscore(data.nom))
+					mapGhost.addLayer(tiles);
 
-			}
-		}, 3000)
+				}
+			}, 3000)
+		// }
 	}
 
 	toogleVisibilityLayer(data) {
@@ -7512,8 +7530,8 @@ export class MapComponent implements OnInit {
 		},
 		"route": {
 			"loading": false,
-			"set":false,
-			"data":undefined
+			"set": false,
+			"data": undefined
 		}
 	}
 
@@ -7659,7 +7677,7 @@ export class MapComponent implements OnInit {
 			$.get(url, (data) => {
 				// console.log(data)
 				this.data_itineraire.route.loading = false
-				
+
 				if (data['routes'] && data['routes'].length > 0) {
 					this.data_itineraire.route.data = data
 					this.display_itineraire(data)
@@ -7698,25 +7716,25 @@ export class MapComponent implements OnInit {
 		this.layer_itineraire.getSource().addFeature(newMarker)
 	}
 
-	formatTimeInineraire(timesSecondes:number):string{
+	formatTimeInineraire(timesSecondes: number): string {
 		// var startTime = moment(document.getElementById("startTime").value, "HH:mm");
 		// var endTime = moment(document.getElementById("end").value, "HH:mm");
 
-		var duration = moment.duration(timesSecondes,'seconds');
-		var hours = '0'+duration.hours();
-		var minutes = '0'+duration.minutes();
+		var duration = moment.duration(timesSecondes, 'seconds');
+		var hours = '0' + duration.hours();
+		var minutes = '0' + duration.minutes();
 		// console.log(hours.slice(-2),minutes.slice(-2))
 		// document.getElementById('dateDiffResult').value = hours +":"+ minutes;
-		return  hours.slice(-2) +":"+ minutes.slice(-2)
+		return hours.slice(-2) + ":" + minutes.slice(-2)
 	}
 
-	formatDistance(distanceMeters:number):string{
-		var distanceKm =distanceMeters/1000
+	formatDistance(distanceMeters: number): string {
+		var distanceKm = distanceMeters / 1000
 		return distanceKm.toFixed(2)
 	}
 
-	clear_itineraire(){
-		
+	clear_itineraire() {
+
 		this.layer_itineraire.getSource().clear()
 		this.data_itineraire.route.set = false
 		this.data_itineraire.depart.coord = []

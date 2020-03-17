@@ -5,6 +5,13 @@
 @import '/app/theme';
 @include mat-core();
 
+@font-face {
+    font-family: 'montserratblack';
+    src: url('/../fonts/montserrat-black-webfont.woff2') format('woff2'),
+         url('/../fonts/montserrat-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 //   $primary: mat-palette($mat-blue,500);
 //   $primary_transparent: mat-palette($mat-blue,100);

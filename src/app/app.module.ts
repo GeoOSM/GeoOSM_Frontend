@@ -96,6 +96,9 @@ import { CoucheEnCoursComponent } from './composant/couche-en-cours/couche-en-co
 import { CaracteristiquesLieuComponent } from './composant/caracteristiques-lieu/caracteristiques-lieu.component';
 import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignets.component';
 import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-descriptive.component';
+import { ThematiqueCityComponent } from './composant/thematique/thematique-city/thematique-city.component';
+import { CarteCityComponent } from './composant/carte/carte-city/carte-city.component';
+import { RessourcesCityComponent } from './composant/ressources/ressources-city/ressources-city.component';
 
 @NgModule({
   exports: [
@@ -160,7 +163,10 @@ export class DemoMaterialModule { }
     CoucheEnCoursComponent,
     CaracteristiquesLieuComponent,
     AddGeosignetsComponent,
-    FicheDescriptiveComponent
+    FicheDescriptiveComponent,
+    ThematiqueCityComponent,
+    CarteCityComponent,
+    RessourcesCityComponent
   ],
   entryComponents: [buttonsheetGeosiComponent, buttonsheetComponent, modalComponent, modalMetadata, commentComponent, modalQuestion,AddGeosignetsComponent],
   imports: [
