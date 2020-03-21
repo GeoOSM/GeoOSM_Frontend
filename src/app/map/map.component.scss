@@ -237,12 +237,13 @@
 }
 
 .title_rollback_slide2 i{
-	margin-top: -4px;
-	font-size: 25px;
-	// margin-left: -10px;
-	cursor: pointer;
-	/*background: none repeat scroll 0% 0% rgb(255, 255, 255);*/
-	padding: 12px;
+	font-size: 40px;
+    cursor: pointer;
+    padding: 0px;
+        padding-left: 0px;
+    padding-left: 5px;
+    margin-top: 2px;
+
 }
 
 
@@ -641,7 +642,9 @@ input[type=range] {
 	.deZoomToExtentStatus{
     display: none;
   }
-
+  .utils{
+	  display: none;
+  }
   .view_map_roll,.zoomto{
     display: none;
   }
@@ -653,6 +656,10 @@ input[type=range] {
 	}
 	.mat-simple-snackbar span{
 		width: 80%
+	}
+
+	.three_menu > div span{
+		display: none;
 	}
   
 }

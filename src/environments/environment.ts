@@ -17,15 +17,15 @@
 // };
 // nom_file: "http://servicef.geocameroun.cm//var/www/geosm/analyse/Banque.gpkg"
 export const environment = {
-  url_prefix: "http://admintest.geocameroun.xyz/",
+  url_prefix: "http://adminbamako.geocameroun.cm/",
   url_frontend:"http://localhost:4200",
   url_service:"http://service.geocameroun.cm/",
   global_logo:"assets/images/Pays/MALI.svg",
   drapeau:"assets/images/Pays/drapeau/mali.png",
-  nom:"MALI",
+  nom:"bamako",
   indicatif_pays:"ml",
-  pojet_nodejs:"mali",
-  primaryColor:"#023f5f",
+  pojet_nodejs:"bamako",
+  primaryColor:"#f5ab1f",
   default_language:"fr",
   avaible_language:['fr',"en"],
   production: false

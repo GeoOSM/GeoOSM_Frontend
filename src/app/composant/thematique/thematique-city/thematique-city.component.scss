@@ -43,8 +43,9 @@
 	display: none;
 }
 .menu-thematiques-child-logo{
-	  max-height: 45px;
-	margin-left: -15px;
+	  max-height: 35px;
+	// margin-left: -15px;
+	padding: 0px !important;
 	transition:0.5s;
 }
 .menu-thematiques-child-next{
@@ -84,6 +85,7 @@
 }
 .menu-thematiques-child:hover .menu-thematiques-child-logo{
 	margin-left: 10px;
+	padding: 5px !important;
 	 /*margin-top: calc(50% - 37%); */
 	/*width: 37%;*/
 	/*height: 37%;*/
@@ -96,7 +98,10 @@
 	margin-left: -7px
 }
 .menu-thematiques-child:hover .menu-thematiques-child-next .menu-thematiques-child-next-blanc{
-	display: none;
+	// display: none;
+	.chevron{
+		fill: #fff;
+	}
 }
 .menu-thematiques-child:hover .menu-thematiques-child-next .menu-thematiques-child-next-rouge{
 	display: block;
@@ -105,4 +110,14 @@
 .menu-thematiques-child:hover .menu-thematiques-child-next{
 	background-color: #fff;
 	box-shadow: inset 0 0 5px #fff,0 0 5px #fff;
+}
+
+.menu-thematiques-child-next-blanc{
+	padding: 3px;
+	padding-top: 10px;
+	.chevron{
+		transition: 0.5s;
+		fill: #434343;
+	}
+	
 }

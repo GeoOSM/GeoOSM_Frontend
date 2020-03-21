@@ -142,8 +142,8 @@
 
 </div>
 
-<div fxLayout="row" class=" black title_rollback_slide2 " style="border-bottom: 1px solid;">
-  <i fxFlex="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
+<div fxLayout="row" class=" black title_rollback_slide2 ">
+  <i fxFlex="25px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
 
   <img fxFlex="25px" *ngIf="groupMenuActive && typeMenu == 'menuThematique' "
     style="height: 20px;margin-left: 10px;margin-right: 5px;margin-top: 6px;" src="{{url_prefix+groupMenuActive.img}}"
@@ -439,7 +439,7 @@ L17.1,14.4z" />
 
               <span *ngFor="let groupeCarte of cartes">
 
-                <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
+                <button mat-raised-button class="primaryColorBG" [ngStyle]="{'text-transform': 'initial'}"
                   *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;"
                   (click)="slideTo('menuCarte',groupeCarte,'fonds_de_carte')">
 
@@ -1563,8 +1563,8 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
     <button mat-mini-fab class="primaryColorBG" (click)="globalView()"
       matTooltip="{{ 'naviguation_tools.general_vieuw' | translate }} ">
-      <img src="{{environment.global_logo}}" style="width: 24px;">
-      <!-- <i class="fa fa-globe fa-lg" style="color:#fff;"></i> -->
+      <!-- <img src="{{environment.global_logo}}" style="width: 24px;"> -->
+      <i class="fa fa-globe fa-lg" style="color:#fff;"></i>
     </button>
 
     <button mat-mini-fab class="primaryColorBG zoomto" (click)="openModal('zoomto')"
