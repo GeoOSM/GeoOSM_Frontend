@@ -62,7 +62,7 @@
           <div class="col-md-12 col-xs-12" style="margin-top: 15px">
             <div class="bold "> {{pte.nom}} ({{pte.number}}) :</div>
             <div style="padding-left: 5px;" >
-              <a href="{{pte.nom_file}}" *ngIf="pte.nom_file != false" target="_blank"> {{ 'layer_properties.download_gpkg' | translate }} 
+              <a href="{{url_prefix+pte.nom_file}}" *ngIf="pte.nom_file != false" target="_blank"> {{ 'layer_properties.download_gpkg' | translate }} 
               </a>
               <span *ngIf="pte.nom_file == false"> {{ 'layer_properties.download_problem' | translate }}  </span>
             </div>

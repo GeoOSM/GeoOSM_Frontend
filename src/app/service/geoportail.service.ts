@@ -399,7 +399,13 @@ export class geoportailService {
   
   analyse_spatiale(data) {
     let promise = new Promise((resolve, reject) => {
-      let apiURL =environment.url_service+'analyse_spatiale/';
+      let apiURL = ''
+      if(!data['geometry']){
+        apiURL = this.url_prefix+'thematique/donwload/';
+      }else if(data['geometry']){
+        apiURL =environment.url_service+'analyse_spatiale/';
+      }
+      
       this.http.post(apiURL,data,{headers: this.headers_nodejs})
         .toPromise()
         .then(

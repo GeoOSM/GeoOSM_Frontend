@@ -2123,17 +2123,31 @@ export class MapComponent implements OnInit {
 		console.log(this.analyse_spatial, event["option"]["viewValue"], nom_limite)
 	}
 
+	disabled_couche(couche):boolean{
+		// console.log(couche)
+		if (couche['wms_type'] == 'osm' && (couche['number'] == 0 || couche['number'] == null)) {
+		  return true
+		}else{
+		  return false
+		}
+	   
+	  }
+
 	disableOptionAnalyseSpatial(data) {
 		if (data.type == 'xyz') {
 			return true
 		} else if (data.type_couche == 'wms' || data.type == 'wms') {
-			return false
+			if( data.cles_vals_osm != undefined && data.cles_vals_osm.length >0 && !this.disabled_couche(data)){
+				return false
+			}else{
+				return true
+			}
 		} else if (data.type_couche == 'requete' && data.status == true && data.file_json) {
-			return false
+			return true
 		} else if (data.type_couche == 'couche') {
-			return false
+			return true
 		} else if (data.type_couche == 'api' && data.url) {
-			return false
+			return true
 		} else {
 			return true
 		}
@@ -2211,22 +2225,26 @@ export class MapComponent implements OnInit {
 						'methode': 'qgis',
 						'index': index,
 						'nom': couche.nom,
+						'id_cat': couche.cles_vals_osm[0].id_cat,
 						'type': couche.type_couche,
 						'identifiant': couche.identifiant,
 					})
 				}
 			}
-
 		}
 
 		if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] != "draw" && this.analyse_spatial['type_emprise_spatiale'] != "tout") {
+			
 			this.geoportailService.getLimitById({ 'table': this.analyse_spatial['type_emprise_spatiale'], id: this.analyse_spatial["emprisesChoisiId"] }).then((data: Object[]) => {
 				this.analyse_spatial['geometry'] = JSON.parse(data["geometry"])['coordinates']
+				
 				var params = {
 					'querry': this.analyse_spatial['query'],
-					'geometry': this.analyse_spatial['geometry']
+					'lim_adm': this.analyse_spatial['type_emprise_spatiale'], 
+					'id_lim': this.analyse_spatial["emprisesChoisiId"],
+					// 'geometry': this.analyse_spatial['geometry']
 				}
-				console.log(params)
+				// console.log(params)
 				this.analyse_spatiale(params)
 			})
 		} else if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] == "tout") {
