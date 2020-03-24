@@ -538,7 +538,7 @@ export class MapComponent implements OnInit {
 
 
 				this.extent_cameroun = rasterSource_cmr.getSource().getExtent()
-
+				this.globalView()
 				setTimeout(() => {
 					this.geoportailService.getVisitiors().then((vues: Object[]) => {
 						console.log(vues)
