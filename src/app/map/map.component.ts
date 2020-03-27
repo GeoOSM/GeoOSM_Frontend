@@ -346,24 +346,9 @@ export class MapComponent implements OnInit {
 	geoSignets = []
 	url_share
 	roi_projet_geojson
-	myControl = new FormControl();
-	filter_option_expression = {
-		'name': ''
-	}
-	analyse_spatial = {
-		'thematiques_analyses': [{
-			'thematiques_analyse': undefined,
-			'couche_analyse': undefined,
-		}],
-		'type_emprise_spatiale': undefined,
-		'emprises': undefined,
-		'emprisesChoisi': undefined,
-		'img': 'assets/images/imagette_analyse.png',
-		'checked': true,
-		'visible': true,
-		'type': 'analyse_spatiale',
-		'type_couche_inf': 'analyse_spatiale',
-	}
+
+
+
 
 
 	chart_analyse_spatiale = []
@@ -539,6 +524,8 @@ export class MapComponent implements OnInit {
 
 				this.extent_cameroun = rasterSource_cmr.getSource().getExtent()
 				this.globalView()
+				this.displayDefaultLayer()
+
 				setTimeout(() => {
 					this.geoportailService.getVisitiors().then((vues: Object[]) => {
 						console.log(vues)
@@ -604,7 +591,7 @@ export class MapComponent implements OnInit {
 					// turf.bbox(line)
 					// var bool = turf.booleanOverlap(bbox_view,bbox_cam)
 					// var bool = turf.booleanContains(bbox_view,bbox_cam)
-					var bool = turf.intersect(turf.toWgs84(bbox_view),turf.toWgs84(bbox_cam));
+					var bool = turf.intersect(turf.toWgs84(bbox_view), turf.toWgs84(bbox_cam));
 					if (bool == null) {
 						map.getView().fit(this.extent_cameroun, { 'size': map.getSize(), 'duration': 1000 });
 					}
@@ -2047,227 +2034,7 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	chooseThematique_function(i) {
-		this.analyse_spatial['thematiques_analyses'][i]['couche_analyse'] = undefined
-	}
-
-	choose_another_couche_option() {
-		this.analyse_spatial['thematiques_analyses'].push({
-			'thematiques_analyse': undefined,
-			'couche_analyse': undefined,
-		})
-	}
-
-	remove_another_couche_option(i) {
-		this.analyse_spatial['thematiques_analyses'].splice(i, 1)
-	}
-
-	display_remove_another_couche_option() {
-		if (this.analyse_spatial['thematiques_analyses'].length > 1) {
-			return true
-		} else {
-			return false
-		}
-	}
-
-	chooseCouche_function() {
-		this.analyse_spatial["emprisesChoisiId"] = undefined
-
-		this.myControl.reset()
-		if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] != "tout" && this.analyse_spatial['type_emprise_spatiale'] != "draw") {
-			this.geoportailService.getListLimit({ 'table': this.analyse_spatial['type_emprise_spatiale'] }).then((data: Object[]) => {
-				var new_name = []
-				for (var index = 0; index < data.length; index++) {
-					var element = data[index]['name'] + ', (' + data[index]['ref'] + ')';
-					new_name.push(element)
-				}
-				this.analyse_spatial[this.analyse_spatial['type_emprise_spatiale']] = data
-				this.analyse_spatial['emprises'] = data
-				this.analyse_spatial['emprises_formate'] = new_name
-
-				this.myControl.valueChanges.subscribe((x) => {
-					this.filter_option_expression.name = x;
-				});
-
-			})
-		} else if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] == "tout") {
-			// this.analyse_spatial[this.analyse_spatial['type_emprise_spatiale']] = 'tout'
-			this.analyse_spatial['emprises'] = 'tout'
-			this.analyse_spatial['emprisesChoisiId'] = 'tout'
-			this.analyse_spatial['type_emprise_spatiale'] = 'tout'
-			this.analyse_spatial['emprisesChoisiName'] = 'tout'
-		}
-		console.log(this.analyse_spatial, 0)
-	}
-
-	calculate_analyse_spatial(event) {
-		//console.log(event,event["option"]) 
-		var nom_limite = ''
-		for (var index = 0; index < event["option"]["viewValue"].split(',').length; index++) {
-			//console.log(5)
-			if (index <= event["option"]["viewValue"].split(',').length - 2) {
-				nom_limite = nom_limite + event["option"]["viewValue"].split(',')[index]
-			}
-		}
-		this.filter_option_expression.name = nom_limite
-
-		for (var index = 0; index < this.analyse_spatial['emprises'].length; index++) {
-			//console.log( this.removeSpecialCharacter(this.analyse_spatial['emprises'][index]['name']) == this.removeSpecialCharacter(this.analyse_spatial['emprisesChoisi']) )
-			if (this.removeSpecialCharacter(this.analyse_spatial['emprises'][index]['name']) == this.removeSpecialCharacter(nom_limite)) {
-				this.analyse_spatial['emprisesChoisiId'] = this.analyse_spatial['emprises'][index]['id']
-				this.analyse_spatial['emprisesChoisiName'] = this.analyse_spatial['emprises'][index]['name']
-				console.log('hihi')
-			}
-		}
-
-		console.log(this.analyse_spatial, event["option"]["viewValue"], nom_limite)
-	}
-
-	disabled_couche(couche):boolean{
-		// console.log(couche)
-		if (couche['wms_type'] == 'osm' && (couche['number'] == 0 || couche['number'] == null)) {
-		  return true
-		}else{
-		  return false
-		}
-	   
-	  }
-
-	disableOptionAnalyseSpatial(data) {
-		if (data.type == 'xyz') {
-			return true
-		} else if (data.type_couche == 'wms' || data.type == 'wms') {
-			if( data.cles_vals_osm != undefined && data.cles_vals_osm.length >0 && !this.disabled_couche(data)){
-				return false
-			}else{
-				return true
-			}
-		} else if (data.type_couche == 'requete' && data.status == true && data.file_json) {
-			return true
-		} else if (data.type_couche == 'couche') {
-			return true
-		} else if (data.type_couche == 'api' && data.url) {
-			return true
-		} else {
-			return true
-		}
-	}
-
-	display_calculate_result_analyse_spatial() {
-
-
-		if (this.analyse_spatial["type_emprise_spatiale"] && this.analyse_spatial["emprises"] && this.analyse_spatial["emprisesChoisiId"]) {
-			var error = []
-			for (var index = 0; index < this.analyse_spatial["thematiques_analyses"].length; index++) {
-				if (this.analyse_spatial["thematiques_analyses"][index]["thematiques_analyse"] && this.analyse_spatial["thematiques_analyses"][index]["couche_analyse"]) {
-
-				} else {
-					error.push(1)
-				}
-			}
-
-			if (error.length == 0) {
-				return true
-			} else {
-				return false
-			}
-
-		} else {
-			return false
-		}
-	}
-
-	calculate_result_analyse_spatial() {
-		$('#loading_calcul').show()
-
-		this.analyse_spatial['query'] = []
-		for (var index = 0; index < this.analyse_spatial["thematiques_analyses"].length; index++) {
-			var couche = this.analyse_spatial["thematiques_analyses"][index]["couche_analyse"]
-			var thematique = this.analyse_spatial["thematiques_analyses"][index]["thematiques_analyse"]
-
-			if (couche.type_couche == 'requete') {
-
-				this.analyse_spatial['query'].push({
-					'url': this.url_prefix + 'geoportail/getJsonFIle/',
-					'data': { 'file': couche.file_json },
-					'methode': 'post',
-					'index': index,
-					'nom': couche.nom,
-					'type': couche.type_couche
-				})
-
-			} else if (couche.type_couche == 'couche') {
-
-				var url = this.url_prefix + "/api/v1/RestFull/DataJsonApi/" + thematique.shema + "/" + couche.id_couche + ""
-
-				this.analyse_spatial['query'].push({
-					'url': url,
-					'methode': 'get',
-					'index': index,
-					'nom': couche.nom,
-					'type': couche.type_couche
-				})
-
-			} else if (couche.type_couche == 'api') {
-				this.analyse_spatial['query'].push({
-					'url': couche.url,
-					'methode': 'get',
-					'index': index,
-					'nom': couche.nom,
-					'type': couche.type_couche
-				})
-
-			} else {
-				if (couche.identifiant) {
-					this.analyse_spatial['query'].push({
-						'url': couche.url,
-						'projet_qgis': environment.pojet_nodejs,
-						'methode': 'qgis',
-						'index': index,
-						'nom': couche.nom,
-						'id_cat': couche.cles_vals_osm[0].id_cat,
-						'type': couche.type_couche,
-						'identifiant': couche.identifiant,
-					})
-				}
-			}
-		}
-
-		if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] != "draw" && this.analyse_spatial['type_emprise_spatiale'] != "tout") {
-			
-			this.geoportailService.getLimitById({ 'table': this.analyse_spatial['type_emprise_spatiale'], id: this.analyse_spatial["emprisesChoisiId"] }).then((data: Object[]) => {
-				this.analyse_spatial['geometry'] = JSON.parse(data["geometry"])['coordinates']
-				
-				var params = {
-					'querry': this.analyse_spatial['query'],
-					'lim_adm': this.analyse_spatial['type_emprise_spatiale'], 
-					'id_lim': this.analyse_spatial["emprisesChoisiId"],
-					// 'geometry': this.analyse_spatial['geometry']
-				}
-				// console.log(params)
-				this.analyse_spatiale(params)
-			})
-		} else if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] == "tout") {
-			var coordinates_poly = []
-			for (var k = 0; k < this.roi_projet_geojson['coordinates'].length; k++) {
-				var element = this.roi_projet_geojson['coordinates'][k];
-				if (element.length == 1) {
-					coordinates_poly.push(element[0])
-				} else {
-					coordinates_poly.push(element)
-				}
-			}
-			this.analyse_spatial['geometry'] = coordinates_poly
-			var params = {
-				'querry': this.analyse_spatial['query'],
-				'geometry': 'tout'
-			}
-			// console.log(params)
-			this.analyse_spatiale(params)
-		}
-	}
-
-	analyse_spatiale(params) {
+	displayDownloadsResult(params, analyse_spatial: any) {
 		this.geoportailService.analyse_spatiale(params).then((data: Object[]) => {
 			$('#loading_calcul').hide()
 			// console.log(data)
@@ -2276,11 +2043,16 @@ export class MapComponent implements OnInit {
 			for (var index = 0; index < data.length; index++) {
 				numbers.push(data[index]['number'])
 				labels.push(data[index]['nom'] + ' (' + data[index]['number'] + ') ')
-				this.analyse_spatial["query"][data[index]['index']]["number"] = data[index]['number']
-				this.analyse_spatial["query"][data[index]['index']]["nom_file"] = data[index]['nom_file']
+				analyse_spatial["query"][data[index]['index']]["number"] = data[index]['number']
+				if (!params['geometry']) {
+					var url = this.url_prefix+data[index]['nom_file'];
+				} else if (params['geometry']) {
+					var url = environment.url_service+data[index]['nom_file'];
+				}
+				analyse_spatial["query"][data[index]['index']]["nom_file"] = url
 			}
 
-			var zone_analyse = turf.polygon(this.analyse_spatial['geometry']);
+			var zone_analyse = turf.polygon(analyse_spatial['geometry']);
 			var center_zone_analyse = turf.centerOfMass(zone_analyse);
 			var features_cameroun = new Format.GeoJSON().readFeatures(zone_analyse, {
 				dataProjection: 'EPSG:4326',
@@ -2309,11 +2081,11 @@ export class MapComponent implements OnInit {
 			zone_analyse_layer.setZIndex(this.zIndexMax++)
 
 
-			//this.analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
-			//this.analyse_spatial['zIndex_inf'] = z
-			//this.analyse_spatial['index_inf'] = this.layerInMap.length
-			//this.analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
-			//this.analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ this.analyse_spatial['emprisesChoisiName']
+			//analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
+			//analyse_spatial['zIndex_inf'] = z
+			//analyse_spatial['index_inf'] = this.layerInMap.length
+			//analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
+			//analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ analyse_spatial['emprisesChoisiName']
 
 			var pte = {
 				'img': 'assets/images/imagette_analyse.png',
@@ -2323,16 +2095,16 @@ export class MapComponent implements OnInit {
 				'type_couche_inf': 'analyse_spatiale',
 				'zIndex_inf': this.zIndexMax,
 				'index_inf': this.layerInMap.length,
-				'emprisesChoisiName': this.analyse_spatial['emprisesChoisiName'],
-				'querry': this.analyse_spatial['query'],
+				'emprisesChoisiName': analyse_spatial['emprisesChoisiName'],
+				'querry': analyse_spatial['query'],
 				'name_analyse': 'analyse_spatiale_' + this.list_analyse_spatial.length,
-				'nom': 'Analyse ' + (this.list_analyse_spatial.length + 1) + ': ' + this.analyse_spatial['emprisesChoisiName']
+				'nom': 'Analyse ' + (this.list_analyse_spatial.length + 1) + ': ' + analyse_spatial['emprisesChoisiName']
 			}
 
 			this.layerInMap.push(pte)
 
 			// list_analyse_spatial il sert juste de compteur, la donnée dans la n'est pas bonne lol
-			this.list_analyse_spatial.push(this.analyse_spatial)
+			this.list_analyse_spatial.push(analyse_spatial)
 
 
 			zone_analyse_layer.set('name', pte['name_analyse']);
@@ -3269,25 +3041,25 @@ export class MapComponent implements OnInit {
 
 	menuActif = 'thematiques'
 	openMenu(type) {
-		var execute = (type)=>{
+		var execute = (type) => {
 			this.menuActif = type
-				if (type == "cartes") {
-					this.constructMapBind()
-				}
+			if (type == "cartes") {
+				this.constructMapBind()
+			}
 		}
 
 		this.toggle_left('')
 		console.log(this.sidenav1.opened)
-		if(!this.sidenav1.opened){
+		if (!this.sidenav1.opened) {
 			setTimeout(() => {
 				this.toggle_left('')
 				execute(type)
 			}, 200);
-		}else{
+		} else {
 			execute(type)
 		}
-		
-		
+
+
 
 	}
 	groupMenuActive_color = "#fff"
@@ -4806,6 +4578,22 @@ export class MapComponent implements OnInit {
 
 	}
 
+	displayDefaultLayer() {
+		for (let index = 0; index < environment.defaultLayers.length; index++) {
+			var data = environment.defaultLayers[index];
+			var tiles = new layer.Tile({
+				source: new source.XYZ({
+					url: data.url,
+					crossOrigin: "anonymous",
+					// attributions: [new Attribution({
+					// 	html: " <a  target='_blank'  href='https://www.openstreetmap.org/copyright'> © OpenStreetMap</a>contributors "
+					// })]
+				})
+			})
+			tiles.setZIndex(data.zindex)
+			map.addLayer(tiles);
+		}
+	}
 
 	displayDataOnMap(data, groupe) {
 
@@ -5351,58 +5139,58 @@ export class MapComponent implements OnInit {
 	}
 
 	displayDataOfBindOnMap(data, target1) {
-		
+
 		// console.log('#' + target1 + ' .ol-viewport',$('#' + target1 + ' .ol-viewport'))
-		
+
 		// if ($('#' + target1 + ' .ol-viewport')) {
 
-			setTimeout(() => {
-				$('#' + target1).empty();
-				if (data.type == 'xyz') {
+		setTimeout(() => {
+			$('#' + target1).empty();
+			if (data.type == 'xyz') {
 
-					var mapGhost = new Map({
-						target: target1,
-						controls: [],
-						view: view
-					});
+				var mapGhost = new Map({
+					target: target1,
+					controls: [],
+					view: view
+				});
 
-					console.log($('#' + target1), 2)
-					var tiles = new layer.Tile({
-						source: new source.XYZ({
-							url: data.url,
-							// tileLoadFunction: function (imageTile, src) {
-							//      imageTile.getImage().src = src;
-							//  },
-							crossOrigin: "anonymous"
-						})
-					})
-					tiles.set('name', this.space2underscore(data.nom))
-					mapGhost.addLayer(tiles);
-
-				} else if (data.type_couche == 'wms' || data.type == 'wms') {
-
-					var mapGhost = new Map({
-						target: target1,
-						controls: [],
-						view: view
-					});
-
-					var wms = new source.TileWMS({
+				console.log($('#' + target1), 2)
+				var tiles = new layer.Tile({
+					source: new source.XYZ({
 						url: data.url,
-						params: { 'LAYERS': data.identifiant, 'TILED': true },
-						serverType: 'mapserver',
-						crossOrigin: 'anonymous'
-					});
-					var tiles = new layer.Tile({
-						source: wms,
-						visible: true
+						// tileLoadFunction: function (imageTile, src) {
+						//      imageTile.getImage().src = src;
+						//  },
+						crossOrigin: "anonymous"
 					})
+				})
+				tiles.set('name', this.space2underscore(data.nom))
+				mapGhost.addLayer(tiles);
 
-					tiles.set('name', this.space2underscore(data.nom))
-					mapGhost.addLayer(tiles);
+			} else if (data.type_couche == 'wms' || data.type == 'wms') {
 
-				}
-			}, 3000)
+				var mapGhost = new Map({
+					target: target1,
+					controls: [],
+					view: view
+				});
+
+				var wms = new source.TileWMS({
+					url: data.url,
+					params: { 'LAYERS': data.identifiant, 'TILED': true },
+					serverType: 'mapserver',
+					crossOrigin: 'anonymous'
+				});
+				var tiles = new layer.Tile({
+					source: wms,
+					visible: true
+				})
+
+				tiles.set('name', this.space2underscore(data.nom))
+				mapGhost.addLayer(tiles);
+
+			}
+		}, 3000)
 		// }
 	}
 
@@ -7408,8 +7196,8 @@ export class MapComponent implements OnInit {
 	printMap() {
 
 		$('#loading_print').show()
-		
-		
+
+
 		function getCenterOfExtent(ext) {
 			var X = ext[0] + (ext[2] - ext[0]) / 2;
 			var Y = ext[1] + (ext[3] - ext[1]) / 2;
@@ -7446,9 +7234,9 @@ export class MapComponent implements OnInit {
 
 		map.once('postcompose', (event) => {
 			var extents = map.getView().calculateExtent(map.getSize());
-      		var center = getCenterOfExtent(extents);
-		  	var WGS84 = proj.transform([center[0], center[1]], 'EPSG:3857', 'EPSG:4326');
-		  
+			var center = getCenterOfExtent(extents);
+			var WGS84 = proj.transform([center[0], center[1]], 'EPSG:3857', 'EPSG:4326');
+
 			var canvas = event.context.canvas;
 			var label = "png"
 			var type = "base64"
@@ -7457,10 +7245,10 @@ export class MapComponent implements OnInit {
 			var images = {
 
 				png0: canvas.toDataURL('image/png'),
-				png1:'data:image/png;base64,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'
+				png1: 'data:image/png;base64,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'
 			}
 
-			this.PrrintService.createPDFObject(images, label + " " + type, format, 'none',WGS84,getmetricscal());
+			this.PrrintService.createPDFObject(images, label + " " + type, format, 'none', WGS84, getmetricscal());
 
 		});
 

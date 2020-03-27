@@ -160,45 +160,7 @@
 
 }
 
-.bloc_option_couche:after{
-	content: ".";
-	display: block;
-	height:0px;
-	clear: both;
-	visibility: hidden;
-}
 
-.bloc_option_couche_options{
-	width: calc( 10% + 5px);
-	padding: 0px;
-	margin: 0px;
-	position: absolute;
-	left: 5px;
-	top: 0px;
-	bottom: 15px;
-	// background: rgba(76, 175, 80, 0.11);
-}
-
-.description_download{
-	padding: 5px;
-	font-family: Roboto;
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: italic;
-    line-height: 1.17;
-    letter-spacing: normal;
-    text-align: center;
-    color: #707070;
-}
-.bloc_option_couche_options i{
-	position: absolute !important;
-	top: 50px;
-	left: 50%;
-	margin-right: -50%;
-	-webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-}
 
 .displayPropertiesTitle{
 	width: 100%;

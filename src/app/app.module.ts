@@ -99,6 +99,7 @@ import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-d
 import { ThematiqueCityComponent } from './composant/thematique/thematique-city/thematique-city.component';
 import { CarteCityComponent } from './composant/carte/carte-city/carte-city.component';
 import { RessourcesCityComponent } from './composant/ressources/ressources-city/ressources-city.component';
+import { DownloadsComponent } from './composant/downloads/downloads.component';
 
 @NgModule({
   exports: [
@@ -166,7 +167,8 @@ export class DemoMaterialModule { }
     FicheDescriptiveComponent,
     ThematiqueCityComponent,
     CarteCityComponent,
-    RessourcesCityComponent
+    RessourcesCityComponent,
+    DownloadsComponent
   ],
   entryComponents: [buttonsheetGeosiComponent, buttonsheetComponent, modalComponent, modalMetadata, commentComponent, modalQuestion,AddGeosignetsComponent],
   imports: [

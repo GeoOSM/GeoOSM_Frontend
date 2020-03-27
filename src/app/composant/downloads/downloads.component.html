@@ -1,0 +1,148 @@
+<div class="description_download">
+  {{ 'dowload_data.description' | translate }}
+</div>
+
+<h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+   text-align: center;display:flow-root; margin-bottom:15px">
+  {{ 'dowload_data.title_data_in' | translate }}
+</h5>
+
+<div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index "
+  class="col-md-12 bloc_option_couche" style="padding:0px">
+
+  <div class="col-md-1 bloc_option_couche_options">
+
+    <svg x="0px" y="0px" viewBox="0 0 12.4 14.6" class="pointer" style="margin-top: 36px;width: 14px;"
+      *ngIf="display_remove_another_couche_option()" (click)="remove_another_couche_option(i)">
+
+      <path class="primaryColorFill" d="M9.7,14.6H2.7c-0.9,0-1.7-0.7-1.8-1.6V3.3h10.6V13C11.5,13.9,10.7,14.7,9.7,14.6z M12.4,2.4H0V0.8
+h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
+    </svg>
+    <!-- 
+  <i class="far fa-trash-alt pointer" *ngIf="display_remove_another_couche_option()" style="color:red"
+    (click)="remove_another_couche_option(i)"></i> -->
+  </div>
+
+  <div class="col-md-11" style="width: 90%; float: right;">
+    <mat-list-item>
+      <mat-form-field style="width: 100%;">
+        <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
+          [(value)]="thematique.thematiques_analyse" (selectionChange)="chooseThematique_function(i)">
+          <mat-option *ngFor="let group of thematiques" [value]="group">
+            {{group.nom}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;"
+        *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques">
+        <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
+          [(value)]="thematique.couche_analyse">
+          <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques"
+            [label]="group.nom">
+            <mat-option *ngFor="let couche of group.couches" [value]="couche"
+              [disabled]="disableOptionAnalyseSpatial(couche)">
+              {{couche.nom}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%;"
+        *ngIf="thematique.thematiques_analyse  &&  !thematique.thematiques_analyse.sous_thematiques">
+        <mat-select placeholder="{{ 'dowload_data.title_choose_layer' | translate }}"
+          [(value)]="thematique.couche_analyse">
+          <mat-option *ngFor="let couche of thematique.thematiques_analyse.couches" [value]="couche"
+            [disabled]="disableOptionAnalyseSpatial(couche)">
+            {{couche.nom}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </mat-list-item>
+  </div>
+
+</div>
+
+<button mat-raised-button style="margin-top: 10px;
+margin-bottom: 10px;min-width: 32px;
+width: 32px;
+height: 31px;
+border-radius: 5px;
+padding: 4px;
+font-size: 12px;
+margin-left: calc(50% - 17px);
+" (click)="choose_another_couche_option()">
+  <i class="fa fa-plus" style="margin-bottom: 13px;"></i>
+</button>
+
+<h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
+   text-align: center;display:flow-root;margin-bottom:15px">
+  {{ 'dowload_data.title_choose_emprise' | translate }}
+</h5>
+
+<mat-list-item>
+
+  <mat-form-field style="width: 100%;padding: 0px 7px;">
+    <mat-select placeholder="{{ 'dowload_data.title_choose_type_emprise' | translate }}"
+      [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function()">
+      <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}">
+        {{ 'dowload_data.by' | translate }} {{lim.nom}}
+      </mat-option>
+      <mat-option value="tout"> {{ 'dowload_data.all' | translate }} </mat-option>
+      <mat-option disabled="true" value="draw"> {{ 'dowload_data.draw' | translate }} </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="analyse_spatial.type_emprise_spatiale && analyse_spatial.type_emprise_spatiale != 'tout'"
+    class="text-center">
+    <!-- <div *ngIf="!analyse_spatial.emprises" class="lds-ripple">
+      <div></div>
+      <div></div>
+    </div> -->
+    <h5 *ngIf="!analyse_spatial.emprises" class="primaryColor text-center">
+      {{ 'dowload_data.loading' | translate }}
+      {{analyse_spatial.type_emprise_spatiale}} </h5>
+
+    <mat-form-field *ngIf="autocomplteActive || analyse_spatial.emprises" style="width: 100%;color: #000;">
+      <input type="text" [formControl]="myControl" matInput placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
+
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event)">
+        <mat-option *ngIf="recherche_is_loading && analyse_spatial.emprises.length == 0" >
+          <div class="lds-ripple">
+            <div></div>
+            <div></div>
+          </div>
+        </mat-option>
+
+        <mat-option
+          *ngFor="let emprise of analyse_spatial.emprises "
+          [value]="emprise.name">
+          <span> {{emprise.name}}, </span>
+          <small> ({{emprise['ref']}}) </small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</mat-list-item>
+
+<button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);background-color: transparent !important;" matTooltip="{{ 'dowload_data.calculate' | translate }}"
+  *ngIf="display_calculate_result_analyse_spatial()" mat-mini-fab (click)="calculate_result_analyse_spatial()">
+
+  <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
+    <g id="Tracé_1915">
+      <path class="primaryColorFill" d="M18.3,22.2l-3.4-3.7c-3.3,1.9-7.3,1.8-10.5-0.3c-2.2-1.5-3.7-3.7-4.2-6.3c-0.5-2.6,0-5.3,1.5-7.5
+c3-4.6,9.2-5.8,13.8-2.8c4.4,2.9,5.7,8.8,3.1,13.3l3.4,3.6L18.3,22.2z M15.2,16.6l3.2,3.5l1.5-1.5l-3.3-3.4l0.3-0.5
+c2.6-3.9,1.5-9.1-2.3-11.7C10.8,0.3,5.5,1.4,2.9,5.3c-1.3,1.9-1.7,4.1-1.3,6.3s1.7,4.1,3.6,5.4c2.9,1.9,6.6,1.9,9.4,0L15.2,16.6z
+M9.9,16.1c-3.4,0-6.2-2.8-6.2-6.2c0-3.4,2.8-6.2,6.2-6.2c3.4,0,6.2,2.8,6.2,6.2C16.1,13.4,13.4,16.1,9.9,16.1L9.9,16.1z M9.9,5.2
+c-2.6,0-4.7,2.1-4.7,4.7c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7C14.6,7.4,12.5,5.2,9.9,5.2z" />
+    </g>
+  </svg>
+
+
+</button>
+
+<!-- <button mat-raised-button style="width: 100%;" color="primary" *ngIf="display_calculate_result_analyse_spatial()"
+(click)="calculate_result_analyse_spatial()">
+{{ 'dowload_data.calculate' | translate }}
+</button> -->
