@@ -47,6 +47,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PrrintService } from "./service/prrint.service";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -96,6 +97,7 @@ import { CoucheEnCoursComponent } from './composant/couche-en-cours/couche-en-co
 import { CaracteristiquesLieuComponent } from './composant/caracteristiques-lieu/caracteristiques-lieu.component';
 import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignets.component';
 import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-descriptive.component';
+import { DownloadsComponent } from './composant/downloads/downloads.component';
 
 @NgModule({
   exports: [
@@ -160,7 +162,8 @@ export class DemoMaterialModule { }
     CoucheEnCoursComponent,
     CaracteristiquesLieuComponent,
     AddGeosignetsComponent,
-    FicheDescriptiveComponent
+    FicheDescriptiveComponent,
+    DownloadsComponent
   ],
   entryComponents: [buttonsheetGeosiComponent, buttonsheetComponent, modalComponent, modalMetadata, commentComponent, modalQuestion,AddGeosignetsComponent],
   imports: [
@@ -192,7 +195,7 @@ export class DemoMaterialModule { }
     )
     // NgwWowModule.forRoot(),
   ],
-  providers: [cartesService, thematiqueService, geoportailService, communicationComponent],
+  providers: [cartesService, thematiqueService, geoportailService, communicationComponent,PrrintService],
   bootstrap: [AppComponent]
 })
 

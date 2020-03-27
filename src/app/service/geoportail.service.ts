@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 @Injectable()
 export class geoportailService {
 
@@ -214,7 +216,7 @@ export class geoportailService {
     });
     return promise;
   }
-
+  
   searchLimite(data) {
     let promise = new Promise((resolve, reject) => {
       let apiURL = this.url_prefix+'/searchLimite/';
@@ -233,6 +235,15 @@ export class geoportailService {
     return promise;
   }
   
+  searchLimiteInTable(data): Observable<any>  {
+    let apiURL = this.url_prefix+'/searchLimiteInTable/';
+    return this.http.post(apiURL,data,{headers: this.headers})
+    .pipe(
+      tap((response:any) => {
+      })
+      );
+  }
+
   getLimiteById(data) {
     let promise = new Promise((resolve, reject) => {
       let apiURL = this.url_prefix+'/getLimiteById/';
@@ -399,7 +410,13 @@ export class geoportailService {
   
   analyse_spatiale(data) {
     let promise = new Promise((resolve, reject) => {
-      let apiURL =environment.url_service+'analyse_spatiale/';
+      let apiURL = ''
+      if(!data['geometry']){
+        apiURL = this.url_prefix+'thematique/donwload/';
+      }else if(data['geometry']){
+        apiURL =environment.url_service+'analyse_spatiale/';
+      }
+      
       this.http.post(apiURL,data,{headers: this.headers_nodejs})
         .toPromise()
         .then(

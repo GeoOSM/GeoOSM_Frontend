@@ -178,7 +178,7 @@
     "title_choose_layer":"Choisir une couche",
     "title_choose_emprise":"Choisir une emprise",
     "title_choose_type_emprise":"Votre emprise spatiale",
-    "title_choose_one_emprise":"Sélectioner une limite",
+    "title_choose_one_emprise":"Rechercher une limite",
     "loading":"Chargement des ",
     "calculate":"Calculer",
     "by":"Par",
@@ -188,7 +188,10 @@
   "left_menu":{
     "fonds_de_carte":"Tous les fonds de cartes",
     "geobibliotheque":"CARTOTHÈQUES",
-    "geothematiques":"THÉMATIQUES"
+    "geothematiques":"THÉMATIQUES",
+    "fonds":"Fonds",
+    "themes":"Thèmes",
+    "ressources":"Ressources"
   },
   "draw_in_map":{
     "save":"",
@@ -205,5 +208,9 @@
     "loading_catalog":"Télechargement des catalogues de données...",
     "loading_dowloads_data":" Calcul en cours...",
     "loading_pdf_print":"Création de la carte..."
+  },
+  "ressourses":{
+    "no_ressourses":"Aucune ressouces disponibles",
+    "download":"Telecharger"
   }
 }
