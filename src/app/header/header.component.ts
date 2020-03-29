@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
    reponse_geocode_count
    querry_recherche_body = false
    environment:any
-
+   config_projet:any
   constructor(
    public location: Location,
    private router: Router,
@@ -71,6 +71,9 @@ export class HeaderComponent implements OnInit {
     donne['thematiques'] = []
     donne['cartes'] = []
 
+    this.communicationComponent.config_projet.subscribe(value=>{
+        this.config_projet = value
+    })
     this.communicationComponent.getDataThematiques().subscribe(data => {
        
         donne['thematiques'] =data
@@ -343,11 +346,17 @@ export class HeaderComponent implements OnInit {
             // } 
 
             
-            this.geoportailService.searchLimite({'word':word_for_search_limite}).then((data: Object[]) =>{
+            this.geoportailService.searchLimite({'word':word_for_search_limite}).then((data: any) =>{
                 
                 if(data["status"] == 'ok'){
-                    var limites = ['communes','departements','regions','quartiers']
-                    var limite_display = ['Commune','Département','Region','Quartier']
+                    var limites = []
+                    var limite_display = []
+                    for (let index = 0; index < this.config_projet['limites'].length; index++) {
+                        const element = this.config_projet['limites'][index];
+                        limite_display.push(element['nom'])
+                        limites.push(element['nom_table'])
+                    }
+                    
                     for (var i = 0; i < limites.length; i++) {
                         var element = limites[i];
                         for (var index = 0; index < data[limites[i]].length; index++) {

@@ -9,7 +9,16 @@ export class communicationComponent {
     private dataCartes = new Subject();
     public all_thematiques =  new BehaviorSubject([]);
     public all_cartes =  new BehaviorSubject([]);
+    public config_projet =  new BehaviorSubject(Object);
 
+    setConfigProjet(data: any) {
+        this.config_projet.next(data);
+    }
+
+    getConfigProjet(){
+        return this.config_projet.value
+    }
+    
     getData() {
         return this.dataObs;
     }

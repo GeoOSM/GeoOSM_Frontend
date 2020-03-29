@@ -451,6 +451,7 @@ export class MapComponent implements OnInit {
 
 		this.geoportailService.getConfigProjet().then((config) => {
 			this.config_projet = config
+			this.communicationComponent.setConfigProjet(this.config_projet)
 			console.log(this.config_projet)
 		})
 
