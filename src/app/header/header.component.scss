@@ -4,6 +4,9 @@
 @import '../theme';
 @include mat-core();
 
+.barniere_horizontal_geosmcm{
+  background: url('/assets/images/bandeau-GEOSM.svg');background-position-y: center;
+}
 
   // $primary: mat-palette($mat-blue,500);
 

@@ -17,12 +17,22 @@ $ ng serve
 et le projet sera lancé sur **localhost:4200**
 ##### 2. Modification du projet
 Dans le fichier **/src/app/map/map.component.ts**:
-- Modifier la variable **url_prefix** avec votre "**www.serveur_php.geoosm**"
-- Modifier la variable **url_frontend** avec l'adresse à laquelle vous allez déployer le projet frontend
 
-Dans tous les fichiers du dossier **/src/app/service/**:
-- Modifier la variable **url_prefix** avec votre "**www.serveur_php.geoosm**"
-- Modifier la variable **apiURL** avec votre "**www.serveur_nodejs+python.geoosm**"
+url_prefix: "**www.serveur_php.geoosm**",
+url_frontend:"http://localhost:4200",
+url_service:adresse à laquelle vous allez déployer le projet frontend,
+global_logo:"path/logo/appli",
+drapeau:"path/drapeau",
+nom:"nom du projet",
+indicatif_pays:"identifiant pour la recherche nominatim",
+pojet_nodejs:"projet dans node js",
+primaryColor:"coouleur principal n'importe quel format",
+removeFonction:['itineraire'] fonctionnalité à retirer,
+default_language:"fr",
+avaible_language:['fr',"en"],
+projetOsmCm:false, projet de l'initialtive d'OSM Cameroun
+defaultLayers:[],
+production: false
 
 ##### 3. Changer vos couleurs et logo
 ##### 3. "BUild" votre projet

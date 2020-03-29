@@ -47,19 +47,19 @@
 
 $color_prim: (
   50: #000,
-  100: #023f5f,
-  200: #023f5f,
-  300: #023f5f,
-  400: #023f5f,
-  500: #023f5f,
-  600: #023f5f,
-  700: #023f5f,
-  800: #023f5f,
-  900: #023f5f,
+  100: #1F8FEA,
+  200: #1F8FEA,
+  300: #1F8FEA,
+  400: #1F8FEA,
+  500: #1F8FEA,
+  600: #1F8FEA,
+  700: #1F8FEA,
+  800: #1F8FEA,
+  900: #1F8FEA,
   A100: #000,
   A200: #000,
-  A400: #023f5f,
-  A700: #023f5f,
+  A400: #1F8FEA,
+  A700: #1F8FEA,
   contrast: (
       500: black,
       600: black,
@@ -95,7 +95,7 @@ $color_accent: (
       A700: black,
   )
 );
-$primary:#023f5f;
+$primary:#1F8FEA;
 $primary_transparent_bg:#f2f7fa !important;
 
 $theme-primary: mat-palette($color_prim,500);

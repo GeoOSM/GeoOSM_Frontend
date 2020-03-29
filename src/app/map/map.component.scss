@@ -8,7 +8,9 @@
 	// $primary: mat-palette($mat-blue,500);
 	// $primary_transparent: mat-palette($mat-blue,100);
 	
-
+.barniere_vertical_geosmcm{
+	background: url('/assets/images/bandeau-Geosm-barre_outils.svg');background-position-x: center;
+}
 .primary_transparent_bg{
 	background-color: $primary_transparent_bg;
 }	

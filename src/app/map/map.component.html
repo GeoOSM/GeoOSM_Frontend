@@ -142,7 +142,7 @@
 
 </div>
 
-<div fxLayout="row" class=" black title_rollback_slide2 white" [ngStyle]="{'background-color': groupMenuActive_color}"
+<div fxLayout="row" class=" black title_rollback_slide2 white" [ngClass]="{'primaryColorBG': !groupMenuActive_color}" [ngStyle]="{'background-color': groupMenuActive_color}"
   style="border-bottom: 1px solid;">
   <i fxFlex="20px" class="fa fa-angle-left fa-lg  col-md-2 col-xs-2" (click)="slideBack()"></i>
 
@@ -1348,8 +1348,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
 </mat-sidenav-container>
 
-<div class="utils primaryColorBG"
-  style="background: url('/assets/images/bandeau-Geosm-barre_outils.svg');background-position-x: center;">
+<div class="utils primaryColorBG" [ngClass]="{'barniere_vertical_geosmcm':environment.projetOsmCm}">
 
   <div class="pointer toogle_left_div" (click)="toggle_left('')"
     matTooltip="{{ 'naviguation_tools.toogle_left_menu' | translate }}"
@@ -1380,8 +1379,8 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
     <button mat-mini-fab class="primaryColorBG" (click)="globalView()"
       matTooltip="{{ 'naviguation_tools.general_vieuw' | translate }} ">
-      <img src="{{environment.global_logo}}" style="width: 24px;">
-      <!-- <i class="fa fa-globe fa-lg" style="color:#fff;"></i> -->
+      <img src="{{environment.global_logo}}" *ngIf="environment.global_logo" style="width: 24px;">
+      <i *ngIf="!environment.global_logo"  class="fa fa-globe fa-lg" style="color:#fff;"></i>
     </button>
 
     <button mat-mini-fab class="primaryColorBG zoomto" (click)="openModal('zoomto')" style="margin-top: 100px;"
@@ -1581,7 +1580,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
   </button>
 
 
-  <button matTooltip="{{ 'right_menu.button.toolpit_map_routing' | translate }}" mat-raised-button color="primary"
+  <button *ngIf="environment.removeFonction.indexOf('itineraire') == -1 " matTooltip="{{ 'right_menu.button.toolpit_map_routing' | translate }}" mat-raised-button color="primary"
     style="width: 100%;border-radius: 0px;" (click)="toggle_right(2,'')"
     [ngClass]="{'primaryColorBG': right_slide_actic != 2 && !opened_right,'back_white': right_slide_actic == 2 && opened_right }">
 

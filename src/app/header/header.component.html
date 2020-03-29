@@ -1,14 +1,13 @@
-<div class="header_bar primaryColorBG"
-	style="background: url('/assets/images/bandeau-GEOSM.svg');background-position-y: center;" (click)="goto()">
+<div class="header_bar primaryColorBG" [ngClass]="{'barniere_horizontal_geosmcm':environment.projetOsmCm}" (click)="goto()">
 
 	<span class="header_left">
-		<img src="assets/images/header/logo-geosm.svg" class="Logos_GC" alt="">
+		<img src="assets/images/header/logo-geosm.svg" *ngIf="environment.projetOsmCm" class="Logos_GC" alt="">
 		<img src="{{environment.drapeau}}" class="drapeau_GC" alt="">
 		<span class="title_GC">{{environment.nom}} </span>
 	</span>
 
 
-	<img src="assets/images/header/logo-100_pourcent_cameroun.svg" class="Logos_GC_right" alt="">
+	<img *ngIf="environment.projetOsmCm" src="assets/images/header/logo-100_pourcent_cameroun.svg" class="Logos_GC_right" alt="">
 
 	<!-- <button id="sign-in" class="alerts " mat-icon-button  >
 		    <i  class="fa fa-sign-in fa-lg" style="color:#fff;" (click)="goto()"></i>
@@ -24,7 +23,7 @@
 		</mat-select>
 	</mat-form-field>
 
-	<button class="question_button" mat-icon-button (click)="questionModalOpen()"
+	<button class="question_button" *ngIf="environment.projetOsmCm" mat-icon-button (click)="questionModalOpen()"
 		matTooltip="{{ 'header.toolpit_info' | translate }}">
 		<svg x="0px" y="0px" viewBox="0 0 28.1 28.1" style="height: 22px;">
 

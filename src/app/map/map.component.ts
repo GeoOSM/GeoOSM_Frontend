@@ -437,7 +437,7 @@ export class MapComponent implements OnInit {
 	) {
 
 		this.environment = environment
-		
+
 	}
 
 
@@ -584,7 +584,7 @@ export class MapComponent implements OnInit {
 					var bbox_view = turf.bboxPolygon(map.getView().calculateExtent());
 
 
-					var bool = turf.intersect(turf.toWgs84(bbox_view),turf.toWgs84(bbox_cam));
+					var bool = turf.intersect(turf.toWgs84(bbox_view), turf.toWgs84(bbox_cam));
 					// 
 					if (!bool) {
 						map.getView().fit(this.extent_cameroun, { 'size': map.getSize(), 'maxZoom': 7, 'duration': 1000 });
@@ -1561,62 +1561,102 @@ export class MapComponent implements OnInit {
 						var source = lay.getSource()
 						var viewResolution = view.getResolution();
 
-						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30";
+						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30&INFO_FORMAT=application/json";
 
 						$.get(url, (data) => {
-							console.log(lay);
-							var donne = data.split(/\r?\n/)
+							
 							var pte = []
 
 							var details_osm_url = ''
-							for (var index = 0; index < donne.length; index++) {
-								if (donne[index].includes('geometry')) {
-									//console.log(donne[index]) hstore_to_ 
-									var geometry_wkt = donne[index].split('=')[1].replace(/'/g, '')
-									console.log('passe')
-
-
-								} else if (!donne[index].includes('Layer') && !donne[index].includes('fid') && !donne[index].includes('Feature') && donne[index].split('=').length == 2) {
-									var champ = donne[index].split('=')[0]
-									var val = donne[index].split('=')[1].replace(/'/g, '')
-									console.log(champ)
-
-									if (champ.includes('osm_id')) {
-										details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + val + ',W' + val + ',N' + val + '&format=json'
-
+							if (typeof data == "object") {
+								
+								try {
+									var properties = data['features'][0]['properties']
+									for (const key in properties) {
+										if (key == 'hstore_to_json' && properties.hasOwnProperty(key)) {
+											const element = properties[key];
+											$.each(element, (index, valeur) => {
+												if (index != 'name' && index != 'amenity' && valeur) {
+													var type = "text"
+	
+													if (index == 'website') {
+														type = 'url'
+													}
+													pte.push({
+														'index': index,
+														'val': valeur,
+														'type': type,
+														'display': true
+													})
+	
+												}
+											})
+										} else if (key == 'osm_id') {
+	
+										}
 									}
 
-									if (champ.includes('hstore_to_') || champ.includes('hstore_to_json')) {
+								} catch (error) {
+									
+								}
+								
+								
+							} else {
+								var donne = data.split(/\r?\n/)
+								for (var index = 0; index < donne.length; index++) {
+									if (donne[index].includes('geometry')) {
+										//console.log(donne[index]) hstore_to_ 
+									//console.log(donne[index]) hstore_to_ 
+										//console.log(donne[index]) hstore_to_ 
+										var geometry_wkt = donne[index].split('=')[1].replace(/'/g, '')
+										console.log('passe')
 
-										var hstore_to_json = JSON.parse(val)
 
-										$.each(hstore_to_json, (index, valeur) => {
-											if (index != 'name' && index != 'amenity' && valeur) {
-												var type = "text"
+									} else if (!donne[index].includes('Layer') && !donne[index].includes('fid') && !donne[index].includes('Feature') && donne[index].split('=').length == 2) {
+										var champ = donne[index].split('=')[0]
+										var val = donne[index].split('=')[1].replace(/'/g, '')
 
-												if (index == 'website') {
-													type = 'url'
+
+										if (champ.includes('osm_id')) {
+											details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + val + ',W' + val + ',N' + val + '&format=json'
+
+										}
+
+										if (champ.includes('hstore_to_') || champ.includes('hstore_to_json')) {
+											console.log(donne[index], val)
+											var hstore_to_json = JSON.parse(val)
+
+											$.each(hstore_to_json, (index, valeur) => {
+												if (index != 'name' && index != 'amenity' && valeur) {
+													var type = "text"
+
+													if (index == 'website') {
+														type = 'url'
+													}
+													pte.push({
+														'index': index,
+														'val': valeur,
+														'type': type,
+														'display': true
+													})
+
 												}
-												pte.push({
-													'index': index,
-													'val': valeur,
-													'type': type,
-													'display': true
-												})
+											})
+										} else if (champ != "" && val && val != '') {
+											pte.push({
+												'index': champ,
+												'val': val,
+												'display': true
+											})
+										}
 
-											}
-										})
-									} else if (champ != "" && val && val != '') {
-										pte.push({
-											'index': champ,
-											'val': val,
-											'display': true
-										})
 									}
 
 								}
-
 							}
+
+
+
 
 
 							if (geometry_wkt) {
@@ -2036,9 +2076,9 @@ export class MapComponent implements OnInit {
 				labels.push(data[index]['nom'] + ' (' + data[index]['number'] + ') ')
 				analyse_spatial["query"][data[index]['index']]["number"] = data[index]['number']
 				if (!params['geometry']) {
-					var url = this.url_prefix+data[index]['nom_file'];
+					var url = this.url_prefix + data[index]['nom_file'];
 				} else if (params['geometry']) {
-					var url = environment.url_service+data[index]['nom_file'];
+					var url = environment.url_service + data[index]['nom_file'];
 				}
 				analyse_spatial["query"][data[index]['index']]["nom_file"] = url
 			}
@@ -2721,7 +2761,7 @@ export class MapComponent implements OnInit {
 
 
 	shareFeature(feature) {
-		
+
 		var url_share = this.communicationComponent.getUrlShareFeature(feature)
 
 		var notif = this.notif.open(url_share, 'Partager', {
@@ -3032,7 +3072,7 @@ export class MapComponent implements OnInit {
 	}
 
 	groupMenuActive_color = "#fff"
-	slideTo(typeMenu, data,sous_type_for_icon?:string): any {
+	slideTo(typeMenu, data, sous_type_for_icon?: string): any {
 
 		this.typeMenu = typeMenu
 
@@ -4402,10 +4442,10 @@ export class MapComponent implements OnInit {
 			});
 
 			var formatLength = function (line) {
-				
+
 				if (line.getType() == 'Circle') {
-					var length:number = line.getRadius()
-				}else{
+					var length: number = line.getRadius()
+				} else {
 					var length = Sphere.getLength(line);
 				}
 
@@ -4421,9 +4461,9 @@ export class MapComponent implements OnInit {
 			};
 
 			var formatArea = function (polygon) {
-				
+
 				var area = Sphere.getArea(polygon);
-				
+
 				var output;
 				if (area > 10000) {
 					output = (Math.round(area / 1000000 * 100) / 100) +
@@ -4475,17 +4515,18 @@ export class MapComponent implements OnInit {
 
 						var geom = evt.target;
 						var output;
-						console.log(evt) 
+						console.log(evt)
 						if (geom.getType() == 'Polygon' || geom.getType() == 'Circle') {
-							
-							if (geom.getType() == 'Circle') { formatLength
+
+							if (geom.getType() == 'Circle') {
+								formatLength
 								output = formatLength(geom);
 								tooltipCoord = geom.getCenter();
-							}else{
+							} else {
 								output = formatArea(geom);
 								tooltipCoord = geom.getInteriorPoint().getCoordinates();
 							}
-							
+
 						} else if (geom.getType() == 'LineString') {
 							output = formatLength(geom);
 							tooltipCoord = geom.getLastCoordinate();
@@ -5729,7 +5770,7 @@ export class MapComponent implements OnInit {
 			LayThe.set('type', couche.type_couche);
 			LayTheCopy.set('name', this.space2underscore(couche.nom));
 			LayThe.set('name', this.space2underscore(couche.nom));
-
+			console.log(couche)
 			LayTheCopy.set('id_cat', couche.id_cat);
 			LayThe.set('key_couche', couche.key_couche);
 			LayTheCopy.set('key_couche', couche.key_couche);
@@ -7159,7 +7200,7 @@ export class MapComponent implements OnInit {
 
 		$('#loading_print').show()
 
-		
+
 
 		function getCenterOfExtent(ext) {
 			var X = ext[0] + (ext[2] - ext[0]) / 2;
@@ -7198,9 +7239,9 @@ export class MapComponent implements OnInit {
 		map.once('postcompose', (event) => {
 
 			var extents = map.getView().calculateExtent(map.getSize());
-      		var center = getCenterOfExtent(extents);
+			var center = getCenterOfExtent(extents);
 			var WGS84 = proj.transform([center[0], center[1]], 'EPSG:3857', 'EPSG:4326');
-			  
+
 			var canvas = event.context.canvas;
 			var label = "png"
 			var type = "base64"
@@ -7209,9 +7250,9 @@ export class MapComponent implements OnInit {
 			var images = {
 
 				png0: canvas.toDataURL('image/png'),
-				png1:'data:image/png;base64,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'
+				png1: 'data:image/png;base64,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'
 			}
-			this.PrrintService.createPDFObject(images, label + " " + type, format, 'none',WGS84,getmetricscal());
+			this.PrrintService.createPDFObject(images, label + " " + type, format, 'none', WGS84, getmetricscal());
 
 		});
 
@@ -7253,8 +7294,8 @@ export class MapComponent implements OnInit {
 		},
 		"route": {
 			"loading": false,
-			"set":false,
-			"data":undefined
+			"set": false,
+			"data": undefined
 		}
 	}
 
@@ -7400,7 +7441,7 @@ export class MapComponent implements OnInit {
 			$.get(url, (data) => {
 				// console.log(data)
 				this.data_itineraire.route.loading = false
-				
+
 				if (data['routes'] && data['routes'].length > 0) {
 					this.data_itineraire.route.data = data
 					this.display_itineraire(data)
@@ -7439,25 +7480,25 @@ export class MapComponent implements OnInit {
 		this.layer_itineraire.getSource().addFeature(newMarker)
 	}
 
-	formatTimeInineraire(timesSecondes:number):string{
+	formatTimeInineraire(timesSecondes: number): string {
 		// var startTime = moment(document.getElementById("startTime").value, "HH:mm");
 		// var endTime = moment(document.getElementById("end").value, "HH:mm");
 
-		var duration = moment.duration(timesSecondes,'seconds');
-		var hours = '0'+duration.hours();
-		var minutes = '0'+duration.minutes();
+		var duration = moment.duration(timesSecondes, 'seconds');
+		var hours = '0' + duration.hours();
+		var minutes = '0' + duration.minutes();
 		// console.log(hours.slice(-2),minutes.slice(-2))
 		// document.getElementById('dateDiffResult').value = hours +":"+ minutes;
-		return  hours.slice(-2) +":"+ minutes.slice(-2)
+		return hours.slice(-2) + ":" + minutes.slice(-2)
 	}
 
-	formatDistance(distanceMeters:number):string{
-		var distanceKm =distanceMeters/1000
+	formatDistance(distanceMeters: number): string {
+		var distanceKm = distanceMeters / 1000
 		return distanceKm.toFixed(2)
 	}
 
-	clear_itineraire(){
-		
+	clear_itineraire() {
+
 		this.layer_itineraire.getSource().clear()
 		this.data_itineraire.route.set = false
 		this.data_itineraire.depart.coord = []

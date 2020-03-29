@@ -17,16 +17,19 @@
 // };
 // nom_file: "http://servicef.geocameroun.cm//var/www/geosm/analyse/Banque.gpkg"
 export const environment = {
-  url_prefix: "http://admintest.geocameroun.xyz/",
-  url_frontend:"http://geoportailtest.geocameroun.xyz",
-  url_service:"http://service.geocameroun.cm/",
-  global_logo:"assets/images/Pays/MALI.svg",
-  drapeau:"assets/images/Pays/drapeau/mali.png",
-  nom:"MALI",
-  indicatif_pays:"ml",
-  pojet_nodejs:"mali",
-  primaryColor:"#023f5f",
+  url_prefix: "http://adminf.geocameroun.cm/",
+  url_frontend:"http://localhost:4200",
+  url_service:"http://servicef.geocameroun.cm/",
+  global_logo:"",
+  drapeau:"",
+  nom:"",
+  indicatif_pays:"fr",
+  pojet_nodejs:"france",
+  primaryColor:"#1F8FEA",
+  removeFonction:['itineraire'],
   default_language:"fr",
   avaible_language:['fr',"en"],
+  projetOsmCm:false,
+  defaultLayers:[],
   production: false
 };
