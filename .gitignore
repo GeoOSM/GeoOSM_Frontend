@@ -50,3 +50,4 @@ src/environements/environements.prod.ts
 _editorconfig
 _gitignore
 .editorconfig
+src/environments/environment.ts
