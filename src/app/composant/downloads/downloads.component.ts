@@ -195,7 +195,7 @@ export class DownloadsComponent implements OnInit {
     if (data.type == 'xyz') {
       return true
     } else if (data.type_couche == 'wms' || data.type == 'wms') {
-      if (data.cles_vals_osm != undefined && data.cles_vals_osm.length > 0 && !this.disabled_couche(data)) {
+      if (data.cles_vals_osm != undefined && (data.cles_vals_osm.length > 0 || (data.categorie && data.categorie.mode_sql) )&& !this.disabled_couche(data)) {
         return false
       } else {
         return true
@@ -283,7 +283,7 @@ export class DownloadsComponent implements OnInit {
             'methode': 'qgis',
             'index': index,
             'nom': couche.nom,
-            'id_cat': couche.cles_vals_osm[0].id_cat,
+            'id_cat': couche.params_files.id_cat,
             'type': couche.type_couche,
             'identifiant': couche.identifiant,
           })

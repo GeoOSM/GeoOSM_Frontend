@@ -28,5 +28,6 @@ export const environment = {
   primaryColor:"#f5ab1f",
   default_language:"fr",
   avaible_language:['fr',"en"],
+  defaultLayers:[],
   production: false
 };

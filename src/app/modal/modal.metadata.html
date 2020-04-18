@@ -158,9 +158,15 @@ margin-bottom: 0px;background-color: white;">
 							{{ 'metadata.key_osm' | translate }}
 						</th>
 						<th style="padding-left: 10px;font-weight:normal">
-							<span *ngFor="let cles_vals of data_metadata.data.cles_vals_osm;let i = index">
-								{{cles_vals.action}} = {{cles_vals.nom}}
-								<span *ngIf="i < data_metadata.data.cles_vals_osm.length - 1">;</span>
+							<span *ngIf="!data_metadata.data.categorie.mode_sql">
+								<span *ngFor="let cles_vals of data_metadata.data.cles_vals_osm;let i = index">
+									{{cles_vals.action}} = {{cles_vals.nom}}
+									<span *ngIf="i < data_metadata.data.cles_vals_osm.length - 1">;</span>
+								</span>
+							</span>
+							
+							<span *ngIf="data_metadata.data.categorie.mode_sql" >
+								{{data_metadata.data.categorie.sql_complete}}	
 							</span>
 						</th>
 
