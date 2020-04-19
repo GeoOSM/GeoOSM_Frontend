@@ -51,3 +51,4 @@ _editorconfig
 _gitignore
 .editorconfig
 src/environments/environment.ts
+dist/*
