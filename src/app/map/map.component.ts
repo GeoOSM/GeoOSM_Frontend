@@ -1565,12 +1565,12 @@ export class MapComponent implements OnInit {
 						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30&INFO_FORMAT=application/json";
 
 						$.get(url, (data) => {
-							
+
 							var pte = []
 
 							var details_osm_url = ''
 							if (typeof data == "object") {
-								
+
 								try {
 									var properties = data['features'][0]['properties']
 									for (const key in properties) {
@@ -1579,7 +1579,7 @@ export class MapComponent implements OnInit {
 											$.each(element, (index, valeur) => {
 												if (index != 'name' && index != 'amenity' && valeur) {
 													var type = "text"
-	
+
 													if (index == 'website') {
 														type = 'url'
 													}
@@ -1589,25 +1589,25 @@ export class MapComponent implements OnInit {
 														'type': type,
 														'display': true
 													})
-	
+
 												}
 											})
 										} else if (key == 'osm_id') {
-	
+
 										}
 									}
 
 								} catch (error) {
-									
+
 								}
-								
-								
+
+
 							} else {
 								var donne = data.split(/\r?\n/)
 								for (var index = 0; index < donne.length; index++) {
 									if (donne[index].includes('geometry')) {
 										//console.log(donne[index]) hstore_to_ 
-									//console.log(donne[index]) hstore_to_ 
+										//console.log(donne[index]) hstore_to_ 
 										//console.log(donne[index]) hstore_to_ 
 										var geometry_wkt = donne[index].split('=')[1].replace(/'/g, '')
 										console.log('passe')
@@ -2068,168 +2068,161 @@ export class MapComponent implements OnInit {
 	}
 
 	displayDownloadsResult(params, analyse_spatial: any) {
-		this.geoportailService.analyse_spatiale(params).then((data: Object[]) => {
-			$('#loading_calcul').hide()
-			var numbers = []
-			var labels = []
-			for (var index = 0; index < data.length; index++) {
-				numbers.push(data[index]['number'])
-				labels.push(data[index]['nom'] + ' (' + data[index]['number'] + ') ')
-				analyse_spatial["query"][data[index]['index']]["number"] = data[index]['number']
-				if (!params['geometry']) {
-					var url = this.url_prefix + data[index]['nom_file'];
-				} else if (params['geometry']) {
-					var url = environment.url_service + data[index]['nom_file'];
-				}
-				analyse_spatial["query"][data[index]['index']]["nom_file"] = url
-			}
+		$('#loading_calcul').hide()
+		var numbers = []
+		var labels = []
+		var data = analyse_spatial['query']
+		for (var index = 0; index < data.length; index++) {
+			numbers.push(data[index]['number'])
+			labels.push(data[index]['nom'] + ' (' + data[index]['number'] + ') ')
+		}
+		console.log(analyse_spatial)
 
-			var zone_analyse = turf.polygon(analyse_spatial['geometry']);
-			var center_zone_analyse = turf.centerOfMass(zone_analyse);
-			var features_cameroun = new Format.GeoJSON().readFeatures(zone_analyse, {
-				dataProjection: 'EPSG:4326',
-				featureProjection: 'EPSG:3857'
-			});
+		var features_cameroun = new Format.GeoJSON().readFeatures(analyse_spatial['geometry'], {
+			dataProjection: 'EPSG:4326',
+			featureProjection: 'EPSG:3857'
+		});
 
-			var zone_analyseSource = new source.Vector({
-				features: features_cameroun
-			});
+		var zone_analyseSource = new source.Vector({
+			features: features_cameroun
+		});
 
-			var zone_analyse_layer = new layer.Vector({
-				source: zone_analyseSource,
-				style: new style.Style({
-					stroke: new style.Stroke({
-						color: '#000',
-						width: 2
-					}),
-					fill: new style.Fill({
-						color: this.primaryColor
-					}),
+		var center_zone_analyse = Extent.getCenter(zone_analyseSource.getExtent())
+		console.log(center_zone_analyse)
+
+		var zone_analyse_layer = new layer.Vector({
+			source: zone_analyseSource,
+			style: new style.Style({
+				stroke: new style.Stroke({
+					color: '#000',
+					width: 2
 				}),
-				visible: true,
-				updateWhileAnimating: true,
+				fill: new style.Fill({
+					color: this.primaryColor
+				}),
+			}),
+			visible: true,
+			updateWhileAnimating: true,
+		});
+
+		zone_analyse_layer.setZIndex(this.zIndexMax++)
+
+
+		//analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
+		//analyse_spatial['zIndex_inf'] = z
+		//analyse_spatial['index_inf'] = this.layerInMap.length
+		//analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
+		//analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ analyse_spatial['emprisesChoisiName']
+
+		var pte = {
+			'img': 'assets/images/imagette_analyse.png',
+			'checked': true,
+			'visible': true,
+			'type': 'analyse_spatiale',
+			'type_couche_inf': 'analyse_spatiale',
+			'zIndex_inf': this.zIndexMax,
+			'index_inf': this.layerInMap.length,
+			'emprisesChoisiName': analyse_spatial['emprisesChoisiName'],
+			'querry': analyse_spatial['query'],
+			'name_analyse': 'analyse_spatiale_' + this.list_analyse_spatial.length,
+			'nom': 'Analyse ' + (this.list_analyse_spatial.length + 1) + ': ' + analyse_spatial['emprisesChoisiName']
+		}
+
+		this.layerInMap.push(pte)
+
+		// list_analyse_spatial il sert juste de compteur, la donnée dans la n'est pas bonne lol
+		this.list_analyse_spatial.push(analyse_spatial)
+
+
+		zone_analyse_layer.set('name', pte['name_analyse']);
+		zone_analyse_layer.set('type', 'analyse_spatiale');
+
+		map.addLayer(zone_analyse_layer)
+
+		var extent_zone = zone_analyseSource.getExtent()
+		map.getView().fit(extent_zone, { 'size': map.getSize(), 'duration': 1000 });
+
+		var coord = center_zone_analyse
+
+		setTimeout(() => {
+			$('#' + pte['name_analyse']).show()
+
+
+			var coord_caracteri = new Overlay({
+				position: coord,
+				positioning: 'center-center',
+				element: document.getElementById(pte['name_analyse'] + "_chart")
 			});
 
-			zone_analyse_layer.setZIndex(this.zIndexMax++)
+			map.addOverlay(coord_caracteri);
 
+			var dynamicColors = function () {
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+				return "rgb(" + r + "," + g + "," + b + ")";
+			};
+			var coloR = []
+			for (var i in numbers) {
 
-			//analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
-			//analyse_spatial['zIndex_inf'] = z
-			//analyse_spatial['index_inf'] = this.layerInMap.length
-			//analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
-			//analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ analyse_spatial['emprisesChoisiName']
-
-			var pte = {
-				'img': 'assets/images/imagette_analyse.png',
-				'checked': true,
-				'visible': true,
-				'type': 'analyse_spatiale',
-				'type_couche_inf': 'analyse_spatiale',
-				'zIndex_inf': this.zIndexMax,
-				'index_inf': this.layerInMap.length,
-				'emprisesChoisiName': analyse_spatial['emprisesChoisiName'],
-				'querry': analyse_spatial['query'],
-				'name_analyse': 'analyse_spatiale_' + this.list_analyse_spatial.length,
-				'nom': 'Analyse ' + (this.list_analyse_spatial.length + 1) + ': ' + analyse_spatial['emprisesChoisiName']
+				coloR.push(dynamicColors());
 			}
-
-			this.layerInMap.push(pte)
-
-			// list_analyse_spatial il sert juste de compteur, la donnée dans la n'est pas bonne lol
-			this.list_analyse_spatial.push(analyse_spatial)
-
-
-			zone_analyse_layer.set('name', pte['name_analyse']);
-			zone_analyse_layer.set('type', 'analyse_spatiale');
-
-			map.addLayer(zone_analyse_layer)
-
-			console.log(this.layerInMap, pte)
-			var extent_zone = zone_analyseSource.getExtent()
-			map.getView().fit(extent_zone, { 'size': map.getSize(), 'duration': 1000 });
-
-			var coord = proj.transform(center_zone_analyse.geometry.coordinates, 'EPSG:4326', 'EPSG:3857')
-
-			setTimeout(() => {
-				$('#' + pte['name_analyse']).show()
-
-
-				var coord_caracteri = new Overlay({
-					position: coord,
-					positioning: 'center-center',
-					element: document.getElementById(pte['name_analyse'] + "_chart")
-				});
-
-				map.addOverlay(coord_caracteri);
-
-				var dynamicColors = function () {
-					var r = Math.floor(Math.random() * 255);
-					var g = Math.floor(Math.random() * 255);
-					var b = Math.floor(Math.random() * 255);
-					return "rgb(" + r + "," + g + "," + b + ")";
-				};
-				var coloR = []
-				for (var i in numbers) {
-
-					coloR.push(dynamicColors());
-				}
-				this.chart_analyse_spatiale[this.chart_analyse_spatiale.length] = new Chart(pte['name_analyse'], {
-					type: 'pie',
-					scaleFontColor: 'red',
-					data: {
-						labels: labels,
-						datasets: [
-							{
-								data: numbers,
-								backgroundColor: coloR,
-								borderColor: 'rgba(200, 200, 200, 0.75)',
-								hoverBorderColor: 'rgba(200, 200, 200, 1)',
-							}
-						]
-					},
-					options: {
-						title: {
-							display: true,
-							text: pte['emprisesChoisiName'],
-							fontColor: "#fff",
-							fontSize: 16,
-							position: 'top'
-						},
-						legend: {
-							display: true,
-							labels: {
-								fontColor: "#fff",
-								fontSize: 14
-							}
-						},
-						scales: {
-							xAxes: [{
-								display: false,
-								ticks: {
-									fontColor: "Black", // this here
-								}
-							}],
-							yAxes: [{
-								display: false,
-
-							}],
-						},
-
-						onClick: (event) => {
-							console.log(event)
-							var name_analyse = event.target.id
-
+			this.chart_analyse_spatiale[this.chart_analyse_spatiale.length] = new Chart(pte['name_analyse'], {
+				type: 'pie',
+				scaleFontColor: 'red',
+				data: {
+					labels: labels,
+					datasets: [
+						{
+							data: numbers,
+							backgroundColor: coloR,
+							borderColor: 'rgba(200, 200, 200, 0.75)',
+							hoverBorderColor: 'rgba(200, 200, 200, 1)',
 						}
+					]
+				},
+				options: {
+					title: {
+						display: true,
+						text: pte['emprisesChoisiName'],
+						fontColor: "#fff",
+						fontSize: 16,
+						position: 'top'
+					},
+					legend: {
+						display: true,
+						labels: {
+							fontColor: "#fff",
+							fontSize: 14
+						}
+					},
+					scales: {
+						xAxes: [{
+							display: false,
+							ticks: {
+								fontColor: "Black", // this here
+							}
+						}],
+						yAxes: [{
+							display: false,
+
+						}],
+					},
+
+					onClick: (event) => {
+						console.log(event)
+						var name_analyse = event.target.id
+
 					}
-				});
+				}
+			});
 
-				var notif = this.notif.open("Cliquer sur le graphique pour telecharger", 'Fermer', {
-					duration: 20000
-				});
+			var notif = this.notif.open("Cliquer sur le graphique pour telecharger", 'Fermer', {
+				duration: 20000
+			});
 
-			}, 1000)
+		}, 1000)
 
-		})
 	}
 
 	download_files(name_analyse) {

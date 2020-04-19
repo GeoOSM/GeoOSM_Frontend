@@ -1,6 +1,7 @@
 import { Component, OnInit,Input,Output,EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {geoportailService} from '../../service/geoportail.service'
+import {communicationComponent} from '../../service/communicationComponent.service'
 import { environment } from '../../../environments/environment';
 import * as $ from 'jquery';
 import { debounceTime, tap, finalize, switchMap } from 'rxjs/operators';
@@ -38,7 +39,8 @@ export class DownloadsComponent implements OnInit {
   }
   url_prefix = environment.url_prefix
   constructor(
-    public geoportailService:geoportailService
+    public geoportailService:geoportailService,
+    public communicationComponent:communicationComponent
   ) { }
 
   ngOnInit() {
@@ -151,7 +153,6 @@ export class DownloadsComponent implements OnInit {
       this.analyse_spatial['type_emprise_spatiale'] = 'tout'
       this.analyse_spatial['emprisesChoisiName'] = 'tout'
     }
-    console.log(this.analyse_spatial, 0)
   }
 
   removeSpecialCharacter(data) {
@@ -174,7 +175,6 @@ export class DownloadsComponent implements OnInit {
       if (this.removeSpecialCharacter(this.analyse_spatial['emprises'][index]['name']) == this.removeSpecialCharacter(nom_limite)) {
         this.analyse_spatial['emprisesChoisiId'] = this.analyse_spatial['emprises'][index]['id']
         this.analyse_spatial['emprisesChoisiName'] = this.analyse_spatial['emprises'][index]['name']
-        console.log('hihi')
       }
     }
 
@@ -195,7 +195,7 @@ export class DownloadsComponent implements OnInit {
     if (data.type == 'xyz') {
       return true
     } else if (data.type_couche == 'wms' || data.type == 'wms') {
-      if (data.cles_vals_osm != undefined && data.cles_vals_osm.length > 0 && !this.disabled_couche(data)) {
+      if (data.cles_vals_osm != undefined && (data.cles_vals_osm.length > 0 || (data.categorie && data.categorie.mode_sql) ) > 0 && !this.disabled_couche(data)) {
         return false
       } else {
         return true
@@ -283,9 +283,11 @@ export class DownloadsComponent implements OnInit {
             'methode': 'qgis',
             'index': index,
             'nom': couche.nom,
-            'id_cat': couche.cles_vals_osm[0].id_cat,
+            'id_cat': couche.params_files.id_cat,
             'type': couche.type_couche,
             'identifiant': couche.identifiant,
+            'id_them': couche.id_cat,
+            'key_couche': couche.key_couche,
           })
         }
       }
@@ -294,7 +296,7 @@ export class DownloadsComponent implements OnInit {
     if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] != "draw" && this.analyse_spatial['type_emprise_spatiale'] != "tout") {
 
       this.geoportailService.getLimitById({ 'table': this.analyse_spatial['type_emprise_spatiale'], id: this.analyse_spatial["emprisesChoisiId"] }).then((data: Object[]) => {
-        this.analyse_spatial['geometry'] = JSON.parse(data["geometry"])['coordinates']
+        this.analyse_spatial['geometry'] = JSON.parse(data["geometry"])
 
         var params = {
           'querry': this.analyse_spatial['query'],
@@ -302,11 +304,8 @@ export class DownloadsComponent implements OnInit {
           'id_lim': this.analyse_spatial["emprisesChoisiId"],
           // 'geometry': this.analyse_spatial['geometry']
         }
-        // console.log(params)
-        this.displayDownloadsResultFun.next({
-          params:params,
-          analyse_spatial:this.analyse_spatial,
-        })
+        this.downloadResult(params,this.analyse_spatial)
+        
       })
     } else if (this.analyse_spatial['type_emprise_spatiale'] && this.analyse_spatial['type_emprise_spatiale'] == "tout") {
       var coordinates_poly = []
@@ -318,10 +317,28 @@ export class DownloadsComponent implements OnInit {
           coordinates_poly.push(element)
         }
       }
-      this.analyse_spatial['geometry'] = coordinates_poly
+      this.analyse_spatial['geometry'] = this.roi_projet_geojson
       var params = {
         'querry': this.analyse_spatial['query'],
         'geometry': 'tout'
+      }
+      
+      var reponse = []
+      for (let index = 0; index < this.analyse_spatial['query'].length; index++) {
+        const element = this.analyse_spatial['query'][index];
+
+        var couche = this.communicationComponent.get_couche_by_key_and_id_cat(element['id_them'],element['key_couche'])
+        var params_files:any = couche['params_files']
+        console.log(couche,nom_shp)
+			  var nom_shp =environment.url_service+'/'+environment.path_qgis+'/gpkg/'+params_files.nom_cat.replace(/[^a-zA-Z0-9]/g, '_') + '_' +params_files.sous_thematiques + '_' +params_files.key_couche + '_' +params_files.id_cat+'.gpkg'
+        
+
+        
+        
+        element['number'] = couche.number
+        element['nom'] = couche.nom
+        element['nom_file'] =nom_shp
+
       }
       
       this.displayDownloadsResultFun.next({
@@ -329,6 +346,31 @@ export class DownloadsComponent implements OnInit {
         analyse_spatial:this.analyse_spatial,
       })
     }
+  }
+
+  downloadResult(params,analyse_spatial){
+    this.geoportailService.analyse_spatiale(params).then((data: Object[]) => {
+      $('#loading_calcul').hide()
+      var numbers = []
+			var labels = []
+      for (var index = 0; index < data.length; index++) {
+				numbers.push(data[index]['number'])
+				labels.push(data[index]['nom'] + ' (' + data[index]['number'] + ') ')
+				analyse_spatial["query"][data[index]['index']]["number"] = data[index]['number']
+				if (!params['geometry']) {
+					var url = this.url_prefix + data[index]['nom_file'];
+				} else if (params['geometry']) {
+					var url = environment.url_service + data[index]['nom_file'];
+				}
+				analyse_spatial["query"][data[index]['index']]["nom_file"] = url
+      }
+
+      this.displayDownloadsResultFun.next({
+        params:params,
+        analyse_spatial:this.analyse_spatial,
+      })
+      
+    })
   }
 
   
