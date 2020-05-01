@@ -330,7 +330,7 @@ export class DownloadsComponent implements OnInit {
         var couche = this.communicationComponent.get_couche_by_key_and_id_cat(element['id_them'],element['key_couche'])
         var params_files:any = couche['params_files']
         console.log(couche,nom_shp)
-			  var nom_shp =environment.url_service+'/'+environment.path_qgis+'/gpkg/'+params_files.nom_cat.replace(/[^a-zA-Z0-9]/g, '_') + '_' +params_files.sous_thematiques + '_' +params_files.key_couche + '_' +params_files.id_cat+'.gpkg'
+			  var nom_shp =environment.url_service+'/'+environment.path_qgis+'/'+environment.pojet_nodejs+'/gpkg/'+params_files.nom_cat.replace(/[^a-zA-Z0-9]/g, '_') + '_' +params_files.sous_thematiques + '_' +params_files.key_couche + '_' +params_files.id_cat+'.gpkg'
         
 
         

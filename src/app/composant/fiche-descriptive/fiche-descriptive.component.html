@@ -38,8 +38,18 @@
 
       <span *ngIf="typeDataFeature == 'keyVal' ">
         <span *ngFor="let pte of dataFeature">
+          <div class="col-md-12 col-xs-12" *ngIf="pte.index == 'name' || pte.type == 'url'  " style="margin-top: 10px;" >
+            <div class="bold  "> {{pte.index}} : </div>
+            <div style="padding-left: 5px;" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </div>
+            <div style="padding-left: 5px;" *ngIf="pte.type == 'url'">
+              <a href="{{pte.val}}" target="_blank">{{ 'layer_properties.click_url_text' | translate }} </a>
+            </div>
+          </div>
+        </span>
 
-          <div class="col-md-12 col-xs-12" *ngIf="pte.display" style="margin-top: 10px;" >
+        <span *ngFor="let pte of dataFeature">
+
+          <div class="col-md-12 col-xs-12" *ngIf="pte.display && pte.index != 'name' && pte.type != 'url' " style="margin-top: 10px;" >
             <div class="bold  "> {{pte.index}} : </div>
             <div style="padding-left: 5px;" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </div>
             <div style="padding-left: 5px;" *ngIf="pte.type == 'url'">

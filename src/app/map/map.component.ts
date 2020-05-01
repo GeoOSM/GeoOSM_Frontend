@@ -605,47 +605,9 @@ export class MapComponent implements OnInit {
 		this.caracteristicsPoint['display'] = false
 
 		this.data_right_click['item'] = []
-
-		this.translate.get('menu_contextuel', { value: 'caracteristique' }).subscribe((res: any) => {
-			this.data_right_click['item'][0] = {
-				name: res.caracteristique,
-				icon: 1,
-				click: 'this.getCarateristics'
-			}
-		});
-
-		this.translate.get('menu_contextuel', { value: 'partager' }).subscribe((res: any) => {
-			console.log(res)
-			this.data_right_click['item'][1] = {
-				name: res.partager,
-				icon: 2,
-				click: 'this.shareLocation'
-			}
-		});
-
-		this.translate.get('menu_contextuel', { value: 'commenter' }).subscribe((res: any) => {
-			this.data_right_click['item'][2] = {
-				name: res.commenter,
-				icon: 3,
-				click: 'this.openModalComment'
-			}
-		});
-
-		this.translate.get('menu_contextuel', { value: 'ajouter_geosignet' }).subscribe((res: any) => {
-			this.data_right_click['item'][3] = {
-				name: res.ajouter_geosignet,
-				icon: 4,
-				click: 'this.addGeoSignets'
-			}
-		});
-
-		this.translate.get('menu_contextuel', { value: 'voir_geosignet' }).subscribe((res: any) => {
-			this.data_right_click['item'][4] = {
-				name: res.voir_geosignet,
-				icon: 5,
-				click: 'this.displayGeoSignet'
-			}
-		});
+		this.initialise_right_click()
+		
+		
 
 
 		///////// share ///////////////////////////// 
@@ -1297,11 +1259,11 @@ export class MapComponent implements OnInit {
 
 						pte.push({
 							'index': 'osm_id',
-							'val': dataFeature['osm_id'],
+							'val': Math.abs(dataFeature['osm_id']),
 							'display': false
 						})
 
-						var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + dataFeature['osm_id'] + ',W' + dataFeature['osm_id'] + ',N' + dataFeature['osm_id'] + '&format=json'
+						var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + Math.abs(dataFeature['osm_id']) + ',W' + Math.abs(dataFeature['osm_id']) + ',N' + Math.abs(dataFeature['osm_id']) + '&format=json'
 
 
 						if (typeof dataFeature['hstore_to_json'] === 'string') {
@@ -1348,7 +1310,7 @@ export class MapComponent implements OnInit {
 							console.log(data)
 							if (data.length == 1) {
 								var osm_type = data[0].osm_type
-								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + dataFeature['osm_id']
+								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + Math.abs(dataFeature['osm_id'])
 
 
 
@@ -1368,7 +1330,7 @@ export class MapComponent implements OnInit {
 								})
 								pte.push({
 									'index': 'share_osm',
-									'val': layer.get('id_cat') + ',' + layer.get('key_couche') + ',' + osm_type_small + ',' + dataFeature['osm_id'],
+									'val': layer.get('id_cat') + ',' + layer.get('key_couche') + ',' + osm_type_small + ',' + Math.abs(dataFeature['osm_id']),
 									'type': 'share',
 									'display': false
 								})
@@ -1574,8 +1536,8 @@ export class MapComponent implements OnInit {
 								try {
 									var properties = data['features'][0]['properties']
 									for (const key in properties) {
+										const element = properties[key];
 										if (key == 'hstore_to_json' && properties.hasOwnProperty(key)) {
-											const element = properties[key];
 											$.each(element, (index, valeur) => {
 												if (index != 'name' && index != 'amenity' && valeur) {
 													var type = "text"
@@ -1593,9 +1555,11 @@ export class MapComponent implements OnInit {
 												}
 											})
 										} else if (key == 'osm_id') {
+											var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + Math.abs(element) + ',W' + Math.abs(element) + ',N' + Math.abs(element) + '&format=json'
 
 										}
 									}
+
 
 								} catch (error) {
 
@@ -2346,8 +2310,54 @@ export class MapComponent implements OnInit {
 	closePropertiesPdf(j) {
 		this.displayPropertiesDivs.splice(j, 1)
 	}
-	right_click(e) {
 
+	initialise_right_click(){
+		console.log(this.translate.currentLang)
+		this.translate.get('menu_contextuel', { value: 'caracteristique' }).subscribe((res: any) => {
+			this.data_right_click['item'][0] = {
+				name: res.caracteristique,
+				icon: 1,
+				click: 'this.getCarateristics'
+			}
+		});
+
+		this.translate.get('menu_contextuel', { value: 'partager' }).subscribe((res: any) => {
+			console.log(res)
+			this.data_right_click['item'][1] = {
+				name: res.partager,
+				icon: 2,
+				click: 'this.shareLocation'
+			}
+		});
+
+		this.translate.get('menu_contextuel', { value: 'commenter' }).subscribe((res: any) => {
+			this.data_right_click['item'][2] = {
+				name: res.commenter,
+				icon: 3,
+				click: 'this.openModalComment'
+			}
+		});
+
+		this.translate.get('menu_contextuel', { value: 'ajouter_geosignet' }).subscribe((res: any) => {
+			this.data_right_click['item'][3] = {
+				name: res.ajouter_geosignet,
+				icon: 4,
+				click: 'this.addGeoSignets'
+			}
+		});
+
+		this.translate.get('menu_contextuel', { value: 'voir_geosignet' }).subscribe((res: any) => {
+			this.data_right_click['item'][4] = {
+				name: res.voir_geosignet,
+				icon: 5,
+				click: 'this.displayGeoSignet'
+			}
+		});
+	}
+	
+
+	right_click(e) {
+		this.initialise_right_click()
 		var coord = map.getCoordinateFromPixel([e.layerX, e.layerY])
 
 		this.data_right_click['coord'] = coord
@@ -7431,7 +7441,7 @@ export class MapComponent implements OnInit {
 			var b = this.data_itineraire.destination.coord
 			this.data_itineraire.route.loading = true
 			this.data_itineraire.route.set = false
-			var url = "http://51.77.230.235:5000/route/v1/driving/" + a[0] + "," + a[1] + ";" + b[0] + "," + b[1] + "?overview=full"
+			var url = "http://itineraire.geocameroun.xyz/route/v1/driving/" + a[0] + "," + a[1] + ";" + b[0] + "," + b[1] + "?overview=full"
 			$.get(url, (data) => {
 				// console.log(data)
 				this.data_itineraire.route.loading = false

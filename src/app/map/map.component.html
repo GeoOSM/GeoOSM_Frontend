@@ -331,8 +331,8 @@ z" />
 
           <span *ngFor="let groupeCarte of cartes">
 
-            <button mat-raised-button [ngStyle]="{'background-color':groupeCarte.color,'text-transform': 'initial'}"
-              *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;"
+            <button mat-raised-button class="primaryColorBG"
+              *ngIf="groupeCarte.id_cartes == 1" style="width: 100%;text-transform:initial"
               (click)="slideTo('menuCarte',groupeCarte,'fonds_de_carte')">
 
               <svg style="height: 12px; margin-bottom: 4px;display:none" x="0px" y="0px" viewBox="0 0 16.2 12.2">
