@@ -5,6 +5,7 @@ export const environment = {
     global_logo:'',
     drapeau:'',
     nom:'',
+    nom_instance:'',
     indicatif_pays:'',
     primaryColor:'#1F8FEA',
     removeFonction:[],
