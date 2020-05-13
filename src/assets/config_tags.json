@@ -1,0 +1,152 @@
+{
+    "wikipedia": {
+        "type": "url",
+        "prefix": "https://www.wikidata.org/wiki/"
+    },
+    "brand:wikidata": {
+        "type": "url",
+        "prefix": "https://www.wikidata.org/wiki/"
+    },
+    "brand:wikipedia": {
+        "type": "url",
+        "prefix": "https://fr.wikipedia.org/wiki/"
+    },
+    "operator:wikidata": {
+        "type": "url",
+        "prefix": "https://fr.wikipedia.org/wiki/"
+    },
+    "artist:wikidata": {
+        "type": "url",
+        "prefix": "https://fr.wikipedia.org/wiki/"
+    },
+    "wikidata": {
+        "type": "url",
+        "prefix": "https://fr.wikipedia.org/wiki/"
+    },
+    "name:etymology:wikidata": {
+        "type": "url",
+        "prefix": "https://fr.wikipedia.org/wiki/"
+    },
+    "website": {
+        "type": "url",
+        "prefix": ""
+    },
+    "contact:website": {
+        "type": "url",
+        "prefix": ""
+    },
+    "brand:website": {
+        "type": "url",
+        "prefix": ""
+    },
+    "url": {
+        "type": "url",
+        "prefix": ""
+    },
+    "opening_hours:url": {
+        "type": "url",
+        "prefix": ""
+    },
+    "contact:instagram": {
+        "type": "url",
+        "prefix": "https://www.instagram.com/"
+    },
+    "wikimedia_commons": {
+        "type": "image",
+        "prefix": "https://commons.wikimedia.org/wiki/",
+        "surfix": ""
+    },
+    "phone_1": {
+        "type": "tel"
+    },
+    "phone": {
+        "type": "tel"
+    },
+    "contact:fax": {
+        "type": "tel"
+    },
+    "fax": {
+        "type": "tel"
+    },
+    "email": {
+        "type": "email"
+    },
+    "contact:email": {
+        "type": "email"
+    },
+    "colour": {
+        "type": "colour"
+    },
+    "building:colour": {
+        "type": "colour"
+    },
+    "image": {
+        "type": "image",
+        "prefix": "",
+        "surfix": ""
+    },
+    "mapillary": {
+        "type": "image",
+        "prefix": "https://d1cuyjsrcm0gby.cloudfront.net/",
+        "surfix": "/thumb-320.jpg"
+    },
+    "flickr": {
+        "type": "image",
+        "prefix": "",
+        "surfix": ""
+    },
+    "wheelchair": {
+        "type": "choice",
+        "values": {
+            "yes": {
+                "type": "fa",
+                "value": "check",
+                "color": "green"
+            },
+            "no": {
+                "type": "fa",
+                "value": "times",
+                "color": "red"
+            },
+            "limited": {
+                "type": "text"
+            }
+        }
+    },
+    "opening_hours:covid19": {
+        "type": "choice",
+        "values": {
+            "yes": {
+                "type": "fa",
+                "value": "check",
+                "color": "green"
+            },
+            "no": {
+                "type": "fa",
+                "value": "times",
+                "color": "red"
+            },
+            "limited": {
+                "type": "text"
+            }
+        }
+    },
+    "atm": {
+        "type": "choice",
+        "values": {
+            "yes": {
+                "type": "fa",
+                "value": "check",
+                "color": "green"
+            },
+            "no": {
+                "type": "fa",
+                "value": "times",
+                "color": "red"
+            },
+            "limited": {
+                "type": "text"
+            }
+        }
+    }
+}

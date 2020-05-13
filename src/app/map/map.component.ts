@@ -35,6 +35,7 @@ import { Attribution } from 'openlayers';
 import { loadingstrategy } from 'openlayers';
 
 
+
 import { buttonsheetComponent } from '../buttonSheet/buttonheet.component';
 import { buttonsheetGeosiComponent } from '../buttonSheet/buttonheet_geosi.component';
 import { modalComponent } from '../modal/modal.component';
@@ -1525,7 +1526,8 @@ export class MapComponent implements OnInit {
 						var viewResolution = view.getResolution();
 
 						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30&INFO_FORMAT=application/json";
-
+						var coord_center = map.getCoordinateFromPixel(evt.pixel)
+						
 						$.get(url, (data) => {
 
 							var pte = []
@@ -1535,6 +1537,13 @@ export class MapComponent implements OnInit {
 
 								try {
 									var properties = data['features'][0]['properties']
+
+									pte.push({
+										'index': 'name',
+										'val': properties['name'],
+										'display': true
+									})
+
 									for (const key in properties) {
 										const element = properties[key];
 										if (key == 'hstore_to_json' && properties.hasOwnProperty(key)) {
@@ -1647,6 +1656,9 @@ export class MapComponent implements OnInit {
 									this.typeDataFeature = 'keyVal'
 									this.dataFeature = pte
 								})
+
+								// var geometry= new geom.Point(coord_center)
+								// this.activate_an_icon(geometry, geometry.getType())
 
 								if (details_osm_url != '' && pte.length > 0) {
 

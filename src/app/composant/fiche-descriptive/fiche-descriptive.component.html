@@ -8,8 +8,8 @@
       <path class="primaryColorFill" d="M11.5,23C5.1,23,0,17.9,0,11.5S5.1,0,11.5,0S23,5.1,23,11.5C23,17.8,17.8,23,11.5,23z M10.4,10.4v6.9
 	h2.3v-6.9H10.4z M10.4,5.8v2.3h2.3V5.8L10.4,5.8z" />
     </svg>
-    <span *ngIf="typeDataFeature != 'download'" style="font-size: 16px;" >
-      {{ 'layer_properties.title' | translate }}
+    <span *ngIf="typeDataFeature != 'download' && get_title_couche()" style="font-size: 16px;" >
+      {{ 'layer_properties.title' | translate }} :  {{get_title_couche().nom}}
     </span>
     
     <span *ngIf="typeDataFeature == 'download'" style="font-size: 16px;" >
@@ -25,10 +25,14 @@
     style="padding: 15px;margin-bottom: 0px !important;">
 
     <div class="col-md-12 col-xs-12 text-center primaryColor" style="text-align: center;margin-bottom: 10px;"
-      *ngIf="get_title_couche()">
+      >
       <mat-chip-list *ngIf="typeDataFeature != 'pdf'" style="display: inline-table;">
         <mat-chip style="height: auto !important;" class="white primaryColorBG bold">
-          {{get_title_couche().nom}}
+          
+          <span *ngFor="let pte of dataFeature"> 
+            <span *ngIf="pte.index == 'name'" > {{pte.val}} </span>
+          </span>
+
         </mat-chip>
       </mat-chip-list>
     </div>
@@ -37,8 +41,9 @@
       class="col-md-12 col-xs-12">
 
       <span *ngIf="typeDataFeature == 'keyVal' ">
+
         <span *ngFor="let pte of dataFeature">
-          <div class="col-md-12 col-xs-12" *ngIf="pte.index == 'name' || pte.type == 'url'  " style="margin-top: 10px;" >
+          <div class="col-md-12 col-xs-12" *ngIf="pte.type == 'url'" style="margin-top: 10px;" >
             <div class="bold  "> {{pte.index}} : </div>
             <div style="padding-left: 5px;" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </div>
             <div style="padding-left: 5px;" *ngIf="pte.type == 'url'">
@@ -50,19 +55,48 @@
         <span *ngFor="let pte of dataFeature">
 
           <div class="col-md-12 col-xs-12" *ngIf="pte.display && pte.index != 'name' && pte.type != 'url' " style="margin-top: 10px;" >
-            <div class="bold  "> {{pte.index}} : </div>
-            <div style="padding-left: 5px;" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </div>
-            <div style="padding-left: 5px;" *ngIf="pte.type == 'url'">
-              <a href="{{pte.val}}" target="_blank">{{ 'layer_properties.click_url_text' | translate }} </a>
+
+            <div class="bold  "> 
+              {{ pte.index | translate }} 
+              <i class="fa fa-phone" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'tel'" ></i>
+              <i class="fa fa-link" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'url'" ></i>
+              <i class="fa fa-at" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'email'" ></i>
+                : 
             </div>
+            
+            <div style="padding-left: 5px;" *ngIf="!osm_features_special[pte.index]" [innerHTML]="pte.val"> </div>
+
+            <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'url'">
+              <a href="{{osm_features_special[pte.index].prefix + pte.val}}" target="_blank">{{ 'layer_properties.click_url_text' | translate }} </a>
+            </div>
+
+            <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'tel'">
+              <a href="tel:{{pte.val}}" target="_blank">{{pte.val}} </a>
+            </div>
+
+            <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'email'">
+              <a href="mailto:{{pte.val}}" target="_blank">{{pte.val}} </a>
+            </div>
+
+            <div style="padding-left: 5px;display: flex;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'colour'">
+              
+              <span>{{pte.val}}</span>
+              <div style="height: 30px;width: 150px;display: flex;margin-left: 10px;" [ngStyle]="{'background-color': pte.val}" > </div>
+            </div>
+
+            <div style="text-align: center;cursor: pointer;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'image'">
+              <img (click)="openUrl(osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix)" style="max-width: 340px;height: auto;" src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix}}" >
+            </div>
+            
+            <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'choice'">
+              <span *ngIf="!osm_features_special[pte.index]['values'][pte.val] || osm_features_special[pte.index]['values'][pte.val]['type'] == 'text'" > {{ pte.val | translate }}  </span>
+       
+              <i class="fa fa-{{osm_features_special[pte.index]['values'][pte.val]['value']}}" [ngStyle]="{'color':osm_features_special[pte.index]['values'][pte.val]['color']}"  *ngIf="osm_features_special[pte.index]['values'][pte.val]['type'] == 'fa' " > </i>
+            </div>
+
           </div>
 
-          <!-- <div class="col-md-12 col-xs-12" *ngIf="pte.display">
-            <span class="bold col-md-4 col-xs-4 "> {{pte.index}} :</span>
-            <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </span>
-            <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type == 'url'"> <a href="{{pte.val}}" target="_blank">
-                Cliquer ici </a> </span>
-          </div> -->
+     
 
         </span>
       </span>

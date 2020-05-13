@@ -46,13 +46,20 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
+
+
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PrrintService } from "./service/prrint.service";
 
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new MultiTranslateHttpLoader(httpClient, [
+    {prefix: './assets/i18n/', suffix: '.json'},
+    {prefix: './assets/i18n/tags-', suffix: '.json'}
+  ]);
 }
+
+
 
 import {
   MatAutocompleteModule,
@@ -98,6 +105,8 @@ import { CaracteristiquesLieuComponent } from './composant/caracteristiques-lieu
 import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignets.component';
 import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-descriptive.component';
 import { DownloadsComponent } from './composant/downloads/downloads.component';
+
+import { NgpSortModule } from "ngp-sort-pipe";
 
 @NgModule({
   exports: [
@@ -192,8 +201,8 @@ export class DemoMaterialModule { }
         deps: [HttpClient]
       }
     }
-    )
-    // NgwWowModule.forRoot(),
+    ),
+    NgpSortModule
   ],
   providers: [cartesService, thematiqueService, geoportailService, communicationComponent,PrrintService],
   bootstrap: [AppComponent]

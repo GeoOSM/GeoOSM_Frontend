@@ -31,9 +31,14 @@ export class FicheDescriptiveComponent implements OnInit {
 
   url_share:string = undefined
   url_prefix = environment.url_prefix
+
+  osm_features_special={}
+  
+
   ngOnInit() {
-    
-    
+    $.get('assets/config_tags.json', (data) => {
+      this.osm_features_special = data
+    })
   }
 
   ngOnChanges(){
@@ -76,6 +81,9 @@ export class FicheDescriptiveComponent implements OnInit {
       }
     }
     return title
+  }
+  openUrl(url){
+    window.open(url,'_blank')
   }
   
 }

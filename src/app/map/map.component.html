@@ -424,7 +424,7 @@ z" />
       <div class="pointer menu-thematiques-parent" style="margin-top:0px;padding-right: 5px;">
 
 
-        <div *ngFor="let thematique of thematiques" class="menu-thematiques-parent-child col-md-4 col-xs-4">
+        <div *ngFor="let thematique of thematiques | sortBy: 'asc':'ordre'" class="menu-thematiques-parent-child col-md-4 col-xs-4">
           <app-thematique (click)="slideTo('menuThematique',thematique)" [thematique]="thematique"></app-thematique>
         </div>
 

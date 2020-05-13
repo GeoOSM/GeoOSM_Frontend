@@ -43,9 +43,12 @@
     "hammerjs": "^2.0.8",
     "home": "^1.0.1",
     "jquery": "3.3.1",
+    "moment": "2.24.0",
     "ng2-right-click-menu": "^1.0.1",
+    "ngp-sort-pipe": "0.0.4",
     "ngx-color-picker": "^7.3.0",
     "ngx-openlayers": "^0.8.22",
+    "ngx-translate-multi-http-loader": "^3.0.0",
     "ngx-wow": "^2.0.0",
     "npx": "^10.2.2",
     "rxjs": "^6.3.3",
@@ -53,7 +56,6 @@
     "s": "^1.0.0",
     "save": "^2.3.2",
     "wowjs": "^1.1.3",
-    "moment": "2.24.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
