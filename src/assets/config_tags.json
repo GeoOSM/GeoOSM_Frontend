@@ -49,11 +49,11 @@
     },
     "contact:instagram": {
         "type": "url",
-        "prefix": "https://www.instagram.com/"
+        "prefix": ""
     },
     "wikimedia_commons": {
         "type": "image",
-        "prefix": "https://commons.wikimedia.org/wiki/",
+        "prefix": "https://upload.wikimedia.org/wikipedia/commons/c/ca/",
         "surfix": ""
     },
     "phone_1": {
@@ -64,6 +64,20 @@
     },
     "contact:fax": {
         "type": "tel"
+    },
+    "contact:phone": {
+        "type": "tel"
+    },
+    "contact:mobile": {
+        "type": "tel"
+    },
+    "contact:facebook": {
+        "type": "url",
+        "prefix": ""
+    },
+    "facebook": {
+        "type": "url",
+        "prefix": ""
     },
     "fax": {
         "type": "tel"
@@ -148,5 +162,50 @@
                 "type": "text"
             }
         }
+    },
+    "payment:mastercard": {
+        "type": "boolean"
+    },
+    "payment:maestro": {
+        "type": "boolean"
+    },
+    "payment:cash": {
+        "type": "boolean"
+    },
+    "payment:visa_electron": {
+        "type": "boolean"
+    },
+    "payment:cards": {
+        "type": "boolean"
+    },
+    "payment:contactless": {
+        "type": "boolean"
+    },
+    "payment:visa": {
+        "type": "boolean"
+    },
+    "payment:notes": {
+        "type": "boolean"
+    },
+    "payment:coins": {
+        "type": "boolean"
+    },
+    "payment:credit_cards": {
+        "type": "boolean"
+    },
+    "payment:american_express": {
+        "type": "boolean"
+    },
+    "payment:visa_debit": {
+        "type": "boolean"
+    },
+    "payment:cheque": {
+        "type": "boolean"
+    },
+    "payment:debit_cards": {
+        "type": "boolean"
+    },
+    "outdoor_seating ":{
+        "type": "boolean"
     }
 }

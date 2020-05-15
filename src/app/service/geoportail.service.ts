@@ -235,6 +235,15 @@ export class geoportailService {
     return promise;
   }
   
+  searchLimiteObservable(data): Observable<any>  {
+    let apiURL = this.url_prefix+'/searchLimite/';
+    return this.http.post(apiURL,data,{headers: this.headers})
+    .pipe(
+      tap((response:any) => {
+      })
+      );
+  }
+
   searchLimiteInTable(data): Observable<any>  {
     let apiURL = this.url_prefix+'/searchLimiteInTable/';
     return this.http.post(apiURL,data,{headers: this.headers})

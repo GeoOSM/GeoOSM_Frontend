@@ -351,6 +351,7 @@ export class HeaderComponent implements OnInit {
                 if(data["status"] == 'ok'){
                     var limites = []
                     var limite_display = []
+                    
                     for (let index = 0; index < this.config_projet['limites'].length; index++) {
                         const element = this.config_projet['limites'][index];
                         limite_display.push(element['nom'])

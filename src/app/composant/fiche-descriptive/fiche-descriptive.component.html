@@ -84,14 +84,20 @@
               <div style="height: 30px;width: 150px;display: flex;margin-left: 10px;" [ngStyle]="{'background-color': pte.val}" > </div>
             </div>
 
-            <div style="text-align: center;cursor: pointer;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'image'">
-              <img (click)="openUrl(osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix)" style="max-width: 340px;height: auto;" src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix}}" >
+            <div (click)="openUrl(osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].surfix)" style="text-align: center;cursor: pointer;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'image'">
+              <img  style="max-width: 340px;height: auto;" src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix}}" >
             </div>
             
             <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'choice'">
               <span *ngIf="!osm_features_special[pte.index]['values'][pte.val] || osm_features_special[pte.index]['values'][pte.val]['type'] == 'text'" > {{ pte.val | translate }}  </span>
        
               <i class="fa fa-{{osm_features_special[pte.index]['values'][pte.val]['value']}}" [ngStyle]="{'color':osm_features_special[pte.index]['values'][pte.val]['color']}"  *ngIf="osm_features_special[pte.index]['values'][pte.val]['type'] == 'fa' " > </i>
+            </div>
+
+            <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'boolean'">
+       
+              <i class="fa fa-check" style="color: green;"  *ngIf="pte.val=='yes' " > </i>
+              <i class="fa fa-times" style="color: red;"  *ngIf="pte.val=='no' " > </i>
             </div>
 
           </div>

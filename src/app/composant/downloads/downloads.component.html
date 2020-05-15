@@ -64,7 +64,7 @@ h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
 
 </div>
 
-<button mat-raised-button style="margin-top: 10px;
+<button mat-raised-button class="primaryColorBG" style="margin-top: 10px;
 margin-bottom: 10px;min-width: 32px;
 width: 32px;
 height: 31px;
@@ -73,7 +73,7 @@ padding: 4px;
 font-size: 12px;
 margin-left: calc(50% - 17px);
 " (click)="choose_another_couche_option()">
-  <i class="fa fa-plus" style="margin-bottom: 13px;"></i>
+  <i class="fa fa-plus white" style="margin-bottom: 13px;"></i>
 </button>
 
 <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
@@ -86,9 +86,10 @@ margin-left: calc(50% - 17px);
   <mat-form-field style="width: 100%;padding: 0px 7px;">
     <mat-select placeholder="{{ 'dowload_data.title_choose_type_emprise' | translate }}"
       [(value)]="analyse_spatial.type_emprise_spatiale" (selectionChange)="chooseCouche_function()">
-      <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}">
+      <!-- <mat-option *ngFor="let lim of config_projet.limites" value="{{lim.nom_table}}">
         {{ 'dowload_data.by' | translate }} {{lim.nom}}
-      </mat-option>
+      </mat-option> -->
+      <mat-option *ngIf="config_projet.limites.length >0"  value="limite"> Rechercher une limite administrative  </mat-option>
       <mat-option value="tout"> {{ 'dowload_data.all' | translate }} </mat-option>
       <mat-option disabled="true" value="draw"> {{ 'dowload_data.draw' | translate }} </mat-option>
     </mat-select>
@@ -100,7 +101,7 @@ margin-left: calc(50% - 17px);
     <mat-form-field *ngIf="autocomplteActive || analyse_spatial.emprises" style="width: 100%;color: #000;">
       <input type="text" [formControl]="myControl" matInput placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
 
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event)">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event)" [displayWith]="displayFn">
         <mat-option *ngIf="recherche_is_loading && analyse_spatial.emprises.length == 0" >
           <div class="lds-ripple">
             <div></div>
@@ -110,9 +111,9 @@ margin-left: calc(50% - 17px);
 
         <mat-option
           *ngFor="let emprise of analyse_spatial.emprises "
-          [value]="emprise.name">
+          [value]="emprise" [matTooltip]="emprise.name +' ' +emprise['ref'] +' - ' +emprise['type_display'] " >
           <span> {{emprise.name}}, </span>
-          <small> ({{emprise['ref']}}) </small>
+          <small> ({{emprise['ref']}}) - {{emprise['type_display']}}   </small>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

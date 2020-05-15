@@ -438,7 +438,13 @@ export class MapComponent implements OnInit {
 	) {
 
 		this.environment = environment
-
+		if (localStorage.getItem('signets')) {
+			for (let index = 0; index < localStorage.getItem('signets').split(';').length; index++) {
+				const element = localStorage.getItem('signets').split(';')[index];
+				this.geoSignets.push(JSON.parse(element))
+			}
+		}
+		console.log(localStorage.getItem('signets'),this.geoSignets)
 	}
 
 
@@ -769,6 +775,7 @@ export class MapComponent implements OnInit {
 
 					}
 				} else if (share == 'state') {
+					
 					if (this.cartes) {
 						this.displayAllFromStateOfMap()
 					}
@@ -2394,6 +2401,13 @@ export class MapComponent implements OnInit {
 					'zoom': this.data_right_click['zoom'],
 					'nom': result['nom']
 				})
+				
+				var signets_text = []
+				for (let index = 0; index < this.geoSignets.length; index++) {
+					const element = this.geoSignets[index];
+					signets_text.push(JSON.stringify(element))
+				}
+				localStorage.setItem('signets',signets_text.join(';'))
 
 				this.translate.get('notifications').subscribe((res: any) => {
 					var notif = this.notif.open(res.signet_added_1 + result['nom'] + res.signet_added_2, 'Fermer', {
@@ -2565,19 +2579,19 @@ export class MapComponent implements OnInit {
 		for (var i = 0; i < this.layerInMap.length; i++) {
 			if (!this.layerInMap[i].principal && this.layerInMap[i].visible == true) {
 
-				if (this.layerInMap[i].type_couche == "requete" || this.layerInMap[i].type_couche == "couche" || this.layerInMap[i].type == "api") {
+				if (this.layerInMap[i].type_couche_inf == "thematiques") {
 					if (this.layerInMap[i].id_sous_cat) {
 						var url = "data," + this.layerInMap[i].id_sous_cat_couche + ',' + this.layerInMap[i].id_sous_cat + ',' + this.layerInMap[i].id_cat
 
 					} else {
-						var url = "data," + this.layerInMap[i].id_sous_cat_couche + ',false' + this.layerInMap[i].id_cat
+						var url = "data," + this.layerInMap[i].id_sous_cat_couche + ',false,' + this.layerInMap[i].id_cat
 					}
 
 					urls.push({
 						'url': url,
 						'rang': this.layerInMap[i].zIndex_inf
 					})
-				} else if (this.layerInMap[i].type_couche == "wms" || this.layerInMap[i].type == "wms" || this.layerInMap[i].type == "xyz" || this.layerInMap[i].type == "pdf") {
+				} else if (this.layerInMap[i].type_couche_inf == "cartes") {
 
 
 					if (this.layerInMap[i].id_sous_cat) {
@@ -2589,9 +2603,9 @@ export class MapComponent implements OnInit {
 
 					} else {
 						if (this.layerInMap[i].typeInf == "sous_cartes_pdf") {
-							var url = "map," + this.layerInMap[i].id_sous_cat_couche + ',false' + this.layerInMap[i].id_cat + ',' + this.layerInMap[i].id
+							var url = "map," + this.layerInMap[i].id_sous_cat_couche + ',false,' + this.layerInMap[i].id_cat + ',' + this.layerInMap[i].id
 						} else {
-							var url = "map," + this.layerInMap[i].id_sous_cat_couche + ',false' + this.layerInMap[i].id_cat
+							var url = "map," + this.layerInMap[i].id_sous_cat_couche + ',false,' + this.layerInMap[i].id_cat
 						}
 
 					}
@@ -2630,7 +2644,6 @@ export class MapComponent implements OnInit {
 		this.activatedRoute.queryParams.subscribe(params => {
 			let share = params['share'];
 			let nbre = params['nbre'] - 1;
-
 			if (share == 'state') {
 
 				var path_index = 0
@@ -2739,9 +2752,12 @@ export class MapComponent implements OnInit {
 						var location = params['path'].split(',')
 						console.log(location, location[2])
 						this.data_right_click['coord'] = [parseFloat(location[0]), parseFloat(location[1])]
-						map.getView().setZoom(parseFloat(location[2]))
-						map.getView().setCenter(this.data_right_click['coord'])
-						this.getCarateristics()
+						setTimeout(()=>{
+							map.getView().setZoom(parseFloat(location[2]))
+							map.getView().setCenter(this.data_right_click['coord'])
+							this.getCarateristics()
+						},4000)
+						
 					}
 					path_index++
 				}
