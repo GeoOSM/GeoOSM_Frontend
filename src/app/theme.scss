@@ -1,5 +1,6 @@
 @import '~@angular/material/theming';
-
+@import '../../src//environments/color.scss';
+@include mat-core();
 
 @mixin theme-color-grabber($theme) {
   // Parse the theme and create variables for each color in the pallete #c1000a(rouge) jaune #ffd800
@@ -42,24 +43,25 @@
 }
 
 
-@include mat-core();
+$primary:$primary_color;
 
+$primary_transparent_bg:#f2f7fa ;
 
 $color_prim: (
   50: #000,
-  100: #f5ab1f,
-  200: #f5ab1f,
-  300: #f5ab1f,
-  400: #f5ab1f,
-  500: #f5ab1f,
-  600: #f5ab1f,
-  700: #f5ab1f,
-  800: #f5ab1f,
-  900: #f5ab1f,
+  100: $primary ,
+  200: $primary ,
+  300: $primary ,
+  400: $primary ,
+  500: $primary ,
+  600: $primary ,
+  700: $primary ,
+  800: $primary ,
+  900: $primary ,
   A100: #000,
   A200: #000,
-  A400: #f5ab1f,
-  A700: #f5ab1f,
+  A400: $primary ,
+  A700: $primary ,
   contrast: (
       500: black,
       600: black,
@@ -95,8 +97,7 @@ $color_accent: (
       A700: black,
   )
 );
-$primary:#f5ab1f;
-$primary_transparent_bg:#f2f7fa !important;
+
 
 $theme-primary: mat-palette($color_prim,500);
 $theme-accent:  mat-palette($color_accent,600);
