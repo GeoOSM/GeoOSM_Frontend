@@ -9,6 +9,7 @@
   $warn: map-get($theme, warn);
   // Create theme specfic styles
 
+  
   .primaryColor {
     color: mat-color($primary) !important;
   }
