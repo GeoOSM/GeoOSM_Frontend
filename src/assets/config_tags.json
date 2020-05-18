@@ -1,7 +1,7 @@
 {
     "wikipedia": {
         "type": "url",
-        "prefix": "https://www.wikidata.org/wiki/"
+        "prefix": "https://fr.wikipedia.org/wiki/"
     },
     "brand:wikidata": {
         "type": "url",
@@ -13,19 +13,19 @@
     },
     "operator:wikidata": {
         "type": "url",
-        "prefix": "https://fr.wikipedia.org/wiki/"
+        "prefix": "https://www.wikidata.org/wiki/"
     },
     "artist:wikidata": {
         "type": "url",
-        "prefix": "https://fr.wikipedia.org/wiki/"
+        "prefix": "https://www.wikidata.org/wiki/"
     },
     "wikidata": {
         "type": "url",
-        "prefix": "https://fr.wikipedia.org/wiki/"
+        "prefix": "https://www.wikidata.org/wiki/"
     },
     "name:etymology:wikidata": {
         "type": "url",
-        "prefix": "https://fr.wikipedia.org/wiki/"
+        "prefix": "https://www.wikidata.org/wiki/"
     },
     "website": {
         "type": "url",

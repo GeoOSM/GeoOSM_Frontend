@@ -85,7 +85,7 @@
             </div>
 
             <div (click)="openUrl(osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].surfix)" style="text-align: center;cursor: pointer;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'image'">
-              <img  style="max-width: 340px;height: auto;" src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].prefix}}" >
+              <img  style="max-width: 340px;height: auto;" src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].surfix}}" >
             </div>
             
             <div style="padding-left: 5px;" *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'choice'">
