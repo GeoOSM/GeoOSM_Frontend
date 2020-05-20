@@ -1,4 +1,10 @@
 {
+    "addr:street": {
+        "type": "hide"
+    },
+    "addr:housenumber": {
+        "type": "hide"
+    },
     "wikipedia": {
         "type": "url",
         "prefix": "https://fr.wikipedia.org/wiki/"
@@ -48,6 +54,10 @@
         "prefix": ""
     },
     "contact:instagram": {
+        "type": "url",
+        "prefix": ""
+    },
+    "contact:twitter":{
         "type": "url",
         "prefix": ""
     },
@@ -205,7 +215,7 @@
     "payment:debit_cards": {
         "type": "boolean"
     },
-    "outdoor_seating ":{
+    "outdoor_seating":{
         "type": "boolean"
     }
 }

@@ -1284,9 +1284,7 @@ export class MapComponent implements OnInit {
 							if (index != 'name' && val) {
 								var type = "text"
 
-								if (index == 'website') {
-									type = 'url'
-								}
+								
 								pte.push({
 									'index': index,
 									'val': val,
@@ -1316,7 +1314,7 @@ export class MapComponent implements OnInit {
 
 						$.get(details_osm_url, (data) => {
 							console.log(data)
-							if (data.length == 1) {
+							if (data.length > 0) {
 								var osm_type = data[0].osm_type
 								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + Math.abs(dataFeature['osm_id'])
 
@@ -1331,9 +1329,9 @@ export class MapComponent implements OnInit {
 								}
 
 								pte.push({
-									'index': 'OSM url',
+									'index': 'OSM',
 									'val': osm_url,
-									'type': 'url',
+									'type': 'url_osm',
 									'display': true
 								})
 								pte.push({
@@ -1558,9 +1556,7 @@ export class MapComponent implements OnInit {
 												if (index != 'name' && index != 'amenity' && valeur) {
 													var type = "text"
 
-													if (index == 'website') {
-														type = 'url'
-													}
+													
 													pte.push({
 														'index': index,
 														'val': valeur,
@@ -1611,9 +1607,6 @@ export class MapComponent implements OnInit {
 												if (index != 'name' && index != 'amenity' && valeur) {
 													var type = "text"
 
-													if (index == 'website') {
-														type = 'url'
-													}
 													pte.push({
 														'index': index,
 														'val': valeur,
@@ -1673,15 +1666,15 @@ export class MapComponent implements OnInit {
 
 									$.get(details_osm_url, (data) => {
 										console.log(data)
-										if (data.length == 1) {
+										if (data.length > 0) {
 											var osm_type = data[0].osm_type
 											var osm_id = data[0].osm_id
 											var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + osm_id
 
 											pte.push({
-												'index': 'OSM url',
+												'index': 'OSM',
 												'val': osm_url,
-												'type': 'url',
+												'type': 'url_osm',
 												'display': true
 											})
 											if (osm_type == 'relation') {
@@ -4865,7 +4858,8 @@ export class MapComponent implements OnInit {
 								} else {
 									var styleDefaultII = new style.Style({
 										image: new style.Icon({
-											scale: 0.2,
+											scale: 0.4,
+											// size:[40,40],
 											src: url_prefix + data.img
 										})
 									});
@@ -4890,7 +4884,8 @@ export class MapComponent implements OnInit {
 									styleDefault = new style.Style({
 
 										image: new style.Icon({
-											scale: 0.2,
+											scale: 0.4,
+											// size:[40,40],
 											src: url_prefix + data.img
 										}),
 									});
@@ -4919,10 +4914,6 @@ export class MapComponent implements OnInit {
 						map.addLayer(LayTheCopy);
 						map.addLayer(LayThe);
 					}
-
-
-
-
 
 
 					data.zIndex_inf = this.zIndexMax

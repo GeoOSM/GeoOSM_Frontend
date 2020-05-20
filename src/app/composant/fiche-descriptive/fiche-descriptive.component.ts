@@ -85,5 +85,40 @@ export class FicheDescriptiveComponent implements OnInit {
   openUrl(url){
     window.open(url,'_blank')
   }
+
+  adresseExist(){
+    var count_adresse = 0
+    var adresse = {
+      "housenumber":undefined,
+      "street":undefined,
+      "city":'',
+      "postcode":'',
+    }
+
+    for (let index = 0; index < this.dataFeature.length; index++) {
+      const element = this.dataFeature[index];
+      if (element['index']=="addr:city") {
+        count_adresse = count_adresse +1
+        adresse.city = element['val']
+      }
+      if (element['index']=="addr:street") {
+        count_adresse = count_adresse +1
+        adresse.street = element['val']
+      } 
+      if (element['index']=="addr:housenumber") {
+        count_adresse = count_adresse +1
+        adresse.housenumber = element['val']
+      }
+      if (element['index']=="addr:postcode") {
+        count_adresse = count_adresse +1
+        adresse.postcode = element['val']
+      }
+    }
+    if (adresse.housenumber && adresse.street) {
+      return [true,adresse.housenumber+' '+adresse.street+' '+adresse.city+' '+adresse.postcode]
+    }else{
+      return [false]
+    }
+  }
   
 }
