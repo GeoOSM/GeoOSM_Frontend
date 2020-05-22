@@ -7433,7 +7433,7 @@ export class MapComponent implements OnInit {
 			var b = this.data_itineraire.destination.coord
 			this.data_itineraire.route.loading = true
 			this.data_itineraire.route.set = false
-			var url = "http://51.77.230.235:5000/route/v1/driving/" + a[0] + "," + a[1] + ";" + b[0] + "," + b[1] + "?overview=full"
+			var url = "http://itineraire.geocameroun.xyz/route/v1/driving/" + a[0] + "," + a[1] + ";" + b[0] + "," + b[1] + "?overview=full"
 			$.get(url, (data) => {
 				// console.log(data)
 				this.data_itineraire.route.loading = false
