@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
-
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'modal-question',
@@ -17,8 +16,7 @@ export class modalQuestion {
 
   
     ngOnInit() {
-    
-
+      
     }
 
   onNoClick(): void {
