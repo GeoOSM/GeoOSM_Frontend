@@ -4,7 +4,7 @@ import { geoportailService } from '../../service/geoportail.service'
 import { communicationComponent } from '../../service/communicationComponent.service'
 import { environment } from '../../../environments/environment';
 import * as $ from 'jquery';
-import { debounceTime, tap, finalize, switchMap } from 'rxjs/operators';
+import { debounceTime, tap, finalize, switchMap,filter } from 'rxjs/operators';
 declare var turf: any;
 
 @Component({
@@ -101,7 +101,10 @@ export class DownloadsComponent implements OnInit {
         .valueChanges
         .pipe(
           debounceTime(300),
-          tap(() => { this.recherche_is_loading = true; this.analyse_spatial['emprises'] = []; this.analyse_spatial[this.analyse_spatial['type_emprise_spatiale']] = [] }),
+          filter(value=>typeof value === "string"),
+          tap((value) => { 
+            this.recherche_is_loading = true; this.analyse_spatial['emprises'] = []; this.analyse_spatial[this.analyse_spatial['type_emprise_spatiale']] = []
+           }),
           switchMap(value => {
             if (typeof value === 'string' && value.length > 1) {
               return this.geoportailService.searchLimiteObservable({

@@ -39,8 +39,8 @@
     </mat-slider>
   </span> -->
 
-  <div>
-    <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type != 'pdf' " style="height: 75px;width: 100%;">
+  <div style="text-align: center;" >
+    <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type != 'pdf' " style="height: 75px;width: 150px;">
     <img src="{{url_prefix+couche.image_src}}" *ngIf="couche.type == 'pdf' " style="width: inherit ;top: 48%;">
   </div>
 

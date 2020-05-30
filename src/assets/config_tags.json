@@ -1,4 +1,19 @@
 {
+    "osm_user":{
+        "type": "hide"
+    },
+    "osm_version":{
+        "type": "hide"
+    },
+    "osm_uid":{
+        "type": "hide"
+    },
+    "osm_timestamp":{
+        "type": "hide"
+    },
+    "osm_changeset":{
+        "type": "hide"
+    },
     "addr:street": {
         "type": "hide"
     },
