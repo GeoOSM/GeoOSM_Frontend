@@ -164,7 +164,7 @@ export class geoportailService {
 
   queryNominatim(word) {
     let promise = new Promise((resolve, reject) => {
-      let apiURL = "https://nominatim.openstreetmap.org/search?q="+word+"&format=json&polygon=1&addressdetails=1";
+      let apiURL = "https://nominatim.openstreetmap.org/search?q="+word+"&format=json&polygon_geojson=1&addressdetails=1";
       this.http.get(apiURL,{headers: this.headers})
         .toPromise()
         .then(
@@ -344,6 +344,25 @@ export class geoportailService {
     });
     return promise;
   }
+
+  getAllExtents() {
+    let promise = new Promise((resolve, reject) => {
+      let apiURL = this.url_prefix+'/geoportail/getAllExtents/';
+      this.http.get(apiURL,{headers: this.headers})
+        .toPromise()
+        .then(
+          res => {  
+           
+            resolve(res.json());
+          },
+          msg => { // Error
+          reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
+
  
   getPositionFromPosition(word) {
     let promise = new Promise((resolve, reject) => {

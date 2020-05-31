@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { OrderBy } from "../filter/orderby";
 import { Observable } from 'rxjs';
-import { map as MAP, startWith } from 'rxjs/operators';
+import { map as MAP, startWith, skip ,filter} from 'rxjs/operators';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar, MatBottomSheet, MatBottomSheetRef, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
@@ -56,7 +56,7 @@ declare var turf: any;
 const view = new View({
 	center: proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
 	zoom: 0,
-	minZoom: 0
+	minZoom: 0,
 })
 const scaleControl = new Control.ScaleLine()
 const attribution = new Control.Attribution({
@@ -419,6 +419,7 @@ export class MapComponent implements OnInit {
 	config_projet
 	opened_left: false;
 	environment: any
+	all_extends: any[]
 
 	constructor(
 		private zone: NgZone,
@@ -444,13 +445,31 @@ export class MapComponent implements OnInit {
 				this.geoSignets.push(JSON.parse(element))
 			}
 		}
-		console.log(localStorage.getItem('signets'),this.geoSignets)
 	}
 
 
 	public formAnalyse_spatial = this.builder.group({
 		id: [, Validators.required],
 	});
+
+
+	extend_active_id
+	fitExtendOfOne(extend_active) {
+		// console.log(extend_active)
+		if (typeof extend_active === 'object' && extend_active['geometry']) {
+			this.extend_active_id = extend_active['id']
+			console.log(extend_active)
+			var feature_active = new Format.GeoJSON().readFeatures(JSON.parse(extend_active['geometry']), {
+				dataProjection: 'EPSG:4326',
+				featureProjection: 'EPSG:3857'
+			});
+			var my_source = new source.Vector()
+			my_source.addFeatures(feature_active);
+			var extent = my_source.getExtent()
+			map.getView().fit(extent, { 'size': map.getSize(), 'maxZoom': 7, 'duration': 1000 });
+		}
+
+	}
 
 	ngOnInit() {
 
@@ -577,14 +596,55 @@ export class MapComponent implements OnInit {
 						this.displayLimitesAdministratives(donne)
 					}
 
-					if (share == "map" && params['path'] && params['path'].split(',')[3]) {
+					this.geoportailService.getAllExtents().then((all_extends: any[]) => {
 
-					} else {
+						// console.log(all_extends)
+						this.all_extends = all_extends
+						this.communicationComponent.set_all_extends(this.all_extends)
+
+						if (all_extends.length > 0) {
+							var extend_active;
+							for (let index = 0; index < all_extends.length; index++) {
+								const element = all_extends[index];
+								if (element['active']) {
+									extend_active = element
+								}
+							}
+
+							if (extend_active) {
+								this.communicationComponent.changeExtent.next(extend_active)
+								// setTimeout(() => {
+									this.communicationComponent.changeExtent
+									.pipe(
+										filter(value=>typeof value =='object'),
+										skip(1)
+									)
+									.subscribe((extend_active) => {
+										
+										// if (this.extend_active_id != extend_active['id']) {
+											// console.log(this.extend_active_id,extend_active)
+											this.fitExtendOfOne(extend_active)
+										// }
+										
+									})
+								// }, 3000);
+								
+							}
+
+							if (!share && extend_active) {
+								this.fitExtendOfOne(extend_active)
+							}
+						}
+					})
+
+					if (!share) {
 						map.getView().fit(this.extent_cameroun, { 'size': map.getSize(), 'duration': 1000 });
+						console.log('qsddzfzefzee')
 					}
 
 				});
 
+				
 
 				map.on('moveend', () => {
 
@@ -613,8 +673,8 @@ export class MapComponent implements OnInit {
 
 		this.data_right_click['item'] = []
 		this.initialise_right_click()
-		
-		
+
+
 
 
 		///////// share ///////////////////////////// 
@@ -775,7 +835,7 @@ export class MapComponent implements OnInit {
 
 					}
 				} else if (share == 'state') {
-					
+
 					if (this.cartes) {
 						this.displayAllFromStateOfMap()
 					}
@@ -1284,7 +1344,7 @@ export class MapComponent implements OnInit {
 							if (index != 'name' && val) {
 								var type = "text"
 
-								
+
 								pte.push({
 									'index': index,
 									'val': val,
@@ -1532,7 +1592,7 @@ export class MapComponent implements OnInit {
 
 						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30&INFO_FORMAT=application/json";
 						var coord_center = map.getCoordinateFromPixel(evt.pixel)
-						
+
 						$.get(url, (data) => {
 
 							var pte = []
@@ -1556,7 +1616,7 @@ export class MapComponent implements OnInit {
 												if (index != 'name' && index != 'amenity' && valeur) {
 													var type = "text"
 
-													
+
 													pte.push({
 														'index': index,
 														'val': valeur,
@@ -2323,7 +2383,7 @@ export class MapComponent implements OnInit {
 		this.displayPropertiesDivs.splice(j, 1)
 	}
 
-	initialise_right_click(){
+	initialise_right_click() {
 		console.log(this.translate.currentLang)
 		this.translate.get('menu_contextuel', { value: 'caracteristique' }).subscribe((res: any) => {
 			this.data_right_click['item'][0] = {
@@ -2366,7 +2426,7 @@ export class MapComponent implements OnInit {
 			}
 		});
 	}
-	
+
 
 	right_click(e) {
 		this.initialise_right_click()
@@ -2394,13 +2454,13 @@ export class MapComponent implements OnInit {
 					'zoom': this.data_right_click['zoom'],
 					'nom': result['nom']
 				})
-				
+
 				var signets_text = []
 				for (let index = 0; index < this.geoSignets.length; index++) {
 					const element = this.geoSignets[index];
 					signets_text.push(JSON.stringify(element))
 				}
-				localStorage.setItem('signets',signets_text.join(';'))
+				localStorage.setItem('signets', signets_text.join(';'))
 
 				this.translate.get('notifications').subscribe((res: any) => {
 					var notif = this.notif.open(res.signet_added_1 + result['nom'] + res.signet_added_2, 'Fermer', {
@@ -2745,12 +2805,12 @@ export class MapComponent implements OnInit {
 						var location = params['path'].split(',')
 						console.log(location, location[2])
 						this.data_right_click['coord'] = [parseFloat(location[0]), parseFloat(location[1])]
-						setTimeout(()=>{
+						setTimeout(() => {
 							map.getView().setZoom(parseFloat(location[2]))
 							map.getView().setCenter(this.data_right_click['coord'])
 							this.getCarateristics()
-						},4000)
-						
+						}, 4000)
+
 					}
 					path_index++
 				}
@@ -6777,15 +6837,19 @@ export class MapComponent implements OnInit {
 
 			}
 
-			if (this.geocode_variable.data.icon) {
-				if (this.geocode_variable.data.osm_type == 'node' || this.geocode_variable.data.osm_type == 'relation') {
-					var type_geom = 'point'
-				} else {
-					var type_geom = 'Polygon'
-				}
-			} else {
-				var type_geom = 'LineString'
+			var type_geom = this.geocode_variable.data.geojson.type
+			if(type_geom=='Point'){
+				type_geom = 'point'
 			}
+			// if (this.geocode_variable.data.icon) {
+			// 	if (this.geocode_variable.data.osm_type == 'node' || this.geocode_variable.data.osm_type == 'relation') {
+			// 		var type_geom = 'point'
+			// 	} else {
+			// 		var type_geom = 'Polygon'
+			// 	}
+			// } else {
+			// 	var type_geom = 'LineString'
+			// }
 
 			if (i) {
 				var resultat = {
@@ -7062,6 +7126,9 @@ export class MapComponent implements OnInit {
 				style: function (feature) {
 					console.log(feature.getGeometry().getType())
 					if (feature.getGeometry().getType() == 'Point') {
+						if (!url) {
+							url='assets/images/icones/location-pin.svg'
+						}
 						var styleDefaultII = new style.Style({
 							image: new style.Icon({
 								scale: scale,
@@ -7091,14 +7158,18 @@ export class MapComponent implements OnInit {
 		} else if (type_geom == 'Polygon') {
 			var coord_poly;
 			if (donne.type_query == 'nominatim') {
-				coord_poly = this.convertepolygon(donne.data.polygonpoints)
+				coord_poly= Object.create(new Format.GeoJSON().readFeatures(donne.data.geojson, {
+					dataProjection: 'EPSG:4326',
+					featureProjection: 'EPSG:3857'
+				})[0].getGeometry()).getCoordinates()[0]
+				// coord_poly = this.convertepolygon(coord_poly)
 			} else {
 				coord_poly = this.convertepolygon(donne.coord)
 			}
 
 			console.log(coord_poly)
 
-			if (donne.icone) {
+			if (donne.icone && false ) {
 
 				var cnv = document.createElement('canvas');
 				var ctx = cnv.getContext('2d');
@@ -7168,7 +7239,12 @@ export class MapComponent implements OnInit {
 		} else if (type_geom == "LineString") {
 			var coord_poly;
 			if (donne.type_query == 'nominatim') {
-				coord_poly = this.convertepolygon(donne.data.polygonpoints)
+				coord_poly= Object.create(new Format.GeoJSON().readFeatures(donne.data.geojson, {
+					dataProjection: 'EPSG:4326',
+					featureProjection: 'EPSG:3857'
+				})[0].getGeometry()).getCoordinates()
+				
+				// coord_poly = this.convertepolygon(donne.data.polygonpoints)
 			} else {
 				coord_poly = this.convertepolygon(donne.coord)
 			}

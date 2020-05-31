@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
+import {environment} from '../../environments/environment'
 
 
 @Component({
@@ -10,10 +11,13 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class modalQuestion {
 
   url_prefix
+  environment
 
   constructor(
     public dialogRef: MatDialogRef<modalQuestion>,
-   ) {}
+   ) {
+     this.environment = environment
+   }
 
   
     ngOnInit() {
