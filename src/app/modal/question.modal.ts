@@ -29,4 +29,8 @@ export class modalQuestion {
     this.dialogRef.close();
   }
 
+  open_link(link){
+    window.open(link,'_blank')
+  }
+
 }

@@ -2,11 +2,11 @@
 	(click)="goto()">
 
 	<span class="header_left">
+		<p *ngIf="!environment.projetOsmCm"  class="title_data_osm"> LA DATA D'OSM ! </p>
 		<img src="assets/images/header/logo-geosm.svg" *ngIf="environment.projetOsmCm" class="Logos_GC" alt="">
 		<img src="{{environment.drapeau}}" class="drapeau_GC" alt="">
 		<span class="title_GC">{{environment.nom}} </span>
 	</span>
-
 
 	<img *ngIf="environment.projetOsmCm" src="assets/images/header/logo-100_pourcent_cameroun.svg"
 		class="Logos_GC_right" alt="">
