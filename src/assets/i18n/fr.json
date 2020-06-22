@@ -51,7 +51,7 @@
   },
   "draw_in_map": {
     "apply_draw": "APPLIQUER",
-    "save": ""
+    "save": "SAUVEGARDER"
   },
   "header": {
     "toolpit_info": "GeOSM ?"

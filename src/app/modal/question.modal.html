@@ -74,6 +74,10 @@ c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
                                 <li> Pour des bugs ou améliorations : <a
                                                 href="https://github.com/GeoOSM/backend_nodejs/issues" target="_blank">
                                                 https://github.com/GeoOSM/backend_nodejs/issues </a> </li>
+                                <li> Pour les ajouts / modifications des thèmes : <a
+                                                href="https://www.loomio.org/d/018TijXh/th-mes-utilisateurs-"
+                                                target="_blank">
+                                                https://www.loomio.org/d/018TijXh/th-mes-utilisateurs- </a> </li>
                                 <li *ngIf="!environment.projetOsmCm"> Pour créer des cartes personnalisées sur des fonds
                                         <a href="https://osm.org" target="_blank" rel="noopener noreferrer">
                                                 OpenStreetMap </a> en un instant et les afficher dans votre site. :
@@ -82,12 +86,19 @@ c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
                         </ul>
 
                 </div>
+                <div style="text-align: left;">
+                        Remerciements à <a href="https://twitter.com/JLZIMMERMANN" target="_blank">@ J.L ZIMMERMANN</a>
+                        pour son implication et l'ordonnance des 16 thèmes
+                </div>
         </div>
+
+
+
         <div class="text-center" style="margin-top:20px" *ngIf="!environment.projetOsmCm">
-                <div style="width: 150px;height: initial;margin: 0 auto;cursor: pointer;" (click)="open_link('https://www.openstreetmap.fr/')">
+                <div style="width: 150px;height: initial;margin: 0 auto;cursor: pointer;"
+                        (click)="open_link('https://www.openstreetmap.fr/')">
                         <a href="https://www.openstreetmap.fr/" target="_blank" class="a_link">
-                                <img  width="150"
-                                        style="cursor: pointer;"
+                                <img width="150" style="cursor: pointer;"
                                         src="https://wiki.openstreetmap.org/w/images/thumb/8/8c/Openstreepmap-france-logo-texte-carre.pdf/page1-250px-Openstreepmap-france-logo-texte-carre.pdf.jpg"
                                         alt="" srcset="">
                                 <!-- <svg viewBox="0 0 24 24" style="height: 50px;width: 50px;" >
