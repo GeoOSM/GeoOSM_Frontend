@@ -74,7 +74,7 @@ c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
                                 <li> Pour des bugs ou améliorations : <a
                                                 href="https://github.com/GeoOSM/backend_nodejs/issues" target="_blank">
                                                 https://github.com/GeoOSM/backend_nodejs/issues </a> </li>
-                                <li> Pour les ajouts / modifications des thèmes : <a
+                                <li *ngIf="!environment.projetOsmCm" > Pour les ajouts / modifications des thèmes : <a
                                                 href="https://www.loomio.org/d/018TijXh/th-mes-utilisateurs-"
                                                 target="_blank">
                                                 https://www.loomio.org/d/018TijXh/th-mes-utilisateurs- </a> </li>
@@ -86,7 +86,7 @@ c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
                         </ul>
 
                 </div>
-                <div style="text-align: left;">
+                <div style="text-align: left;" *ngIf="!environment.projetOsmCm">
                         Remerciements à <a href="https://twitter.com/JLZIMMERMANN" target="_blank">@ J.L ZIMMERMANN</a>
                         pour son implication et l'ordonnance des 16 thèmes
                 </div>
