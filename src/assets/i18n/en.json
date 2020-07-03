@@ -69,8 +69,8 @@
   },
   "left_menu": {
       "fonds_de_carte": "All the basemaps",
-      "geobibliotheque": "GeoLibrary",
-      "geothematiques": "GeoThemes"
+      "geobibliotheque": "Library",
+      "geothematiques": "Themes"
   },
   "loading": {
       "loading": "Loading...",
