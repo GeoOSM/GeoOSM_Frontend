@@ -191,7 +191,7 @@
     "geothematiques":"Géothématiques"
   },
   "draw_in_map":{
-    "save":"",
+    "save":"SAVE",
     "apply_draw":"APPLIQUER"
   },
   "header":{

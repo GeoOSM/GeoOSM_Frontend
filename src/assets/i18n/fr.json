@@ -194,7 +194,7 @@
     "ressources":"Ressources"
   },
   "draw_in_map":{
-    "save":"",
+    "save": "SAUVEGARDER",
     "apply_draw":"APPLIQUER"
   },
   "header":{

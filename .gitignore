@@ -44,8 +44,8 @@ testem.log
 Thumbs.db
 
 #environements
-src/environements/environements.ts
-src/environements/environements.prod.ts
+src/environments/environment.ts
+src/environments/environment.prod.ts
 
 _editorconfig
 _gitignore
