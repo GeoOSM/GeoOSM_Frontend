@@ -1302,11 +1302,11 @@ export class MapComponent implements OnInit {
 
 						pte.push({
 							'index': 'osm_id',
-							'val': dataFeature['osm_id'],
+							'val': Math.abs(dataFeature['osm_id']),
 							'display': false
 						})
 
-						var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + dataFeature['osm_id'] + ',W' + dataFeature['osm_id'] + ',N' + dataFeature['osm_id'] + '&format=json'
+						var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + Math.abs(dataFeature['osm_id']) + ',W' + Math.abs(dataFeature['osm_id']) + ',N' + Math.abs(dataFeature['osm_id']) + '&format=json'
 
 
 						if (typeof dataFeature['hstore_to_json'] === 'string') {
@@ -1319,9 +1319,7 @@ export class MapComponent implements OnInit {
 							if (index != 'name' && val) {
 								var type = "text"
 
-								if (index == 'website') {
-									type = 'url'
-								}
+
 								pte.push({
 									'index': index,
 									'val': val,
@@ -1351,9 +1349,9 @@ export class MapComponent implements OnInit {
 
 						$.get(details_osm_url, (data) => {
 							console.log(data)
-							if (data.length == 1) {
+							if (data.length > 0) {
 								var osm_type = data[0].osm_type
-								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + dataFeature['osm_id']
+								var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + Math.abs(dataFeature['osm_id'])
 
 
 
@@ -1366,14 +1364,14 @@ export class MapComponent implements OnInit {
 								}
 
 								pte.push({
-									'index': 'OSM url',
+									'index': 'OSM',
 									'val': osm_url,
-									'type': 'url',
+									'type': 'url_osm',
 									'display': true
 								})
 								pte.push({
 									'index': 'share_osm',
-									'val': layer.get('id_cat') + ',' + layer.get('key_couche') + ',' + osm_type_small + ',' + dataFeature['osm_id'],
+									'val': layer.get('id_cat') + ',' + layer.get('key_couche') + ',' + osm_type_small + ',' + Math.abs(dataFeature['osm_id']),
 									'type': 'share',
 									'display': false
 								})
@@ -1567,62 +1565,107 @@ export class MapComponent implements OnInit {
 						var source = lay.getSource()
 						var viewResolution = view.getResolution();
 
-						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30";
+						var url = Object.create(source).getGetFeatureInfoUrl(evt.coordinate, viewResolution, 'EPSG:3857') + "&FI_POINT_TOLERANCE=30&INFO_FORMAT=application/json";
+						var coord_center = map.getCoordinateFromPixel(evt.pixel)
 
 						$.get(url, (data) => {
-							console.log(lay);
-							var donne = data.split(/\r?\n/)
+
 							var pte = []
 
 							var details_osm_url = ''
-							for (var index = 0; index < donne.length; index++) {
-								if (donne[index].includes('geometry')) {
-									//console.log(donne[index]) hstore_to_ 
-									var geometry_wkt = donne[index].split('=')[1].replace(/'/g, '')
-									console.log('passe')
+							if (typeof data == "object") {
+
+								try {
+									var properties = data['features'][0]['properties']
+
+									pte.push({
+										'index': 'name',
+										'val': properties['name'],
+										'display': true
+									})
+
+									for (const key in properties) {
+										const element = properties[key];
+										if (key == 'hstore_to_json' && properties.hasOwnProperty(key)) {
+											$.each(element, (index, valeur) => {
+												if (index != 'name' && index != 'amenity' && valeur) {
+													var type = "text"
 
 
-								} else if (!donne[index].includes('Layer') && !donne[index].includes('fid') && !donne[index].includes('Feature') && donne[index].split('=').length == 2) {
-									var champ = donne[index].split('=')[0]
-									var val = donne[index].split('=')[1].replace(/'/g, '')
-									console.log(champ)
+													pte.push({
+														'index': index,
+														'val': valeur,
+														'type': type,
+														'display': true
+													})
 
-									if (champ.includes('osm_id')) {
-										details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + val + ',W' + val + ',N' + val + '&format=json'
-
-									}
-
-									if (champ.includes('hstore_to_') || champ.includes('hstore_to_json')) {
-
-										var hstore_to_json = JSON.parse(val)
-
-										$.each(hstore_to_json, (index, valeur) => {
-											if (index != 'name' && index != 'amenity' && valeur) {
-												var type = "text"
-
-												if (index == 'website') {
-													type = 'url'
 												}
-												pte.push({
-													'index': index,
-													'val': valeur,
-													'type': type,
-													'display': true
-												})
+											})
+										} else if (key == 'osm_id') {
+											var details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + Math.abs(element) + ',W' + Math.abs(element) + ',N' + Math.abs(element) + '&format=json'
 
-											}
-										})
-									} else if (champ != "" && val && val != '') {
-										pte.push({
-											'index': champ,
-											'val': val,
-											'display': true
-										})
+										}
 									}
+
+
+								} catch (error) {
 
 								}
 
+
+							} else {
+								var donne = data.split(/\r?\n/)
+								for (var index = 0; index < donne.length; index++) {
+									if (donne[index].includes('geometry')) {
+										//console.log(donne[index]) hstore_to_ 
+										//console.log(donne[index]) hstore_to_ 
+										//console.log(donne[index]) hstore_to_ 
+										var geometry_wkt = donne[index].split('=')[1].replace(/'/g, '')
+										console.log('passe')
+
+
+									} else if (!donne[index].includes('Layer') && !donne[index].includes('fid') && !donne[index].includes('Feature') && donne[index].split('=').length == 2) {
+										var champ = donne[index].split('=')[0]
+										var val = donne[index].split('=')[1].replace(/'/g, '')
+
+
+										if (champ.includes('osm_id')) {
+											details_osm_url = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + val + ',W' + val + ',N' + val + '&format=json'
+
+										}
+
+										if (champ.includes('hstore_to_') || champ.includes('hstore_to_json')) {
+											console.log(donne[index], val)
+											var hstore_to_json = JSON.parse(val)
+
+											$.each(hstore_to_json, (index, valeur) => {
+												if (index != 'name' && index != 'amenity' && valeur) {
+													var type = "text"
+
+													pte.push({
+														'index': index,
+														'val': valeur,
+														'type': type,
+														'display': true
+													})
+
+												}
+											})
+										} else if (champ != "" && val && val != '') {
+											pte.push({
+												'index': champ,
+												'val': val,
+												'display': true
+											})
+										}
+
+									}
+
+								}
 							}
+
+
+
 
 
 							if (geometry_wkt) {
@@ -1649,21 +1692,24 @@ export class MapComponent implements OnInit {
 									this.dataFeature = pte
 								})
 
+								// var geometry= new geom.Point(coord_center)
+								// this.activate_an_icon(geometry, geometry.getType())
+
 								if (details_osm_url != '' && pte.length > 0) {
 
 									$('#notifications').show()
 
 									$.get(details_osm_url, (data) => {
 										console.log(data)
-										if (data.length == 1) {
+										if (data.length > 0) {
 											var osm_type = data[0].osm_type
 											var osm_id = data[0].osm_id
 											var osm_url = 'https://www.openstreetmap.org/' + osm_type + '/' + osm_id
 
 											pte.push({
-												'index': 'OSM url',
+												'index': 'OSM',
 												'val': osm_url,
-												'type': 'url',
+												'type': 'url_osm',
 												'display': true
 											})
 											if (osm_type == 'relation') {
@@ -1710,7 +1756,6 @@ export class MapComponent implements OnInit {
 
 
 		})
-
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////// 		//evenement du onclick 				//////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,11 +8,11 @@
       <path class="primaryColorFill" d="M11.5,23C5.1,23,0,17.9,0,11.5S5.1,0,11.5,0S23,5.1,23,11.5C23,17.8,17.8,23,11.5,23z M10.4,10.4v6.9
 	h2.3v-6.9H10.4z M10.4,5.8v2.3h2.3V5.8L10.4,5.8z" />
     </svg>
-    <span *ngIf="typeDataFeature != 'download'" style="font-size: 16px;" >
-      {{ 'layer_properties.title' | translate }}
+    <span *ngIf="typeDataFeature != 'download' && get_title_couche()" style="font-size: 16px;">
+      {{ 'layer_properties.title' | translate }} : {{get_title_couche().nom}}
     </span>
-    
-    <span *ngIf="typeDataFeature == 'download'" style="font-size: 16px;" >
+
+    <span *ngIf="typeDataFeature == 'download'" style="font-size: 16px;">
       {{ 'layer_properties.title_download' | translate }}
     </span>
 
@@ -24,11 +24,14 @@
   <div class="displayPropertiesBody primary_transparent_bg  black " [preventDefaultEvent]="true" [ngDraggable]="false"
     style="padding: 15px;margin-bottom: 0px !important;">
 
-    <div class="col-md-12 col-xs-12 text-center primaryColor" style="text-align: center;margin-bottom: 10px;"
-      *ngIf="get_title_couche()">
+    <div class="col-md-12 col-xs-12 text-center primaryColor" style="text-align: center;margin-bottom: 10px;">
       <mat-chip-list *ngIf="typeDataFeature != 'pdf'" style="display: inline-table;">
         <mat-chip style="height: auto !important;" class="white primaryColorBG bold">
-          {{get_title_couche().nom}}
+
+          <span *ngFor="let pte of dataFeature">
+            <span *ngIf="pte.index == 'name'"> {{pte.val}} </span>
+          </span>
+
         </mat-chip>
       </mat-chip-list>
     </div>
@@ -36,23 +39,99 @@
     <div style="background: #fff;border-radius: 5px;padding-bottom: 10px;padding-top: 10px;"
       class="col-md-12 col-xs-12">
 
+      
+
       <span *ngIf="typeDataFeature == 'keyVal' ">
+
+        <span *ngFor="let pte of dataFeature">
+          <div class="col-md-12 col-xs-12" *ngIf="pte.type == 'url_osm'" style="margin-top: 10px;">
+            <a href="{{pte.val}}" target="_blank">OSM </a>
+            <i class="fa fa-link" style="    margin-left: 5px;"></i>
+            
+          </div>
+        </span>
+
+        <div class="col-md-12 col-xs-12" *ngIf="adresseExist()[0]" style="margin-top: 10px;">
+          <div class="bold  ">
+            {{ "layer_properties.adresse" | translate }} :
+          </div>
+          <div style="padding-left: 5px;" >
+            {{adresseExist()[1]}}
+          </div>
+        </div>
+
         <span *ngFor="let pte of dataFeature">
 
-          <div class="col-md-12 col-xs-12" *ngIf="pte.display" style="margin-top: 10px;" >
-            <div class="bold  "> {{pte.index}} : </div>
-            <div style="padding-left: 5px;" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </div>
-            <div style="padding-left: 5px;" *ngIf="pte.type == 'url'">
-              <a href="{{pte.val}}" target="_blank">{{ 'layer_properties.click_url_text' | translate }} </a>
+          <div class="col-md-12 col-xs-12" *ngIf="pte.display && pte.index != 'name' && pte.type != 'url_osm' && osm_features_special[pte.index]?.type != 'hide' "
+            style="margin-top: 10px;">
+
+            <div class="bold  ">
+              {{ pte.index | translate }}
+              <i class="fa fa-phone"
+                *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'tel'"></i>
+              <i class="fa fa-link"
+                *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'url'"></i>
+              <i class="fa fa-at"
+                *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'email'"></i>
+              :
             </div>
+
+            <div style="padding-left: 5px;" *ngIf="!osm_features_special[pte.index]" [innerHTML]="pte.val"> </div>
+
+            <div style="padding-left: 5px;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'url'">
+              <a href="{{osm_features_special[pte.index].prefix + pte.val}}"
+                target="_blank">{{ 'layer_properties.click_url_text' | translate }} </a>
+            </div>
+
+            <div style="padding-left: 5px;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'tel'">
+              <a href="tel:{{pte.val}}" target="_blank">{{pte.val}} </a>
+            </div>
+
+            <div style="padding-left: 5px;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'email'">
+              <a href="mailto:{{pte.val}}" target="_blank">{{pte.val}} </a>
+            </div>
+
+            <div style="padding-left: 5px;display: flex;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'colour'">
+
+              <span>{{pte.val}}</span>
+              <div style="height: 30px;width: 150px;display: flex;margin-left: 10px;"
+                [ngStyle]="{'background-color': pte.val}"> </div>
+            </div>
+
+            <div
+              (click)="openUrl(osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].surfix)"
+              style="text-align: center;cursor: pointer;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'image'">
+              <img style="max-width: 340px;height: auto;"
+                src="{{osm_features_special[pte.index].prefix + pte.val + osm_features_special[pte.index].surfix}}">
+            </div>
+
+            <div style="padding-left: 5px;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index]?.type == 'choice'">
+
+              <span
+                *ngIf="!osm_features_special[pte.index]['values'][pte.val] || osm_features_special[pte.index]['values'][pte.val]['type'] == 'text'">
+                {{ pte.val | translate }} </span>
+
+              <i class="fa fa-{{osm_features_special[pte.index]['values'][pte.val]['value']}}"
+                [ngStyle]="{'color':osm_features_special[pte.index]['values'][pte.val]['color']}"
+                *ngIf="osm_features_special[pte.index]['values'][pte.val] && osm_features_special[pte.index]['values'][pte.val]['type'] == 'fa' "> </i>
+            </div>
+
+            <div style="padding-left: 5px;"
+              *ngIf="osm_features_special[pte.index] && osm_features_special[pte.index].type == 'boolean'">
+
+              <i class="fa fa-check" style="color: green;" *ngIf="pte.val=='yes' "> </i>
+              <i class="fa fa-times" style="color: red;" *ngIf="pte.val=='no' "> </i>
+            </div>
+
           </div>
 
-          <!-- <div class="col-md-12 col-xs-12" *ngIf="pte.display">
-            <span class="bold col-md-4 col-xs-4 "> {{pte.index}} :</span>
-            <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type != 'url'" [innerHTML]="pte.val"> </span>
-            <span class="col-md-8 col-xs-8 pull-left" *ngIf="pte.type == 'url'"> <a href="{{pte.val}}" target="_blank">
-                Cliquer ici </a> </span>
-          </div> -->
+
 
         </span>
       </span>
@@ -61,10 +140,11 @@
         <span *ngFor="let pte of dataFeature">
           <div class="col-md-12 col-xs-12" style="margin-top: 15px">
             <div class="bold "> {{pte.nom}} ({{pte.number}}) :</div>
-            <div style="padding-left: 5px;" >
-              <a href="{{pte.nom_file}}" *ngIf="pte.nom_file != false" target="_blank"> {{ 'layer_properties.download_gpkg' | translate }} 
+            <div style="padding-left: 5px;">
+              <a href="{{pte.nom_file}}" *ngIf="pte.nom_file != false" target="_blank">
+                {{ 'layer_properties.download_gpkg' | translate }}
               </a>
-              <span *ngIf="pte.nom_file == false"> {{ 'layer_properties.download_problem' | translate }}  </span>
+              <span *ngIf="pte.nom_file == false"> {{ 'layer_properties.download_problem' | translate }} </span>
             </div>
           </div>
         </span>
@@ -112,10 +192,11 @@
       </button> -->
 
       <div id="share_div_pte" style="text-align: center;">
-        <share-buttons [theme]="'circles-dark'" [include]="['facebook','twitter','linkedin','messenger','copy','whatsapp']"
-          [show]="11" [size]="-4" [url]="url_share">
+        <share-buttons [theme]="'circles-dark'"
+          [include]="['facebook','twitter','linkedin','messenger','copy','whatsapp']" [show]="11" [size]="-4"
+          [url]="url_share">
         </share-buttons>
-      
+
       </div>
       <button mat-flat-button color="primary" *ngIf="isShareFeatures(dataFeature) && url_share==undefined"
         class="col-md-6 col-xs-12 col-md-offset-3" (click)="shareFeature(dataFeature)"
@@ -130,7 +211,6 @@
     <img src="assets/images/osm.svg" width="25px" alt="" srcset="">
     "GEOSM" utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer"> d'OpenStreetMap </a>
   </div>
-
   <!-- <div class="displayPropertiesFooter  ">
 
     <div class="button-row ">
