@@ -17,7 +17,7 @@ export class PrrintService {
 
    }
 
-  createPDFObject(imgData, type, format, compress,WGS84,getmetricscal:any)  {
+  createPDFObject(imgData, type, format, compress,WGS84,getmetricscal:any,titre,description)  {
     try {
 
       
@@ -31,8 +31,8 @@ export class PrrintService {
       doc.setDrawColor(0);
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 595.28, 841.89, 'F');
-      if (this.printMapObjet.titre != '') {
-        doc.text(35, 170, "Titre : " + this.printMapObjet.titre + "");
+      if (titre != '') {
+        doc.text(35, 170, "Titre de la carte : " + titre + "");
       } else {
         doc.text(35, 170, "Carte du GéoPortail - GeOsm - "+environment.nom.toUpperCase());
       }
@@ -44,7 +44,7 @@ export class PrrintService {
       // doc.text(110, 65,"Infrastrucutre de données spatiales");
       doc.setFontSize(14);
       doc.text(465, 55, "" + d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + "");
-      doc.addImage(imgData["png1"], 20, 20, 120, 50);
+      doc.addImage(imgData["png1"], 20, 20, 100, 40);
       doc.addImage(imgData["png0"], format, 20, 200, 550, 350, undefined, compress);
       doc.rect(20, 120, 550, 500, 'D');
       doc.setFontSize(10);
@@ -54,17 +54,19 @@ export class PrrintService {
       doc.text(60, 570, "Échelle :1/" + getmetricscal.toFixed(4));
       doc.rect(20, 650, 550, 100, 'D');
       doc.setFontSize(9);
-      if (this.printMapObjet.description != '') {
-        var lines = doc.splitTextToSize("" + this.printMapObjet.description + "", (pdfInMM - lMargin - rMargin));
+      if (description != '') {
+        var lines = doc.splitTextToSize("" + description + "", (pdfInMM - lMargin - rMargin));
         doc.text(29, 670, lines);
       }
 
       doc.text(25, 800, "Copyright © " + d.getFullYear() + ", "+environment.url_frontend);
       doc.save('carte_GC_' + d.getDate() + "_" + d.getMonth() + "_" + d.getFullYear() + '_.pdf');
-      this.printMapObjet = {
+      titre = "";
+      description = ""; 
+     /* printMapObjet = {
         'titre': '',
         'description': '',
-      }
+      }*/
       $('#loading_print').hide()
     } catch (e) {
       $('#loading_print').hide()
