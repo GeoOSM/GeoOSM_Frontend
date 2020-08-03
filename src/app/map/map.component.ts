@@ -3414,8 +3414,8 @@ export class MapComponent implements OnInit {
         var donne = {
           data: [],
           coordinates: this.data_right_click["coord"],
-          table: "tourisme_loisirs_commentaires",
-          shema: "tourisme_et_loisirs",
+          table: "comments",
+          shema: "public",
           geom: "Point",
         };
 
