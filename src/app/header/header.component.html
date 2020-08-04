@@ -6,23 +6,23 @@
 		<img src="assets/images/header/logo-geosm.svg" *ngIf="environment.projetOsmCm" class="Logos_GC" alt="">
 		<img src="assets/images/data-osm.png" *ngIf="!environment.projetOsmCm" class="Logos_GC" style="width: 225px;
 		height: 48px;left: 4px;top: 6px;">
-		
+
 		<img src="{{environment.drapeau}}" class="drapeau_GC" alt="">
 		<span class="title_GC">{{environment.nom}} </span>
 	</span>
 
-	<img *ngIf="environment.projetOsmCm" src="assets/images/header/logo-100_pourcent_cameroun.svg"
-		class="Logos_GC_right" alt="">
+	<img *ngIf="environment.projetOsmCm" src="assets/images/ID.png" class="Logos_GC_right" alt="">
 
 	<!-- <button id="sign-in" class="alerts " mat-icon-button  >
 		    <i  class="fa fa-sign-in fa-lg" style="color:#fff;" (click)="goto()"></i>
 	</button> -->
 
-	<form name="qsdd" [formGroup]="my_extend_active_form_group" >  
-		<mat-form-field appearance="standard" class="extent_button" *ngIf="extend_active.length >0" >
-			<mat-select value="fr" class="primary_transparent_bg" style="padding: 5px;" formControlName="my_extend_active" >
+	<form name="qsdd" [formGroup]="my_extend_active_form_group">
+		<mat-form-field appearance="standard" class="extent_button" *ngIf="extend_active.length >0">
+			<mat-select value="fr" class="primary_transparent_bg" style="padding: 5px;"
+				formControlName="my_extend_active">
 				<mat-option value="" disabled> -- --</mat-option>
-				<mat-option *ngFor="let extend of extend_active" [value]="extend" > <span
+				<mat-option *ngFor="let extend of extend_active" [value]="extend"> <span
 						style="text-transform: capitalize;">{{extend.nom}}</span> </mat-option>
 				<!-- <mat-option value="en">En</mat-option> -->
 			</mat-select>
@@ -38,7 +38,7 @@
 		</mat-select>
 	</mat-form-field>
 
-	<button class="question_button"  mat-icon-button (click)="questionModalOpen()"
+	<button class="question_button" mat-icon-button (click)="questionModalOpen()"
 		matTooltip="{{ 'header.toolpit_info' | translate }}">
 		<svg x="0px" y="0px" viewBox="0 0 28.1 28.1" style="height: 22px;">
 
@@ -161,8 +161,8 @@
 					<mat-divider style=" border-color: #0006;"></mat-divider>
 				</span>
 
-				
-				
+
+
 
 				<span *ngIf="display_reponse_geocode_position()">
 					<mat-list-item class="primaryColorBG white bold" style="color:#fff;height: auto;padding: 5px 0px;">

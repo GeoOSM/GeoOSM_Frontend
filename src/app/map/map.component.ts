@@ -636,12 +636,10 @@ export class MapComponent implements OnInit {
               });
 
             if (!share) {
-              map
-                .getView()
-                .fit(this.extent_cameroun, {
-                  size: map.getSize(),
-                  duration: 1000,
-                });
+              map.getView().fit(this.extent_cameroun, {
+                size: map.getSize(),
+                duration: 1000,
+              });
               console.log("qsddzfzefzee");
             }
           });
@@ -656,13 +654,11 @@ export class MapComponent implements OnInit {
             );
             //
             if (!bool) {
-              map
-                .getView()
-                .fit(this.extent_cameroun, {
-                  size: map.getSize(),
-                  maxZoom: 7,
-                  duration: 1000,
-                });
+              map.getView().fit(this.extent_cameroun, {
+                size: map.getSize(),
+                maxZoom: 7,
+                duration: 1000,
+              });
             }
           });
         });
@@ -4738,12 +4734,10 @@ export class MapComponent implements OnInit {
 
           setTimeout(() => {
             console.log(this.source_draw.getExtent());
-            map
-              .getView()
-              .fit(this.source_draw.getExtent(), {
-                size: map.getSize(),
-                duration: 1000,
-              });
+            map.getView().fit(this.source_draw.getExtent(), {
+              size: map.getSize(),
+              duration: 1000,
+            });
           }, 5000);
 
           console.log(this.count_draw);
@@ -6358,13 +6352,11 @@ export class MapComponent implements OnInit {
 
       map.addLayer(LayTheCopy);
       map.addLayer(LayThe);
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 17,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 17,
+        duration: 1000,
+      });
     } else if (type_geometry == "Polygon") {
       if (couche.img !== null && couche.img !== undefined) {
         var cnv = document.createElement("canvas");
@@ -6424,13 +6416,11 @@ export class MapComponent implements OnInit {
           LayThe.set("type", couche.type_couche);
           LayThe.set("key_couche", couche.key_couche);
           LayThe.set("id_cat", couche.id_cat);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 17,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 17,
+            duration: 1000,
+          });
         };
       } else {
         var markerSource = new source.Vector();
@@ -6482,13 +6472,11 @@ export class MapComponent implements OnInit {
         LayThe.set("type", couche.type_couche);
         LayThe.set("key_couche", couche.key_couche);
         LayThe.set("id_cat", couche.id_cat);
-        map
-          .getView()
-          .fit(markerSource.getExtent(), {
-            size: map.getSize(),
-            maxZoom: 17,
-            duration: 1000,
-          });
+        map.getView().fit(markerSource.getExtent(), {
+          size: map.getSize(),
+          maxZoom: 17,
+          duration: 1000,
+        });
       }
     } else if (type_geometry == "LineString") {
       var markerSource = new source.Vector();
@@ -6534,13 +6522,11 @@ export class MapComponent implements OnInit {
       LayThe.set("type", couche.type_couche);
       LayThe.set("key_couche", couche.key_couche);
       LayThe.set("id_cat", couche.id_cat);
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 17,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 17,
+        duration: 1000,
+      });
     }
   }
 
@@ -7445,13 +7431,11 @@ export class MapComponent implements OnInit {
       vectorLayer.set("type", "querry");
       vectorLayer.set("name", "querry");
       map.addLayer(vectorLayer);
-      map
-        .getView()
-        .fit(vectorSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 18,
-          duration: 1000,
-        });
+      map.getView().fit(vectorSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 18,
+        duration: 1000,
+      });
     }
   }
 
@@ -7547,13 +7531,11 @@ export class MapComponent implements OnInit {
           LayThe.set("name", "querry");
 
           map.addLayer(LayThe);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 19,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 19,
+            duration: 1000,
+          });
         }
       });
   }
@@ -7708,13 +7690,11 @@ export class MapComponent implements OnInit {
           LayThe.set("name", "querry");
 
           map.addLayer(LayThe);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 17,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 17,
+            duration: 1000,
+          });
         };
       } else {
         var newMarker = new Feature({
@@ -7795,13 +7775,11 @@ export class MapComponent implements OnInit {
 
       map.addLayer(LayThe);
       console.log(markerSource.getExtent());
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 15,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 15,
+        duration: 1000,
+      });
     }
   }
 
@@ -8055,7 +8033,7 @@ export class MapComponent implements OnInit {
       this.data_itineraire.route.loading = true;
       this.data_itineraire.route.set = false;
       var url =
-        "http://itineraire.geocameroun.xyz/route/v1/driving/" +
+        "http://router.project-osrm.org/route/v1/driving/" +
         a[0] +
         "," +
         a[1] +
