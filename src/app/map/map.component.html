@@ -332,8 +332,8 @@ L17.1,14.4z" />
         </div>
 
       </div>
-      <div fxFlex="33%" fxFlexAlign="center" (click)="openMenu('ressources')" [ngClass]="{'back_black': menuActif == 'ressources'}"
-        class="three_menu pointer">
+      <div fxFlex="33%" fxFlexAlign="center" (click)="openMenu('ressources')"
+        [ngClass]="{'back_black': menuActif == 'ressources'}" class="three_menu pointer">
         <div>
           <span>
             {{ 'left_menu.ressources' | translate }}
@@ -374,11 +374,17 @@ L17.1,14.4z" />
         <div *ngIf="menuActif == 'thematiques'" class="pointer menu-thematiques-parent"
           style="margin-top:0px;padding-right: 5px;">
 
-          <div *ngFor="let thematique of thematiques" style="margin-bottom:0px"
+          <!--div-- *ngFor="let thematique of thematiques" style="margin-bottom:0px"
             class="menu-thematiques-parent-child col-md-12 col-xs-12">
             <app-thematique-city (click)="slideTo('menuThematique',thematique)" [thematique]="thematique">
             </app-thematique-city>
+          </!--div-->
+
+          <div style="margin-bottom:0px" class="menu-thematiques-parent-child col-md-12 col-xs-12">
+            <app-thematique-city>
+            </app-thematique-city>
           </div>
+
 
         </div>
 
@@ -1239,12 +1245,10 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
       </div>
 
       <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 4">
-        <app-downloads
-         [config_projet]="config_projet" 
-         [thematiques]="thematiques" 
-         [roi_projet_geojson]="roi_projet_geojson"
-         (displayDownloadsResultFun)="displayDownloadsResult($event['params'],$event['analyse_spatial'])"
-          ></app-downloads>
+        <app-downloads [config_projet]="config_projet" [thematiques]="thematiques"
+          [roi_projet_geojson]="roi_projet_geojson"
+          (displayDownloadsResultFun)="displayDownloadsResult($event['params'],$event['analyse_spatial'])">
+        </app-downloads>
 
       </div>
     </mat-sidenav>
