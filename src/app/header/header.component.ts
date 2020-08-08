@@ -83,6 +83,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translate.use(environment.default_language);
+
     this.reponse_geocode = {};
     this.reponse_geocode["nominatim"] = [];
 
@@ -409,7 +411,7 @@ export class HeaderComponent implements OnInit {
       var width = "50%";
       var height = "60%";
     } else {
-      var width = "90%";
+      var width = "60%";
       var height = "80%";
     }
     const dialogRef = this.dialog.open(modalQuestion, {

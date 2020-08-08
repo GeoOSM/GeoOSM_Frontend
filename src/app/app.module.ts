@@ -1,30 +1,30 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-import { AppRoutingModule } from './app.routing';
-import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { NgwWowModule } from 'ngx-wow';
+import { AppRoutingModule } from "./app.routing";
+import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { NgwWowModule } from "ngx-wow";
 
-import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
-import { HomeComponent } from './home/home.component';
-import { HeaderComponent, NgForIfEmpty } from './header/header.component';
+import { AppComponent } from "./app.component";
+import { MapComponent } from "./map/map.component";
+import { HomeComponent } from "./home/home.component";
+import { HeaderComponent, NgForIfEmpty } from "./header/header.component";
 
-import { buttonsheetComponent } from './buttonSheet/buttonheet.component';
-import { buttonsheetGeosiComponent } from './buttonSheet/buttonheet_geosi.component';
-import { modalComponent } from './modal/modal.component';
-import { modalMetadata } from './modal/modal.metadata';
-import { commentComponent } from './modal/modal.comment';
-import { modalQuestion } from './modal/question.modal';
+import { buttonsheetComponent } from "./buttonSheet/buttonheet.component";
+import { buttonsheetGeosiComponent } from "./buttonSheet/buttonheet_geosi.component";
+import { modalComponent } from "./modal/modal.component";
+import { modalMetadata } from "./modal/modal.metadata";
+import { commentComponent } from "./modal/modal.comment";
+import { modalQuestion } from "./modal/question.modal";
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerModule } from "ngx-color-picker";
 // https://www.npmjs.com/package/ngx-color-picker
 
 import { cartesService } from "./service/cartes.service";
@@ -35,31 +35,28 @@ import { communicationComponent } from "./service/communicationComponent.service
 import { donneFilterPipe } from "./filter/app.filter";
 import { donneOptionFilterPipe } from "./filter/option.filter";
 import { OrderBy } from "./filter/orderby";
-import { AngularDraggableModule } from 'angular2-draggable';
+import { AngularDraggableModule } from "angular2-draggable";
 // https://xieziyu.github.io/angular2-draggable/#/draggable/usage/events
-import { ShContextMenuModule } from 'ng2-right-click-menu'
+import { ShContextMenuModule } from "ng2-right-click-menu";
 // https://www.npmjs.com/package/ng2-right-click-menu
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/angular.html:
-import { ShareButtonsModule } from '@ngx-share/buttons';
+import { ShareButtonsModule } from "@ngx-share/buttons";
 // https://murhafsousli.github.io/ngx-sharebuttons/#/share-buttons-component
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import {MultiTranslateHttpLoader} from 'ngx-translate-multi-http-loader';
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
 
-
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { PrrintService } from "./service/prrint.service";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new MultiTranslateHttpLoader(httpClient, [
-    {prefix: './assets/i18n/', suffix: '.json'},
-    {prefix: './assets/i18n/tags-', suffix: '.json'}
+    { prefix: "./assets/i18n/", suffix: ".json" },
+    //  {prefix: './assets/i18n/tags-', suffix: '.json'}
   ]);
 }
-
-
 
 import {
   MatAutocompleteModule,
@@ -94,17 +91,17 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTreeModule
-} from '@angular/material';
-import { ThematiqueComponent } from './composant/thematique/thematique.component';
-import { CarteComponent } from './composant/carte/carte.component';
-import { CoucheThematiqueComponent } from './composant/thematique/couche-thematique/couche-thematique.component';
-import { CoucheCarteComponent } from './composant/carte/couche-carte/couche-carte.component';
-import { CoucheEnCoursComponent } from './composant/couche-en-cours/couche-en-cours.component';
-import { CaracteristiquesLieuComponent } from './composant/caracteristiques-lieu/caracteristiques-lieu.component';
-import { AddGeosignetsComponent } from './composant/add-geosignets/add-geosignets.component';
-import { FicheDescriptiveComponent } from './composant/fiche-descriptive/fiche-descriptive.component';
-import { DownloadsComponent } from './composant/downloads/downloads.component';
+  MatTreeModule,
+} from "@angular/material";
+import { ThematiqueComponent } from "./composant/thematique/thematique.component";
+import { CarteComponent } from "./composant/carte/carte.component";
+import { CoucheThematiqueComponent } from "./composant/thematique/couche-thematique/couche-thematique.component";
+import { CoucheCarteComponent } from "./composant/carte/couche-carte/couche-carte.component";
+import { CoucheEnCoursComponent } from "./composant/couche-en-cours/couche-en-cours.component";
+import { CaracteristiquesLieuComponent } from "./composant/caracteristiques-lieu/caracteristiques-lieu.component";
+import { AddGeosignetsComponent } from "./composant/add-geosignets/add-geosignets.component";
+import { FicheDescriptiveComponent } from "./composant/fiche-descriptive/fiche-descriptive.component";
+import { DownloadsComponent } from "./composant/downloads/downloads.component";
 
 import { NgpSortModule } from "ngp-sort-pipe";
 
@@ -143,10 +140,10 @@ import { NgpSortModule } from "ngp-sort-pipe";
     MatToolbarModule,
     MatTooltipModule,
     MatBottomSheetModule,
-    MatTreeModule
-  ]
+    MatTreeModule,
+  ],
 })
-export class DemoMaterialModule { }
+export class DemoMaterialModule {}
 
 @NgModule({
   declarations: [
@@ -172,9 +169,17 @@ export class DemoMaterialModule { }
     CaracteristiquesLieuComponent,
     AddGeosignetsComponent,
     FicheDescriptiveComponent,
-    DownloadsComponent
+    DownloadsComponent,
   ],
-  entryComponents: [buttonsheetGeosiComponent, buttonsheetComponent, modalComponent, modalMetadata, commentComponent, modalQuestion,AddGeosignetsComponent],
+  entryComponents: [
+    buttonsheetGeosiComponent,
+    buttonsheetComponent,
+    modalComponent,
+    modalMetadata,
+    commentComponent,
+    modalQuestion,
+    AddGeosignetsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -198,17 +203,20 @@ export class DemoMaterialModule { }
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }
-    ),
-    NgpSortModule
+        deps: [HttpClient],
+      },
+    }),
+    NgpSortModule,
   ],
-  providers: [cartesService, thematiqueService, geoportailService, communicationComponent,PrrintService],
-  bootstrap: [AppComponent]
+  providers: [
+    cartesService,
+    thematiqueService,
+    geoportailService,
+    communicationComponent,
+    PrrintService,
+  ],
+  bootstrap: [AppComponent],
 })
-
-export class AppModule { }
-
+export class AppModule {}
 
 // ng g c composant/thematique --module=app.module.ts

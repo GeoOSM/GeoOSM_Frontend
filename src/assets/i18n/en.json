@@ -205,5 +205,23 @@
         "longitude": "longitude",
         "save": "Save",
         "title": "SEARCH BY COORDINATES"
+    },
+
+    "ressourses": {
+        "no_ressourses": "Not Found",
+        "download": "Download"
+    },
+
+    "questionModal": {
+        "p1": "GeOsm is an open, collaborative and shared infrastructure made up of data, resources and actors who all play a leading role in the deployment, improvement and maintenance of innovative solutions based on open source geospatial data accessible to all.",
+        "p2": "We strongly believe that collaboration is essential to the success of a technological innovation.",
+        "p3": "If you have an idea for collaboration or a technology of interest, or if you have a strength in one of our areas of interest, please do not hesitate to contact us : ",
+        "p4": "Do you feel like taking a tour of connected African countries?",
+        "p5": "Do you have ideas for improvements or have you noticed a bug?",
+        "p6": "Would you like to contribute to the success of GeOsm?"
+    },
+    "geosm": {
+        "text": "GeOsm uses data",
+        "text1": "from"
     }
 }
