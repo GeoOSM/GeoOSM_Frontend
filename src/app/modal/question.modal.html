@@ -1,6 +1,6 @@
 <h1 mat-dialog-title style="    text-align: center;margin-left: -24px;
 margin-right: -24px;
-margin-top: -24px;
+margin-top: 45px;
 margin-bottom: 0px;background-color: white;">
 
         <svg x="0px" y="0px" viewBox="0 0 28.1 28.1"
@@ -12,8 +12,14 @@ C19.7,11,19.2,12.2,18.4,13 M15.5,23.9h-2.8v-2.8h2.8 M14.1,0C6.3,0,0,6.3,0,14.1c0
 c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
         </svg>
 
-        <span class="bold primaryColor " style="font-size: 17px;">{{ environment.titreInfos }}
+        <span *ngIf="!environment.nom_instance" class="bold primaryColor " style="font-size: 17px;">
+                {{'infos_plateform.title' | translate }}
         </span>
+
+        <span class="bold primaryColor " style="font-size: 17px;" *ngIf="environment.nom_instance">
+                {{ environment.nom_instance  }}
+        </span>
+
 
         <i (click)="onNoClick()" class="fa fa-times primaryColor pointer pull-right" style="opacity: 1;
       font-size: 18px;;margin-right: 10px;margin-top: 6px;"></i>
@@ -32,20 +38,117 @@ c0,0,0,0,0,0C28.1,6.3,21.8,0,14.1,0z" />
                 letter-spacing: normal;
                 color: rgba(0, 0, 0, 0.87);
                 padding: 10px;
+                font: 500 15px/32px Roboto, "Helvetica Neue", sans-serif !important;
         }
 </style>
-<mat-dialog-content style="background:rgba(255, 255, 255, 0.8);padding: 24px;">
+<mat-dialog-content style="background:rgba(255, 255, 255, 0.8);padding: 34px;">
 
-        <div class="example-container text_infos" style="text-align:justify;background-color: #fff;">
-                <p>Ceci est le géoportail du projet Géofiscal. Plus d'infos a venir bientot
-                </p>
+        <div class="example-container text_infos" style="text-align:justify;background-color: #fff; width: 600px;">
+                <div *ngIf="environment.projetOsmCm">
+
+                        <p>{{ 'questionModal.p1' | translate }}
+                        </p>
+                        <p>
+                                {{ 'questionModal.p2' | translate }}
+                        </p>
+                </div>
+
+                <div *ngIf="!environment.projetOsmCm">
+                        <p>
+                                GeOsm est une infrastructure offrant la possibilité de manipuler, valoriser et
+                                télécharger les données OpenStreetMap de façon simple et sans que cela ne nécessite de
+                                compétences avancées en développement informatique.
+                                Il est basé sur le serveur cartographique QGIS SERVER
+                        </p>
+                </div>
+
+                <div>
+                        <ul style="text-align: left;">
+                                <li>
+                                        {{ 'questionModal.p3' | translate }}
+                                        <a href="mailto:info@geosm.org" target="_blank">E-mail</a> ; <a
+                                                href="https://www.facebook.com/GeoCameroun"
+                                                target="_blank">Facebook</a>; <a href="https://twitter.com/GeosmAfrica"
+                                                target="_blank">Twitter</a>
+                                        ;<a href="https://api.whatsapp.com/send?phone=694698607&text="
+                                                target="_blank">Whatsapp</a>
 
 
+                                </li>
+                                <li>
+                                        {{ 'questionModal.p4' | translate }}
+                                        <a href="http://geosm.org" target="_blank">http://geosm.org</a>
+
+                                </li>
+                                <li> {{ 'questionModal.p5' | translate }} <a
+                                                href="https://github.com/GeoOSM/backend_nodejs/issues" target="_blank">
+                                                https://github.com/GeoOSM/backend_nodejs/issues </a> </li>
+                                <li>
+                                        {{ 'questionModal.p6' | translate }}
+                                        <a href="https://github.com/GeoOSM/backend_nodejs/blob/master/README.md#thanks"
+                                                target="_blank">
+                                                https://github.com/GeoOSM/backend_nodejs/blob/master/README.md#thanks</a>
+
+                                </li>
+
+                                <li *ngIf="!environment.projetOsmCm"> Pour les ajouts / modifications des thèmes : <a
+                                                href="https://www.loomio.org/d/018TijXh/th-mes-utilisateurs-"
+                                                target="_blank">
+                                                https://www.loomio.org/d/018TijXh/th-mes-utilisateurs- </a> </li>
+                                <li *ngIf="!environment.projetOsmCm"> Pour créer des cartes personnalisées sur des fonds
+                                        <a href="https://osm.org" target="_blank" rel="noopener noreferrer">
+                                                OpenStreetMap </a> en un instant et les afficher dans votre site. :
+                                        <a href="https://umap.openstreetmap.fr/" target="_blank"
+                                                rel="noopener noreferrer">https://umap.openstreetmap.fr/</a> </li>
+                        </ul>
+
+                </div>
+                <div style="text-align: left;" *ngIf="!environment.projetOsmCm">
+                        Remerciements à <a href="https://twitter.com/JLZIMMERMANN" target="_blank">@ J.L ZIMMERMANN</a>
+                        pour son implication et l'ordonnance des 16 thèmes
+                </div>
         </div>
 
 
+
+
+
+        <div class="text-center" style="margin-top:20px" *ngIf="!environment.projetOsmCm">
+                <div style="width: 150px;height: initial;margin: 0 auto;cursor: pointer;"
+                        (click)="open_link('https://www.openstreetmap.fr/')">
+                        <a href="https://www.openstreetmap.fr/" target="_blank" class="a_link">
+                                <img width="150" style="cursor: pointer;"
+                                        src="https://wiki.openstreetmap.org/w/images/thumb/8/8c/Openstreepmap-france-logo-texte-carre.pdf/page1-250px-Openstreepmap-france-logo-texte-carre.pdf.jpg"
+                                        alt="" srcset="">
+                                <!-- <svg viewBox="0 0 24 24" style="height: 50px;width: 50px;" >
+                                        <path
+                                                d="m12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z" />
+                                </svg> -->
+                        </a>
+                </div>
+
+
+                <!-- <img src="assets/logo/osm.png" style="max-height: 50px;margin-bottom: 20px;"> -->
+                <!-- <p></p>
+                <img src="assets/logo/Logos_GC1.png" style="max-height: 40px;    " alt="">
+                <img src="assets/logo/madein_transparent.png" style="max-height: 40px;"> -->
+        </div>
+
 </mat-dialog-content>
 
-<div mat-dialog-actions style="margin: 0px -24px -24px;background:rgba(255, 255, 255, 0.8);padding-left: 10px;">
-
+<div mat-dialog-actions
+        style="margin: 0px -24px -24px;background:rgba(255, 255, 255, 0.8);padding-left: 10px; justify-content: center;">
+        <div class="text-center" style="margin-top:20px;" *ngIf="environment.projetOsmCm">
+                <div style="width: 150px;height: initial;margin: 0 auto;cursor: pointer;"
+                        (click)="open_link('https://www.geocameroun.cm/')">
+                        <a href="https://www.geocameroun.cm/" target="_blank" class="a_link">
+                                <img width="60" style="cursor: pointer;"
+                                        src="assets/images/header/logo-100_pourcent_cameroun.svg" alt="" srcset="">
+                                <!-- <svg viewBox="0 0 24 24" style="height: 50px;width: 50px;" >
+                                                <path
+                                                        d="m12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z" />
+                                        </svg> -->
+                        </a>
+                </div>
+        </div>
 </div>
