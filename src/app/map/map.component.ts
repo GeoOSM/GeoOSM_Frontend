@@ -340,10 +340,13 @@ export class MapComponent implements OnInit {
 
   chart_analyse_spatiale = [];
   list_analyse_spatial = [];
-  printMapObjet = {
+  /* printMapObjet = {
     titre: "",
     description: "",
-  };
+  };*/
+
+  titre: string = "";
+  description: string = "";
 
   url_prefix = environment.url_prefix;
   url_frontend = environment.url_frontend;
@@ -564,12 +567,10 @@ export class MapComponent implements OnInit {
               params["path"].split(",")[3]
             ) {
             } else {
-              map
-                .getView()
-                .fit(this.extent_cameroun, {
-                  size: map.getSize(),
-                  duration: 1000,
-                });
+              map.getView().fit(this.extent_cameroun, {
+                size: map.getSize(),
+                duration: 1000,
+              });
             }
           });
 
@@ -587,12 +588,10 @@ export class MapComponent implements OnInit {
               turf.toWgs84(bbox_cam)
             );
             if (bool == null) {
-              map
-                .getView()
-                .fit(this.extent_cameroun, {
-                  size: map.getSize(),
-                  duration: 1000,
-                });
+              map.getView().fit(this.extent_cameroun, {
+                size: map.getSize(),
+                duration: 1000,
+              });
             }
           });
         });
@@ -2352,180 +2351,170 @@ export class MapComponent implements OnInit {
   }
 
   displayDownloadsResult(params, analyse_spatial: any) {
-    this.geoportailService.analyse_spatiale(params).then((data: Object[]) => {
-      $("#loading_calcul").hide();
-      // console.log(data)
-      var numbers = [];
-      var labels = [];
-      for (var index = 0; index < data.length; index++) {
-        numbers.push(data[index]["number"]);
-        labels.push(data[index]["nom"] + " (" + data[index]["number"] + ") ");
-        analyse_spatial["query"][data[index]["index"]]["number"] =
-          data[index]["number"];
-        if (!params["geometry"]) {
-          var url = this.url_prefix + data[index]["nom_file"];
-        } else if (params["geometry"]) {
-          var url = environment.url_service + data[index]["nom_file"];
-        }
-        analyse_spatial["query"][data[index]["index"]]["nom_file"] = url;
-      }
+    $("#loading_calcul").hide();
+    var numbers = [];
+    var labels = [];
+    var data = analyse_spatial["query"];
+    for (var index = 0; index < data.length; index++) {
+      numbers.push(data[index]["number"]);
+      labels.push(data[index]["nom"] + " (" + data[index]["number"] + ") ");
+    }
+    console.log(analyse_spatial);
 
-      var zone_analyse = turf.polygon(analyse_spatial["geometry"]);
-      var center_zone_analyse = turf.centerOfMass(zone_analyse);
-      var features_cameroun = new Format.GeoJSON().readFeatures(zone_analyse, {
+    var features_cameroun = new Format.GeoJSON().readFeatures(
+      analyse_spatial["geometry"],
+      {
         dataProjection: "EPSG:4326",
         featureProjection: "EPSG:3857",
-      });
+      }
+    );
 
-      var zone_analyseSource = new source.Vector({
-        features: features_cameroun,
-      });
+    var zone_analyseSource = new source.Vector({
+      features: features_cameroun,
+    });
 
-      var zone_analyse_layer = new layer.Vector({
-        source: zone_analyseSource,
-        style: new style.Style({
-          stroke: new style.Stroke({
-            color: "#000",
-            width: 2,
-          }),
-          fill: new style.Fill({
-            color: this.primaryColor,
-          }),
+    var center_zone_analyse = Extent.getCenter(zone_analyseSource.getExtent());
+    console.log(center_zone_analyse);
+
+    var zone_analyse_layer = new layer.Vector({
+      source: zone_analyseSource,
+      style: new style.Style({
+        stroke: new style.Stroke({
+          color: "#000",
+          width: 2,
         }),
-        visible: true,
-        updateWhileAnimating: true,
+        fill: new style.Fill({
+          color: this.primaryColor,
+        }),
+      }),
+      visible: true,
+      updateWhileAnimating: true,
+    });
+
+    zone_analyse_layer.setZIndex(this.zIndexMax++);
+
+    //analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
+    //analyse_spatial['zIndex_inf'] = z
+    //analyse_spatial['index_inf'] = this.layerInMap.length
+    //analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
+    //analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ analyse_spatial['emprisesChoisiName']
+
+    var pte = {
+      img: "assets/images/imagette_analyse.png",
+      checked: true,
+      visible: true,
+      type: "analyse_spatiale",
+      type_couche_inf: "analyse_spatiale",
+      zIndex_inf: this.zIndexMax,
+      index_inf: this.layerInMap.length,
+      emprisesChoisiName: analyse_spatial["emprisesChoisiName"],
+      querry: analyse_spatial["query"],
+      name_analyse: "analyse_spatiale_" + this.list_analyse_spatial.length,
+      nom:
+        "Analyse " +
+        (this.list_analyse_spatial.length + 1) +
+        ": " +
+        analyse_spatial["emprisesChoisiName"],
+    };
+
+    this.layerInMap.push(pte);
+
+    // list_analyse_spatial il sert juste de compteur, la donnée dans la n'est pas bonne lol
+    this.list_analyse_spatial.push(analyse_spatial);
+
+    zone_analyse_layer.set("name", pte["name_analyse"]);
+    zone_analyse_layer.set("type", "analyse_spatiale");
+
+    map.addLayer(zone_analyse_layer);
+
+    var extent_zone = zone_analyseSource.getExtent();
+    map.getView().fit(extent_zone, { size: map.getSize(), duration: 1000 });
+
+    var coord = center_zone_analyse;
+
+    setTimeout(() => {
+      $("#" + pte["name_analyse"]).show();
+
+      var coord_caracteri = new Overlay({
+        position: coord,
+        positioning: "center-center",
+        element: document.getElementById(pte["name_analyse"] + "_chart"),
       });
 
-      zone_analyse_layer.setZIndex(this.zIndexMax++);
+      map.addOverlay(coord_caracteri);
 
-      //analyse_spatial['type_couche_inf'] = 'analyse_spatiale'
-      //analyse_spatial['zIndex_inf'] = z
-      //analyse_spatial['index_inf'] = this.layerInMap.length
-      //analyse_spatial['name_analyse'] = 'analyse_spatiale_'+this.list_analyse_spatial.length
-      //analyse_spatial['nom'] = 'Analyse spatiale '+this.list_analyse_spatial.length+1 + ' '+ analyse_spatial['emprisesChoisiName']
-
-      var pte = {
-        img: "assets/images/imagette_analyse.png",
-        checked: true,
-        visible: true,
-        type: "analyse_spatiale",
-        type_couche_inf: "analyse_spatiale",
-        zIndex_inf: this.zIndexMax,
-        index_inf: this.layerInMap.length,
-        emprisesChoisiName: analyse_spatial["emprisesChoisiName"],
-        querry: analyse_spatial["query"],
-        name_analyse: "analyse_spatiale_" + this.list_analyse_spatial.length,
-        nom:
-          "Analyse " +
-          (this.list_analyse_spatial.length + 1) +
-          ": " +
-          analyse_spatial["emprisesChoisiName"],
+      var dynamicColors = function () {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
       };
-
-      this.layerInMap.push(pte);
-
-      // list_analyse_spatial il sert juste de compteur, la donnée dans la n'est pas bonne lol
-      this.list_analyse_spatial.push(analyse_spatial);
-
-      zone_analyse_layer.set("name", pte["name_analyse"]);
-      zone_analyse_layer.set("type", "analyse_spatiale");
-
-      map.addLayer(zone_analyse_layer);
-
-      console.log(this.layerInMap, pte);
-      var extent_zone = zone_analyseSource.getExtent();
-      map.getView().fit(extent_zone, { size: map.getSize(), duration: 1000 });
-
-      var coord = proj.transform(
-        center_zone_analyse.geometry.coordinates,
-        "EPSG:4326",
-        "EPSG:3857"
-      );
-
-      setTimeout(() => {
-        $("#" + pte["name_analyse"]).show();
-
-        var coord_caracteri = new Overlay({
-          position: coord,
-          positioning: "center-center",
-          element: document.getElementById(pte["name_analyse"] + "_chart"),
-        });
-
-        map.addOverlay(coord_caracteri);
-
-        var dynamicColors = function () {
-          var r = Math.floor(Math.random() * 255);
-          var g = Math.floor(Math.random() * 255);
-          var b = Math.floor(Math.random() * 255);
-          return "rgb(" + r + "," + g + "," + b + ")";
-        };
-        var coloR = [];
-        for (var i in numbers) {
-          coloR.push(dynamicColors());
-        }
-        this.chart_analyse_spatiale[
-          this.chart_analyse_spatiale.length
-        ] = new Chart(pte["name_analyse"], {
-          type: "pie",
-          scaleFontColor: "red",
-          data: {
-            labels: labels,
-            datasets: [
+      var coloR = [];
+      for (var i in numbers) {
+        coloR.push(dynamicColors());
+      }
+      this.chart_analyse_spatiale[
+        this.chart_analyse_spatiale.length
+      ] = new Chart(pte["name_analyse"], {
+        type: "pie",
+        scaleFontColor: "red",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: numbers,
+              backgroundColor: coloR,
+              borderColor: "rgba(200, 200, 200, 0.75)",
+              hoverBorderColor: "rgba(200, 200, 200, 1)",
+            },
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: pte["emprisesChoisiName"],
+            fontColor: "#fff",
+            fontSize: 16,
+            position: "top",
+          },
+          legend: {
+            display: true,
+            labels: {
+              fontColor: "#fff",
+              fontSize: 14,
+            },
+          },
+          scales: {
+            xAxes: [
               {
-                data: numbers,
-                backgroundColor: coloR,
-                borderColor: "rgba(200, 200, 200, 0.75)",
-                hoverBorderColor: "rgba(200, 200, 200, 1)",
+                display: false,
+                ticks: {
+                  fontColor: "Black", // this here
+                },
+              },
+            ],
+            yAxes: [
+              {
+                display: false,
               },
             ],
           },
-          options: {
-            title: {
-              display: true,
-              text: pte["emprisesChoisiName"],
-              fontColor: "#fff",
-              fontSize: 16,
-              position: "top",
-            },
-            legend: {
-              display: true,
-              labels: {
-                fontColor: "#fff",
-                fontSize: 14,
-              },
-            },
-            scales: {
-              xAxes: [
-                {
-                  display: false,
-                  ticks: {
-                    fontColor: "Black", // this here
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  display: false,
-                },
-              ],
-            },
 
-            onClick: (event) => {
-              console.log(event);
-              var name_analyse = event.target.id;
-            },
+          onClick: (event) => {
+            console.log(event);
+            var name_analyse = event.target.id;
           },
-        });
+        },
+      });
 
-        var notif = this.notif.open(
-          "Cliquer sur le graphique pour telecharger",
-          "Fermer",
-          {
-            duration: 20000,
-          }
-        );
-      }, 1000);
-    });
+      var notif = this.notif.open(
+        "Cliquer sur le graphique pour telecharger",
+        "Fermer",
+        {
+          duration: 20000,
+        }
+      );
+    }, 1000);
   }
 
   download_files(name_analyse) {
@@ -4684,12 +4673,10 @@ export class MapComponent implements OnInit {
 
           setTimeout(() => {
             console.log(this.source_draw.getExtent());
-            map
-              .getView()
-              .fit(this.source_draw.getExtent(), {
-                size: map.getSize(),
-                duration: 1000,
-              });
+            map.getView().fit(this.source_draw.getExtent(), {
+              size: map.getSize(),
+              duration: 1000,
+            });
           }, 5000);
 
           console.log(this.count_draw);
@@ -6308,13 +6295,11 @@ export class MapComponent implements OnInit {
 
       map.addLayer(LayTheCopy);
       map.addLayer(LayThe);
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 17,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 17,
+        duration: 1000,
+      });
     } else if (type_geometry == "Polygon") {
       if (couche.img !== null && couche.img !== undefined) {
         var cnv = document.createElement("canvas");
@@ -6374,13 +6359,11 @@ export class MapComponent implements OnInit {
           LayThe.set("type", couche.type_couche);
           LayThe.set("key_couche", couche.key_couche);
           LayThe.set("id_cat", couche.id_cat);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 17,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 17,
+            duration: 1000,
+          });
         };
       } else {
         var markerSource = new source.Vector();
@@ -6432,13 +6415,11 @@ export class MapComponent implements OnInit {
         LayThe.set("type", couche.type_couche);
         LayThe.set("key_couche", couche.key_couche);
         LayThe.set("id_cat", couche.id_cat);
-        map
-          .getView()
-          .fit(markerSource.getExtent(), {
-            size: map.getSize(),
-            maxZoom: 17,
-            duration: 1000,
-          });
+        map.getView().fit(markerSource.getExtent(), {
+          size: map.getSize(),
+          maxZoom: 17,
+          duration: 1000,
+        });
       }
     } else if (type_geometry == "LineString") {
       var markerSource = new source.Vector();
@@ -6484,13 +6465,11 @@ export class MapComponent implements OnInit {
       LayThe.set("type", couche.type_couche);
       LayThe.set("key_couche", couche.key_couche);
       LayThe.set("id_cat", couche.id_cat);
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 17,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 17,
+        duration: 1000,
+      });
     }
   }
 
@@ -7394,13 +7373,11 @@ export class MapComponent implements OnInit {
       vectorLayer.set("type", "querry");
       vectorLayer.set("name", "querry");
       map.addLayer(vectorLayer);
-      map
-        .getView()
-        .fit(vectorSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 18,
-          duration: 1000,
-        });
+      map.getView().fit(vectorSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 18,
+        duration: 1000,
+      });
     }
   }
 
@@ -7496,13 +7473,11 @@ export class MapComponent implements OnInit {
           LayThe.set("name", "querry");
 
           map.addLayer(LayThe);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 19,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 19,
+            duration: 1000,
+          });
         }
       });
   }
@@ -7646,13 +7621,11 @@ export class MapComponent implements OnInit {
           LayThe.set("name", "querry");
 
           map.addLayer(LayThe);
-          map
-            .getView()
-            .fit(markerSource.getExtent(), {
-              size: map.getSize(),
-              maxZoom: 17,
-              duration: 1000,
-            });
+          map.getView().fit(markerSource.getExtent(), {
+            size: map.getSize(),
+            maxZoom: 17,
+            duration: 1000,
+          });
         };
       } else {
         var newMarker = new Feature({
@@ -7724,13 +7697,11 @@ export class MapComponent implements OnInit {
 
       map.addLayer(LayThe);
       console.log(markerSource.getExtent());
-      map
-        .getView()
-        .fit(markerSource.getExtent(), {
-          size: map.getSize(),
-          maxZoom: 15,
-          duration: 1000,
-        });
+      map.getView().fit(markerSource.getExtent(), {
+        size: map.getSize(),
+        maxZoom: 15,
+        duration: 1000,
+      });
     }
   }
 
@@ -7789,7 +7760,7 @@ export class MapComponent implements OnInit {
       var images = {
         png0: canvas.toDataURL("image/png"),
         png1:
-          "data:image/png;base64,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",
+          "data:image/png;base64,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",
       };
 
       this.PrrintService.createPDFObject(
@@ -7798,7 +7769,9 @@ export class MapComponent implements OnInit {
         format,
         "none",
         WGS84,
-        getmetricscal()
+        getmetricscal(),
+        this.titre,
+        this.description
       );
     });
 

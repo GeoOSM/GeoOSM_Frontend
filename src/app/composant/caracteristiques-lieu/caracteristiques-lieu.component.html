@@ -18,12 +18,13 @@
 			c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534
 			c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53
 			c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53
-			c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z" class="primaryColorFill" />
+			c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"
+            class="primaryColorFill" />
 
           <path d="M219.27,146.178c-20.177,0-37.401,7.139-51.678,21.411c-14.272,14.277-21.411,31.501-21.411,51.678
 			c0,20.175,7.135,37.402,21.411,51.673c14.277,14.277,31.504,21.416,51.678,21.416c20.179,0,37.406-7.139,51.676-21.416
 			c14.274-14.271,21.413-31.498,21.413-51.673c0-20.177-7.139-37.401-21.413-51.678C256.676,153.316,239.449,146.178,219.27,146.178
-			z"class="primaryColorFill" />
+			z" class="primaryColorFill" />
         </g>
       </g>
 
@@ -31,7 +32,8 @@
 
     <span class="bold primaryColor ">{{ 'caracteristiques_lieu.titre' | translate }}</span>
 
-    <i matTooltip="{{ 'caracteristiques_lieu.fermer' | translate }}" class="fa fa-times primaryColor close primaryColor close-comment pull-right" (click)="close_caracteristique()"
+    <i matTooltip="{{ 'caracteristiques_lieu.fermer' | translate }}"
+      class="fa fa-times primaryColor close primaryColor close-comment pull-right" (click)="close_caracteristique()"
       style="opacity: 1;
       font-size: 18px;;margin-right: 10px;"></i>
 
@@ -45,24 +47,25 @@
   <div class="form-group" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false"
     style="cursor: default;width:320px;background: #fff;position:relative">
 
-    <div class="col-md-12 col-xs-12 bloc_caracteristique_body "
-      style="background: rgba(0,0,0,.2);padding: 15px;">
+    <div class="col-md-12 col-xs-12 bloc_caracteristique_body " style="background: rgba(0,0,0,.2);padding: 15px;">
 
 
-      <div class="col-md-12 col-xs-12 text-center primaryColor" style="text-align: center;margin-bottom: 10px;" >
-        <mat-chip-list *ngIf="caracteristicsPoint.lieu_dit" style="display: inline-table;" >
-          <mat-chip style="background: #fff;height: auto !important;" class="primaryColor bold" >
-            <a href="{{caracteristicsPoint.url_osm}}" style="text-decoration: underline;" target="_blank"> {{caracteristicsPoint.lieu_dit}} </a>
+      <div class="col-md-12 col-xs-12 text-center primaryColor" style="text-align: center;margin-bottom: 10px;">
+        <mat-chip-list *ngIf="caracteristicsPoint.lieu_dit" style="display: inline-table;">
+          <mat-chip style="background: #fff;height: auto !important;" class="primaryColor bold">
+            <a href="{{caracteristicsPoint.url_osm}}" style="text-decoration: underline;" target="_blank">
+              {{caracteristicsPoint.lieu_dit}} </a>
           </mat-chip>
         </mat-chip-list>
       </div>
 
-      <div style="background: #fff;border-radius: 5px;padding-bottom: 10px;padding-top: 10px;" class="col-md-12 col-xs-12">
+      <div style="background: #fff;border-radius: 5px;padding-bottom: 10px;padding-top: 10px;"
+        class="col-md-12 col-xs-12">
 
         <div class="col-md-12 col-xs-12" style="margin-top: 10px;">
           <div class="bold "> {{ 'caracteristiques_lieu.titre_coord' | translate }} </div>
 
-          <div style="padding-left: 5px;" > {{caracteristicsPoint.coord}}
+          <div style="padding-left: 5px;"> {{caracteristicsPoint.coord}}
             <!-- <button id="bloc_caracteristique_zoomToPoint" [preventDefaultEvent]="!isPhone()" [ngDraggable]="false"
               mat-mini-fab class="mat-mini-fab-hover-black back_black" style="height: 25px;
               width: 25px; margin-top: -10px;vertical-align: bottom;margin-left: 10px;" (click)="zoomToPoint()">
@@ -74,14 +77,15 @@
 
         <div class="col-md-12 col-xs-12" *ngIf="caracteristicsPoint.altitude" style="margin-top: 10px;">
           <div class="bold  "> {{ 'caracteristiques_lieu.altitude' | translate }} </div>
-          <div style="padding-left: 5px;" > {{caracteristicsPoint.altitude}} m </div>
+          <div style="padding-left: 5px;"> {{caracteristicsPoint.altitude}} m </div>
         </div>
 
 
-        <div class="col-md-12 col-xs-12" *ngFor="let limites_adm of caracteristicsPoint.limites_adm" style="margin-top: 10px;">
+        <div class="col-md-12 col-xs-12" *ngFor="let limites_adm of caracteristicsPoint.limites_adm"
+          style="margin-top: 10px;">
           <span *ngIf="caracteristicsPoint.limites_adm">
             <div class="bold  "> {{limites_adm.nom}} </div>
-            <div style="padding-left: 5px;" > {{limites_adm.valeur}} </div>
+            <div style="padding-left: 5px;"> {{limites_adm.valeur}} </div>
           </span>
         </div>
 
@@ -114,23 +118,25 @@
 
       </div>
 
-      <div class="col-md-12 col-xs-12" style="margin-top: 12px;"  >
-        
-        <button mat-flat-button color="primary" class="col-md-5 col-xs-5 " (click)="zoomToPoint()" matTooltip="{{ 'caracteristiques_lieu.zoomer' | translate }}">
-          <i class="fa fa-location-arrow white" ></i>
+      <div class="col-md-12 col-xs-12" style="margin-top: 12px;">
+
+        <button mat-flat-button color="primary" class="col-md-5 col-xs-5 " (click)="zoomToPoint()"
+          matTooltip="{{ 'caracteristiques_lieu.zoomer' | translate }}">
+          <i class="fa fa-location-arrow white"></i>
         </button>
 
-        <button mat-flat-button color="primary" class="col-md-5 col-xs-5"  (click)="shareLocation()" style="margin-left: 16%;" matTooltip="{{ 'caracteristiques_lieu.partager' | translate }}">
-            <i class="fa fa-share-alt white" ></i>
+        <button mat-flat-button color="primary" class="col-md-5 col-xs-5" (click)="shareLocation()"
+          style="margin-left: 16%;" matTooltip="{{ 'caracteristiques_lieu.partager' | translate }}">
+          <i class="fa fa-share-alt white"></i>
         </button>
       </div>
 
     </div>
-    <div style="background-color: white; padding: 10px;">
+    <!--div-- style="background-color: white; padding: 10px;">
       <img src="assets/images/osm.svg" width="25px" alt="" srcset="">
       "GEOSM" utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">
         d'OpenStreetMap </a>
-    </div>
+    </!--div-->
   </div>
 
 </div>
