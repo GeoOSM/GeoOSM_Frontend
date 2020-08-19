@@ -1,26 +1,27 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { environment } from '../../environments/environment';
+import { Component, Inject } from "@angular/core";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+
+import { environment } from "../../environments/environment";
 
 @Component({
-  selector: 'modal-question',
-  templateUrl: './question.modal.html',
+  selector: "modal-question",
+  templateUrl: "./question.modal.html",
 })
 export class modalQuestion {
+  url_prefix;
+  environment;
 
-  url_prefix
+  constructor(public dialogRef: MatDialogRef<modalQuestion>) {
+    this.environment = environment;
+  }
 
-  constructor(
-    public dialogRef: MatDialogRef<modalQuestion>,
-   ) {}
-
-  
-    ngOnInit() {
-      
-    }
+  ngOnInit() {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  open_link(link) {
+    window.open(link, "_blank");
+  }
 }

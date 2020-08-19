@@ -164,9 +164,9 @@ margin-bottom: 0px;background-color: white;">
 									<span *ngIf="i < data_metadata.data.cles_vals_osm.length - 1">;</span>
 								</span>
 							</span>
-							
-							<span *ngIf="data_metadata.data.categorie.mode_sql" >
-								{{data_metadata.data.categorie.sql_complete}}	
+
+							<span *ngIf="data_metadata.data.categorie.mode_sql">
+								{{data_metadata.data.categorie.sql_complete}}
 							</span>
 						</th>
 
@@ -260,10 +260,11 @@ margin-bottom: 0px;background-color: white;">
 </mat-dialog-content>
 
 <div mat-dialog-actions style="margin: 0px -24px -24px;background:#fafafa;padding-left: 10px;">
-	<div>
+	<div style="background-color: white; padding: 10px;position: fixed;bottom: 0px;text-align: center;">
 		<img src="assets/images/osm.svg" width="25px" alt="" srcset="">
-		"GEOSM" utilise les données 
-		<a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer"> d'OpenStreetMap </a>
-	  </div>
+		Ce Geoportail utilise les données <a href="https://www.openstreetmap.org" target="_blank"
+			rel="noopener noreferrer">
+			d'OpenStreetMap </a>
+	</div>
 
 </div>

@@ -8,7 +8,8 @@
 	</span>
 
 
-	<img src="assets/images/header/logo-100_pourcent_cameroun.svg" class="Logos_GC_right" alt="">
+	<img *ngIf="environment.projetOsmCm" src="assets/images/ID.svg" class="Logos_GC_right" alt=""
+		style="height: 35px; width: 35px;">
 
 	<!-- <button id="sign-in" class="alerts " mat-icon-button  >
 		    <i  class="fa fa-sign-in fa-lg" style="color:#fff;" (click)="goto()"></i>
