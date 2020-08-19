@@ -54,6 +54,13 @@ export class geoportailService {
     return promise;
   }
 
+  searchLimiteObservable(data): Observable<any> {
+    let apiURL = this.url_prefix + "/searchLimite/";
+    return this.http
+      .post(apiURL, data, { headers: this.headers })
+      .pipe(tap((response: any) => {}));
+  }
+
   getJsonFIle(data) {
     let promise = new Promise((resolve, reject) => {
       let apiURL = this.url_prefix + "geoportail/getJsonFIle/";

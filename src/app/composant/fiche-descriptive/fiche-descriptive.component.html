@@ -39,7 +39,7 @@
     <div style="background: #fff;border-radius: 5px;padding-bottom: 10px;padding-top: 10px;"
       class="col-md-12 col-xs-12">
 
-      
+
 
       <span *ngIf="typeDataFeature == 'keyVal' ">
 
@@ -47,7 +47,7 @@
           <div class="col-md-12 col-xs-12" *ngIf="pte.type == 'url_osm'" style="margin-top: 10px;">
             <a href="{{pte.val}}" target="_blank">OSM </a>
             <i class="fa fa-link" style="    margin-left: 5px;"></i>
-            
+
           </div>
         </span>
 
@@ -55,14 +55,15 @@
           <div class="bold  ">
             {{ "layer_properties.adresse" | translate }} :
           </div>
-          <div style="padding-left: 5px;" >
+          <div style="padding-left: 5px;">
             {{adresseExist()[1]}}
           </div>
         </div>
 
         <span *ngFor="let pte of dataFeature">
 
-          <div class="col-md-12 col-xs-12" *ngIf="pte.display && pte.index != 'name' && pte.type != 'url_osm' && osm_features_special[pte.index]?.type != 'hide' "
+          <div class="col-md-12 col-xs-12"
+            *ngIf="pte.display && pte.index != 'name' && pte.type != 'url_osm' && osm_features_special[pte.index]?.type != 'hide' "
             style="margin-top: 10px;">
 
             <div class="bold  ">
@@ -119,7 +120,8 @@
 
               <i class="fa fa-{{osm_features_special[pte.index]['values'][pte.val]['value']}}"
                 [ngStyle]="{'color':osm_features_special[pte.index]['values'][pte.val]['color']}"
-                *ngIf="osm_features_special[pte.index]['values'][pte.val] && osm_features_special[pte.index]['values'][pte.val]['type'] == 'fa' "> </i>
+                *ngIf="osm_features_special[pte.index]['values'][pte.val] && osm_features_special[pte.index]['values'][pte.val]['type'] == 'fa' ">
+              </i>
             </div>
 
             <div style="padding-left: 5px;"
@@ -207,10 +209,10 @@
 
   </div>
 
-  <div style="background-color: white; padding: 10px;" >
+  <!--div style="background-color: white; padding: 10px;" >
     <img src="assets/images/osm.svg" width="25px" alt="" srcset="">
     "GEOSM" utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer"> d'OpenStreetMap </a>
-  </div>
+  </!--div-->
   <!-- <div class="displayPropertiesFooter  ">
 
     <div class="button-row ">

@@ -7,8 +7,8 @@
   {{ 'dowload_data.title_data_in' | translate }}
 </h5>
 
-<div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index "
-  class="col-md-12 bloc_option_couche" style="padding:0px">
+<div *ngFor="let thematique of analyse_spatial.thematiques_analyses;let i = index " class="col-md-12 bloc_option_couche"
+  style="padding:0px">
 
   <div class="col-md-1 bloc_option_couche_options">
 
@@ -38,8 +38,7 @@ h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
         *ngIf="thematique.thematiques_analyse  && thematique.thematiques_analyse.sous_thematiques">
         <mat-select placeholder="{{ 'dowload_data.title_choose_thematique' | translate }}"
           [(value)]="thematique.couche_analyse">
-          <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques"
-            [label]="group.nom">
+          <mat-optgroup *ngFor="let group of thematique.thematiques_analyse.sous_thematiques" [label]="group.nom">
             <mat-option *ngFor="let couche of group.couches" [value]="couche"
               [disabled]="disableOptionAnalyseSpatial(couche)">
               {{couche.nom}}
@@ -105,19 +104,18 @@ margin-left: calc(50% - 17px);
       {{analyse_spatial.type_emprise_spatiale}} </h5>
 
     <mat-form-field *ngIf="autocomplteActive || analyse_spatial.emprises" style="width: 100%;color: #000;">
-      <input type="text" [formControl]="myControl" matInput placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
+      <input type="text" [formControl]="myControl" matInput
+        placeholder=" {{ 'dowload_data.title_choose_one_emprise' | translate }}" [matAutocomplete]="auto">
 
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="calculate_analyse_spatial($event)">
-        <mat-option *ngIf="recherche_is_loading && analyse_spatial.emprises.length == 0" >
+        <mat-option *ngIf="recherche_is_loading && analyse_spatial.emprises.length == 0">
           <div class="lds-ripple">
             <div></div>
             <div></div>
           </div>
         </mat-option>
 
-        <mat-option
-          *ngFor="let emprise of analyse_spatial.emprises "
-          [value]="emprise.name">
+        <mat-option *ngFor="let emprise of analyse_spatial.emprises " [value]="emprise.name">
           <span> {{emprise.name}}, </span>
           <small> ({{emprise['ref']}}) </small>
         </mat-option>
@@ -126,8 +124,10 @@ margin-left: calc(50% - 17px);
   </div>
 </mat-list-item>
 
-<button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);background-color: transparent !important;" matTooltip="{{ 'dowload_data.calculate' | translate }}"
-  *ngIf="display_calculate_result_analyse_spatial()" mat-mini-fab (click)="calculate_result_analyse_spatial()">
+<button
+  style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);background-color: transparent !important;"
+  matTooltip="{{ 'dowload_data.calculate' | translate }}" *ngIf="display_calculate_result_analyse_spatial()"
+  mat-mini-fab (click)="calculate_result_analyse_spatial()">
 
   <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
     <g id="Tracé_1915">
@@ -144,7 +144,7 @@ c-2.6,0-4.7,2.1-4.7,4.7c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7C14.6,7.4,12.
 
 <div style="background-color: white; padding: 10px;position: fixed;bottom: 0px;text-align: center;">
   <img src="assets/images/osm.svg" width="25px" alt="" srcset="">
-  "GEOSM" utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">
+  Ce Geoportail utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">
     d'OpenStreetMap </a>
 </div>
 

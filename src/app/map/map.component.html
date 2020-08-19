@@ -201,10 +201,10 @@ z" />
       <div *ngFor="let sous_cartes of groupMenuActive.sous_cartes ; let j = index" class="sous_themes_block"
         id="sousthemes_{{j}}">
         <div class=" black  " style="padding: 5px 0px;min-height: 25px;">
-          <h5 class="bold sous_themes_cartes primary_transparent_bg" id="sousthemescartes_{{j}}"
+          <!--h5 class="bold sous_themes_cartes primary_transparent_bg" id="sousthemescartes_{{j}}"
             style="text-transform: uppercase">
             {{sous_cartes.nom}}
-          </h5>
+          </!--h5-->
         </div>
 
         <app-couche-carte *ngFor="let couche_cartes of sous_cartes.couches" [couche_cartes]="couche_cartes"
@@ -965,12 +965,12 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
               <div>
                 <mat-form-field style="width: 90%;">
-                  <input matInput name="carte_titre" [(ngModel)]="printMapObjet.titre"
+                  <input matInput name="carte_titre" [(ngModel)]="titre"
                     placeholder="{{ 'right_menu.tools.print.title_pdf' | translate }}">
                 </mat-form-field>
 
                 <mat-form-field style="width: 90%;">
-                  <textarea matInput name="carte_description" [(ngModel)]="printMapObjet.description"
+                  <textarea matInput name="carte_description" [(ngModel)]="description"
                     placeholder="{{ 'right_menu.tools.print.description_pdf' | translate }}"></textarea>
                 </mat-form-field>
 
@@ -1246,7 +1246,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
 
       <div style="padding: 55px 5px 5px;" *ngIf="right_slide_actic == 4">
         <app-downloads [config_projet]="config_projet" [thematiques]="thematiques"
-          [roi_projet_geojson]="roi_projet_geojson"
+          [roi_projet_geojson]="roi_projet_geojson" [layerInMap]="layerInMap"
           (displayDownloadsResultFun)="displayDownloadsResult($event['params'],$event['analyse_spatial'])">
         </app-downloads>
 
@@ -1370,24 +1370,7 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
       margin-left: 10%;margin-bottom: 15px;" color="primary" (click)="download_files('analyse_spatiale_'+i)">
 
 
-          <svg x="0px" y="0px" viewBox="0 0 30.9 28.2" style="height: 30px;">
-
-            <path id="Tracé_1926" class="white_fill" d="M25.2,15.4h-1V17h1c0.2,0,0.4-0.1,0.6-0.2c0.2-0.2,0.2-0.4,0.2-0.6c0-0.2-0.1-0.4-0.2-0.6
-	C25.6,15.5,25.4,15.4,25.2,15.4z" />
-            <path id="Tracé_1927" class="white_fill" d="M19.2,25.2c0,1.1-0.9,2-2,2H3c-1.1,0-2-0.9-2-2V3c0-1.1,0.9-2,2-2h9.3v4.8
-	c0,1.5,1.2,2.6,2.6,2.6h4.2v2.3h1V7.2L14,0H3C1.3,0,0,1.3,0,3v22.2c0,1.7,1.3,3,3,3h14.1c1.7,0,3-1.3,3-3v-1.5h-1L19.2,25.2z
-	 M13.3,1h0.3l5.5,6.4H15c-0.9,0-1.7-0.7-1.7-1.7L13.3,1z" />
-            <path id="Tracé_1928" class="white_fill" d="M28.3,11.5H11c-1.4,0-2.6,1.2-2.6,2.6v6.2c0,1.4,1.2,2.6,2.6,2.6h17.2c1.4,0,2.6-1.2,2.6-2.6
-	v-6.2C30.9,12.7,29.7,11.5,28.3,11.5z M16.2,19.6c-0.5,0.4-1,0.5-1.6,0.5c-0.6,0-1.2-0.1-1.7-0.5c-0.4-0.3-0.6-0.8-0.6-1.3h1.1
-	c0,0.2,0.1,0.4,0.2,0.6c0.3,0.3,0.6,0.4,1,0.3c0.2,0,0.5,0,0.7-0.1c0.3-0.1,0.5-0.3,0.5-0.6c0-0.2-0.1-0.3-0.2-0.4
-	c-0.2-0.1-0.5-0.2-0.8-0.3l-0.6-0.1c-0.4-0.1-0.8-0.2-1.2-0.4c-0.4-0.3-0.6-0.7-0.5-1.2c0-0.5,0.2-0.9,0.5-1.2
-	c0.4-0.4,1-0.5,1.6-0.5c0.5,0,1.1,0.1,1.5,0.5c0.4,0.3,0.7,0.8,0.6,1.3h-1.1c0-0.3-0.2-0.6-0.4-0.7c-0.2-0.1-0.4-0.1-0.7-0.1
-	c-0.3,0-0.5,0-0.7,0.2c-0.2,0.1-0.3,0.3-0.3,0.5c0,0.2,0.1,0.4,0.3,0.4c0.2,0.1,0.5,0.2,0.7,0.2l1,0.2c0.3,0.1,0.7,0.2,0.9,0.4
-	c0.3,0.3,0.5,0.7,0.5,1.1C16.7,18.8,16.5,19.3,16.2,19.6L16.2,19.6z M21.9,19.9h-1.1v-2.4h-2.1v2.4h-1.1v-5.4h1.1v2.1h2.1v-2.1h1.1
-	L21.9,19.9z M26.6,17.6c-0.4,0.3-0.9,0.4-1.4,0.4h-1.1v2H23v-5.4h2.3c0.5,0,0.9,0.1,1.3,0.4c0.3,0.3,0.5,0.8,0.5,1.3
-  C27.2,16.7,27,17.2,26.6,17.6L26.6,17.6z" />
-
-          </svg>
+          <img src="assets/images/GPKG.svg" alt="">
 
         </button>
 
