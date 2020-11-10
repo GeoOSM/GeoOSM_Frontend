@@ -228,11 +228,11 @@ z" />
     <div class="sous-thematiques" *ngIf="groupMenuActive.sous_thematiques ">
 
       <div *ngFor="let sous_thematique of groupMenuActive.sous_thematiques" class="shadow_5px pointer back_white black"
-        [ngClass]="{'sous-thematiques-child ':sous_thematique.active==false,'sous-thematiques-child-active ':sous_thematique.active}">
+        [ngClass]="{'sous-thematiques-child':sous_thematique.active==false,'sous-thematiques-child-active ':sous_thematique.activated}">
 
-        <div (click)="sous_thematique.active = !sous_thematique.active"
+        <div (click)="sous_thematique.activated = !sous_thematique.activated"
           class="pointer  col-md-12 col-xs-12 sous-thematiques-head black"
-          [ngClass]="{'primaryColorBG  sous-thematiques-head-active white':sous_thematique.active}"
+          [ngClass]="{'primaryColorBG  sous-thematiques-head-active white':sous_thematique.activated}"
           style="border-radius: 5px 5px 0px 0px;">
           <div class="sous-thematiques-child-infos  white">
 
@@ -242,12 +242,12 @@ z" />
             {{sous_thematique.nom}}</h6>
           <div class="primaryColorBG sous-thematiques-head-arrow pointer">
             <i class="fa fa-chevron-right fa-lg"
-              [ngClass]="{'white':sous_thematique.active,'white':!sous_thematique.active}"></i>
+              [ngClass]="{'white':sous_thematique.activated,'white':!sous_thematique.activated}"></i>
 
           </div>
         </div>
 
-        <div [ngClass]="{'sous-thematiques-body-active':sous_thematique.active}"
+        <div [ngClass]="{'sous-thematiques-body-active':sous_thematique.activated}"
           class="col-lg-12  col-md-12 col-xs-12 sous-thematiques-body">
           <div>
             <app-couche-thematique *ngFor=" let couche of sous_thematique.couches"

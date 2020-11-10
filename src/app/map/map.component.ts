@@ -307,6 +307,7 @@ export class MapComponent implements OnInit {
   thematiques;
   typeMenu;
   groupMenuActive;
+  activeGroup = true;
   selectFeature;
   layerInMap = [];
   zIndexMax = 1;
@@ -3585,6 +3586,11 @@ export class MapComponent implements OnInit {
           ticking = true;
         });
     } else if (this.typeMenu == "menuThematique") {
+      console.log(data);
+      for (let index = 0; index < data.sous_thematiques.length; index++) {
+        data.sous_thematiques[index]["activated"] = true;
+        // const element = array[index];
+      }
       this.groupMenuActive_color = data["color"];
       this.groupMenuActive = data;
     } else if (this.typeMenu == "analyse_spatial") {
