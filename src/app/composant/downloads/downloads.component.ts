@@ -5,6 +5,7 @@ import { communicationComponent } from "../../service/communicationComponent.ser
 import { environment } from "../../../environments/environment";
 import * as $ from "jquery";
 import { debounceTime, tap, finalize, switchMap, filter } from "rxjs/operators";
+import * as moment from "moment";
 declare var turf: any;
 
 @Component({
@@ -18,6 +19,8 @@ export class DownloadsComponent implements OnInit {
   @Input() roi_projet_geojson: any;
   @Input() layerInMap: any;
   @Output() displayDownloadsResultFun = new EventEmitter();
+
+  lastSaturday = moment().subtract(1, "weeks").isoWeekday(6).locale("fr");
 
   analyse_spatial = {
     thematiques_analyses: [

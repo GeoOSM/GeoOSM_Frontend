@@ -1,7 +1,9 @@
+
 <div class="description_download">
   {{ 'dowload_data.description' | translate }}
 </div>
 
+<ng-container >
 <h5 class="bold black primary_transparent_bg" style="padding: 5px; margin-left: -6px;width: 95%;border-radius: 0px 15px 15px 0px;
    text-align: center;display:flow-root; margin-bottom:15px">
   {{ 'dowload_data.title_data_in' | translate }}
@@ -62,6 +64,7 @@ h3.1L4,0h4.4l0.9,0.8h3.1V2.4z" />
   </div>
 
 </div>
+
 
 <button mat-raised-button style="margin-top: 10px;
 margin-bottom: 10px;min-width: 32px;
@@ -124,29 +127,34 @@ margin-left: calc(50% - 17px);
   </div>
 </mat-list-item>
 
-<button
-  style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);background-color: transparent !important;"
+
+<button style="height: 52px;width: 52px;text-align:center;margin-bottom: 10px;margin-left: calc(50% - 26px);background-color: transparent !important;"
   matTooltip="{{ 'dowload_data.calculate' | translate }}" *ngIf="display_calculate_result_analyse_spatial()"
   mat-mini-fab (click)="calculate_result_analyse_spatial()">
 
-  <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
-    <g id="Tracé_1915">
-      <path class="primaryColorFill" d="M18.3,22.2l-3.4-3.7c-3.3,1.9-7.3,1.8-10.5-0.3c-2.2-1.5-3.7-3.7-4.2-6.3c-0.5-2.6,0-5.3,1.5-7.5
+    <svg style="height: 32px;" x="0px" y="0px" viewBox="0 0 22 22.2">
+      <g id="Tracé_1915">
+        <path class="whiteFill" d="M18.3,22.2l-3.4-3.7c-3.3,1.9-7.3,1.8-10.5-0.3c-2.2-1.5-3.7-3.7-4.2-6.3c-0.5-2.6,0-5.3,1.5-7.5
 c3-4.6,9.2-5.8,13.8-2.8c4.4,2.9,5.7,8.8,3.1,13.3l3.4,3.6L18.3,22.2z M15.2,16.6l3.2,3.5l1.5-1.5l-3.3-3.4l0.3-0.5
 c2.6-3.9,1.5-9.1-2.3-11.7C10.8,0.3,5.5,1.4,2.9,5.3c-1.3,1.9-1.7,4.1-1.3,6.3s1.7,4.1,3.6,5.4c2.9,1.9,6.6,1.9,9.4,0L15.2,16.6z
 M9.9,16.1c-3.4,0-6.2-2.8-6.2-6.2c0-3.4,2.8-6.2,6.2-6.2c3.4,0,6.2,2.8,6.2,6.2C16.1,13.4,13.4,16.1,9.9,16.1L9.9,16.1z M9.9,5.2
 c-2.6,0-4.7,2.1-4.7,4.7c0,2.6,2.1,4.7,4.7,4.7c2.6,0,4.7-2.1,4.7-4.7C14.6,7.4,12.5,5.2,9.9,5.2z" />
-    </g>
-  </svg>
+      </g>
+    </svg>
 
+  </button>
+</ng-container>
 
-</button>
-
-<div style="background-color: white; padding: 10px;position: fixed;bottom: 0px;text-align: center;">
-  <img src="assets/images/osm.svg" width="25px" alt="" srcset="">
+<div style="background-color: white; padding: 10px;position: fixed;bottom: 0px; text-align: center;">
+  <p style="color: rgba(0, 0, 0, 0.7);font-style: italic;    font-size: 12px;">
+    Dernière mise à jour de la BD OSM : {{lastSaturday.format("dddd DD-MM-YYYY ")}}, 23h50
+</p>
+  <img src="assets/images/osm.svg" width="25px" alt="" style="    vertical-align: middle;">
   Ce Geoportail utilise les données <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">
     d'OpenStreetMap </a>
 </div>
+
+
 
 <!-- <button mat-raised-button style="width: 100%;" color="primary" *ngIf="display_calculate_result_analyse_spatial()"
 (click)="calculate_result_analyse_spatial()">
