@@ -232,7 +232,7 @@ z" />
 
         <div (click)="sous_thematique.activated = !sous_thematique.activated"
           class="pointer  col-md-12 col-xs-12 sous-thematiques-head black"
-          [ngClass]="{'primaryColorBG  sous-thematiques-head-active white':sous_thematique.activated}"
+          [ngClass]="{'colorBlue  sous-thematiques-head-active white':sous_thematique.activated}"
           style="border-radius: 5px 5px 0px 0px;">
           <div class="sous-thematiques-child-infos  white">
 
@@ -240,7 +240,7 @@ z" />
 
           <h6 class="col-lg-10 col-xs-10 bold" style="font-family: inherit !important;font-size: 12.7px;">
             {{sous_thematique.nom}}</h6>
-          <div class="primaryColorBG sous-thematiques-head-arrow pointer">
+          <div class="colorBlue sous-thematiques-head-arrow pointer">
             <i class="fa fa-chevron-right fa-lg"
               [ngClass]="{'white':sous_thematique.activated,'white':!sous_thematique.activated}"></i>
 
@@ -249,10 +249,13 @@ z" />
 
         <div [ngClass]="{'sous-thematiques-body-active':sous_thematique.activated}"
           class="col-lg-12  col-md-12 col-xs-12 sous-thematiques-body">
-          <div>
-            <app-couche-thematique *ngFor=" let couche of sous_thematique.couches"
-              (toogle_couche)="displayDataOnMap($event,groupMenuActive)" [couche]="couche"
-              class="col-lg-6 col-sm-6  col-xs-6  "></app-couche-thematique>
+          <div >
+            <mat-selection-list (selectionChange)="coucheSelected($event.option.value,groupMenuActive,$event)"  >
+         <app-couche-thematique *ngFor="let couche of sous_thematique.couches"
+            id="{{ 'couche_' + couche.key_couche }}"
+            [couche]="couche"></app-couche-thematique>
+        </mat-selection-list>
+           
           </div>
 
         </div>

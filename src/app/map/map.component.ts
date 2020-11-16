@@ -1,9 +1,12 @@
+import { CoucheThematiqueComponent } from "./../composant/thematique/couche-thematique/couche-thematique.component";
 import {
   Component,
   OnInit,
   ViewChild,
   NgZone,
   HostBinding,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Meta } from "@angular/platform-browser";
@@ -11,6 +14,7 @@ import { OrderBy } from "../filter/orderby";
 import { Observable } from "rxjs";
 import { map as MAP, startWith } from "rxjs/operators";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSelectionListChange } from "@angular/material/list";
 import {
   MatSnackBar,
   MatBottomSheet,
@@ -267,6 +271,8 @@ export class MapComponent implements OnInit {
   sidenav1: MatSidenav;
 
   @ViewChild("sidenav2") sidenav2: MatSidenav;
+
+  @Output() toogle_couche = new EventEmitter();
 
   reason_left = "";
   reason_right = "";
@@ -8040,4 +8046,20 @@ export class MapComponent implements OnInit {
     this.data_itineraire.destination.coord = [];
     this.data_itineraire.destination.nom = "";
   }
+
+  coucheSelected(couche, groupe, event: MatSelectionListChange) {
+    //  let couche: coucheInterface = event.option.value;
+    couche.checked = event.option.selected;
+    this.displayDataOnMap(couche, groupe);
+
+    //  this.displayDataOnMap(data);
+  }
+
+  /* displayOnMap(couche) {
+    var couche1 = couche.option.value;
+
+    this.communicationComponent.get_thematique_by_rang(couche1.rang_thema);
+    console.log(couche1.check);
+    this.toogle_couche.emit(couche1);
+  }*/
 }

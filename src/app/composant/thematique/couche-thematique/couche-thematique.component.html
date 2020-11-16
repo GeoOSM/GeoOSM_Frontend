@@ -1,48 +1,20 @@
-<div [matTooltip]="couche.nom" class="couches"  [ngClass]="{'opacity_disabled': disabled_couche(couche)}">
-
-  <!-- <button matTooltip="Partager cette donnée" mat-mini-fab (click)="share('data',couche,sous_thematique,groupMenuActive)" style="width: 23px;height: 23px;margin-right: 5px;background: #fb8c00;    position: absolute;
-    top: -5px;
-    right: -10px;">
-        <i class="fa fa-share-alt pointer " style="margin-top: -19px;margin-right: 1px;color: #fff"></i>
-    </button> -->
-  <div fxLayout>
-    <div fxFlex >
-      <img *ngIf='couche.droit_couche==true && couche.geom=="Polygon"' class="circle"
-        src="{{url_prefix}}assets/images/icones/circle.svg" alt=""
-        style="width: 7px;height: 7px;margin-top: 1px;position: absolute;">
-
-      <img *ngIf='couche.droit_couche==true && couche.geom=="point" ' class="circle"
-        src="{{url_prefix}}assets/images/icones/circle.svg" alt="" style="width: 7px;height: 7px;position: absolute;">
-
-      <img *ngIf='couche.droit_couche==true && couche.geom=="LineString" ' class="circle"
-        src="{{url_prefix}}assets/images/icones/circle.svg" alt="" style="width: 7px;height: 7px;position: absolute;">
 
 
-      <img  src="{{url_prefix+couche.img}}"  *ngIf="couche.logo_src == null" />
-      <img  src="{{url_prefix+couche.logo_src}}"  *ngIf="couche.logo_src != null" />
+<mat-list-option [matTooltip]="couche.nom"  matTooltipClass="couche-toolipt"
+  matTooltipPosition="right" [disabled]="disabled_couche(couche)"
+  [value]="couche"
+  [selected]="couche.checked">
+ <img class="couche-img"
+    src="{{ url_prefix + couche.logo_src }}"
+    mat-list-icon
+    *ngIf="couche.logo_src != null"
+  />
+  <img class="couche-img"
+    src="{{ url_prefix + couche.img }}"
+    mat-list-icon
+    *ngIf="couche.logo_src == null"
+  />
 
-      <!-- <div *ngIf='couche.geom=="Polygon" && ( couche.img == "" || couche.img == null ) '
-        [ngStyle]="{'width':'30px','height': '30px','background':couche.remplir_couleur,'opacity':couche.opacity,'border':'3px solid black','display': 'inline-block'}">
-      </div> -->
-
-      <!-- <div *ngIf='couche.geom=="Polygon" &&  couche.img != "" && couche.img!=null '
-        style="width:32px;height: 32px;border:3px solid black;display: inline-block;margin-bottom: 5px;">
-        <img src="{{url_prefix+couche.img}}" style="width: 25px;height: 25px;" />
-      </div> -->
-
-      <!-- <hr *ngIf='couche.geom=="LineString"' [ngStyle]="{'border':'2px solid '+couche.contour_couleur,'margin-bottom':'12px','width':'100%'}"> -->
-
-    </div>
-    <!-- class="couches-checkbox" -->
-    <div fxFlex="50px" style="position: relative;" >
-      <mat-checkbox class="primaryColor center_checkbox" color="primary" [(ngModel)]="couche.checked"
-        (change)="displayDataOnMap(couche)" [disabled]="disabled_couche(couche)" >
-      </mat-checkbox>
-    </div>
-  </div>
-
-  <div class="couches-nom black" style="-webkit-box-orient: vertical;">
-    <div>{{couche.nom}}</div>
-  </div>
-
-</div>
+  <div mat-line class="couche-title">{{ couche.nom }}</div>
+</mat-list-option>
+<mat-divider style="margin-left: 50px" [inset]="true"></mat-divider>
