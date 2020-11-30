@@ -1,9 +1,9 @@
 <app-fiche-descriptive id="displayProperties" [position]="positionProperties"
-  (movingOffset)="onMovingProperties($event,typeDataFeature == 'pdf')" [trackPosition]="false"
-  [zIndexMoving]="99999999999" [ngDraggable]=" typeDataFeature == 'pdf' " [positionProperties]="positionProperties"
+  (movingOffset)="onMovingProperties($event,typeDataFeature == 'pdf')" [trackPosition]="true"
+  [zIndexMoving]="99999999999" [ngDraggable]=" true " [positionProperties]="positionProperties"
   (displayDataOnMap_action)="displayDataOnMap($event)" (shareFeature_action)="shareFeature($event)"
   (closeProperties_action)="closeProperties()" [typeDataFeature]="typeDataFeature" [dataFeature]="dataFeature"
-  style="background-color: transparent;padding: 0px;"></app-fiche-descriptive>
+  style="background-color: transparent;padding: 0px; margin-top: 30px "></app-fiche-descriptive>
 
 
 
