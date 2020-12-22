@@ -1,13 +1,57 @@
-<p style="text-align: center;" *ngIf="ressourses.length == 0" >  {{ 'ressourses.no_ressourses' | translate }}  </p>
+<!--p> style="text-align: center;" *ngIf="ressourses.length == 0" >  {{ 'ressourses.no_ressourses' | translate }}  </!p-->
 
-<mat-card class="pointer" style="width: 100%;margin-top: 20px;" *ngFor="let one_ressource of ressourses">
+
+
+<mat-card class="pointer" style="width: 100%;margin-top: 20px;">
   <mat-card-header>
-    <mat-card-title>{{one_ressource.nom}}</mat-card-title>
+    <mat-card-title>Rapport de synthese_Bini-warak_27 Août 20198TFA</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src="{{url_frontend+one_ressource.image}}">
+  <img mat-card-image src="assets/pdf.png" style="height: 100px;">
   <mat-card-actions>
     <button mat-button>
-      <a target="_blank" href="{{url_frontend+one_ressource.url}}">
+      <a target="_blank" href="http://geosm.org/assets/png/1.pdf">
+        {{ 'ressourses.download' | translate }}
+      </a>
+      </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card class="pointer" style="width: 100%;margin-top: 20px;">
+  <mat-card-header>
+    <mat-card-title>VOLUME 2-Plan d'Action de Réinstallation-BW_27août2019</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="assets/pdf.png" style="height: 100px;">
+  <mat-card-actions>
+    <button mat-button>
+      <a target="_blank" href="http://geosm.org/assets/png/2.pdf">
+        {{ 'ressourses.download' | translate }}
+      </a>
+      </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card class="pointer" style="width: 100%;margin-top: 20px;">
+  <mat-card-header>
+    <mat-card-title>VOLUME 3-PGAS-Barrage Bini à Warak-Version Définitive-08 Août 2019</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="assets/pdf.png" style="height: 100px;">
+  <mat-card-actions>
+    <button mat-button>
+      <a target="_blank" href="http://geosm.org/assets/png/3.pdf">
+        {{ 'ressourses.download' | translate }}
+      </a>
+      </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card class="pointer" style="width: 100%;margin-top: 20px;">
+  <mat-card-header>
+    <mat-card-title>VOLUME 4-PEPP-Version Définitive-Barrage Bini-29 Août 2019</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="assets/pdf.png" style="height: 100px;">
+  <mat-card-actions>
+    <button mat-button>
+      <a target="_blank" href="http://geosm.org/assets/png/4.pdf">
         {{ 'ressourses.download' | translate }}
       </a>
       </button>
