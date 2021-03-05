@@ -77,7 +77,7 @@ const view = new View({
 });
 const scaleControl = new Control.ScaleLine();
 const attribution = new Control.Attribution({
-  collapsible: true,
+  collapsible: false,
 });
 const map = new Map({
   layers: [],
@@ -5155,7 +5155,7 @@ export class MapComponent implements OnInit {
             attributions: [
               new Attribution({
                 html:
-                  " <a  target='_blank'  href='https://www.openstreetmap.org/copyright'> © OpenStreetMap</a>contributors ",
+                  " <a  target='_blank'  href='https://www.openstreetmap.org/copyright'> © OpenStreetMap </a> Powered ",
               }),
             ],
           }),
