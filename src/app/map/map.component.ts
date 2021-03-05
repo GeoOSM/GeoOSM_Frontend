@@ -78,6 +78,7 @@ const view = new View({
 const scaleControl = new Control.ScaleLine();
 const attribution = new Control.Attribution({
   collapsible: true,
+  collapsed: false,
 });
 const map = new Map({
   layers: [],
