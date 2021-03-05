@@ -77,14 +77,15 @@ const view = new View({
 });
 const scaleControl = new Control.ScaleLine();
 const attribution = new Control.Attribution({
-  collapsible: false,
+  collapsible: true,
+  collapsed: false,
 });
 const map = new Map({
   layers: [],
   target: "map",
   loadTilesWhileAnimating: true,
   view: view,
-  controls: Control.defaults({ attribution: false }).extend([
+  controls: Control.defaults({ attribution: true }).extend([
     scaleControl,
     attribution,
   ]),
