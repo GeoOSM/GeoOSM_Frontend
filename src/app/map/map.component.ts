@@ -5156,7 +5156,7 @@ export class MapComponent implements OnInit {
             attributions: [
               new Attribution({
                 html:
-                  " <a  target='_blank'  href='https://www.openstreetmap.org/copyright'> © OpenStreetMap </a> Powered ",
+                  "© Contributeurs <a  target='_blank'  href='https://www.openstreetmap.org/copyright'>  OpenStreetMap </a> ",
               }),
             ],
           }),
