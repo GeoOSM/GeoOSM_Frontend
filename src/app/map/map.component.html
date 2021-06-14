@@ -249,13 +249,12 @@ z" />
 
         <div [ngClass]="{'sous-thematiques-body-active':sous_thematique.activated}"
           class="col-lg-12  col-md-12 col-xs-12 sous-thematiques-body">
-          <div >
-            <mat-selection-list (selectionChange)="coucheSelected($event.option.value,groupMenuActive,$event)"  >
-         <app-couche-thematique *ngFor="let couche of sous_thematique.couches"
-            id="{{ 'couche_' + couche.key_couche }}"
-            [couche]="couche"></app-couche-thematique>
-        </mat-selection-list>
-           
+          <div>
+            <mat-selection-list (selectionChange)="coucheSelected($event.option.value,groupMenuActive,$event)">
+              <app-couche-thematique *ngFor="let couche of sous_thematique.couches"
+                id="{{ 'couche_' + couche.key_couche }}" [couche]="couche"></app-couche-thematique>
+            </mat-selection-list>
+
           </div>
 
         </div>
@@ -379,7 +378,11 @@ L17.1,14.4z" />
 
           <div *ngFor="let thematique of thematiques" style="margin-bottom:0px"
             class="menu-thematiques-parent-child col-md-12 col-xs-12">
-            <app-thematique-city (click)="slideTo('menuThematique',thematique)" [thematique]="thematique">
+            <app-thematique-city-abidjan *ngIf="thematique.nom=='OPENCITIES ABIDJAN'"
+              (click)="slideTo('menuThematique',thematique)" [thematique]="thematique">
+            </app-thematique-city-abidjan>
+            <app-thematique-city *ngIf="thematique.nom!='OPENCITIES ABIDJAN'"
+              (click)="slideTo('menuThematique',thematique)" [thematique]="thematique">
             </app-thematique-city>
           </div>
 
@@ -869,77 +872,6 @@ c0.6,0,1.2-0.5,1.2-1.2V1.2C24.2,0.5,23.6,0,23,0L23,0z M3.3,23.7H1.2v-2.2h2.2V23.
           </div> -->
           </mat-expansion-panel>
 
-          <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
-            (closed)="expansionClose('altimetrie')" style="margin-bottom: 15px;border-radius: 4px;">
-
-            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-              <mat-panel-title>
-
-                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 22.1 17.2">
-
-                  <g id="Groupe_56" transform="translate(-283.894 -12.804)">
-                    <path id="Tracé_44" class="primaryColorFill" d="M305.4,30L305.4,30l-2.6-0.1h-18.3c-0.2,0-0.3-0.1-0.4-0.2c-0.1-0.1-0.2-0.3-0.2-0.4V19.1
-		c0-0.3,0.3-0.6,0.6-0.6h1.5c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v1.6h1.7V18c0-0.3,0.3-0.6,0.6-0.6h3.2v-4c0-0.3,0.3-0.6,0.6-0.6
-		h1.3c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0v6.2h1.4V15c0-0.3,0.3-0.6,0.6-0.6h1.4c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0l0,0
-		c0,4.1,0,1.6,0,3.2h2.2c0.3,0,0.6,0.3,0.6,0.6c0,0,0,0,0,0v3.6h1.8v-4.9c0-0.3,0.3-0.6,0.6-0.6h1.8c0.3,0,0.6,0.3,0.6,0.6
-		c0,0,0,0,0,0l0,0v12c0,0.2-0.1,0.3-0.2,0.4C305.7,29.9,305.5,30,305.4,30" />
-                  </g>
-                </svg>
-
-                <span class="primaryColor"> {{ 'right_menu.tools.altimetry.title' | translate }} </span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/altimetrie_bouton.svg);    background-repeat: no-repeat;
-          background-position: center;color: black;text-align: center;">
-              {{ 'right_menu.tools.altimetry.not_disponible' | translate }}
-            </div>
-            <!-- <mat-form-field style="width: 100%;  padding: 0 5px;">
-            <mat-select placeholder="Choisisser la source du MNT" [(ngModel)]="altimetrie.source_profil_alti">
-              <mat-option value="srtm" style="color:#000"> SRTM sur le Cameroun </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <div class="button-row" style="padding: 0 5px;" *ngIf="altimetrie.source_profil_alti">
-            <button mat-raised-button color="primary" [ngClass]="{'accentColorBG': altimetrie.active }" style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
-              (click)="toogleProfilAlti()">
-              <img src="assets/logo/distance.svg" style="margin-bottom: 2px;height: 17px;">
-              <span> Profil Altimetrique </span>
-            </button>
-          </div> -->
-
-          </mat-expansion-panel>
-
-          <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
-            (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">
-
-            <mat-expansion-panel-header expandedHeight="40px" collapsedHeight="40px"
-              style="padding-left: 15px;margin-bottom: 15px;" class="primary_transparent_bg">
-              <mat-panel-title>
-                <svg style="width: 17.5px;height: 20.4px;margin-right: 10px;" x="0px" y="0px" viewBox="0 0 18.8 18.8">
-
-                  <path class="primaryColorFill" d="M6.6,18.8c-0.5,0-0.9-0.4-0.9-0.9v-2.8H1.9c-1,0-1.9-0.8-1.9-1.9l0,0V1.9C0,0.8,0.8,0,1.9,0
-	c0,0,0,0,0,0h15.1c1,0,1.9,0.8,1.9,1.9v11.3c0,1-0.8,1.9-1.9,1.9h-5.7l-3.5,3.5c-0.2,0.2-0.4,0.3-0.7,0.3L6.6,18.8 M2.8,2.8v1.9H16
-	V2.8L2.8,2.8 M2.8,6.6v1.9h7.5V6.6H2.8 M2.8,10.4v1.9h9.4v-1.9L2.8,10.4z" />
-                </svg>
-
-                <span class="primaryColor"> {{ 'right_menu.tools.comment.title' | translate }} </span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div style="margin-bottom: 20px;padding: 10px;background: linear-gradient(rgba(255, 255, 255, 0.89) 100%, rgba(255, 255, 255, 0.69) 100%),url(assets/images/icones/commentaire-ecrire_bouton.svg);    background-repeat: no-repeat;
-          background-position: center;">
-              <mat-checkbox class="primaryColor couche_en_cours_nom" color="primary" (click)="displayComments()">
-                {{ 'right_menu.tools.comment.display_comments' | translate }} </mat-checkbox>
-            </div>
-            <!-- <button mat-raised-button color="primary"
-            style="width: 100%;margin-bottom:7px;color: #fff;font-size: 14px;font-weight: bold"
-            (click)="displayComments()" [ngClass]="{'back_black': commentLayer.checked }">
-
-            <span> Afficher les commentaire </span>
-
-          </button> -->
-          </mat-expansion-panel>
 
           <mat-expansion-panel class="back_white no_shadow" (opened)="expansionOpen()"
             (closed)="expansionClose('comments')" style="margin-bottom: 15px;border-radius: 4px;">

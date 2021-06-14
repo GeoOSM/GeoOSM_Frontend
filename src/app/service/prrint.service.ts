@@ -32,17 +32,18 @@ export class PrrintService {
       var month = d.getMonth() + 1;
       var dd = d.getDate();
       var doc = new jsPDF("p", "pt", "a4", false);
+      console.log(doc);
       doc.setFontSize(15);
       doc.setDrawColor(0);
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, 595.28, 841.89, "F");
       if (titre != "") {
-        doc.text(35, 170, "Titre de la carte : " + titre + "");
+        doc.text("Titre de la carte : " + titre + "", 35, 170);
       } else {
         doc.text(
+          "Carte du GéoPortail - GeOsm - " + environment.nom.toUpperCase(),
           35,
-          170,
-          "Carte du GéoPortail - GeOsm - " + environment.nom.toUpperCase()
+          170
         );
       }
       doc.setFontSize(25);
@@ -53,10 +54,11 @@ export class PrrintService {
       // doc.text(110, 65,"Infrastrucutre de données spatiales");
       doc.setFontSize(14);
       doc.text(
+        "" + d.getDate() + "/" + month + "/" + d.getFullYear() + "",
         465,
-        55,
-        "" + d.getDate() + "/" + month + "/" + d.getFullYear() + ""
+        55
       );
+      console.log(imgData);
       doc.addImage(imgData["png1"], 20, 20, 100, 40);
       doc.addImage(
         imgData["png0"],
@@ -70,10 +72,10 @@ export class PrrintService {
       );
       doc.rect(20, 120, 550, 500, "D");
       doc.setFontSize(10);
-      doc.text(400, 570, "Centroïde de la carrte en WGS84");
-      doc.text(400, 585, "Longitude : " + WGS84[0].toFixed(4));
-      doc.text(400, 600, "Laltitude : " + WGS84[1].toFixed(4));
-      doc.text(60, 570, "Échelle :1/" + getmetricscal.toFixed(4));
+      doc.text("Centroïde de la carte en WGS84", 400, 570);
+      doc.text("Longitude : " + WGS84[0].toFixed(4), 400, 585);
+      doc.text("Laltitude : " + WGS84[1].toFixed(4), 400, 600);
+      doc.text("Échelle :1/" + getmetricscal.toFixed(0), 60, 570);
       doc.rect(20, 650, 550, 100, "D");
       doc.setFontSize(9);
       if (description != "") {
@@ -81,25 +83,27 @@ export class PrrintService {
           "" + description + "",
           pdfInMM - lMargin - rMargin
         );
-        doc.text(29, 670, lines);
+        doc.text(lines, 29, 670);
       }
 
       doc.text(
+        "OpenStreetMap Contributors " +
+          d.getFullYear() +
+          ", " +
+          environment.url_frontend,
         25,
-        800,
-        "Copyright © " + d.getFullYear() + ", " + environment.url_frontend
+        800
       );
       doc.save(
-        "carte_GC_" +
+        titre +
+          "_" +
           d.getDate() +
           "_" +
-          d.getMonth() +
+          (d.getMonth() + 1) +
           "_" +
           d.getFullYear() +
           "_.pdf"
       );
-      titre = "";
-      description = "";
       /* printMapObjet = {
         'titre': '',
         'description': '',

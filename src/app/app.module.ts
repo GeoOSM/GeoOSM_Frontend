@@ -96,6 +96,7 @@ import { CaracteristiquesLieuComponent } from "./composant/caracteristiques-lieu
 import { AddGeosignetsComponent } from "./composant/add-geosignets/add-geosignets.component";
 import { FicheDescriptiveComponent } from "./composant/fiche-descriptive/fiche-descriptive.component";
 import { ThematiqueCityComponent } from "./composant/thematique/thematique-city/thematique-city.component";
+import { ThematiqueCityAbidjanComponent } from "./composant/thematique/thematique-city-abidjan/thematique-city-abidjan.component";
 import { CarteCityComponent } from "./composant/carte/carte-city/carte-city.component";
 import { RessourcesCityComponent } from "./composant/ressources/ressources-city/ressources-city.component";
 import { DownloadsComponent } from "./composant/downloads/downloads.component";
@@ -165,6 +166,7 @@ export class DemoMaterialModule {}
     AddGeosignetsComponent,
     FicheDescriptiveComponent,
     ThematiqueCityComponent,
+    ThematiqueCityAbidjanComponent,
     CarteCityComponent,
     RessourcesCityComponent,
     DownloadsComponent,
