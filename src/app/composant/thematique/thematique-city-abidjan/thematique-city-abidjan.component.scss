@@ -89,11 +89,14 @@
 
 
 .menu-thematiques-child:hover .menu-thematiques-child-nombre {
-	width: 25px
+	width: 25px;
+	background-color: #fff;
+
 }
 
 .menu-thematiques-child:hover .menu-thematiques-child-nombre p {
 	display: block;
+	color: #f48404;
 }
 
 .menu-thematiques-child:hover .menu-thematiques-child-logo {
