@@ -25,15 +25,9 @@ export class CoucheThematiqueComponent implements OnInit {
 
   disabled_couche(couche) {
     // console.log(couche)
-    if (
-      (couche["wms_type"] == "osm" && couche["number"] == 0) ||
-      couche["number"] == null
-    ) {
+    if (couche["wms_type"] == "osm" && couche["number"] == 0) {
       return true;
-    } else if (
-      (couche["wms_type"] == null && couche["number"] == 0) ||
-      couche["number"] == null
-    ) {
+    } else if (couche["wms_type"] == null && couche["number"] == 0) {
       return true;
     } else {
       return false;
