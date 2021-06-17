@@ -9,7 +9,7 @@
   $warn: map-get($theme, warn);
   // Create theme specfic styles
 
-  
+
   .primaryColor {
     color: mat-color($primary) !important;
   }
@@ -17,11 +17,12 @@
   .primaryColorBorder {
     border-color: mat-color($primary) !important;
   }
+
   .primaryColorFill {
     fill: mat-color($primary) !important;
   }
 
-   .primaryColorWhite {
+  .primaryColorWhite {
     fill: mat-color($primary) !important;
   }
 
@@ -30,87 +31,81 @@
   }
 
   .colorBlue {
-    background-color: #00ada7 !important;
+    background-color: #049c64 !important;
   }
 
   .accentColorBG {
-    background-color: mat-color($accent)!important;
+    background-color: mat-color($accent) !important;
   }
 
   .accentColorFill {
-    fill: mat-color($accent)!important;
+    fill: mat-color($accent) !important;
   }
 
   .warnColorBG {
     background-color: mat-color($warn);
-    
+
   }
 
   .mat-expansion-indicator:after {
-  		 color: mat-color($primary) !important;
-   }
+    color: mat-color($primary) !important;
+  }
 }
 
 
 $primary:$primary_color;
 
-$primary_transparent_bg:#f2f7fa ;
+$primary_transparent_bg:#f2f7fa;
 
-$color_prim: (
-  50: #000,
-  100: $primary ,
-  200: $primary ,
-  300: $primary ,
-  400: $primary ,
-  500: $primary ,
-  600: $primary ,
-  700: $primary ,
-  800: $primary ,
-  900: $primary ,
+$color_prim: (50: #000,
+  100: $primary,
+  200: $primary,
+  300: $primary,
+  400: $primary,
+  500: $primary,
+  600: $primary,
+  700: $primary,
+  800: $primary,
+  900: $primary,
   A100: #000,
   A200: #000,
-  A400: $primary ,
-  A700: $primary ,
-  contrast: (
-      500: black,
-      600: black,
-      700: black,
-      800: black,
-      900: black,
-      A700: black,
-  )
-);
+  A400: $primary,
+  A700: $primary,
+  contrast: (500: black,
+    600: black,
+    700: black,
+    800: black,
+    900: black,
+    A700: black,
+  ));
 
 
-$color_accent: (
-  50: #000,
-  100: #00ada7,
-  200: #00ada7,
-  300: #00ada7,
-  400: #00ada7,
-  500: #00ada7,
-  600: #00ada7,
-  700: #00ada7,
-  800: #00ada7,
-  900: #00ada7,
+$color_accent: (50: #000,
+  100: #049c64,
+  200: #049c64,
+  300: #049c64,
+  400: #049c64,
+  500: #049c64,
+  600: #049c64,
+  700: #049c64,
+  800: #049c64,
+  900: #049c64,
   A100: #000,
   A200: #000,
-  A400: #00ada7,
-  A700: #00ada7,
-  contrast: (
-      500: black,
-      600: black,
-      700: black,
-      800: black,
-      900: black,
-      A700: black,
-  )
-);
+  A400: #049c64,
+  A700: #049c64,
+  contrast: (500: black,
+    600: black,
+    700: black,
+    800: black,
+    900: black,
+    A700: black,
+  ));
 
 
-$theme-primary: mat-palette($color_prim,500);
-$theme-accent:  mat-palette($color_accent,600);
-$theme-warn:    mat-palette($mat-red);
+$theme-primary: mat-palette($color_prim, 500);
+$theme-accent: mat-palette($color_accent, 600);
+$theme-warn: mat-palette($mat-red);
 $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 //
 @include theme-color-grabber($theme);

@@ -8,7 +8,7 @@
       <path style="background-color: #fff;" d="M11.5,23C5.1,23,0,17.9,0,11.5S5.1,0,11.5,0S23,5.1,23,11.5C23,17.8,17.8,23,11.5,23z M10.4,10.4v6.9
 	h2.3v-6.9H10.4z M10.4,5.8v2.3h2.3V5.8L10.4,5.8z" />
     </svg>
-    <i class="fa fa-arrows-alt white" style="font-size:20px" aria-hidden="true"  ></i>
+    <i class="fa fa-arrows-alt white" style="font-size:20px" aria-hidden="true"></i>
     <span *ngIf="typeDataFeature != 'download' && get_title_couche()" style="font-size: 16px; color: #fff;">
       {{ 'layer_properties.title' | translate }} : {{get_title_couche().nom}}
     </span>
@@ -37,25 +37,25 @@
       </mat-chip-list>
     </div>
 
-    <div style="border-radius: 5px;padding-bottom: 10px;padding-top: 10px;"
-      class="col-md-12 col-xs-12">
+    <div style="border-radius: 5px;padding-bottom: 10px;padding-top: 10px;" class="col-md-12 col-xs-12">
 
 
 
       <span *ngIf="typeDataFeature == 'keyVal' ">
 
         <span *ngFor="let pte of dataFeature">
-          
-          <div class="text-center" *ngIf="pte.type == 'url_osm'" style="margin-top: 10px;">
-            <button [matTooltip]="'OpenStreetMap'" mat-mini-fab class="descriptive-sheet-body-header-btn-osm" (click)="openUrl(pte.val)">
-    <img src="assets/logo/Logo_mono.svg" alt="" srcset="" style="margin-top: -6px;height: 25px">
-  </button>
 
-  <button [matTooltip]="pte.index| translate" mat-mini-fab
-          *ngIf="osm_features_special[pte.index].header == 'tel'" (click)="alertValue( pte.value)">
-          <i class="fa fa-phone  accentColor" style="font-size: 20px;margin-top: -2px;" aria-hidden="true"></i>
-        </button>
-            
+          <div class="text-center" *ngIf="pte.type == 'url_osm'" style="margin-top: 10px;">
+            <button [matTooltip]="'OpenStreetMap'" mat-mini-fab class="descriptive-sheet-body-header-btn-osm"
+              (click)="openUrl(pte.val)">
+              <img src="assets/logo/Logo_mono.svg" alt="" srcset="" style="margin-top: -6px;height: 25px">
+            </button>
+
+            <button [matTooltip]="pte.index| translate" mat-mini-fab
+              *ngIf="osm_features_special[pte.index].header == 'tel'" (click)="alertValue( pte.value)">
+              <i class="fa fa-phone  accentColor" style="font-size: 20px;margin-top: -2px;" aria-hidden="true"></i>
+            </button>
+
 
           </div>
         </span>
@@ -71,7 +71,7 @@
 
         <span *ngFor="let pte of dataFeature">
 
-          <div fxLayout  class="descriptive-sheet-body col-md-12 col-xs-12" 
+          <div fxLayout class="descriptive-sheet-body col-md-12 col-xs-12"
             *ngIf="pte.display && pte.index != 'name' && pte.type != 'url_osm' && osm_features_special[pte.index]?.type != 'hide' "
             style="margin-top: 10px;">
 
@@ -86,7 +86,7 @@
               <span class="attribute-two-points"> : </span>
             </div>
 
-            
+
 
             <div style="padding-left: 5px;" *ngIf="!osm_features_special[pte.index]" [innerHTML]="pte.val"> </div>
 
@@ -212,19 +212,18 @@
 
       </div>
       <div class="text-center">
-        <button mat-flat-button style="background-color: #00ada7;" *ngIf="isShareFeatures(dataFeature) && url_share==undefined"
-         (click)="shareFeature(dataFeature)"
-        matTooltip="{{ 'layer_properties.click_url_text' | translate }}">
-        <i class="fa fa-share-alt white"></i>
-      </button>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <button mat-flat-button style="background-color: #00ada7;" *ngIf="isShareFeatures(dataFeature) && url_share==undefined"
-        
-        matTooltip="Modifier">
-        <i class="fas fa-edit white"></i>
-      </button>
+        <button mat-flat-button style="background-color: #049c64;"
+          *ngIf="isShareFeatures(dataFeature) && url_share==undefined" (click)="shareFeature(dataFeature)"
+          matTooltip="{{ 'layer_properties.click_url_text' | translate }}">
+          <i class="fa fa-share-alt white"></i>
+        </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-flat-button style="background-color: #049c64;"
+          *ngIf="isShareFeatures(dataFeature) && url_share==undefined" matTooltip="Modifier">
+          <i class="fas fa-edit white"></i>
+        </button>
       </div>
-      
+
 
     </div>
 

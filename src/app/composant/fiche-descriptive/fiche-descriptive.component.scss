@@ -1,44 +1,47 @@
 @import '../../map/map.component.scss';
 
 @font-face {
-    font-family: Avenir;
-    src: url(assets/fonts/AvenirNextRoundedProRegular.TTF);
+  font-family: Avenir;
+  src: url(assets/fonts/AvenirNextRoundedProRegular.TTF);
+}
+
+.displayPropertiesTitle_properties {
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  background-color: #049c64;
+  padding-top: 8px;
+}
+
+@media (min-width: 992px) {
+  .col-md-offset-3 {
+    margin-left: 25% !important;
   }
-
-.displayPropertiesTitle_properties{
-    width: 100%;
-    height: 40px;
-    text-align: center;
-    background-color: #00ada7;
-    padding-top: 8px;
 }
 
-@media (min-width: 992px){
-.col-md-offset-3 {
-    margin-left: 25% !important; 
-}
+#share_div_pte {
+  display: none;
 }
 
-#share_div_pte{
-    display: none;
-}
-
-.descriptive-sheet-body{
-  font-family:'Avenir';
+.descriptive-sheet-body {
+  font-family: 'Avenir';
   font-size: 15px;
-  .attribute{
-    font-family:'Avenir';
+
+  .attribute {
+    font-family: 'Avenir';
     font-weight: bold;
     text-align: right;
     padding-right: 10px;
     position: relative;
-    .attribute-two-points{
+
+    .attribute-two-points {
       position: absolute;
       top: calc(50% - 10px);
       margin-left: 5px;
     }
   }
-  .attribute-value{
+
+  .attribute-value {
     padding-left: 5px;
   }
 }
