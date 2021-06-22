@@ -2676,7 +2676,7 @@ export class MapComponent implements OnInit {
       coord[1].toFixed(4) +
       "," +
       map.getView().getZoom();
-    var url_share = this.url_frontend + "/map?share=location&path=" + path;
+    var url_share = this.url_frontend + "/geoportail?share=location&path=" + path;
 
     var notif = this.notif.open(url_share, "Partager", {
       duration: 10000,
@@ -2788,7 +2788,7 @@ export class MapComponent implements OnInit {
       }
     }
 
-    var url_share = this.url_frontend + "/map?share=" + type + "&path=" + url;
+    var url_share = this.url_frontend + "/geoportail?share=" + type + "&path=" + url;
 
     var notif = this.notif.open(url_share, "Partager", {
       duration: 7000,
@@ -2909,7 +2909,7 @@ export class MapComponent implements OnInit {
 
     var url_share =
       this.url_frontend +
-      "/map?share=state&nbre=" +
+      "/geoportail?share=state&nbre=" +
       urls_classé.length +
       "&path=" +
       location;
@@ -3145,7 +3145,7 @@ export class MapComponent implements OnInit {
         mapPdf.id_sous_cat_couche + ",false" + mapPdf.id_cat + "," + mapPdf.id;
     }
 
-    var url_share = this.url_frontend + "/map?share=map" + "&path=" + url;
+    var url_share = this.url_frontend + "/geoportail?share=map" + "&path=" + url;
 
     var notif = this.notif.open(url_share, "Partager", {
       duration: 7000,
@@ -4546,7 +4546,7 @@ export class MapComponent implements OnInit {
 
           if (data["status"] == "ok") {
             var url_share =
-              this.url_frontend + "/map?share=draw&id=" + data["code_dessin"];
+              this.url_frontend + "/geoportail?share=draw&id=" + data["code_dessin"];
 
             var notif = this.notif.open(url_share, "Partager", {
               duration: 7000,
